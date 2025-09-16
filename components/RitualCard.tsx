@@ -1,6 +1,8 @@
+import { ThemedText } from '@/components/themed-text';
+import { ThemedView } from '@/components/themed-view';
 import { Ritual } from '@/src/types/data-model';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
 
 interface RitualCardProps {
   ritual: Ritual;
@@ -8,64 +10,35 @@ interface RitualCardProps {
 
 export default function RitualCard({ ritual }: RitualCardProps) {
   return (
-    <View style={styles.card}>
-      <Text style={styles.title}>{ritual.title}</Text>
-      <Text style={styles.description}>{ritual.description}</Text>
+    <ThemedView 
+      className="bg-white rounded-xl p-4 mx-4 my-2 border border-gray-200 shadow-md"
+    >
+      <ThemedText 
+        type="defaultSemiBold"
+        className="text-gray-800 mb-2"
+      >
+        {ritual.title}
+      </ThemedText>
+      <ThemedText 
+        type="default"
+        className="text-gray-600 mb-3"
+      >
+        {ritual.description}
+      </ThemedText>
       {ritual.tags.length > 0 && (
-        <View style={styles.tagsContainer}>
+        <View className="flex-row flex-wrap gap-2">
           {ritual.tags.map((tag) => (
-            <View key={tag} style={styles.tag}>
-              <Text style={styles.tagText}>{tag}</Text>
+            <View 
+              key={tag} 
+              className="bg-blue-50 rounded-full px-3 py-1.5 border border-blue-100"
+            >
+              <ThemedText className="text-xs text-blue-700 font-medium">
+                #{tag}
+              </ThemedText>
             </View>
           ))}
         </View>
       )}
-    </View>
+    </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    padding: 16,
-    marginHorizontal: 16,
-    marginVertical: 8,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#1f2937',
-    marginBottom: 8,
-  },
-  description: {
-    fontSize: 14,
-    color: '#6b7280',
-    lineHeight: 20,
-    marginBottom: 12,
-  },
-  tagsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  tag: {
-    backgroundColor: '#e5e7eb',
-    borderRadius: 16,
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-  },
-  tagText: {
-    fontSize: 12,
-    color: '#374151',
-    fontWeight: '500',
-  },
-});

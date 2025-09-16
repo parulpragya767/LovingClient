@@ -1,8 +1,13 @@
 {
+  "name": "LovingClient",
+  "slug": "loving-client",
   "android": {
     "package": "com.anonymous.lovingclient"
   },
   "ios": {
     "bundleIdentifier": "com.anonymous.lovingclient"
+  },
+  "web": {
+    "bundler": "metro"
   }
 }
