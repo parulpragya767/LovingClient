@@ -2,10 +2,10 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { StyleSheet } from 'react-native';
 
-export default function HomeScreen() {
+export default function RitualsScreen() {
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="title">Welcome to Home!</ThemedText>
+      <ThemedText type="title">Welcome to Rituals!</ThemedText>
     </ThemedView>
   );
 }
