@@ -1,9 +1,10 @@
+import RitualCard from '@/components/RitualCard';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { apiService } from '@/src/services/api';
 import { Ritual } from '@/src/types/data-model';
 import { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 
 export default function RitualsScreen() {
   const [rituals, setRituals] = useState<Ritual[]>([]);
@@ -17,23 +18,7 @@ export default function RitualsScreen() {
   }, []);
 
   const renderRitualCard = ({ item }: { item: Ritual }) => (
-    <ThemedView style={styles.ritualCard}>
-      <View style={styles.cardHeader}>
-        <ThemedText type="title" style={styles.ritualTitle}>{item.title}</ThemedText>
-      </View>
-      <View style={styles.cardBody}>
-        <ThemedText type="subtitle" style={styles.ritualDescription}>
-          {item.description}
-        </ThemedText>
-        <View style={styles.tagContainer}>
-          {item.tags.map((tag) => (
-            <TouchableOpacity key={tag} style={styles.tag}>
-              <ThemedText style={styles.tagText}>#{tag}</ThemedText>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
-    </ThemedView>
+    <RitualCard ritual={item} />
   );
 
   return (
