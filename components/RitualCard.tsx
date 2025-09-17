@@ -14,13 +14,11 @@ export default function RitualCard({ ritual }: RitualCardProps) {
       className="bg-white rounded-xl p-4 mx-4 my-2 border border-gray-200 shadow-md"
     >
       <ThemedText 
-        type="defaultSemiBold"
         className="text-gray-800 mb-2"
       >
         {ritual.title}
       </ThemedText>
       <ThemedText 
-        type="default"
         className="text-gray-600 mb-3"
       >
         {ritual.description}

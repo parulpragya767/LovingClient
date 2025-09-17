@@ -6,8 +6,8 @@ module.exports = {
     extend: {
       colors: {
         background: {
-          light: "#d11919ff", // gray-50
-          dark: "#1a4cb7ff", // gray-900
+          light: "#ffffff", // gray-50
+          dark: "#111827", // gray-900
         },
         surface: {
           light: "#ffffff",
