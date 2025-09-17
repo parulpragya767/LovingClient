@@ -6,7 +6,7 @@ import { ThemedView } from '@/components/themed-view';
 export default function LoveLensScreen() {
   return (
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome to Love Lens!</ThemedText>
+        <ThemedText>Welcome to Love Lens!</ThemedText>
       </ThemedView>
   );
 }

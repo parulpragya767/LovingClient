@@ -4,8 +4,8 @@ import { StyleSheet } from 'react-native';
 
 export default function AICompanionScreen() {
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title">Welcome to AI Companion!</ThemedText>
+    <ThemedView className="bg-background-light dark:bg-background-dark" style={styles.container}>
+      <ThemedText>Welcome to AI Companion!</ThemedText>
     </ThemedView>
   );
 }

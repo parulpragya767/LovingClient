@@ -23,7 +23,6 @@ export default function RitualsScreen() {
   return (
     <View className="flex-1 bg-gray-100">
       <ThemedText 
-        type="title" 
         className="text-2xl font-bold py-5 px-5 text-center text-gray-800"
       >
         Daily Rituals

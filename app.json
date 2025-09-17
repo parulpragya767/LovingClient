@@ -1,13 +1,26 @@
 {
-  "name": "LovingClient",
-  "slug": "loving-client",
-  "android": {
-    "package": "com.anonymous.lovingclient"
+  "expo": {
+    "name": "LovingClient",
+    "slug": "loving-client",
+    "version": "1.0.0",
+    "android": {
+      "package": "com.anonymous.lovingclient"
+    },
+    "ios": {
+      "bundleIdentifier": "com.anonymous.lovingclient"
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png"
+    },
+    "userInterfaceStyle": "automatic",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "sdkVersion": "54.0.0",
+    "entryPoint": ".vscode/exponentIndex.js"
   },
-  "ios": {
-    "bundleIdentifier": "com.anonymous.lovingclient"
-  },
-  "web": {
-    "bundler": "metro"
-  }
+  "name": "lovingclient"
 }

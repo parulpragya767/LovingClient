@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Expo Web - Experimental",
+            "request": "launch",
+            "type": "reactnative",
+            "cwd": "${workspaceFolder}",
+            "platform": "expoweb",
+            "browserTarget": "chrome",
+            "url": "http://localhost:8081"
+        },
+        {
+            "name": "Attach to Expo",
+            "request": "attach",
+            "type": "reactnative",
+            "cwd": "${workspaceFolder}",
+            "port": 19000
+        }
+    ]
+}
