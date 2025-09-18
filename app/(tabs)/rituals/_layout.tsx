@@ -13,7 +13,7 @@ export default function RitualsLayout() {
           fontWeight: '600',
         },
         headerBackTitle: 'Back',
-        ...(Platform.OS === 'ios' ? { headerBackTitleVisible: true } : {})
+        ...(Platform.OS === 'ios' ? { headerBackTitleVisible: true } : {}),
       }}
     >
       <Stack.Screen 
@@ -44,6 +44,7 @@ export default function RitualsLayout() {
         name="[id]" 
         options={{
           title: 'Ritual Details',
+          headerBackTitle: 'Back',
         }}
       />
     </Stack>

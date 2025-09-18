@@ -83,13 +83,21 @@ export default function SearchRitualsScreen() {
   return (
     <SafeAreaView style={{ flex: 1 }} edges={['top', 'bottom']}>
       <View className="flex-1 bg-gray-50">
-      {/* Header */}
-      <View className="flex-row items-center justify-between p-4 border-b border-gray-200 bg-white">
-        <Pressable onPress={() => router.back()} className="p-2">
+      {/* Header: Back (to All Rituals) + Search + Filter */}
+      <View className="flex-row items-center p-4 border-b border-gray-200 bg-white">
+        <Pressable onPress={() => router.replace('/(tabs)/rituals/all-rituals')} className="p-2 mr-2">
           <MaterialIcons name="arrow-back" size={24} color="#4B5563" />
         </Pressable>
-        <ThemedText className="text-lg font-semibold">Search Rituals</ThemedText>
-        <View className="w-10" /> {/* For centering the title */}
+        <Pressable 
+          onPress={() => {}}
+          className="flex-1 flex-row items-center bg-gray-100 rounded-lg px-3 py-2"
+        >
+          <MaterialIcons name="search" size={20} color="#9CA3AF" />
+          <ThemedText className="text-gray-500 ml-2">Search rituals...</ThemedText>
+        </Pressable>
+        <Pressable onPress={handleSearch} className="p-2 ml-2">
+          <MaterialIcons name="tune" size={24} color="#4B5563" />
+        </Pressable>
       </View>
 
       {/* Tags */}
