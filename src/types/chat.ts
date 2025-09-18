@@ -5,6 +5,14 @@ export interface ChatMessage {
   timestamp: Date;
 }
 
+export interface Conversation {
+  id: string;
+  title: string;
+  messages: ChatMessage[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface StarterPrompt {
   id: string;
   text: string;
