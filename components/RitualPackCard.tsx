@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { View, Pressable } from 'react-native';
 import { ThemedText } from './themed-text';
 import RitualCard from './RitualCard';
 import { Ritual, RitualPack } from '@/src/types/data-model';
+import { Swipeable, RectButton } from 'react-native-gesture-handler';
+import { MaterialIcons } from '@expo/vector-icons';
+import { userCurrentOverrides } from '@/src/services/userCurrentOverrides';
 
 type Props = {
   pack: RitualPack;
@@ -12,9 +15,12 @@ type Props = {
 };
 
 export default function RitualPackCard({ pack, ritualsById, onRitualPress, onPressPack }: Props) {
+  const [actionId, setActionId] = useState<string | null>(null);
+  const swipeRefs = useRef<Record<string, Swipeable | null>>({});
   const rituals = pack.ritualIds
     .map(id => ritualsById[id])
-    .filter((r): r is Ritual => Boolean(r));
+    .filter((r): r is Ritual => Boolean(r))
+    .filter(r => !userCurrentOverrides.isRemoved(r.id));
 
   return (
     <View className="mb-4 rounded-2xl border border-gray-200 bg-white overflow-hidden">
@@ -35,11 +41,54 @@ export default function RitualPackCard({ pack, ritualsById, onRitualPress, onPre
       </Pressable>
 
       <View className="px-4 pb-4">
-        {rituals.map(r => (
-          <View key={r.id} className="mb-3">
-            <RitualCard ritual={r} onPress={() => onRitualPress(r.id)} />
-          </View>
-        ))}
+        {rituals.map(r => {
+          const completed = userCurrentOverrides.isCompleted(r.id);
+
+          const renderRightActions = () => (
+            <View className="flex-row h-full items-stretch">
+              <RectButton
+                onPress={() => {
+                  userCurrentOverrides.markCompleted(r.id);
+                  setActionId(null);
+                }}
+                style={{ justifyContent: 'center' }}
+              >
+                <View className="bg-green-100 h-full w-14 justify-center items-center">
+                  <MaterialIcons name="check-circle" size={24} color="#15803D" />
+                </View>
+              </RectButton>
+              <RectButton
+                onPress={() => {
+                  userCurrentOverrides.removeFromCurrent(r.id);
+                  setActionId(null);
+                }}
+                style={{ justifyContent: 'center' }}
+              >
+                <View className="bg-rose-100 h-full w-14 justify-center items-center">
+                  <MaterialIcons name="delete" size={24} color="#BE123C" />
+                </View>
+              </RectButton>
+            </View>
+          );
+
+          return (
+            <View key={r.id} className="mb-3">
+              <Swipeable
+                ref={(ref) => { swipeRefs.current[r.id] = ref; }}
+                renderRightActions={renderRightActions}
+                overshootRight={false}
+              >
+                <View className={completed ? 'opacity-60' : ''}>
+                  <RitualCard 
+                    ritual={r} 
+                    onPress={() => onRitualPress(r.id)}
+                    onLongPress={() => swipeRefs.current[r.id]?.openRight?.()}
+                  />
+                </View>
+              </Swipeable>
+            </View>
+          );
+        })}
       </View>
     </View>
   );

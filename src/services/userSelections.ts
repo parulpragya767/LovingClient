@@ -12,6 +12,10 @@ class UserSelectionsStore {
     ids.forEach(id => this.additionalCurrentRitualIds.add(id));
   }
 
+  remove(id: string) {
+    this.additionalCurrentRitualIds.delete(id);
+  }
+
   clear() {
     this.additionalCurrentRitualIds.clear();
   }

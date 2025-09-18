@@ -7,9 +7,10 @@ import { View } from 'react-native';
 interface RitualCardProps {
   ritual: Ritual;
   onPress?: (id: string) => void;
+  onLongPress?: () => void;
 }
 
-export default function RitualCard({ ritual, onPress }: RitualCardProps) {
+export default function RitualCard({ ritual, onPress, onLongPress }: RitualCardProps) {
   const handlePress = () => {
     if (onPress) {
       onPress(ritual.id);
@@ -17,7 +18,7 @@ export default function RitualCard({ ritual, onPress }: RitualCardProps) {
   };
 
   return (
-    <TouchableOpacity onPress={handlePress} activeOpacity={0.8}>
+    <TouchableOpacity onPress={handlePress} onLongPress={onLongPress} delayLongPress={300} activeOpacity={0.8}>
       <ThemedView 
         className="bg-white rounded-xl p-4 mx-4 my-2 border border-gray-200 shadow-md"
       >

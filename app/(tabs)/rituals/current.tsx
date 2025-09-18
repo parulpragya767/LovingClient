@@ -3,11 +3,13 @@ import RitualPackCard from '@/components/RitualPackCard';
 import { ThemedText } from '@/components/themed-text';
 import { apiService } from '@/src/services/api';
 import { userSelections } from '@/src/services/userSelections';
+import { userCurrentOverrides } from '@/src/services/userCurrentOverrides';
 import { Ritual, RitualPack } from '@/src/types/data-model';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FlatList, Pressable, View } from 'react-native';
+import { Swipeable, RectButton } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function CurrentRitualsScreen() {
@@ -17,6 +19,7 @@ export default function CurrentRitualsScreen() {
   const [packs, setPacks] = useState<RitualPack[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const swipeRefs = useRef<Record<string, Swipeable | null>>({});
   const router = useRouter();
 
   const fetchRituals = useCallback(async () => {
@@ -92,7 +95,9 @@ export default function CurrentRitualsScreen() {
   const mergedCurrent = Object.values(mergedCurrentMap);
 
   // Exclude rituals that are part of packs from the individual list
-  const currentIndividualRituals = mergedCurrent.filter(r => !currentPackRitualIds.has(r.id));
+  let currentIndividualRituals = mergedCurrent.filter(r => !currentPackRitualIds.has(r.id));
+  // Filter out any the user removed from current
+  currentIndividualRituals = currentIndividualRituals.filter(r => !userCurrentOverrides.isRemoved(r.id));
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -129,11 +134,55 @@ export default function CurrentRitualsScreen() {
           style={{ flex: 1 }}
           data={currentIndividualRituals}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View className="px-4">
-              <RitualCard ritual={item} onPress={() => handleRitualPress(item.id)} />
-            </View>
-          )}
+          renderItem={({ item }) => {
+            const completed = userCurrentOverrides.isCompleted(item.id);
+
+            const renderRightActions = () => (
+              <View className="flex-row h-full items-stretch">
+                <RectButton
+                  onPress={() => {
+                    userCurrentOverrides.markCompleted(item.id);
+                    // force re-render by updating state
+                    setFilteredRituals(prev => [...prev]);
+                  }}
+                  style={{ justifyContent: 'center' }}
+                >
+                  <View className="bg-green-100 h-full w-14 justify-center items-center">
+                    <MaterialIcons name="check-circle" size={24} color="#15803D" />
+                  </View>
+                </RectButton>
+                <RectButton
+                  onPress={() => {
+                    userCurrentOverrides.removeFromCurrent(item.id);
+                    setFilteredRituals(prev => prev.filter(r => r.id !== item.id));
+                  }}
+                  style={{ justifyContent: 'center' }}
+                >
+                  <View className="bg-rose-100 h-full w-14 justify-center items-center">
+                    <MaterialIcons name="delete" size={24} color="#BE123C" />
+                  </View>
+                </RectButton>
+              </View>
+            );
+
+            return (
+              <View className="px-4">
+                <Swipeable
+                  ref={(ref) => { swipeRefs.current[item.id] = ref; }}
+                  renderRightActions={renderRightActions}
+                  overshootRight={false}
+                >
+                  <View className={completed ? 'opacity-60' : ''}>
+                    <RitualCard 
+                      ritual={item} 
+                      onPress={() => handleRitualPress(item.id)}
+                      onLongPress={() => swipeRefs.current[item.id]?.openRight?.()}
+                    />
+                  </View>
+                </Swipeable>
+              </View>
+            );
+          }}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 16, paddingTop: 0 }}
           ListHeaderComponent={
