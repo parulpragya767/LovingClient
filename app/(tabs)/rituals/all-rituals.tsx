@@ -53,12 +53,18 @@ export default function AllRitualsScreen() {
     if (params.searchTags) {
       try {
         const tags = JSON.parse(params.searchTags as string);
-        setSearchTags(tags);
+        // Only update if tags have actually changed
+        if (JSON.stringify(tags) !== JSON.stringify(searchTags)) {
+          setSearchTags(tags);
+        }
       } catch (error) {
         console.error('Error parsing search tags:', error);
       }
+    } else if (searchTags.length > 0) {
+      // Clear tags if no searchTags in params
+      setSearchTags([]);
     }
-  }, [params]);
+  }, [params.searchTags]); // Only depend on params.searchTags
 
   useFocusEffect(
     useCallback(() => {
