@@ -12,4 +12,5 @@ export interface Ritual {
   howTo?: string;
   benefits?: string;
   tags: string[];
+  isCurrent: boolean;
 }
