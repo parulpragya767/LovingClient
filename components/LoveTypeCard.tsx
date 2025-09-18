@@ -1,27 +1,35 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { LoveType } from '@/src/types/data-model';
-import React from 'react';
+import { TouchableOpacity } from 'react-native';
 
 interface LoveTypeCardProps {
   loveType: LoveType;
+  onPress: (id: string) => void;
 }
 
-export default function LoveTypeCard({ loveType }: LoveTypeCardProps) {
+export default function LoveTypeCard({ loveType, onPress }: LoveTypeCardProps) {
   return (
-    <ThemedView
-      className="bg-white rounded-xl p-4 mx-4 my-2 border border-gray-200 shadow-md"
+    <TouchableOpacity 
+      onPress={() => onPress(loveType.id)} 
+      activeOpacity={0.8}
+      testID={`love-type-${loveType.id}`}
     >
-      <ThemedText
-        className="text-gray-800 mb-2"
-      >
-        {loveType.name}
-      </ThemedText>
-      <ThemedText
-        className="text-gray-600 mb-3"
-      >
-        {loveType.description}
-      </ThemedText>
-    </ThemedView>
+      <ThemedView className="bg-white rounded-xl p-4 mx-4 my-2 border border-gray-200 shadow-md">
+        <ThemedText className="text-gray-800 text-lg font-semibold mb-2">
+          {loveType.name}
+        </ThemedText>
+        <ThemedText 
+          className="text-gray-600 mb-1"
+          numberOfLines={2}
+          ellipsizeMode="tail"
+        >
+          {loveType.description}
+        </ThemedText>
+        <ThemedText className="text-blue-500 text-sm mt-2">
+          Learn more →
+        </ThemedText>
+      </ThemedView>
+    </TouchableOpacity>
   );
 }
