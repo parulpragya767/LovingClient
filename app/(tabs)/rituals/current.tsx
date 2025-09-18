@@ -1,7 +1,8 @@
 import RitualCard from '@/components/RitualCard';
+import RitualPackCard from '@/components/RitualPackCard';
 import { ThemedText } from '@/components/themed-text';
 import { apiService } from '@/src/services/api';
-import { Ritual } from '@/src/types/data-model';
+import { Ritual, RitualPack } from '@/src/types/data-model';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
@@ -10,16 +11,27 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function CurrentRitualsScreen() {
   const [rituals, setRituals] = useState<Ritual[]>([]);
+  const [ritualsById, setRitualsById] = useState<Record<string, Ritual>>({});
   const [filteredRituals, setFilteredRituals] = useState<Ritual[]>([]);
+  const [packs, setPacks] = useState<RitualPack[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   const fetchRituals = useCallback(async () => {
     try {
-      const data = await apiService.getRituals();
-      const currentRituals = data.filter((ritual) => ritual.isCurrent);
+      const [ritualData, packData] = await Promise.all([
+        apiService.getRituals(),
+        apiService.getRitualPacks(),
+      ]);
+
+      const byId: Record<string, Ritual> = {};
+      ritualData.forEach(r => { byId[r.id] = r; });
+      setRitualsById(byId);
+
+      const currentRituals = ritualData.filter((ritual) => ritual.isCurrent);
       setRituals(currentRituals);
+      setPacks(packData.filter(p => p.isCurrent));
       setFilteredRituals(currentRituals);
     } catch (error) {
       console.error('Failed to fetch rituals:', error);
@@ -64,6 +76,10 @@ export default function CurrentRitualsScreen() {
     );
   }
 
+  // Determine ritual IDs that are part of current packs
+  const currentPackRitualIds = new Set(packs.flatMap(p => p.ritualIds));
+  const currentIndividualRituals = filteredRituals.filter(r => !currentPackRitualIds.has(r.id));
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="w-full items-center bg-white">
@@ -94,29 +110,43 @@ export default function CurrentRitualsScreen() {
         </View>
       </View>
 
-      <View className="flex-1 p-4">
-        <View className="mb-6">
-          <ThemedText className="text-2xl font-bold mb-1 text-gray-900">Your Current Rituals</ThemedText>
-          <ThemedText className="text-sm text-gray-500">
-            Keep track of your daily practices
-          </ThemedText>
-        </View>
-
+      <View className="flex-1">
         <FlatList
-          data={filteredRituals}
+          style={{ flex: 1 }}
+          data={currentIndividualRituals}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <RitualCard 
-              ritual={item} 
-              onPress={() => handleRitualPress(item.id)}
-            />
+            <View className="px-4">
+              <RitualCard ritual={item} onPress={() => handleRitualPress(item.id)} />
+            </View>
           )}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 16 }}
+          contentContainerStyle={{ paddingBottom: 16, paddingTop: 0 }}
+          ListHeaderComponent={
+            <View className="px-4 pt-4 pb-3">
+              <View className="mb-4">
+                <ThemedText className="text-2xl font-bold mb-1 text-gray-900">Your Current Rituals</ThemedText>
+                <ThemedText className="text-sm text-gray-500">Keep track of your daily practices</ThemedText>
+              </View>
+              {packs.length > 0 && (
+                <View className="mb-4">
+                  {packs.map(pack => (
+                    <RitualPackCard
+                      key={pack.id}
+                      pack={pack}
+                      ritualsById={ritualsById}
+                      onRitualPress={handleRitualPress}
+                      onPressPack={(id) => router.push(`/(tabs)/rituals/pack/${id}`)}
+                    />
+                  ))}
+                </View>
+              )}
+            </View>
+          }
           ListEmptyComponent={
             <View className="flex-1 justify-center items-center py-10">
               <ThemedText className="text-gray-500">
-                {searchQuery ? 'No matching rituals found' : 'No current rituals'}
+                {searchQuery ? 'No matching rituals found' : 'No current individual rituals'}
               </ThemedText>
             </View>
           }

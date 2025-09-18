@@ -14,3 +14,12 @@ export interface Ritual {
   tags: string[];
   isCurrent: boolean;
 }
+
+export interface RitualPack {
+  id: string;
+  title: string;
+  description: string;
+  tags: string[];
+  ritualIds: string[]; // references to Ritual ids contained in this pack
+  isCurrent: boolean; // whether this pack is currently active for the user
+}

@@ -47,6 +47,12 @@ export default function RitualsLayout() {
           headerBackTitle: 'Back',
         }}
       />
+      <Stack.Screen 
+        name="pack/[id]" 
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }

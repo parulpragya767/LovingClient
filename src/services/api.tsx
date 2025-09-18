@@ -1,6 +1,7 @@
 import { loveTypesData } from '../data/loveTypes';
 import { ritualsData } from '../data/rituals';
-import { LoveType, Ritual } from '../types/data-model';
+import { ritualPacksData } from '../data/ritualPacks';
+import { LoveType, Ritual, RitualPack } from '../types/data-model';
 
 // Simulate API delay for realistic behavior
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -28,5 +29,17 @@ export const apiService = {
     console.log(`Fetching ritual with id: ${id}...`);
     await delay(300); // Simulate network delay
     return ritualsData.find(ritual => ritual.id === id);
+  },
+
+  async getRitualPacks(): Promise<RitualPack[]> {
+    console.log('Fetching ritual packs from local data...');
+    await delay(500);
+    return ritualPacksData;
+  },
+
+  async getRitualPackById(id: string): Promise<RitualPack | undefined> {
+    console.log(`Fetching ritual pack with id: ${id}...`);
+    await delay(300);
+    return ritualPacksData.find(pack => pack.id === id);
   },
 };
