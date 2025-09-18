@@ -7,10 +7,12 @@ import { ChatMessage as ChatMessageType, Conversation, StarterPrompt as StarterP
 // Removed unused Drawer import
 import { MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, TextInput, TouchableOpacity, View, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
 
 export default function AICompanionScreen() {
+  const router = useRouter();
   const [conversation, setConversation] = useState<Conversation | null>(null);
   const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [inputText, setInputText] = useState('');
@@ -164,6 +166,26 @@ export default function AICompanionScreen() {
           className="flex-1 px-4 pt-4"
           contentContainerStyle={{ flexGrow: 1 }}
           keyboardShouldPersistTaps="handled"
+          ListFooterComponent={
+            messages.length > 0 ? (
+              <View className="mt-4 mb-24">
+                <Pressable
+                  onPress={() => router.push('/(modals)/rituals-suggestions')}
+                  className="w-full"
+                >
+                  <View className="bg-purple-50 border border-purple-100 rounded-2xl p-4 flex-row items-center">
+                    <View className="flex-1 mr-3">
+                      <ThemedText className="text-purple-700 font-semibold text-base">Suggested Ritual Pack</ThemedText>
+                      <ThemedText className="text-purple-600 text-sm mt-0.5">Open suggestions and add to your current rituals</ThemedText>
+                    </View>
+                    <View className="bg-white rounded-full px-3 py-1 border border-purple-200">
+                      <ThemedText className="text-purple-700 text-sm font-medium">Open</ThemedText>
+                    </View>
+                  </View>
+                </Pressable>
+              </View>
+            ) : null
+          }
           ListEmptyComponent={
             <View className="flex-1 justify-center items-center pb-24">
               <ThemedText className="text-2xl font-bold text-gray-800 mb-2">Your AI Companion</ThemedText>
