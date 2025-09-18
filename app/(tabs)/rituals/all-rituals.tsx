@@ -3,15 +3,17 @@ import { ThemedText } from '@/components/themed-text';
 import { apiService } from '@/src/services/api';
 import { Ritual } from '@/src/types/data-model';
 import { MaterialIcons } from '@expo/vector-icons';
-import { router, useFocusEffect } from 'expo-router';
+import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { FlatList, Pressable, TextInput, View } from 'react-native';
+import { FlatList, Pressable, View } from 'react-native';
 
 export default function AllRitualsScreen() {
   const [rituals, setRituals] = useState<Ritual[]>([]);
   const [filteredRituals, setFilteredRituals] = useState<Ritual[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [searchTags, setSearchTags] = useState<string[]>([]);
+  const params = useLocalSearchParams();
 
   const fetchRituals = useCallback(async () => {
     try {
@@ -26,16 +28,37 @@ export default function AllRitualsScreen() {
   }, []);
 
   useEffect(() => {
-    if (searchQuery.trim() === '') {
-      setFilteredRituals(rituals);
-    } else {
-      const filtered = rituals.filter(ritual =>
+    let filtered = [...rituals];
+    
+    // Apply search query filter
+    if (searchQuery.trim() !== '') {
+      filtered = filtered.filter(ritual =>
         ritual.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         ritual.description.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      setFilteredRituals(filtered);
     }
-  }, [searchQuery, rituals]);
+    
+    // Apply tag filter if any tags are selected
+    if (searchTags.length > 0) {
+      filtered = filtered.filter(ritual =>
+        searchTags.every(tag => ritual.tags.includes(tag))
+      );
+    }
+    
+    setFilteredRituals(filtered);
+  }, [searchQuery, rituals, searchTags]);
+  
+  // Handle incoming search params
+  useEffect(() => {
+    if (params.searchTags) {
+      try {
+        const tags = JSON.parse(params.searchTags as string);
+        setSearchTags(tags);
+      } catch (error) {
+        console.error('Error parsing search tags:', error);
+      }
+    }
+  }, [params]);
 
   useFocusEffect(
     useCallback(() => {
@@ -91,31 +114,50 @@ export default function AllRitualsScreen() {
 
       {/* Search Bar */}
       <View className="px-4 py-3 bg-white">
-        <View className="flex-row items-center bg-gray-100 rounded-lg px-3 py-2">
+        <Pressable 
+          onPress={() => router.push('/(tabs)/rituals/search')}
+          className="flex-row items-center bg-gray-100 rounded-lg px-3 py-2"
+        >
           <MaterialIcons name="search" size={20} color="#9CA3AF" style={{ marginRight: 8 }} />
-          <TextInput
-            placeholder="Search rituals..."
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            className="flex-1 text-base text-gray-800"
-            placeholderTextColor="#9CA3AF"
-          />
-          {searchQuery.length > 0 && (
+          <ThemedText className="text-gray-500">
+            {searchTags.length > 0 
+              ? `${searchTags.length} filter${searchTags.length > 1 ? 's' : ''} applied` 
+              : 'Search rituals...'}
+          </ThemedText>
+        </Pressable>
+        
+        {/* Display selected tags */}
+        {searchTags.length > 0 && (
+          <View className="flex-row flex-wrap mt-2">
+            {searchTags.map(tag => (
+              <View key={tag} className="bg-purple-100 rounded-full px-3 py-1 m-1 flex-row items-center">
+                <ThemedText className="text-purple-700 text-sm">{tag}</ThemedText>
+                <Pressable 
+                  onPress={() => {
+                    const newTags = searchTags.filter(t => t !== tag);
+                    setSearchTags(newTags);
+                    router.setParams({ searchTags: JSON.stringify(newTags) });
+                  }}
+                  className="ml-1"
+                >
+                  <MaterialIcons name="close" size={16} color="#6B46C1" />
+                </Pressable>
+              </View>
+            ))}
             <Pressable 
-              onPress={() => setSearchQuery('')}
-              className="p-1"
+              onPress={() => {
+                // Clear both local state and update URL
+                setSearchTags([]);
+                setSearchQuery('');
+                // Update URL to remove search params
+                router.setParams({ searchTags: '' });
+              }}
+              className="self-center ml-2"
             >
-              {({ pressed }) => (
-                <MaterialIcons 
-                  name="close" 
-                  size={20} 
-                  color="#9CA3AF" 
-                  style={{ opacity: pressed ? 0.7 : 1 }}
-                />
-              )}
+              <ThemedText className="text-purple-600 text-sm">Clear all</ThemedText>
             </Pressable>
-          )}
-        </View>
+          </View>
+        )}
       </View>
 
       {/* Rituals List */}
