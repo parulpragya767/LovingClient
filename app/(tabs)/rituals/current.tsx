@@ -2,6 +2,7 @@ import RitualCard from '@/components/RitualCard';
 import RitualPackCard from '@/components/RitualPackCard';
 import { ThemedText } from '@/components/themed-text';
 import { apiService } from '@/src/services/api';
+import { userSelections } from '@/src/services/userSelections';
 import { Ritual, RitualPack } from '@/src/types/data-model';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
@@ -64,6 +65,7 @@ export default function CurrentRitualsScreen() {
 
   useFocusEffect(
     useCallback(() => {
+      // refresh data and include any newly added selections
       fetchRituals();
     }, [fetchRituals])
   );
@@ -78,7 +80,19 @@ export default function CurrentRitualsScreen() {
 
   // Determine ritual IDs that are part of current packs
   const currentPackRitualIds = new Set(packs.flatMap(p => p.ritualIds));
-  const currentIndividualRituals = filteredRituals.filter(r => !currentPackRitualIds.has(r.id));
+
+  // Merge API current rituals with user-selected additional rituals
+  const selectedIds = userSelections.getAll();
+  const mergedCurrentMap: Record<string, Ritual> = {};
+  filteredRituals.forEach(r => { mergedCurrentMap[r.id] = r; });
+  selectedIds.forEach(id => {
+    const r = ritualsById[id];
+    if (r) mergedCurrentMap[id] = r;
+  });
+  const mergedCurrent = Object.values(mergedCurrentMap);
+
+  // Exclude rituals that are part of packs from the individual list
+  const currentIndividualRituals = mergedCurrent.filter(r => !currentPackRitualIds.has(r.id));
 
   return (
     <SafeAreaView className="flex-1 bg-white">
