@@ -23,4 +23,10 @@ export const apiService = {
     await delay(500); // Simulate network delay
     return ritualsData;
   },
+
+  async getRitualById(id: string): Promise<Ritual | undefined> {
+    console.log(`Fetching ritual with id: ${id}...`);
+    await delay(300); // Simulate network delay
+    return ritualsData.find(ritual => ritual.id === id);
+  },
 };
