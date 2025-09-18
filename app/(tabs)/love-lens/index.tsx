@@ -1,10 +1,10 @@
-import { Stack, useRouter } from 'expo-router';
-import { FlatList, View } from 'react-native';
 import LoveTypeCard from '@/components/LoveTypeCard';
 import { ThemedText } from '@/components/themed-text';
 import { apiService } from '@/src/services/api';
-import { useEffect, useState } from 'react';
 import { LoveType } from '@/src/types/data-model';
+import { Stack, useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { FlatList, View } from 'react-native';
 
 export default function LoveLensScreen() {
   const [loveTypes, setLoveTypes] = useState<LoveType[]>([]);
