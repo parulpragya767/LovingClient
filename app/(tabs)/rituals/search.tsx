@@ -5,6 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface TagItem {
   name: string;
@@ -80,7 +81,8 @@ export default function SearchRitualsScreen() {
   }
 
   return (
-    <View className="flex-1 bg-gray-50">
+    <SafeAreaView style={{ flex: 1 }} edges={['top', 'bottom']}>
+      <View className="flex-1 bg-gray-50">
       {/* Header */}
       <View className="flex-row items-center justify-between p-4 border-b border-gray-200 bg-white">
         <Pressable onPress={() => router.back()} className="p-2">
@@ -119,6 +121,7 @@ export default function SearchRitualsScreen() {
           </ThemedText>
         </Pressable>
       </View>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 }

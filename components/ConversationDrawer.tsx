@@ -4,6 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { View, Pressable, Modal, StyleSheet, TouchableOpacity } from 'react-native';
 import { useState, useEffect } from 'react';
 import { chatService } from '@/src/services/chatService';
+import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type ConversationDrawerProps = {
   isOpen: boolean;
@@ -20,6 +21,7 @@ export function ConversationDrawer({
 }: ConversationDrawerProps) {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const insets = useSafeAreaInsets();
 
   const loadConversations = async () => {
     try {
@@ -58,67 +60,69 @@ export function ConversationDrawer({
       transparent={false}
       onRequestClose={onClose}
     >
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <ThemedText className="text-xl font-bold text-gray-900">Conversations</ThemedText>
-          <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-            <MaterialIcons name="close" size={24} color="#4B5563" />
-          </TouchableOpacity>
-        </View>
-        
-        <View style={styles.content}>
-          {isLoading ? (
-            <View style={styles.loadingContainer}>
-              <ThemedText>Loading conversations...</ThemedText>
-            </View>
-          ) : conversations.length === 0 ? (
-            <View style={styles.emptyContainer}>
-              <ThemedText className="text-gray-500">No conversations yet</ThemedText>
-            </View>
-          ) : (
-            conversations.map((conversation) => (
-              <Pressable
-                key={conversation.id}
-                onPress={() => onConversationSelect(conversation.id)}
-                style={[
-                  styles.conversationItem,
-                  conversation.id === currentConversationId && styles.activeConversation
-                ]}
-              >
-                <View style={styles.conversationContent}>
-                  <ThemedText className="font-medium text-gray-900" numberOfLines={1}>
-                    {conversation.title}
-                  </ThemedText>
-                  <ThemedText 
-                    className="text-sm text-gray-500 mt-1"
-                    numberOfLines={1}
-                    ellipsizeMode="tail"
-                  >
-                    {conversation.messages[0]?.text || 'No messages yet'}
-                  </ThemedText>
-                </View>
-                <Pressable 
-                  onPress={(e) => {
-                    e.stopPropagation();
-                    handleDeleteConversation(conversation.id);
-                  }}
-                  style={styles.deleteButton}
+      <SafeAreaProvider>
+        <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
+          <View style={[styles.header, { paddingTop: 16 + insets.top }]}>
+            <ThemedText className="text-xl font-bold text-gray-900">Conversations</ThemedText>
+            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+              <MaterialIcons name="close" size={24} color="#4B5563" />
+            </TouchableOpacity>
+          </View>
+          
+          <View style={styles.content}>
+            {isLoading ? (
+              <View style={styles.loadingContainer}>
+                <ThemedText>Loading conversations...</ThemedText>
+              </View>
+            ) : conversations.length === 0 ? (
+              <View style={styles.emptyContainer}>
+                <ThemedText className="text-gray-500">No conversations yet</ThemedText>
+              </View>
+            ) : (
+              conversations.map((conversation) => (
+                <Pressable
+                  key={conversation.id}
+                  onPress={() => onConversationSelect(conversation.id)}
+                  style={[
+                    styles.conversationItem,
+                    conversation.id === currentConversationId && styles.activeConversation
+                  ]}
                 >
-                  <MaterialIcons name="delete-outline" size={20} color="#EF4444" />
+                  <View style={styles.conversationContent}>
+                    <ThemedText className="font-medium text-gray-900" numberOfLines={1}>
+                      {conversation.title}
+                    </ThemedText>
+                    <ThemedText 
+                      className="text-sm text-gray-500 mt-1"
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                    >
+                      {conversation.messages[0]?.text || 'No messages yet'}
+                    </ThemedText>
+                  </View>
+                  <Pressable 
+                    onPress={(e) => {
+                      e.stopPropagation();
+                      handleDeleteConversation(conversation.id);
+                    }}
+                    style={styles.deleteButton}
+                  >
+                    <MaterialIcons name="delete-outline" size={20} color="#EF4444" />
+                  </Pressable>
                 </Pressable>
-              </Pressable>
-            ))
-          )}
-        </View>
-        
-        <TouchableOpacity
-          onPress={handleNewChat}
-          style={styles.newChatButton}
-        >
-          <MaterialIcons name="add" size={24} color="#8B5CF6" />
-          <ThemedText className="ml-2 text-purple-500 font-medium">New Chat</ThemedText>
-        </TouchableOpacity>
-      </View>
+              ))
+            )}
+          </View>
+          
+          <TouchableOpacity
+            onPress={handleNewChat}
+            style={[styles.newChatButton, { paddingBottom: 16 + insets.bottom }]}
+          >
+            <MaterialIcons name="add" size={24} color="#8B5CF6" />
+            <ThemedText className="ml-2 text-purple-500 font-medium">New Chat</ThemedText>
+          </TouchableOpacity>
+        </SafeAreaView>
+      </SafeAreaProvider>
     </Modal>
   );
 }

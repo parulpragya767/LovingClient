@@ -6,6 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { FlatList, Pressable, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function AllRitualsScreen() {
   const [rituals, setRituals] = useState<Ritual[]>([]);
@@ -93,7 +94,8 @@ export default function AllRitualsScreen() {
   }
 
   return (
-    <View className="flex-1 bg-gray-50">
+    <SafeAreaView style={{ flex: 1 }} edges={['top']}>
+      <View className="flex-1 bg-gray-50">
       {/* Tab Navigation */}
       <View className="flex-row bg-white border-b border-gray-200">
         <Pressable 
@@ -183,6 +185,7 @@ export default function AllRitualsScreen() {
           }
         />
       </View>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 }

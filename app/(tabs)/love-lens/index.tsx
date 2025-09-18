@@ -5,6 +5,7 @@ import { LoveType } from '@/src/types/data-model';
 import { Stack, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function LoveLensScreen() {
   const [loveTypes, setLoveTypes] = useState<LoveType[]>([]);
@@ -34,23 +35,25 @@ export default function LoveLensScreen() {
   );
 
   return (
-    <View className="flex-1 bg-gray-100">
-      <Stack.Screen options={{ headerShown: false }} />
-      <ThemedText 
-        className="text-2xl font-bold py-5 px-5 text-center text-gray-800"
-      >
-        Love Types
-      </ThemedText>
-      <View className="flex-1 px-4">
-        <FlatList
-          data={loveTypes}
-          keyExtractor={(item) => item.id}
-          renderItem={renderLoveTypeCard}
-          showsVerticalScrollIndicator={false}
-          className="w-full"
-          contentContainerClassName="pb-5"
-        />
+    <SafeAreaView style={{ flex: 1 }} edges={['top']}>
+      <View className="flex-1 bg-gray-100">
+        <Stack.Screen options={{ headerShown: false }} />
+        <ThemedText 
+          className="text-2xl font-bold py-5 px-5 text-center text-gray-800"
+        >
+          Love Types
+        </ThemedText>
+        <View className="flex-1 px-4">
+          <FlatList
+            data={loveTypes}
+            keyExtractor={(item) => item.id}
+            renderItem={renderLoveTypeCard}
+            showsVerticalScrollIndicator={false}
+            className="w-full"
+            contentContainerClassName="pb-5"
+          />
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

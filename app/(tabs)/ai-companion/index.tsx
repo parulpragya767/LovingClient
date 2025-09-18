@@ -8,6 +8,7 @@ import { ChatMessage as ChatMessageType, Conversation, StarterPrompt as StarterP
 import { MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, TextInput, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function AICompanionScreen() {
   const [conversation, setConversation] = useState<Conversation | null>(null);
@@ -125,11 +126,12 @@ export default function AICompanionScreen() {
   ), [handleStarterPromptPress]);
 
   return (
-    <KeyboardAvoidingView 
-      className="flex-1 bg-white"
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={90}
-    >
+    <SafeAreaView style={{ flex: 1 }} edges={['top', 'bottom']}>
+      <KeyboardAvoidingView 
+        className="flex-1 bg-white"
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 90}
+      >
       {/* Conversation Drawer */}
       <ConversationDrawer
         isOpen={isDrawerOpen}
@@ -215,6 +217,7 @@ export default function AICompanionScreen() {
           </TouchableOpacity>
         </View>
       </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }

@@ -35,6 +35,12 @@ export default function RitualsLayout() {
         }}
       />
       <Stack.Screen 
+        name="search" 
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen 
         name="[id]" 
         options={{
           title: 'Ritual Details',
