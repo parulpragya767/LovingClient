@@ -1,11 +1,12 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { FlatList, Pressable, View } from 'react-native';
-import { useEffect, useState } from 'react';
-import { Ritual, LoveType } from '@/src/types/data-model';
 import { userService } from '@/src/services/user';
+import { LoveType, Ritual } from '@/src/types/data-model';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { FlatList, Pressable, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -117,6 +118,25 @@ export default function HomeScreen() {
                     <View className="bg-white rounded-full px-3 py-1 border border-purple-200">
                       <ThemedText className="text-purple-700 text-sm font-medium">Start</ThemedText>
                     </View>
+                  </View>
+                </Pressable>
+              </View>
+
+              {/* AI Companion Card */}
+              <View className="px-4 pt-4 pb-6">
+                <Pressable 
+                  onPress={() => router.push('/(tabs)/ai-companion')}
+                  className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm"
+                >
+                  <View className="flex-row items-center">
+                    <View className="bg-blue-50 rounded-full p-3 mr-4">
+                      <MaterialIcons name="chat-bubble-outline" size={24} color="#3B82F6" />
+                    </View>
+                    <View className="flex-1">
+                      <ThemedText className="text-gray-900 text-base font-semibold mb-1">Need to talk?</ThemedText>
+                      <ThemedText className="text-gray-600 text-sm">Chat with your AI companion about any relationship questions or concerns</ThemedText>
+                    </View>
+                    <MaterialIcons name="chevron-right" size={24} color="#9CA3AF" />
                   </View>
                 </Pressable>
               </View>
