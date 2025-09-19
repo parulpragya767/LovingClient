@@ -4,6 +4,7 @@ import { ThemedText } from '@/components/themed-text';
 import { apiService } from '@/src/services/api';
 import { userSelections } from '@/src/services/userSelections';
 import { userCurrentOverrides } from '@/src/services/userCurrentOverrides';
+import EmojiFeedbackModal from '@/components/EmojiFeedbackModal';
 import { Ritual, RitualPack } from '@/src/types/data-model';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
@@ -19,6 +20,9 @@ export default function CurrentRitualsScreen() {
   const [packs, setPacks] = useState<RitualPack[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [selectedRitualId, setSelectedRitualId] = useState<string | null>(null);
   const swipeRefs = useRef<Record<string, Swipeable | null>>({});
   const router = useRouter();
 
@@ -46,6 +50,23 @@ export default function CurrentRitualsScreen() {
 
   const handleRitualPress = (id: string) => {
     router.push(`/(tabs)/rituals/${id}`);
+  };
+
+  const handleMarkCompleted = (id: string, emoji?: string) => {
+    userCurrentOverrides.markCompleted(id, emoji);
+    setFilteredRituals(prev => [...prev]);
+  };
+
+  const handleCompletePress = (id: string) => {
+    setSelectedRitualId(id);
+    setShowFeedbackModal(true);
+  };
+
+  const handleEmojiSelect = (emoji: string) => {
+    if (selectedRitualId) {
+      handleMarkCompleted(selectedRitualId, emoji);
+      swipeRefs.current[selectedRitualId]?.close();
+    }
   };
 
   const renderRitualCard = ({ item }: { item: Ritual }) => (
@@ -125,6 +146,12 @@ export default function CurrentRitualsScreen() {
             >
               <ThemedText className="text-gray-400 font-semibold text-sm">All Rituals</ThemedText>
             </Pressable>
+            <Pressable 
+              className="flex-1 py-3 items-center border-b-2 border-transparent"
+              onPress={() => router.push('/(tabs)/rituals/history')}
+            >
+              <ThemedText className="text-gray-400 font-semibold text-sm">History</ThemedText>
+            </Pressable>
           </View>
         </View>
       </View>
@@ -140,11 +167,7 @@ export default function CurrentRitualsScreen() {
             const renderRightActions = () => (
               <View className="flex-row h-full items-stretch">
                 <RectButton
-                  onPress={() => {
-                    userCurrentOverrides.markCompleted(item.id);
-                    // force re-render by updating state
-                    setFilteredRituals(prev => [...prev]);
-                  }}
+                  onPress={() => handleCompletePress(item.id)}
                   style={{ justifyContent: 'center' }}
                 >
                   <View className="bg-green-100 h-full w-14 justify-center items-center">
@@ -215,6 +238,11 @@ export default function CurrentRitualsScreen() {
           }
         />
       </View>
+      <EmojiFeedbackModal
+        visible={showFeedbackModal}
+        onClose={() => setShowFeedbackModal(false)}
+        onSelectEmoji={handleEmojiSelect}
+      />
     </SafeAreaView>
   );
 }

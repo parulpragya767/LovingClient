@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, Fragment } from 'react';
 import { View, Pressable } from 'react-native';
 import { ThemedText } from './themed-text';
 import RitualCard from './RitualCard';
@@ -6,6 +6,7 @@ import { Ritual, RitualPack } from '@/src/types/data-model';
 import { Swipeable, RectButton } from 'react-native-gesture-handler';
 import { MaterialIcons } from '@expo/vector-icons';
 import { userCurrentOverrides } from '@/src/services/userCurrentOverrides';
+import EmojiFeedbackModal from './EmojiFeedbackModal';
 
 type Props = {
   pack: RitualPack;
@@ -15,12 +16,30 @@ type Props = {
 };
 
 export default function RitualPackCard({ pack, ritualsById, onRitualPress, onPressPack }: Props) {
-  const [actionId, setActionId] = useState<string | null>(null);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [selectedRitualId, setSelectedRitualId] = useState<string | null>(null);
   const swipeRefs = useRef<Record<string, Swipeable | null>>({});
+  
   const rituals = pack.ritualIds
     .map(id => ritualsById[id])
     .filter((r): r is Ritual => Boolean(r))
     .filter(r => !userCurrentOverrides.isRemoved(r.id));
+
+  const handleMarkCompleted = (id: string, emoji?: string) => {
+    userCurrentOverrides.markCompleted(id, emoji);
+  };
+
+  const handleCompletePress = (id: string) => {
+    setSelectedRitualId(id);
+    setShowFeedbackModal(true);
+  };
+
+  const handleEmojiSelect = (emoji: string) => {
+    if (selectedRitualId) {
+      handleMarkCompleted(selectedRitualId, emoji);
+      swipeRefs.current[selectedRitualId]?.close();
+    }
+  };
 
   return (
     <View className="mb-4 rounded-2xl border border-gray-200 bg-white overflow-hidden">
@@ -47,10 +66,7 @@ export default function RitualPackCard({ pack, ritualsById, onRitualPress, onPre
           const renderRightActions = () => (
             <View className="flex-row h-full items-stretch">
               <RectButton
-                onPress={() => {
-                  userCurrentOverrides.markCompleted(r.id);
-                  setActionId(null);
-                }}
+                onPress={() => handleCompletePress(r.id)}
                 style={{ justifyContent: 'center' }}
               >
                 <View className="bg-green-100 h-full w-14 justify-center items-center">
@@ -60,7 +76,6 @@ export default function RitualPackCard({ pack, ritualsById, onRitualPress, onPre
               <RectButton
                 onPress={() => {
                   userCurrentOverrides.removeFromCurrent(r.id);
-                  setActionId(null);
                 }}
                 style={{ justifyContent: 'center' }}
               >
@@ -90,6 +105,12 @@ export default function RitualPackCard({ pack, ritualsById, onRitualPress, onPre
           );
         })}
       </View>
+      
+      <EmojiFeedbackModal
+        visible={showFeedbackModal}
+        onClose={() => setShowFeedbackModal(false)}
+        onSelectEmoji={handleEmojiSelect}
+      />
     </View>
   );
 }
