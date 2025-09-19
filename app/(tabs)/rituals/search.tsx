@@ -62,7 +62,7 @@ export default function SearchRitualsScreen() {
 
   const handleSearch = () => {
     const selectedTags = tags.filter(tag => tag.selected).map(tag => tag.name);
-    // Navigate directly to the all-rituals tab route with params
+    // Navigate to the All Rituals tab inside the tab group so layout persists
     router.replace({
       pathname: '/rituals/all-rituals',
       params: { 

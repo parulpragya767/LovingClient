@@ -17,7 +17,7 @@ export default function RitualsLayout() {
       }}
     >
       <Stack.Screen 
-        name="index" 
+        name="(top-nav)" 
         options={{ headerShown: false }} 
       />
       <Stack.Screen 
