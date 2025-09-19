@@ -4,7 +4,7 @@ import { apiService } from '@/src/services/api';
 import { Ritual } from '@/src/types/data-model';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 export default function RitualDetailScreen() {
   const [ritual, setRitual] = useState<Ritual | null>(null);
@@ -58,7 +58,7 @@ export default function RitualDetailScreen() {
   }
 
   return (
-    <ScrollView className="flex-1 bg-gray-100">
+    <View className="flex-1 bg-gray-100">
       <Stack.Screen options={{ 
         title: ritual.name,
         headerBackTitle: 'Back'
@@ -95,6 +95,6 @@ export default function RitualDetailScreen() {
           </View>
         </View>
       </ThemedView>
-    </ScrollView>
+    </View>
   );
 }

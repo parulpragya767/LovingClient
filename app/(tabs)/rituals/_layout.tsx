@@ -17,13 +17,6 @@ export default function RitualsLayout() {
       }}
     >
       <Stack.Screen 
-        name="index"
-        options={{ 
-          title: 'Current Rituals',
-          headerShown: false,
-        }} 
-      />
-      <Stack.Screen 
         name="current"
         options={{ 
           title: 'Current',
@@ -56,13 +49,6 @@ export default function RitualsLayout() {
           title: 'Ritual Pack',
         }}
       />
-      <Stack.Screen 
-        name="suggestions" 
-        options={{ 
-          title: 'Suggestions',
-        }} 
-      />
-      <Stack.Screen name="search" options={{ title: 'Search' }} />
     </Stack>
   );
 }

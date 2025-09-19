@@ -1,12 +1,10 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
-import { FlatList, Pressable, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { MaterialIcons } from '@expo/vector-icons';
-import { ThemedText } from '@/components/themed-text';
 import RitualCard from '@/components/RitualCard';
+import { ThemedText } from '@/components/themed-text';
 import { apiService } from '@/src/services/api';
 import { Ritual, RitualPack } from '@/src/types/data-model';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { FlatList, Pressable, View } from 'react-native';
 
 export default function RitualPackScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -65,14 +63,11 @@ export default function RitualPackScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      {/* Header: Back + Title */}
-      <View className="w-full px-4 pt-3 pb-2 border-b border-gray-200 bg-white flex-row items-center">
-        <Pressable onPress={() => router.back()} className="p-2 mr-2">
-          <MaterialIcons name="arrow-back" size={24} color="#4B5563" />
-        </Pressable>
-        <ThemedText className="text-base font-semibold text-gray-900">{title}</ThemedText>
-      </View>
+    <View className="flex-1 bg-gray-100">
+      <Stack.Screen options={{ 
+        title: title,
+        headerBackTitle: 'Back'
+      }} />
 
       <FlatList
         data={rituals}
@@ -105,6 +100,6 @@ export default function RitualPackScreen() {
           </View>
         }
       />
-    </SafeAreaView>
+    </View>
   );
 }
