@@ -17,25 +17,8 @@ export default function RitualsLayout() {
       }}
     >
       <Stack.Screen 
-        name="current"
-        options={{ 
-          title: 'Current',
-          headerShown: false,
-        }} 
-      />
-      <Stack.Screen 
-        name="all-rituals"
-        options={{
-          title: 'All Rituals',
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen 
-        name="history"
-        options={{
-          title: 'History',
-          headerShown: false,
-        }}
+        name="index" 
+        options={{ headerShown: false }} 
       />
       <Stack.Screen 
         name="[id]" 
@@ -47,6 +30,12 @@ export default function RitualsLayout() {
         name="pack/[id]" 
         options={{
           title: 'Ritual Pack',
+        }}
+      />
+      <Stack.Screen 
+        name="search"
+        options={{
+          headerShown: false,
         }}
       />
     </Stack>
