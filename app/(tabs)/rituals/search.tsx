@@ -62,9 +62,9 @@ export default function SearchRitualsScreen() {
 
   const handleSearch = () => {
     const selectedTags = tags.filter(tag => tag.selected).map(tag => tag.name);
-    // Navigate back to rituals with search params
-    router.push({
-      pathname: '/(tabs)/rituals/all-rituals',
+    // Navigate directly to the all-rituals tab route with params
+    router.replace({
+      pathname: '/rituals/all-rituals',
       params: { 
         searchTags: JSON.stringify(selectedTags),
         fromSearch: 'true'
@@ -85,7 +85,10 @@ export default function SearchRitualsScreen() {
       <View className="flex-1 bg-gray-50">
       {/* Header: Back (to All Rituals) + Search + Filter */}
       <View className="flex-row items-center p-4 border-b border-gray-200 bg-white">
-        <Pressable onPress={() => router.replace('/(tabs)/rituals/all-rituals')} className="p-2 mr-2">
+        <Pressable 
+          onPress={() => router.replace('/rituals/all-rituals')} 
+          className="p-2 mr-2"
+        >
           <MaterialIcons name="arrow-back" size={24} color="#4B5563" />
         </Pressable>
         <Pressable 

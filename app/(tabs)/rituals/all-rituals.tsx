@@ -2,10 +2,9 @@ import RitualCard from '@/components/RitualCard';
 import { ThemedText } from '@/components/themed-text';
 import { apiService } from '@/src/services/api';
 import { Ritual } from '@/src/types/data-model';
-import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { FlatList, Pressable, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function AllRitualsScreen() {
@@ -79,32 +78,6 @@ export default function AllRitualsScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      {/* In-screen header with back + search (no tabs on All Rituals) */}
-      <View className="w-full items-center bg-white"> 
-        <View className="w-full px-4 pt-3">
-          <View className="flex-row items-center gap-2">
-            <Pressable onPress={() => router.back()} className="py-2 pr-2 mr-2">
-              <MaterialIcons name="arrow-back" size={24} color="#4B5563" />
-            </Pressable>
-            <Pressable 
-              className="flex-1 flex-row items-center bg-gray-100 rounded-lg px-3 h-10"
-              onPress={() => router.push('/(tabs)/rituals/search')}
-            >
-              <MaterialIcons name="search" size={20} color="#6B7280" />
-              <ThemedText className="text-gray-500 ml-2">Search rituals...</ThemedText>
-            </Pressable>
-          </View>
-        </View>
-      </View>
-
-      <View className="flex-1 p-4">
-        <View className="mb-6">
-          <ThemedText className="text-2xl font-bold mb-1 text-gray-900">All Rituals</ThemedText>
-          <ThemedText className="text-sm text-gray-500">
-            Browse all available rituals
-          </ThemedText>
-        </View>
-
         <FlatList
           data={filteredRituals}
           keyExtractor={(item) => item.id}
@@ -119,7 +92,6 @@ export default function AllRitualsScreen() {
             </View>
           }
         />
-      </View>
     </SafeAreaView>
   );
 }

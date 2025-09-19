@@ -1,16 +1,16 @@
+import EmojiFeedbackModal from '@/components/EmojiFeedbackModal';
 import RitualCard from '@/components/RitualCard';
 import RitualPackCard from '@/components/RitualPackCard';
 import { ThemedText } from '@/components/themed-text';
 import { apiService } from '@/src/services/api';
-import { userSelections } from '@/src/services/userSelections';
 import { userCurrentOverrides } from '@/src/services/userCurrentOverrides';
-import EmojiFeedbackModal from '@/components/EmojiFeedbackModal';
+import { userSelections } from '@/src/services/userSelections';
 import { Ritual, RitualPack } from '@/src/types/data-model';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { FlatList, Pressable, View } from 'react-native';
-import { Swipeable, RectButton } from 'react-native-gesture-handler';
+import { FlatList, View } from 'react-native';
+import { RectButton, Swipeable } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function CurrentRitualsScreen() {
@@ -122,40 +122,6 @@ export default function CurrentRitualsScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="w-full items-center bg-white">
-        <View className="w-full px-4 pt-3">
-          {/* Search (only on Current) */}
-          <Pressable 
-            className="flex-row items-center bg-gray-100 rounded-lg px-3 h-10 w-full"
-            onPress={() => router.push('/(tabs)/rituals/search')}
-          >
-            <MaterialIcons name="search" size={20} color="#6B7280" />
-            <ThemedText className="text-gray-500 ml-2">Search rituals...</ThemedText>
-          </Pressable>
-          {/* Tabs */}
-          <View className="flex-row border-b border-gray-200 mt-2">
-            <Pressable 
-              className="flex-1 py-3 items-center border-b-2 border-purple-500"
-              onPress={() => router.replace('/(tabs)/rituals/current')}
-            >
-              <ThemedText className="text-gray-600 font-semibold text-sm">Current</ThemedText>
-            </Pressable>
-            <Pressable 
-              className="flex-1 py-3 items-center border-b-2 border-transparent"
-              onPress={() => router.push('/(tabs)/rituals/all-rituals')}
-            >
-              <ThemedText className="text-gray-400 font-semibold text-sm">All Rituals</ThemedText>
-            </Pressable>
-            <Pressable 
-              className="flex-1 py-3 items-center border-b-2 border-transparent"
-              onPress={() => router.push('/(tabs)/rituals/history')}
-            >
-              <ThemedText className="text-gray-400 font-semibold text-sm">History</ThemedText>
-            </Pressable>
-          </View>
-        </View>
-      </View>
-
       <View className="flex-1">
         <FlatList
           style={{ flex: 1 }}
