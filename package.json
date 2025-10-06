@@ -9,7 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "generate:api": "npx openapi-typescript-codegen --input http://localhost:8080/api-docs --output ./src/api"
+    "generate:api": "npx @openapitools/openapi-generator-cli generate -i http://localhost:8080/api-docs -g typescript-axios -o ./src/api --additional-properties=useSingleRequestParameter=true,modelPackage=models,apiPackage=apis,withInterfaces=true,supportsES6=true,withSeparateModelsAndApi=true"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",

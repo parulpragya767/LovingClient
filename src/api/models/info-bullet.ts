@@ -13,6 +13,24 @@
  */
 
 
-export * from "./api";
-export * from "./configuration";
-export * from "./models";
+
+/**
+ * 
+ * @export
+ * @interface InfoBullet
+ */
+export interface InfoBullet {
+    /**
+     * 
+     * @type {string}
+     * @memberof InfoBullet
+     */
+    'title'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InfoBullet
+     */
+    'text'?: string;
+}
+

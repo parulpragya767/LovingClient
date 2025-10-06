@@ -13,6 +13,30 @@
  */
 
 
-export * from "./api";
-export * from "./configuration";
-export * from "./models";
+
+/**
+ * 
+ * @export
+ * @interface MediaAsset
+ */
+export interface MediaAsset {
+    /**
+     * 
+     * @type {string}
+     * @memberof MediaAsset
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MediaAsset
+     */
+    'type'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MediaAsset
+     */
+    'url'?: string;
+}
+

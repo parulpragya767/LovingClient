@@ -13,6 +13,18 @@
  */
 
 
-export * from "./api";
-export * from "./configuration";
-export * from "./models";
+
+/**
+ * 
+ * @export
+ * @interface SendMessageRequest
+ */
+export interface SendMessageRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SendMessageRequest
+     */
+    'content'?: string;
+}
+
