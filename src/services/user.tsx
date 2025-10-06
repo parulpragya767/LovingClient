@@ -1,10 +1,12 @@
-import { apiService } from './api';
+import { LoveTypeInfo } from '../api/models/love-type-info';
+import { useLoveTypes } from '../hooks/useLoveTypes';
 import { LoveType, Ritual } from '../types/data-model';
-import { loveTypesData } from '../data/loveTypes';
+import { apiService } from './api';
 
-// Mocked user-focused data service. Replace with real backend when available.
-export const userService = {
-  async getCurrentRituals(): Promise<Ritual[]> {
+export const useUserService = () => {
+  const { data: allLoveTypes = [], isLoading: isLoadingLoveTypes } = useLoveTypes();
+
+  const getCurrentRituals = async (): Promise<Ritual[]> => {
     const [rituals, packs] = await Promise.all([
       apiService.getRituals(),
       apiService.getRitualPacks(),
@@ -25,11 +27,45 @@ export const userService = {
     const individualCurrent = rituals.filter(r => r.isCurrent && !currentPackRitualIds.has(r.id));
 
     return [...packRituals, ...individualCurrent];
-  },
+  };
 
-  async getCurrentLoveTypes(): Promise<LoveType[]> {
-    // Mock: pick a few from loveTypesData as the user's current focus
-    // In a real app, fetch from backend based on user profile
-    return loveTypesData.slice(0, 3);
-  },
+  const mapToLoveType = (loveTypeInfo: LoveTypeInfo): LoveType => {
+    // Map LoveTypeInfo to LoveType
+    const howToSection = loveTypeInfo.sections?.find(s => s.title === 'How to Express');
+    const howToExpress = (howToSection?.bullets || [])
+      .map(bullet => bullet.text)
+      .filter((text): text is string => text !== undefined);
+      
+    return {
+      id: loveTypeInfo.id?.toString() || '',
+      name: loveTypeInfo.title || '',
+      description: loveTypeInfo.description || '',
+      emoji: getEmojiForLoveType(loveTypeInfo.loveType || ''),
+      longDescription: loveTypeInfo.subtitle,
+      howToExpress
+    };
+  };
+
+  const getEmojiForLoveType = (loveType: string): string => {
+    // Map love type to emoji
+    const emojiMap: Record<string, string> = {
+      'BELONG': '🤝',
+      'FIRE': '🔥',
+      'SPARK': '⚡',
+      // Add more mappings as needed
+    };
+    return emojiMap[loveType] || '❤️';
+  };
+
+  const getCurrentLoveTypes = (): LoveType[] => {
+    // Return first 3 love types as the user's current focus
+    // In a real app, we would filter based on user preferences
+    return allLoveTypes.slice(0, 3).map(mapToLoveType);
+  };
+
+  return {
+    getCurrentRituals,
+    getCurrentLoveTypes,
+    isLoadingLoveTypes
+  };
 };
