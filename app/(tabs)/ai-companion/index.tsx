@@ -6,10 +6,10 @@ import { chatService } from '@/src/services/chatService';
 import { ChatMessage as ChatMessageType, Conversation, StarterPrompt as StarterPromptType } from '@/src/types/chat';
 // Removed unused Drawer import
 import { MaterialIcons } from '@expo/vector-icons';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, TextInput, TouchableOpacity, View, Pressable } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, Pressable, TextInput, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function AICompanionScreen() {
   const router = useRouter();

@@ -7,6 +7,7 @@ export default function LoveLensLayout() {
         name="index" 
         options={{
           headerShown: false,
+          title: 'Love Lens',
         }}
       />
       <Stack.Screen 

@@ -2,6 +2,10 @@ export interface LoveType {
   id: string;
   name: string;
   description: string;
+  emoji: string;
+  longDescription?: string;
+  importance?: string;
+  howToExpress?: string[];
 }
 
 export interface Ritual {

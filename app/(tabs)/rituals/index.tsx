@@ -1,5 +1,5 @@
-import { Redirect } from 'expo-router';
+import RitualsHomeScreen from '@/src/screens/rituals/RitualsHomeScreen';
 
 export default function RitualsIndexRedirect() {
-  return <Redirect href="/rituals/current" />;
+  return <RitualsHomeScreen />;
 }
