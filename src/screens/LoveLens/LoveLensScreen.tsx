@@ -1,11 +1,48 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { loveTypesData as loveTypes } from '@/src/data/loveTypes';
+import { useLoveTypes } from '@/src/hooks/useLoveTypes';
 import { useRouter } from 'expo-router';
-import { FlatList, Pressable, View } from 'react-native';
+import { useState } from 'react';
+import { FlatList, Pressable, View, ActivityIndicator, RefreshControl } from 'react-native';
 
 export default function LoveLensScreen() {
   const router = useRouter();
+  const { data: loveTypes = [], isLoading, error, refetch } = useLoveTypes();
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const handleRefresh = async () => {
+    try {
+      setIsRefreshing(true);
+      await refetch();
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
+  if (isLoading && !isRefreshing) {
+    return (
+      <ThemedView className="flex-1 items-center justify-center">
+        <ActivityIndicator size="large" />
+        <ThemedText className="mt-4">Loading love types...</ThemedText>
+      </ThemedView>
+    );
+  }
+
+  if (error) {
+    return (
+      <ThemedView className="flex-1 items-center justify-center p-4">
+        <ThemedText className="text-red-500 text-center mb-4">
+          Failed to load love types. {error.message}
+        </ThemedText>
+        <Pressable
+          onPress={() => refetch()}
+          className="bg-blue-500 px-4 py-2 rounded-lg"
+        >
+          <ThemedText className="text-white">Retry</ThemedText>
+        </Pressable>
+      </ThemedView>
+    );
+  }
 
   return (
     <ThemedView className="flex-1 p-4">
@@ -18,21 +55,24 @@ export default function LoveLensScreen() {
 
       <FlatList
         data={loveTypes}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id?.toString() || ''}
         renderItem={({ item }) => (
           <Pressable 
-            onPress={() => router.push(`/love-lens/${item.id}`)}
+            onPress={() => router.push({
+              pathname: "/love-lens/[id]",
+              params: { id: item.id }
+            })}
             className="bg-white rounded-xl p-4 mb-3 shadow-sm"
           >
             <View className="flex-row items-center">
               <View className="p-2 rounded-lg bg-blue-50 mr-3">
                 <ThemedText className="text-blue-600 text-lg font-bold">
-                  {item.emoji}
+                  {item.loveType || '❤️'}
                 </ThemedText>
               </View>
               <View className="flex-1">
                 <ThemedText className="text-lg font-semibold text-gray-900">
-                  {item.name}
+                  {item.title || 'Love Type'}
                 </ThemedText>
                 <ThemedText className="text-gray-500 text-sm" numberOfLines={2}>
                   {item.description}
@@ -44,7 +84,22 @@ export default function LoveLensScreen() {
             </View>
           </Pressable>
         )}
+        refreshControl={
+          <RefreshControl 
+            refreshing={isRefreshing} 
+            onRefresh={handleRefresh}
+            colors={['#3b82f6']}
+            tintColor="#3b82f6"
+          />
+        }
         ListFooterComponent={<View className="h-20" />}
+        ListEmptyComponent={
+          <ThemedView className="items-center justify-center p-8">
+            <ThemedText className="text-gray-500 text-center">
+              No love types found. Pull to refresh.
+            </ThemedText>
+          </ThemedView>
+        }
       />
     </ThemedView>
   );
