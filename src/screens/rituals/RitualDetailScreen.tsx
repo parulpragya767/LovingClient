@@ -1,82 +1,104 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { useRitual } from '@/src/hooks/useRitual';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Image, Pressable, ScrollView, View } from 'react-native';
+import { ActivityIndicator, Image, Pressable, ScrollView, View } from 'react-native';
+import { RitualDTO } from '@/src/api/models/ritual-dto';
+import { RitualStep } from '@/src/api/models/ritual-step';
 
-const MOCK_RITUALS = {
-  '1': {
-    id: '1',
-    title: 'Morning Gratitude',
-    description: 'Start your day by sharing what you\'re grateful for',
-    duration: '5 min',
-    frequency: 'Daily',
-    category: 'Connection',
-    steps: [
-      'Sit facing each other',
-      'Take three deep breaths together',
-      'Share one thing you\'re grateful for about your partner',
-      'Share one thing you\'re looking forward to today',
-      'End with a hug'
-    ],
-    benefits: [
-      'Starts the day on a positive note',
-      'Increases feelings of connection',
-      'Builds appreciation for each other'
-    ],
-    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
-  },
-  '2': {
-    id: '2',
-    title: 'Weekly Check-in',
-    description: 'A dedicated time to connect and communicate openly',
-    duration: '30 min',
-    frequency: 'Weekly',
-    category: 'Communication',
-    steps: [
-      'Choose a quiet, comfortable space',
-      'Take turns sharing your highs and lows of the week',
-      'Discuss any concerns or appreciations',
-      'Plan something to look forward to together',
-      'End with a shared activity you both enjoy'
-    ],
-    benefits: [
-      'Improves communication',
-      'Prevents small issues from becoming big problems',
-      'Strengthens emotional connection'
-    ],
-    image: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
-  }
+// Local type for the UI
+interface RitualDetails {
+  id: string;
+  title: string;
+  description: string;
+  duration: string;
+  frequency: string;
+  category: string;
+  steps: string[];
+  benefits: string[];
+  image?: string;
+}
+
+// Helper function to map API data to UI format
+const mapRitualToDetails = (ritual: RitualDTO): RitualDetails => {
+  const duration = ritual.estimatedDurationMinutes 
+    ? `${ritual.estimatedDurationMinutes} min` 
+    : 'Varies';
+    
+  const frequency = ritual.ritualMode ? 
+    ritual.ritualMode.charAt(0) + ritual.ritualMode.slice(1).toLowerCase().replace('_', ' ') : 
+    'As needed';
+    
+  const category = ritual.ritualTypes?.[0] || 'Connection';
+  
+  // Map steps
+  const steps = (ritual.ritualSteps || [])
+    .sort((a, b) => (a.order || 0) - (b.order || 0))
+    .map((step: RitualStep) => step.description || '')
+    .filter(Boolean);
+    
+  // Use relational needs served as benefits
+  const benefits = ritual.relationalNeedsServed?.length ? 
+    ritual.relationalNeedsServed : 
+    [ritual.shortDescription || ''];
+  
+  return {
+    id: ritual.id || '',
+    title: ritual.title || 'Untitled Ritual',
+    description: ritual.fullDescription || ritual.shortDescription || 'No description available',
+    duration,
+    frequency,
+    category,
+    steps,
+    benefits,
+    image: ritual.mediaAssets?.[0]?.url
+  };
 };
-
-type Ritual = typeof MOCK_RITUALS['1'];
 
 export default function RitualDetailScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const [isFavorite, setIsFavorite] = useState(false);
   
-  // In a real app, you would fetch this data based on the ID
-  const ritual: Ritual | undefined = MOCK_RITUALS[id as keyof typeof MOCK_RITUALS];
+  const { data: ritualData, isLoading, error } = useRitual(id);
   
-  if (!ritual) {
+  if (isLoading) {
     return (
-      <ThemedView className="flex-1 items-center justify-center p-4">
-        <ThemedText className="text-lg text-gray-600">Ritual not found</ThemedText>
+      <ThemedView className="flex-1 items-center justify-center">
+        <ActivityIndicator size="large" />
       </ThemedView>
     );
   }
+  
+  if (error || !ritualData) {
+    return (
+      <ThemedView className="flex-1 items-center justify-center p-4">
+        <ThemedText className="text-center">
+          {error?.message || 'Failed to load ritual details'}
+        </ThemedText>
+      </ThemedView>
+    );
+  }
+  
+  const ritual = mapRitualToDetails(ritualData);
 
   return (
     <ScrollView className="flex-1 bg-gray-50">
       {/* Header Image */}
       <View className="h-48 bg-gray-200 overflow-hidden">
-        <Image 
-          source={{ uri: ritual.image }} 
-          className="w-full h-full" 
-          resizeMode="cover"
-        />
+        {ritual.image ? (
+          <Image 
+            source={{ uri: ritual.image }} 
+            className="w-full h-full" 
+            resizeMode="cover"
+          />
+        ) : (
+          <View className="flex-1 items-center justify-center bg-gray-200">
+            <MaterialIcons name="celebration" size={64} color="#9CA3AF" />
+          </View>
+        )}
         <Pressable 
           onPress={() => router.back()}
           className="absolute top-4 left-4 bg-white/80 p-2 rounded-full"

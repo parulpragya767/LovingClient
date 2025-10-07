@@ -2,56 +2,94 @@ import EmojiFeedbackModal from '@/components/EmojiFeedbackModal';
 import RitualCard from '@/components/RitualCard';
 import RitualPackCard from '@/components/RitualPackCard';
 import { ThemedText } from '@/components/themed-text';
-import { apiService } from '@/src/services/api';
+import { useRitualPacks } from '@/src/hooks/useRitualPacks';
+import { useRituals } from '@/src/hooks/useRituals';
 import { userCurrentOverrides } from '@/src/services/userCurrentOverrides';
 import { userSelections } from '@/src/services/userSelections';
 import { Ritual, RitualPack } from '@/src/types/data-model';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { RectButton, Swipeable } from 'react-native-gesture-handler';
 
 export default function CurrentRitualsScreen() {
-  const [rituals, setRituals] = useState<Ritual[]>([]);
-  const [ritualsById, setRitualsById] = useState<Record<string, Ritual>>({});
+  const { data: ritualsData, isLoading: isLoadingRituals } = useRituals();
+  const { data: packsData, isLoading: isLoadingPacks } = useRitualPacks();
   const [filteredRituals, setFilteredRituals] = useState<Ritual[]>([]);
-  const [packs, setPacks] = useState<RitualPack[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [selectedRitualId, setSelectedRitualId] = useState<string | null>(null);
   const swipeRefs = useRef<Record<string, Swipeable | null>>({});
   const router = useRouter();
 
-  const fetchRituals = useCallback(async () => {
-    try {
-      const [ritualData, packData] = await Promise.all([
-        apiService.getRituals(),
-        apiService.getRitualPacks(),
-      ]);
-
-      const byId: Record<string, Ritual> = {};
-      ritualData.forEach(r => { byId[r.id] = r; });
-      setRitualsById(byId);
-
-      const currentRituals = ritualData.filter((ritual) => ritual.isCurrent);
-      setRituals(currentRituals);
-      setPacks(packData.filter(p => p.isCurrent));
-      setFilteredRituals(currentRituals);
-    } catch (error) {
-      console.error('Failed to fetch rituals:', error);
-    } finally {
-      setIsLoading(false);
+  const isLoading = isLoadingRituals || isLoadingPacks;
+  // Process rituals data
+  const { rituals, ritualsById }: { rituals: Ritual[], ritualsById: Record<string, Ritual> } = useMemo(() => {
+    if (!ritualsData) return { rituals: [], ritualsById: {} };
+    
+    const byId: Record<string, Ritual> = {};
+    
+    // Map RitualDTO to Ritual
+    const currentRituals = ritualsData
+      .filter((ritual) => ritual.status === 'PUBLISHED') // Filter published rituals
+      .map((r): Ritual => ({
+        id: r.id || '',
+        name: r.title || 'Unnamed Ritual',
+        title: r.title || '',
+        description: r.fullDescription || r.shortDescription || '',
+        howTo: '', // Not available in DTO
+        benefits: '', // Not available in DTO
+        tags: [], // Not available in DTO
+        isCurrent: true // Assuming all returned rituals are current for now
+      }));
+      
+    // Populate the byId map
+    currentRituals.forEach(r => {
+      byId[r.id] = r;
+    });
+      
+    return { rituals: currentRituals, ritualsById: byId };
+  }, [ritualsData]);
+  
+  // Process packs data
+  const packs: RitualPack[] = useMemo(() => {
+    if (!packsData) return [];
+    
+    // Map RitualPackDTO to RitualPack
+    return packsData
+      .filter((p) => p.status === 'PUBLISHED') // Filter published packs
+      .map((p): RitualPack => ({
+        id: p.id || '',
+        title: p.title || 'Unnamed Pack',
+        description: p.fullDescription || p.shortDescription || '',
+        tags: [], // Not available in DTO
+        ritualIds: p.ritualIds || [],
+        isCurrent: true // Assuming all returned packs are current for now
+      }));
+  }, [packsData]);
+  
+  const handleMarkCompleted = (id: string, emoji?: string) => {
+    if (selectedRitualId) {
+      userCurrentOverrides.markCompleted(selectedRitualId, emoji);
+      setFilteredRituals(prev => [...prev]);
+      swipeRefs.current[selectedRitualId]?.close();
     }
-  }, []);
+  };
+
+  const renderRitualItem = ({ item }: { item: Ritual }) => (
+    <RitualCard ritual={item} onPress={() => handleRitualPress(item.id)} />
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      setFilteredRituals(rituals);
+      // Remove any existing swipeable refs when refocusing
+      swipeRefs.current = {};
+    }, [rituals])
+  );
 
   const handleRitualPress = (id: string) => {
     router.push(`/rituals/${id}`);
-  };
-
-  const handleMarkCompleted = (id: string, emoji?: string) => {
-    userCurrentOverrides.markCompleted(id, emoji);
-    setFilteredRituals(prev => [...prev]);
   };
 
   const handleCompletePress = (id: string) => {
@@ -62,19 +100,10 @@ export default function CurrentRitualsScreen() {
   const handleEmojiSelect = (emoji: string) => {
     if (selectedRitualId) {
       handleMarkCompleted(selectedRitualId, emoji);
-      swipeRefs.current[selectedRitualId]?.close();
+      setShowFeedbackModal(false);
+      setSelectedRitualId(null);
     }
   };
-
-  const renderRitualCard = ({ item }: { item: Ritual }) => (
-    <RitualCard ritual={item} onPress={() => handleRitualPress(item.id)} />
-  );
-
-  useFocusEffect(
-    useCallback(() => {
-      fetchRituals();
-    }, [fetchRituals])
-  );
 
   if (isLoading) {
     return (
