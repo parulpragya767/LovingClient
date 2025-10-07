@@ -1,32 +1,56 @@
-import { ritualPacksData } from '../data/ritualPacks';
-import { ritualsData } from '../data/rituals';
-import { Ritual, RitualPack } from '../types/data-model';
+import { RitualControllerApi } from '../api/apis/ritual-controller-api';
+import { RitualDTO } from '../api/models/ritual-dto';
+import { Ritual } from '../types/data-model';
 
-// Simulate API delay for realistic behavior
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const ritualApi = new RitualControllerApi();
 
 export const apiService = {
   async getRituals(): Promise<Ritual[]> {
-    console.log('Fetching rituals from local data...');
-    await delay(500); // Simulate network delay
-    return ritualsData;
+    console.log('Fetching rituals from backend...');
+    const response = await ritualApi.getAll();
+    return response.data.map((r: RitualDTO): Ritual => ({
+      id: r.id || '',
+      name: r.title || 'Unnamed Ritual',
+      title: r.title || '',
+      description: r.fullDescription || r.shortDescription || '',
+      howTo: '',
+      benefits: '',
+      tags: [],
+      isCurrent: false
+    }));
   },
 
   async getRitualById(id: string): Promise<Ritual | undefined> {
-    console.log(`Fetching ritual with id: ${id}...`);
-    await delay(300); // Simulate network delay
-    return ritualsData.find(ritual => ritual.id === id);
+    console.log(`Fetching ritual with id: ${id} from backend...`);
+    try {
+      const response = await ritualApi.getById({ id });
+      const r = response.data;
+      return {
+        id: r.id || '',
+        name: r.title || 'Unnamed Ritual',
+        title: r.title || '',
+        description: r.fullDescription || r.shortDescription || '',
+        howTo: '',
+        benefits: '',
+        tags: [],
+        isCurrent: false
+      };
+    } catch (error) {
+      console.error(`Error fetching ritual ${id}:`, error);
+      return undefined;
+    }
   },
 
-  async getRitualPacks(): Promise<RitualPack[]> {
-    console.log('Fetching ritual packs from local data...');
-    await delay(500);
-    return ritualPacksData;
+  // Note: The following methods will be updated when we implement ritual packs from the backend
+  async getRitualPacks(): Promise<any[]> {
+    console.log('Fetching ritual packs from backend...');
+    // TODO: Implement actual API call when backend is ready
+    return [];
   },
 
-  async getRitualPackById(id: string): Promise<RitualPack | undefined> {
+  async getRitualPackById(id: string): Promise<any | undefined> {
     console.log(`Fetching ritual pack with id: ${id}...`);
-    await delay(300);
-    return ritualPacksData.find(pack => pack.id === id);
+    // TODO: Implement actual API call when backend is ready
+    return undefined;
   },
 };

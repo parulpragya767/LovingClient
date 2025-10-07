@@ -1,36 +1,35 @@
 import RitualCard from '@/components/RitualCard';
 import { ThemedText } from '@/components/themed-text';
-import { apiService } from '@/src/services/api';
+import { useRituals } from '@/src/hooks/useRituals';
 import { Ritual } from '@/src/types/data-model';
-import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { ActivityIndicator, FlatList, View } from 'react-native';
 
 export default function AllRitualsScreen() {
-  const [rituals, setRituals] = useState<Ritual[]>([]);
+  const { data: ritualsData, isLoading, error } = useRituals();
   const [filteredRituals, setFilteredRituals] = useState<Ritual[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const params = useLocalSearchParams();
   const [searchTags, setSearchTags] = useState<string[]>([]);
 
-  const fetchRituals = useCallback(async () => {
-    try {
-      const data = await apiService.getRituals();
-      setRituals(data);
-      setFilteredRituals(data);
-    } catch (error) {
-      console.error('Failed to fetch rituals:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  useFocusEffect(
-    useCallback(() => {
-      fetchRituals();
-    }, [fetchRituals])
-  );
+  // Map the API response to the Ritual type
+  const rituals = useMemo(() => {
+    if (!ritualsData) return [];
+    
+    return ritualsData
+      .filter((ritual) => ritual.status === 'PUBLISHED')
+      .map((r): Ritual => ({
+        id: r.id || '',
+        name: r.title || 'Unnamed Ritual',
+        title: r.title || '',
+        description: r.fullDescription || r.shortDescription || '',
+        howTo: '', // Not available in DTO
+        benefits: '', // Not available in DTO
+        tags: [], // Not available in DTO
+        isCurrent: false
+      }));
+  }, [ritualsData]);
 
   // Apply filtering when tags or rituals change
   useEffect(() => {
@@ -70,7 +69,18 @@ export default function AllRitualsScreen() {
   if (isLoading) {
     return (
       <View className="flex-1 justify-center items-center bg-white">
-        <ThemedText>Loading rituals...</ThemedText>
+        <ActivityIndicator size="large" />
+        <ThemedText className="mt-2">Loading rituals...</ThemedText>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View className="flex-1 justify-center items-center bg-white p-4">
+        <ThemedText className="text-red-500 text-center">
+          Error loading rituals: {error.message}
+        </ThemedText>
       </View>
     );
   }
