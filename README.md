@@ -1,4 +1,36 @@
 # Welcome to your Expo app 👋
+## Supabase Auth Setup
+
+- **What was added**
+  - `src/lib/supabase.ts`: Supabase client with AsyncStorage, `autoRefreshToken=true`, `persistSession=true`.
+  - `src/context/AuthContext.tsx`: Auth provider using `supabase.auth.getSession()` and `onAuthStateChange` to keep session in sync.
+  - `app/auth/login.tsx`: Email/password login screen.
+  - `app/_layout.tsx`: App is gated. When not authenticated, only `auth/login` is accessible. When authenticated, the existing tabs open.
+
+- **Dependencies** (already installed)
+  - `@supabase/supabase-js`
+  - `@react-native-async-storage/async-storage`
+  - `react-native-url-polyfill`
+
+- **Environment variables**
+  - Create a `.env` file in the project root with:
+    ```bash
+    EXPO_PUBLIC_SUPABASE_URL=your-project-url
+    EXPO_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+    ```
+  - Values can be found in your Supabase project settings.
+  - Expo automatically exposes variables prefixed with `EXPO_PUBLIC_` to your app at runtime.
+
+- **Run the app**
+  - Install pods on iOS if needed: `npx pod-install`
+  - Start: `npm run start`
+  - Open the app and sign in with an existing email/password user from your Supabase Auth users.
+
+- **Notes**
+  - Token refresh is handled by Supabase via `autoRefreshToken` and the auth state listener; sessions persist in `AsyncStorage`.
+  - Redirect-based flows are disabled with `detectSessionInUrl: false` since we use native email/password.
+  - To sign out, use `useAuth().signOut()` from `src/context/AuthContext.tsx`.
+
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 

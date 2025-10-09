@@ -1,6 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Tabs } from 'expo-router';
+import { Link, Tabs } from 'expo-router';
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 
 export default function TabLayout() {
   return (
@@ -16,6 +17,16 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
+          headerShown: true,
+          headerStyle: { backgroundColor: '#25292e' },
+          headerTintColor: '#ffd33d',
+          headerLeft: () => (
+            <Link href="/(modals)/user" asChild>
+              <TouchableOpacity style={{ paddingHorizontal: 12 }}>
+                <Ionicons name="person-circle-outline" size={26} color="#ffd33d" />
+              </TouchableOpacity>
+            </Link>
+          ),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />
           ),
