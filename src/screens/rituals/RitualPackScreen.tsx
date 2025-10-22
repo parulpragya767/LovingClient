@@ -7,6 +7,7 @@ import { apiService } from '@/src/services/api';
 import { Ritual } from '@/src/models/ritual';
 import { RitualPack } from '@/src/types/data-model';
 import { ActivityIndicator, FlatList, View } from 'react-native';
+import { useRituals } from '@/src/hooks/useRituals';
 
 export default function RitualPackScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -14,15 +15,13 @@ export default function RitualPackScreen() {
   const [pack, setPack] = useState<RitualPack | null>(null);
   const [rituals, setRituals] = useState<Ritual[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { data: allRituals = [], isLoading: ritualsLoading } = useRituals();
 
   const loadPack = useCallback(async () => {
     if (!id) return;
     
     try {
-      const [packData, allRituals] = await Promise.all([
-        apiService.getRitualPackById(id),
-        apiService.getRituals(),
-      ]);
+      const packData = await apiService.getRitualPackById(id);
 
       if (!packData) {
         console.error('Ritual pack not found');
@@ -42,7 +41,7 @@ export default function RitualPackScreen() {
     } finally {
       setIsLoading(false);
     }
-  }, [id]);
+  }, [id, allRituals]);
 
   useEffect(() => {
     loadPack();
@@ -52,7 +51,7 @@ export default function RitualPackScreen() {
     router.push(`/rituals/${ritualId}`);
   };
 
-  if (isLoading || !pack) {
+  if (isLoading || ritualsLoading || !pack) {
     return (
       <ThemedView className="flex-1 items-center justify-center">
         <ActivityIndicator size="large" color="#8B5CF6" />

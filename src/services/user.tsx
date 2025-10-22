@@ -2,22 +2,23 @@ import { LoveTypeInfo } from '../api/models/love-type-info';
 import { useLoveTypes } from '../hooks/useLoveTypes';
 import { LoveType } from '../types/data-model';
 import { Ritual } from '../models/ritual';
-import { apiService } from './api';
+import { useRituals } from '@/src/hooks/useRituals';
+import { useRitualPacks } from '@/src/hooks/useRitualPacks';
+import { useCallback } from 'react';
 
 export const useUserService = () => {
   const { data: allLoveTypes = [], isLoading: isLoadingLoveTypes } = useLoveTypes();
+  const { data: ritualsData = [] } = useRituals();
+  const { data: packsData = [] } = useRitualPacks();
 
-  const getCurrentRituals = async (): Promise<Ritual[]> => {
-    const [rituals, packs] = await Promise.all([
-      apiService.getRituals(),
-      apiService.getRitualPacks(),
-    ]);
+  const getCurrentRituals = useCallback(async (): Promise<Ritual[]> => {
+    const rituals = ritualsData;
+    const packs = packsData as unknown as { ritualIds?: string[]; isCurrent?: boolean }[];
 
     const currentPackRitualIds = new Set(
-      packs.filter(p => p.isCurrent).flatMap(p => p.ritualIds)
+      packs.filter(p => p?.isCurrent).flatMap(p => p.ritualIds || [])
     );
 
-    // Combine: all rituals from current packs + current individual rituals not in packs
     const ritualsById: Record<string, Ritual> = {};
     rituals.forEach(r => { ritualsById[r.id] = r; });
 
@@ -28,9 +29,9 @@ export const useUserService = () => {
     const individualCurrent = rituals.filter(r => r.isCurrent && !currentPackRitualIds.has(r.id));
 
     return [...packRituals, ...individualCurrent];
-  };
+  }, [ritualsData, packsData]);
 
-  const mapToLoveType = (loveTypeInfo: LoveTypeInfo): LoveType => {
+  const mapToLoveType = useCallback((loveTypeInfo: LoveTypeInfo): LoveType => {
     // Map LoveTypeInfo to LoveType
     const howToSection = loveTypeInfo.sections?.find(s => s.title === 'How to Express');
     const howToExpress = (howToSection?.bullets || [])
@@ -45,7 +46,7 @@ export const useUserService = () => {
       longDescription: loveTypeInfo.subtitle,
       howToExpress
     };
-  };
+  }, []);
 
   const getEmojiForLoveType = (loveType: string): string => {
     // Map love type to emoji
@@ -58,11 +59,11 @@ export const useUserService = () => {
     return emojiMap[loveType] || '❤️';
   };
 
-  const getCurrentLoveTypes = (): LoveType[] => {
+  const getCurrentLoveTypes = useCallback((): LoveType[] => {
     // Return first 3 love types as the user's current focus
     // In a real app, we would filter based on user preferences
     return allLoveTypes.slice(0, 3).map(mapToLoveType);
-  };
+  }, [allLoveTypes, mapToLoveType]);
 
   return {
     getCurrentRituals,

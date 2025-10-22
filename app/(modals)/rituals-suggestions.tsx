@@ -9,27 +9,18 @@ import RitualCard from '@/components/RitualCard';
 import { suggestionsService } from '@/src/services/suggestions';
 import { userSelections } from '@/src/services/userSelections';
 import { Ritual } from '@/src/models/ritual';
+import { useRituals } from '@/src/hooks/useRituals';
 
 export default function RitualSuggestionsModal() {
   const router = useRouter();
   const [suggestions, setSuggestions] = useState<Ritual[]>([]);
-  const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<Record<string, boolean>>({});
+  const { data: rituals = [], isLoading: loading } = useRituals();
 
   useEffect(() => {
-    let mounted = true;
-    const load = async () => {
-      try {
-        const list = await suggestionsService.getWeeklyRitualSuggestions();
-        if (!mounted) return;
-        setSuggestions(list);
-      } finally {
-        if (mounted) setLoading(false);
-      }
-    };
-    load();
-    return () => { mounted = false; };
-  }, []);
+    const list = suggestionsService.getWeeklyRitualSuggestions(rituals);
+    setSuggestions(list);
+  }, [rituals]);
 
   const toggle = (id: string) => {
     setSelected(prev => ({ ...prev, [id]: !prev[id] }));

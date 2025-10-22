@@ -1,9 +1,9 @@
 import { ThemedText } from '@/components/themed-text';
-import { apiService } from '@/src/services/api';
 import { userCurrentOverrides } from '@/src/services/userCurrentOverrides';
 import { Ritual } from '@/src/models/ritual';
 import { useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
+import { useRituals } from '@/src/hooks/useRituals';
 
 export default function RitualHistoryScreen() {
   const [completedRituals, setCompletedRituals] = useState<{
@@ -11,11 +11,11 @@ export default function RitualHistoryScreen() {
     ritual: Ritual | null;
     feedback?: { emoji: string; timestamp: number };
   }[]>([]);
+  const { data: rituals = [] } = useRituals();
 
   useEffect(() => {
     const loadCompletedRituals = async () => {
       const completed = userCurrentOverrides.getAllCompleted();
-      const rituals = await apiService.getRituals();
       const ritualsById = new Map(rituals.map(r => [r.id, r]));
       
       const withDetails = completed
@@ -30,7 +30,7 @@ export default function RitualHistoryScreen() {
     };
 
     loadCompletedRituals();
-  }, []);
+  }, [rituals]);
 
   const formatDate = (timestamp: number) => {
     return new Date(timestamp).toLocaleDateString('en-US', {

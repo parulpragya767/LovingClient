@@ -1,10 +1,8 @@
-import { apiService } from './api';
 import { Ritual } from '../models/ritual';
 
 // Mock suggestions service - replace logic with backend later
 export const suggestionsService = {
-  async getWeeklyRitualSuggestions(): Promise<Ritual[]> {
-    const rituals = await apiService.getRituals();
+  getWeeklyRitualSuggestions(rituals: Ritual[]): Ritual[] {
     // Simple heuristic: suggest up to 4 non-current rituals with diverse tags
     const nonCurrent = rituals.filter(r => !r.isCurrent);
     const seen = new Set<string>();
