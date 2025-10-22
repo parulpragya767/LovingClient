@@ -1,6 +1,7 @@
 import { LoveTypeInfo } from '../api/models/love-type-info';
 import { useLoveTypes } from '../hooks/useLoveTypes';
-import { LoveType, Ritual } from '../types/data-model';
+import { LoveType } from '../types/data-model';
+import { Ritual } from '../models/ritual';
 import { apiService } from './api';
 
 export const useUserService = () => {

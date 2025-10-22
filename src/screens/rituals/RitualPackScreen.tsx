@@ -4,7 +4,8 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import RitualCard from '@/components/RitualCard';
 import { useCallback, useEffect, useState } from 'react';
 import { apiService } from '@/src/services/api';
-import { Ritual, RitualPack } from '@/src/types/data-model';
+import { Ritual } from '@/src/models/ritual';
+import { RitualPack } from '@/src/types/data-model';
 import { ActivityIndicator, FlatList, View } from 'react-native';
 
 export default function RitualPackScreen() {

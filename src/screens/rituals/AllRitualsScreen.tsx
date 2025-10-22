@@ -1,7 +1,7 @@
 import RitualCard from '@/components/RitualCard';
 import { ThemedText } from '@/components/themed-text';
 import { useRituals } from '@/src/hooks/useRituals';
-import { Ritual } from '@/src/types/data-model';
+import { Ritual, toRitual } from '@/src/models/ritual';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, FlatList, View } from 'react-native';
@@ -19,16 +19,7 @@ export default function AllRitualsScreen() {
     
     return ritualsData
       .filter((ritual) => ritual.status === 'PUBLISHED')
-      .map((r): Ritual => ({
-        id: r.id || '',
-        name: r.title || 'Unnamed Ritual',
-        title: r.title || '',
-        description: r.fullDescription || r.shortDescription || '',
-        howTo: '', // Not available in DTO
-        benefits: '', // Not available in DTO
-        tags: [], // Not available in DTO
-        isCurrent: false
-      }));
+      .map((r) => ({ ...toRitual(r), isCurrent: false, tags: [] as string[] }));
   }, [ritualsData]);
 
   // Apply filtering when tags or rituals change

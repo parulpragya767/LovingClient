@@ -1,6 +1,6 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Ritual } from '@/src/types/data-model';
+import { Ritual } from '@/src/models/ritual';
 import { TouchableOpacity, View } from 'react-native';
 
 interface RitualCardProps {
@@ -23,11 +23,11 @@ export default function RitualCard({ ritual, onPress, onLongPress }: RitualCardP
           {ritual.title}
         </ThemedText>
         <ThemedText className="text-gray-600 mb-3" numberOfLines={2} ellipsizeMode="tail">
-          {ritual.description}
+          {ritual.shortDescription}
         </ThemedText>
         {ritual.tags.length > 0 && (
           <View className="flex-row flex-wrap gap-2">
-            {ritual.tags.slice(0, 3).map((tag) => (
+            {ritual.tags.slice(0, 3).map((tag: string) => (
               <View key={tag} className="bg-blue-50 rounded-full px-3 py-1.5 border border-blue-100">
                 <ThemedText className="text-xs text-blue-700 font-medium">
                   #{tag}

@@ -8,7 +8,7 @@ import { ThemedText } from '@/components/themed-text';
 import RitualCard from '@/components/RitualCard';
 import { suggestionsService } from '@/src/services/suggestions';
 import { userSelections } from '@/src/services/userSelections';
-import { Ritual } from '@/src/types/data-model';
+import { Ritual } from '@/src/models/ritual';
 
 export default function RitualSuggestionsModal() {
   const router = useRouter();

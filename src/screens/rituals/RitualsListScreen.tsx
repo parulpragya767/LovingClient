@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Pressable, ScrollView, TextInput, View } from 'react-native';
 import { apiService } from '@/src/services/api';
-import { Ritual } from '@/src/types/data-model';
+import { Ritual } from '@/src/models/ritual';
 
 interface RitualsListScreenProps {
   showSearchHeader?: boolean;
@@ -45,8 +45,8 @@ export default function RitualsListScreen({
   // Filter rituals based on search query and tags
   const filteredRituals = rituals.filter(ritual => {
     const matchesSearch = searchQuery === '' || 
-      ritual.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (ritual.description && ritual.description.toLowerCase().includes(searchQuery.toLowerCase()));
+      (ritual.title || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (ritual.shortDescription && ritual.shortDescription.toLowerCase().includes(searchQuery.toLowerCase()));
     
     let matchesTags = true;
     if (searchTags) {
@@ -91,11 +91,11 @@ export default function RitualsListScreen({
       <View className="flex-row justify-between items-start">
         <View className="flex-1">
           <ThemedText className="font-semibold text-gray-900 text-lg" numberOfLines={1}>
-            {item.title || item.name}
+            {item.title}
           </ThemedText>
-          {item.description && (
+          {item.shortDescription && (
             <ThemedText className="text-gray-600 text-sm mt-1" numberOfLines={2}>
-              {item.description}
+              {item.shortDescription}
             </ThemedText>
           )}
           {item.tags && item.tags.length > 0 && (

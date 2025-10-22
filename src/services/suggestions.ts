@@ -1,5 +1,5 @@
 import { apiService } from './api';
-import { Ritual } from '../types/data-model';
+import { Ritual } from '../models/ritual';
 
 // Mock suggestions service - replace logic with backend later
 export const suggestionsService = {

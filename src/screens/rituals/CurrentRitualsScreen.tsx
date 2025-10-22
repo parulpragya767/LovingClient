@@ -6,7 +6,8 @@ import { useRitualPacks } from '@/src/hooks/useRitualPacks';
 import { useRituals } from '@/src/hooks/useRituals';
 import { userCurrentOverrides } from '@/src/services/userCurrentOverrides';
 import { userSelections } from '@/src/services/userSelections';
-import { Ritual, RitualPack } from '@/src/types/data-model';
+import { Ritual, toRitual } from '@/src/models/ritual';
+import { RitualPack } from '@/src/types/data-model';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useMemo, useRef, useState } from 'react';
@@ -31,17 +32,8 @@ export default function CurrentRitualsScreen() {
     
     // Map RitualDTO to Ritual
     const currentRituals = ritualsData
-      .filter((ritual) => ritual.status === 'PUBLISHED') // Filter published rituals
-      .map((r): Ritual => ({
-        id: r.id || '',
-        name: r.title || 'Unnamed Ritual',
-        title: r.title || '',
-        description: r.fullDescription || r.shortDescription || '',
-        howTo: '', // Not available in DTO
-        benefits: '', // Not available in DTO
-        tags: [], // Not available in DTO
-        isCurrent: true // Assuming all returned rituals are current for now
-      }));
+      .filter((ritual) => ritual.status === 'PUBLISHED')
+      .map((r) => ({ ...toRitual(r), isCurrent: true, tags: [] as string[] }));
       
     // Populate the byId map
     currentRituals.forEach(r => {
@@ -63,7 +55,7 @@ export default function CurrentRitualsScreen() {
         title: p.title || 'Unnamed Pack',
         description: p.fullDescription || p.shortDescription || '',
         tags: [], // Not available in DTO
-        ritualIds: p.ritualIds || [],
+        ritualIds: (p.rituals || []).map(r => r.id || '').filter(Boolean),
         isCurrent: true // Assuming all returned packs are current for now
       }));
   }, [packsData]);

@@ -1,7 +1,7 @@
 import { ThemedText } from '@/components/themed-text';
 import { apiService } from '@/src/services/api';
 import { userCurrentOverrides } from '@/src/services/userCurrentOverrides';
-import { Ritual } from '@/src/types/data-model';
+import { Ritual } from '@/src/models/ritual';
 import { useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
 
