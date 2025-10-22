@@ -1,40 +1,18 @@
-import { RitualControllerApi } from '../api/apis/ritual-controller-api';
-import { RitualDTO } from '../api/models/ritual-dto';
-import { Ritual } from '../types/data-model';
-
-const ritualApi = new RitualControllerApi();
+import { Ritual, toRitual } from '@/src/models/ritual';
+import { ritualService } from '@/src/services/ritualService';
 
 export const apiService = {
   async getRituals(): Promise<Ritual[]> {
     console.log('Fetching rituals from backend...');
-    const response = await ritualApi.getAll();
-    return response.data.map((r: RitualDTO): Ritual => ({
-      id: r.id || '',
-      name: r.title || 'Unnamed Ritual',
-      title: r.title || '',
-      description: r.fullDescription || r.shortDescription || '',
-      howTo: '',
-      benefits: '',
-      tags: [],
-      isCurrent: false
-    }));
+    const response = await ritualService.getAll();
+    return response.map(toRitual);
   },
 
   async getRitualById(id: string): Promise<Ritual | undefined> {
     console.log(`Fetching ritual with id: ${id} from backend...`);
     try {
-      const response = await ritualApi.getById({ id });
-      const r = response.data;
-      return {
-        id: r.id || '',
-        name: r.title || 'Unnamed Ritual',
-        title: r.title || '',
-        description: r.fullDescription || r.shortDescription || '',
-        howTo: '',
-        benefits: '',
-        tags: [],
-        isCurrent: false
-      };
+      const response = await ritualService.getById(id);
+      return toRitual(response);
     } catch (error) {
       console.error(`Error fetching ritual ${id}:`, error);
       return undefined;
