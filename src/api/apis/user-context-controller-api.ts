@@ -66,115 +66,10 @@ export const UserContextControllerApiAxiosParamCreator = function (configuration
         },
         /**
          * 
-         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteUserContext: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('deleteUserContext', 'id', id)
-            const localVarPath = `/api/user-contexts/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} userId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getActiveUserContext: async (userId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userId' is not null or undefined
-            assertParamExists('getActiveUserContext', 'userId', userId)
-            const localVarPath = `/api/user-contexts/active`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (userId !== undefined) {
-                localVarQueryParameter['userId'] = userId;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getUserContext: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('getUserContext', 'id', id)
-            const localVarPath = `/api/user-contexts/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} userId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getUserContexts: async (userId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userId' is not null or undefined
-            assertParamExists('getUserContexts', 'userId', userId)
+        getUserContexts: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/user-contexts`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -187,54 +82,11 @@ export const UserContextControllerApiAxiosParamCreator = function (configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (userId !== undefined) {
-                localVarQueryParameter['userId'] = userId;
-            }
-
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {UserContextDTO} userContextDTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateUserContext: async (id: string, userContextDTO: UserContextDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateUserContext', 'id', id)
-            // verify required parameter 'userContextDTO' is not null or undefined
-            assertParamExists('updateUserContext', 'userContextDTO', userContextDTO)
-            const localVarPath = `/api/user-contexts/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(userContextDTO, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -265,63 +117,13 @@ export const UserContextControllerApiFp = function(configuration?: Configuration
         },
         /**
          * 
-         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteUserContext(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteUserContext(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserContextControllerApi.deleteUserContext']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} userId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getActiveUserContext(userId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserContextDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getActiveUserContext(userId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserContextControllerApi.getActiveUserContext']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getUserContext(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserContextDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserContext(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserContextControllerApi.getUserContext']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} userId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getUserContexts(userId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<UserContextDTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserContexts(userId, options);
+        async getUserContexts(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<UserContextDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserContexts(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserContextControllerApi.getUserContexts']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {UserContextDTO} userContextDTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async updateUserContext(id: string, userContextDTO: UserContextDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserContextDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUserContext(id, userContextDTO, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserContextControllerApi.updateUserContext']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -345,48 +147,11 @@ export const UserContextControllerApiFactory = function (configuration?: Configu
         },
         /**
          * 
-         * @param {UserContextControllerApiDeleteUserContextRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteUserContext(requestParameters: UserContextControllerApiDeleteUserContextRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.deleteUserContext(requestParameters.id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {UserContextControllerApiGetActiveUserContextRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getActiveUserContext(requestParameters: UserContextControllerApiGetActiveUserContextRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserContextDTO> {
-            return localVarFp.getActiveUserContext(requestParameters.userId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {UserContextControllerApiGetUserContextRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getUserContext(requestParameters: UserContextControllerApiGetUserContextRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserContextDTO> {
-            return localVarFp.getUserContext(requestParameters.id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {UserContextControllerApiGetUserContextsRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getUserContexts(requestParameters: UserContextControllerApiGetUserContextsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<UserContextDTO>> {
-            return localVarFp.getUserContexts(requestParameters.userId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {UserContextControllerApiUpdateUserContextRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateUserContext(requestParameters: UserContextControllerApiUpdateUserContextRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserContextDTO> {
-            return localVarFp.updateUserContext(requestParameters.id, requestParameters.userContextDTO, options).then((request) => request(axios, basePath));
+        getUserContexts(options?: RawAxiosRequestConfig): AxiosPromise<Array<UserContextDTO>> {
+            return localVarFp.getUserContexts(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -408,48 +173,11 @@ export interface UserContextControllerApiInterface {
 
     /**
      * 
-     * @param {UserContextControllerApiDeleteUserContextRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserContextControllerApiInterface
      */
-    deleteUserContext(requestParameters: UserContextControllerApiDeleteUserContextRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
-
-    /**
-     * 
-     * @param {UserContextControllerApiGetActiveUserContextRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserContextControllerApiInterface
-     */
-    getActiveUserContext(requestParameters: UserContextControllerApiGetActiveUserContextRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserContextDTO>;
-
-    /**
-     * 
-     * @param {UserContextControllerApiGetUserContextRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserContextControllerApiInterface
-     */
-    getUserContext(requestParameters: UserContextControllerApiGetUserContextRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserContextDTO>;
-
-    /**
-     * 
-     * @param {UserContextControllerApiGetUserContextsRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserContextControllerApiInterface
-     */
-    getUserContexts(requestParameters: UserContextControllerApiGetUserContextsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<UserContextDTO>>;
-
-    /**
-     * 
-     * @param {UserContextControllerApiUpdateUserContextRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserContextControllerApiInterface
-     */
-    updateUserContext(requestParameters: UserContextControllerApiUpdateUserContextRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserContextDTO>;
+    getUserContexts(options?: RawAxiosRequestConfig): AxiosPromise<Array<UserContextDTO>>;
 
 }
 
@@ -463,83 +191,6 @@ export interface UserContextControllerApiCreateUserContextRequest {
      * 
      * @type {UserContextDTO}
      * @memberof UserContextControllerApiCreateUserContext
-     */
-    readonly userContextDTO: UserContextDTO
-}
-
-/**
- * Request parameters for deleteUserContext operation in UserContextControllerApi.
- * @export
- * @interface UserContextControllerApiDeleteUserContextRequest
- */
-export interface UserContextControllerApiDeleteUserContextRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserContextControllerApiDeleteUserContext
-     */
-    readonly id: string
-}
-
-/**
- * Request parameters for getActiveUserContext operation in UserContextControllerApi.
- * @export
- * @interface UserContextControllerApiGetActiveUserContextRequest
- */
-export interface UserContextControllerApiGetActiveUserContextRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserContextControllerApiGetActiveUserContext
-     */
-    readonly userId: string
-}
-
-/**
- * Request parameters for getUserContext operation in UserContextControllerApi.
- * @export
- * @interface UserContextControllerApiGetUserContextRequest
- */
-export interface UserContextControllerApiGetUserContextRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserContextControllerApiGetUserContext
-     */
-    readonly id: string
-}
-
-/**
- * Request parameters for getUserContexts operation in UserContextControllerApi.
- * @export
- * @interface UserContextControllerApiGetUserContextsRequest
- */
-export interface UserContextControllerApiGetUserContextsRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserContextControllerApiGetUserContexts
-     */
-    readonly userId: string
-}
-
-/**
- * Request parameters for updateUserContext operation in UserContextControllerApi.
- * @export
- * @interface UserContextControllerApiUpdateUserContextRequest
- */
-export interface UserContextControllerApiUpdateUserContextRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserContextControllerApiUpdateUserContext
-     */
-    readonly id: string
-
-    /**
-     * 
-     * @type {UserContextDTO}
-     * @memberof UserContextControllerApiUpdateUserContext
      */
     readonly userContextDTO: UserContextDTO
 }
@@ -564,57 +215,12 @@ export class UserContextControllerApi extends BaseAPI implements UserContextCont
 
     /**
      * 
-     * @param {UserContextControllerApiDeleteUserContextRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserContextControllerApi
      */
-    public deleteUserContext(requestParameters: UserContextControllerApiDeleteUserContextRequest, options?: RawAxiosRequestConfig) {
-        return UserContextControllerApiFp(this.configuration).deleteUserContext(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {UserContextControllerApiGetActiveUserContextRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserContextControllerApi
-     */
-    public getActiveUserContext(requestParameters: UserContextControllerApiGetActiveUserContextRequest, options?: RawAxiosRequestConfig) {
-        return UserContextControllerApiFp(this.configuration).getActiveUserContext(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {UserContextControllerApiGetUserContextRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserContextControllerApi
-     */
-    public getUserContext(requestParameters: UserContextControllerApiGetUserContextRequest, options?: RawAxiosRequestConfig) {
-        return UserContextControllerApiFp(this.configuration).getUserContext(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {UserContextControllerApiGetUserContextsRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserContextControllerApi
-     */
-    public getUserContexts(requestParameters: UserContextControllerApiGetUserContextsRequest, options?: RawAxiosRequestConfig) {
-        return UserContextControllerApiFp(this.configuration).getUserContexts(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {UserContextControllerApiUpdateUserContextRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserContextControllerApi
-     */
-    public updateUserContext(requestParameters: UserContextControllerApiUpdateUserContextRequest, options?: RawAxiosRequestConfig) {
-        return UserContextControllerApiFp(this.configuration).updateUserContext(requestParameters.id, requestParameters.userContextDTO, options).then((request) => request(this.axios, this.basePath));
+    public getUserContexts(options?: RawAxiosRequestConfig) {
+        return UserContextControllerApiFp(this.configuration).getUserContexts(options).then((request) => request(this.axios, this.basePath));
     }
 }
 

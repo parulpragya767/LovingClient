@@ -1,21 +1,21 @@
-# SendMessageRequest
+# RitualStatusUpdate
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**content** | **string** |  | [optional] [default to undefined]
-**readyForRitualSuggestion** | **boolean** |  | [optional] [default to undefined]
+**ritualHistoryId** | **string** |  | [default to undefined]
+**status** | **string** |  | [default to undefined]
 
 ## Example
 
 ```typescript
-import { SendMessageRequest } from './api';
+import { RitualStatusUpdate } from './api';
 
-const instance: SendMessageRequest = {
-    content,
-    readyForRitualSuggestion,
+const instance: RitualStatusUpdate = {
+    ritualHistoryId,
+    status,
 };
 ```
 

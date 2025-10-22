@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **sessionId** | **string** |  | [optional] [default to undefined]
-**conversationId** | **string** |  | [optional] [default to undefined]
+**conversationTitle** | **string** |  | [optional] [default to undefined]
 **messages** | [**Array&lt;ChatMessageDTO&gt;**](ChatMessageDTO.md) |  | [optional] [default to undefined]
 
 ## Example
@@ -16,7 +16,7 @@ import { StartSessionResponse } from './api';
 
 const instance: StartSessionResponse = {
     sessionId,
-    conversationId,
+    conversationTitle,
     messages,
 };
 ```

@@ -26,5 +26,11 @@ export interface SendMessageRequest {
      * @memberof SendMessageRequest
      */
     'content'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SendMessageRequest
+     */
+    'readyForRitualSuggestion'?: boolean;
 }
 

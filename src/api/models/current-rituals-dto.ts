@@ -15,7 +15,10 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { ChatMessageDTO } from './chat-message-dto';
+import type { RitualDTO } from './ritual-dto';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { RitualHistoryDTO } from './ritual-history-dto';
 // May contain unused imports in some cases
 // @ts-ignore
 import type { RitualPackDTO } from './ritual-pack-dto';
@@ -23,26 +26,26 @@ import type { RitualPackDTO } from './ritual-pack-dto';
 /**
  * 
  * @export
- * @interface SendMessageResponse
+ * @interface CurrentRitualsDTO
  */
-export interface SendMessageResponse {
+export interface CurrentRitualsDTO {
     /**
      * 
-     * @type {ChatMessageDTO}
-     * @memberof SendMessageResponse
+     * @type {Array<RitualHistoryDTO>}
+     * @memberof CurrentRitualsDTO
      */
-    'assistantMessage'?: ChatMessageDTO;
+    'ritualHistory'?: Array<RitualHistoryDTO>;
     /**
      * 
-     * @type {RitualPackDTO}
-     * @memberof SendMessageResponse
+     * @type {Array<RitualPackDTO>}
+     * @memberof CurrentRitualsDTO
      */
-    'recommendedRitualPack'?: RitualPackDTO;
+    'ritualPacks'?: Array<RitualPackDTO>;
     /**
      * 
-     * @type {boolean}
-     * @memberof SendMessageResponse
+     * @type {Array<RitualDTO>}
+     * @memberof CurrentRitualsDTO
      */
-    'readyForRitualSuggestion'?: boolean;
+    'rituals'?: Array<RitualDTO>;
 }
 

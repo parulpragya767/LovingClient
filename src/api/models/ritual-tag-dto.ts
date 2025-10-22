@@ -13,30 +13,33 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { TagValueDTO } from './tag-value-dto';
 
 /**
  * 
  * @export
- * @interface StartSessionRequest
+ * @interface RitualTagDTO
  */
-export interface StartSessionRequest {
+export interface RitualTagDTO {
     /**
      * 
      * @type {string}
-     * @memberof StartSessionRequest
+     * @memberof RitualTagDTO
      */
-    'userId'?: string;
+    'displayName'?: string;
     /**
      * 
-     * @type {string}
-     * @memberof StartSessionRequest
+     * @type {number}
+     * @memberof RitualTagDTO
      */
-    'sessionId'?: string;
+    'position'?: number;
     /**
      * 
-     * @type {string}
-     * @memberof StartSessionRequest
+     * @type {Array<TagValueDTO>}
+     * @memberof RitualTagDTO
      */
-    'conversationTitle'?: string;
+    'values'?: Array<TagValueDTO>;
 }
 

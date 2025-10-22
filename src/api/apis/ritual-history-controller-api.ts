@@ -22,7 +22,13 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
+import type { BulkRitualHistoryStatusUpdateRequest } from '../models';
+// @ts-ignore
+import type { CurrentRitualsDTO } from '../models';
+// @ts-ignore
 import type { RitualHistoryDTO } from '../models';
+// @ts-ignore
+import type { RitualHistoryStatusUpdateRequest } from '../models';
 /**
  * RitualHistoryControllerApi - axios parameter creator
  * @export
@@ -31,14 +37,47 @@ export const RitualHistoryControllerApiAxiosParamCreator = function (configurati
     return {
         /**
          * 
-         * @param {RitualHistoryDTO} ritualHistoryDTO 
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        create2: async (ritualHistoryDTO: RitualHistoryDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        _delete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('_delete', 'id', id)
+            const localVarPath = `/api/ritual-history/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {Array<RitualHistoryDTO>} ritualHistoryDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        bulkCreate: async (ritualHistoryDTO: Array<RitualHistoryDTO>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'ritualHistoryDTO' is not null or undefined
-            assertParamExists('create2', 'ritualHistoryDTO', ritualHistoryDTO)
-            const localVarPath = `/api/ritual-histories`;
+            assertParamExists('bulkCreate', 'ritualHistoryDTO', ritualHistoryDTO)
+            const localVarPath = `/api/ritual-history/bulk`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -66,14 +105,52 @@ export const RitualHistoryControllerApiAxiosParamCreator = function (configurati
         },
         /**
          * 
-         * @param {string} id 
+         * @param {BulkRitualHistoryStatusUpdateRequest} bulkRitualHistoryStatusUpdateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        delete2: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        bulkUpdateStatus: async (bulkRitualHistoryStatusUpdateRequest: BulkRitualHistoryStatusUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'bulkRitualHistoryStatusUpdateRequest' is not null or undefined
+            assertParamExists('bulkUpdateStatus', 'bulkRitualHistoryStatusUpdateRequest', bulkRitualHistoryStatusUpdateRequest)
+            const localVarPath = `/api/ritual-history/bulk/status`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(bulkRitualHistoryStatusUpdateRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {RitualHistoryStatusUpdateRequest} ritualHistoryStatusUpdateRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        complete: async (id: string, ritualHistoryStatusUpdateRequest: RitualHistoryStatusUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('delete2', 'id', id)
-            const localVarPath = `/api/ritual-histories/{id}`
+            assertParamExists('complete', 'id', id)
+            // verify required parameter 'ritualHistoryStatusUpdateRequest' is not null or undefined
+            assertParamExists('complete', 'ritualHistoryStatusUpdateRequest', ritualHistoryStatusUpdateRequest)
+            const localVarPath = `/api/ritual-history/{id}/complete`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -82,15 +159,18 @@ export const RitualHistoryControllerApiAxiosParamCreator = function (configurati
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(ritualHistoryStatusUpdateRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -99,89 +179,110 @@ export const RitualHistoryControllerApiAxiosParamCreator = function (configurati
         },
         /**
          * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getById2: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('getById2', 'id', id)
-            const localVarPath = `/api/ritual-histories/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} [userId] 
-         * @param {string} [ritualId] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        list: async (userId?: string, ritualId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/ritual-histories`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (userId !== undefined) {
-                localVarQueryParameter['userId'] = userId;
-            }
-
-            if (ritualId !== undefined) {
-                localVarQueryParameter['ritualId'] = ritualId;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
          * @param {RitualHistoryDTO} ritualHistoryDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        update2: async (id: string, ritualHistoryDTO: RitualHistoryDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('update2', 'id', id)
+        create: async (ritualHistoryDTO: RitualHistoryDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'ritualHistoryDTO' is not null or undefined
-            assertParamExists('update2', 'ritualHistoryDTO', ritualHistoryDTO)
-            const localVarPath = `/api/ritual-histories/{id}`
+            assertParamExists('create', 'ritualHistoryDTO', ritualHistoryDTO)
+            const localVarPath = `/api/ritual-history`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(ritualHistoryDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        list: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/ritual-history`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listCurrent: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/ritual-history/current`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {RitualHistoryStatusUpdateRequest} ritualHistoryStatusUpdateRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateStatus: async (id: string, ritualHistoryStatusUpdateRequest: RitualHistoryStatusUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updateStatus', 'id', id)
+            // verify required parameter 'ritualHistoryStatusUpdateRequest' is not null or undefined
+            assertParamExists('updateStatus', 'ritualHistoryStatusUpdateRequest', ritualHistoryStatusUpdateRequest)
+            const localVarPath = `/api/ritual-history/{id}/status`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -201,7 +302,7 @@ export const RitualHistoryControllerApiAxiosParamCreator = function (configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(ritualHistoryDTO, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(ritualHistoryStatusUpdateRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -220,64 +321,98 @@ export const RitualHistoryControllerApiFp = function(configuration?: Configurati
     return {
         /**
          * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async _delete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator._delete(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RitualHistoryControllerApi._delete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {Array<RitualHistoryDTO>} ritualHistoryDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async bulkCreate(ritualHistoryDTO: Array<RitualHistoryDTO>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<RitualHistoryDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.bulkCreate(ritualHistoryDTO, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RitualHistoryControllerApi.bulkCreate']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {BulkRitualHistoryStatusUpdateRequest} bulkRitualHistoryStatusUpdateRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async bulkUpdateStatus(bulkRitualHistoryStatusUpdateRequest: BulkRitualHistoryStatusUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<RitualHistoryDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.bulkUpdateStatus(bulkRitualHistoryStatusUpdateRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RitualHistoryControllerApi.bulkUpdateStatus']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {RitualHistoryStatusUpdateRequest} ritualHistoryStatusUpdateRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async complete(id: string, ritualHistoryStatusUpdateRequest: RitualHistoryStatusUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualHistoryDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.complete(id, ritualHistoryStatusUpdateRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RitualHistoryControllerApi.complete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {RitualHistoryDTO} ritualHistoryDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async create2(ritualHistoryDTO: RitualHistoryDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualHistoryDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.create2(ritualHistoryDTO, options);
+        async create(ritualHistoryDTO: RitualHistoryDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualHistoryDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.create(ritualHistoryDTO, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['RitualHistoryControllerApi.create2']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['RitualHistoryControllerApi.create']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
-         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async delete2(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.delete2(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['RitualHistoryControllerApi.delete2']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getById2(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualHistoryDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getById2(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['RitualHistoryControllerApi.getById2']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} [userId] 
-         * @param {string} [ritualId] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async list(userId?: string, ritualId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<RitualHistoryDTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.list(userId, ritualId, options);
+        async list(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<RitualHistoryDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.list(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RitualHistoryControllerApi.list']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
-         * @param {string} id 
-         * @param {RitualHistoryDTO} ritualHistoryDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async update2(id: string, ritualHistoryDTO: RitualHistoryDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualHistoryDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.update2(id, ritualHistoryDTO, options);
+        async listCurrent(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CurrentRitualsDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listCurrent(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['RitualHistoryControllerApi.update2']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['RitualHistoryControllerApi.listCurrent']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {RitualHistoryStatusUpdateRequest} ritualHistoryStatusUpdateRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateStatus(id: string, ritualHistoryStatusUpdateRequest: RitualHistoryStatusUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualHistoryDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateStatus(id, ritualHistoryStatusUpdateRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RitualHistoryControllerApi.updateStatus']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -292,48 +427,73 @@ export const RitualHistoryControllerApiFactory = function (configuration?: Confi
     return {
         /**
          * 
-         * @param {RitualHistoryControllerApiCreate2Request} requestParameters Request parameters.
+         * @param {RitualHistoryControllerApiDeleteRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        create2(requestParameters: RitualHistoryControllerApiCreate2Request, options?: RawAxiosRequestConfig): AxiosPromise<RitualHistoryDTO> {
-            return localVarFp.create2(requestParameters.ritualHistoryDTO, options).then((request) => request(axios, basePath));
+        _delete(requestParameters: RitualHistoryControllerApiDeleteRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp._delete(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {RitualHistoryControllerApiDelete2Request} requestParameters Request parameters.
+         * @param {RitualHistoryControllerApiBulkCreateRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        delete2(requestParameters: RitualHistoryControllerApiDelete2Request, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.delete2(requestParameters.id, options).then((request) => request(axios, basePath));
+        bulkCreate(requestParameters: RitualHistoryControllerApiBulkCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<RitualHistoryDTO>> {
+            return localVarFp.bulkCreate(requestParameters.ritualHistoryDTO, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {RitualHistoryControllerApiGetById2Request} requestParameters Request parameters.
+         * @param {RitualHistoryControllerApiBulkUpdateStatusRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getById2(requestParameters: RitualHistoryControllerApiGetById2Request, options?: RawAxiosRequestConfig): AxiosPromise<RitualHistoryDTO> {
-            return localVarFp.getById2(requestParameters.id, options).then((request) => request(axios, basePath));
+        bulkUpdateStatus(requestParameters: RitualHistoryControllerApiBulkUpdateStatusRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<RitualHistoryDTO>> {
+            return localVarFp.bulkUpdateStatus(requestParameters.bulkRitualHistoryStatusUpdateRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {RitualHistoryControllerApiListRequest} requestParameters Request parameters.
+         * @param {RitualHistoryControllerApiCompleteRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        list(requestParameters: RitualHistoryControllerApiListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<RitualHistoryDTO>> {
-            return localVarFp.list(requestParameters.userId, requestParameters.ritualId, options).then((request) => request(axios, basePath));
+        complete(requestParameters: RitualHistoryControllerApiCompleteRequest, options?: RawAxiosRequestConfig): AxiosPromise<RitualHistoryDTO> {
+            return localVarFp.complete(requestParameters.id, requestParameters.ritualHistoryStatusUpdateRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {RitualHistoryControllerApiUpdate2Request} requestParameters Request parameters.
+         * @param {RitualHistoryControllerApiCreateRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        update2(requestParameters: RitualHistoryControllerApiUpdate2Request, options?: RawAxiosRequestConfig): AxiosPromise<RitualHistoryDTO> {
-            return localVarFp.update2(requestParameters.id, requestParameters.ritualHistoryDTO, options).then((request) => request(axios, basePath));
+        create(requestParameters: RitualHistoryControllerApiCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<RitualHistoryDTO> {
+            return localVarFp.create(requestParameters.ritualHistoryDTO, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        list(options?: RawAxiosRequestConfig): AxiosPromise<Array<RitualHistoryDTO>> {
+            return localVarFp.list(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listCurrent(options?: RawAxiosRequestConfig): AxiosPromise<CurrentRitualsDTO> {
+            return localVarFp.listCurrent(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {RitualHistoryControllerApiUpdateStatusRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateStatus(requestParameters: RitualHistoryControllerApiUpdateStatusRequest, options?: RawAxiosRequestConfig): AxiosPromise<RitualHistoryDTO> {
+            return localVarFp.updateStatus(requestParameters.id, requestParameters.ritualHistoryStatusUpdateRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -346,133 +506,172 @@ export const RitualHistoryControllerApiFactory = function (configuration?: Confi
 export interface RitualHistoryControllerApiInterface {
     /**
      * 
-     * @param {RitualHistoryControllerApiCreate2Request} requestParameters Request parameters.
+     * @param {RitualHistoryControllerApiDeleteRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RitualHistoryControllerApiInterface
      */
-    create2(requestParameters: RitualHistoryControllerApiCreate2Request, options?: RawAxiosRequestConfig): AxiosPromise<RitualHistoryDTO>;
+    _delete(requestParameters: RitualHistoryControllerApiDeleteRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
     /**
      * 
-     * @param {RitualHistoryControllerApiDelete2Request} requestParameters Request parameters.
+     * @param {RitualHistoryControllerApiBulkCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RitualHistoryControllerApiInterface
      */
-    delete2(requestParameters: RitualHistoryControllerApiDelete2Request, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    bulkCreate(requestParameters: RitualHistoryControllerApiBulkCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<RitualHistoryDTO>>;
 
     /**
      * 
-     * @param {RitualHistoryControllerApiGetById2Request} requestParameters Request parameters.
+     * @param {RitualHistoryControllerApiBulkUpdateStatusRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RitualHistoryControllerApiInterface
      */
-    getById2(requestParameters: RitualHistoryControllerApiGetById2Request, options?: RawAxiosRequestConfig): AxiosPromise<RitualHistoryDTO>;
+    bulkUpdateStatus(requestParameters: RitualHistoryControllerApiBulkUpdateStatusRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<RitualHistoryDTO>>;
 
     /**
      * 
-     * @param {RitualHistoryControllerApiListRequest} requestParameters Request parameters.
+     * @param {RitualHistoryControllerApiCompleteRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RitualHistoryControllerApiInterface
      */
-    list(requestParameters?: RitualHistoryControllerApiListRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<RitualHistoryDTO>>;
+    complete(requestParameters: RitualHistoryControllerApiCompleteRequest, options?: RawAxiosRequestConfig): AxiosPromise<RitualHistoryDTO>;
 
     /**
      * 
-     * @param {RitualHistoryControllerApiUpdate2Request} requestParameters Request parameters.
+     * @param {RitualHistoryControllerApiCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RitualHistoryControllerApiInterface
      */
-    update2(requestParameters: RitualHistoryControllerApiUpdate2Request, options?: RawAxiosRequestConfig): AxiosPromise<RitualHistoryDTO>;
+    create(requestParameters: RitualHistoryControllerApiCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<RitualHistoryDTO>;
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RitualHistoryControllerApiInterface
+     */
+    list(options?: RawAxiosRequestConfig): AxiosPromise<Array<RitualHistoryDTO>>;
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RitualHistoryControllerApiInterface
+     */
+    listCurrent(options?: RawAxiosRequestConfig): AxiosPromise<CurrentRitualsDTO>;
+
+    /**
+     * 
+     * @param {RitualHistoryControllerApiUpdateStatusRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RitualHistoryControllerApiInterface
+     */
+    updateStatus(requestParameters: RitualHistoryControllerApiUpdateStatusRequest, options?: RawAxiosRequestConfig): AxiosPromise<RitualHistoryDTO>;
 
 }
 
 /**
- * Request parameters for create2 operation in RitualHistoryControllerApi.
+ * Request parameters for _delete operation in RitualHistoryControllerApi.
  * @export
- * @interface RitualHistoryControllerApiCreate2Request
+ * @interface RitualHistoryControllerApiDeleteRequest
  */
-export interface RitualHistoryControllerApiCreate2Request {
+export interface RitualHistoryControllerApiDeleteRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof RitualHistoryControllerApiDelete
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for bulkCreate operation in RitualHistoryControllerApi.
+ * @export
+ * @interface RitualHistoryControllerApiBulkCreateRequest
+ */
+export interface RitualHistoryControllerApiBulkCreateRequest {
+    /**
+     * 
+     * @type {Array<RitualHistoryDTO>}
+     * @memberof RitualHistoryControllerApiBulkCreate
+     */
+    readonly ritualHistoryDTO: Array<RitualHistoryDTO>
+}
+
+/**
+ * Request parameters for bulkUpdateStatus operation in RitualHistoryControllerApi.
+ * @export
+ * @interface RitualHistoryControllerApiBulkUpdateStatusRequest
+ */
+export interface RitualHistoryControllerApiBulkUpdateStatusRequest {
+    /**
+     * 
+     * @type {BulkRitualHistoryStatusUpdateRequest}
+     * @memberof RitualHistoryControllerApiBulkUpdateStatus
+     */
+    readonly bulkRitualHistoryStatusUpdateRequest: BulkRitualHistoryStatusUpdateRequest
+}
+
+/**
+ * Request parameters for complete operation in RitualHistoryControllerApi.
+ * @export
+ * @interface RitualHistoryControllerApiCompleteRequest
+ */
+export interface RitualHistoryControllerApiCompleteRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof RitualHistoryControllerApiComplete
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {RitualHistoryStatusUpdateRequest}
+     * @memberof RitualHistoryControllerApiComplete
+     */
+    readonly ritualHistoryStatusUpdateRequest: RitualHistoryStatusUpdateRequest
+}
+
+/**
+ * Request parameters for create operation in RitualHistoryControllerApi.
+ * @export
+ * @interface RitualHistoryControllerApiCreateRequest
+ */
+export interface RitualHistoryControllerApiCreateRequest {
     /**
      * 
      * @type {RitualHistoryDTO}
-     * @memberof RitualHistoryControllerApiCreate2
+     * @memberof RitualHistoryControllerApiCreate
      */
     readonly ritualHistoryDTO: RitualHistoryDTO
 }
 
 /**
- * Request parameters for delete2 operation in RitualHistoryControllerApi.
+ * Request parameters for updateStatus operation in RitualHistoryControllerApi.
  * @export
- * @interface RitualHistoryControllerApiDelete2Request
+ * @interface RitualHistoryControllerApiUpdateStatusRequest
  */
-export interface RitualHistoryControllerApiDelete2Request {
+export interface RitualHistoryControllerApiUpdateStatusRequest {
     /**
      * 
      * @type {string}
-     * @memberof RitualHistoryControllerApiDelete2
-     */
-    readonly id: string
-}
-
-/**
- * Request parameters for getById2 operation in RitualHistoryControllerApi.
- * @export
- * @interface RitualHistoryControllerApiGetById2Request
- */
-export interface RitualHistoryControllerApiGetById2Request {
-    /**
-     * 
-     * @type {string}
-     * @memberof RitualHistoryControllerApiGetById2
-     */
-    readonly id: string
-}
-
-/**
- * Request parameters for list operation in RitualHistoryControllerApi.
- * @export
- * @interface RitualHistoryControllerApiListRequest
- */
-export interface RitualHistoryControllerApiListRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof RitualHistoryControllerApiList
-     */
-    readonly userId?: string
-
-    /**
-     * 
-     * @type {string}
-     * @memberof RitualHistoryControllerApiList
-     */
-    readonly ritualId?: string
-}
-
-/**
- * Request parameters for update2 operation in RitualHistoryControllerApi.
- * @export
- * @interface RitualHistoryControllerApiUpdate2Request
- */
-export interface RitualHistoryControllerApiUpdate2Request {
-    /**
-     * 
-     * @type {string}
-     * @memberof RitualHistoryControllerApiUpdate2
+     * @memberof RitualHistoryControllerApiUpdateStatus
      */
     readonly id: string
 
     /**
      * 
-     * @type {RitualHistoryDTO}
-     * @memberof RitualHistoryControllerApiUpdate2
+     * @type {RitualHistoryStatusUpdateRequest}
+     * @memberof RitualHistoryControllerApiUpdateStatus
      */
-    readonly ritualHistoryDTO: RitualHistoryDTO
+    readonly ritualHistoryStatusUpdateRequest: RitualHistoryStatusUpdateRequest
 }
 
 /**
@@ -484,57 +683,88 @@ export interface RitualHistoryControllerApiUpdate2Request {
 export class RitualHistoryControllerApi extends BaseAPI implements RitualHistoryControllerApiInterface {
     /**
      * 
-     * @param {RitualHistoryControllerApiCreate2Request} requestParameters Request parameters.
+     * @param {RitualHistoryControllerApiDeleteRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RitualHistoryControllerApi
      */
-    public create2(requestParameters: RitualHistoryControllerApiCreate2Request, options?: RawAxiosRequestConfig) {
-        return RitualHistoryControllerApiFp(this.configuration).create2(requestParameters.ritualHistoryDTO, options).then((request) => request(this.axios, this.basePath));
+    public _delete(requestParameters: RitualHistoryControllerApiDeleteRequest, options?: RawAxiosRequestConfig) {
+        return RitualHistoryControllerApiFp(this.configuration)._delete(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {RitualHistoryControllerApiDelete2Request} requestParameters Request parameters.
+     * @param {RitualHistoryControllerApiBulkCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RitualHistoryControllerApi
      */
-    public delete2(requestParameters: RitualHistoryControllerApiDelete2Request, options?: RawAxiosRequestConfig) {
-        return RitualHistoryControllerApiFp(this.configuration).delete2(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public bulkCreate(requestParameters: RitualHistoryControllerApiBulkCreateRequest, options?: RawAxiosRequestConfig) {
+        return RitualHistoryControllerApiFp(this.configuration).bulkCreate(requestParameters.ritualHistoryDTO, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {RitualHistoryControllerApiGetById2Request} requestParameters Request parameters.
+     * @param {RitualHistoryControllerApiBulkUpdateStatusRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RitualHistoryControllerApi
      */
-    public getById2(requestParameters: RitualHistoryControllerApiGetById2Request, options?: RawAxiosRequestConfig) {
-        return RitualHistoryControllerApiFp(this.configuration).getById2(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public bulkUpdateStatus(requestParameters: RitualHistoryControllerApiBulkUpdateStatusRequest, options?: RawAxiosRequestConfig) {
+        return RitualHistoryControllerApiFp(this.configuration).bulkUpdateStatus(requestParameters.bulkRitualHistoryStatusUpdateRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {RitualHistoryControllerApiListRequest} requestParameters Request parameters.
+     * @param {RitualHistoryControllerApiCompleteRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RitualHistoryControllerApi
      */
-    public list(requestParameters: RitualHistoryControllerApiListRequest = {}, options?: RawAxiosRequestConfig) {
-        return RitualHistoryControllerApiFp(this.configuration).list(requestParameters.userId, requestParameters.ritualId, options).then((request) => request(this.axios, this.basePath));
+    public complete(requestParameters: RitualHistoryControllerApiCompleteRequest, options?: RawAxiosRequestConfig) {
+        return RitualHistoryControllerApiFp(this.configuration).complete(requestParameters.id, requestParameters.ritualHistoryStatusUpdateRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {RitualHistoryControllerApiUpdate2Request} requestParameters Request parameters.
+     * @param {RitualHistoryControllerApiCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RitualHistoryControllerApi
      */
-    public update2(requestParameters: RitualHistoryControllerApiUpdate2Request, options?: RawAxiosRequestConfig) {
-        return RitualHistoryControllerApiFp(this.configuration).update2(requestParameters.id, requestParameters.ritualHistoryDTO, options).then((request) => request(this.axios, this.basePath));
+    public create(requestParameters: RitualHistoryControllerApiCreateRequest, options?: RawAxiosRequestConfig) {
+        return RitualHistoryControllerApiFp(this.configuration).create(requestParameters.ritualHistoryDTO, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RitualHistoryControllerApi
+     */
+    public list(options?: RawAxiosRequestConfig) {
+        return RitualHistoryControllerApiFp(this.configuration).list(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RitualHistoryControllerApi
+     */
+    public listCurrent(options?: RawAxiosRequestConfig) {
+        return RitualHistoryControllerApiFp(this.configuration).listCurrent(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {RitualHistoryControllerApiUpdateStatusRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RitualHistoryControllerApi
+     */
+    public updateStatus(requestParameters: RitualHistoryControllerApiUpdateStatusRequest, options?: RawAxiosRequestConfig) {
+        return RitualHistoryControllerApiFp(this.configuration).updateStatus(requestParameters.id, requestParameters.ritualHistoryStatusUpdateRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

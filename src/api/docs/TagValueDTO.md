@@ -1,21 +1,21 @@
-# SendMessageRequest
+# TagValueDTO
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**content** | **string** |  | [optional] [default to undefined]
-**readyForRitualSuggestion** | **boolean** |  | [optional] [default to undefined]
+**key** | **string** |  | [optional] [default to undefined]
+**displayName** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { SendMessageRequest } from './api';
+import { TagValueDTO } from './api';
 
-const instance: SendMessageRequest = {
-    content,
-    readyForRitualSuggestion,
+const instance: TagValueDTO = {
+    key,
+    displayName,
 };
 ```
 

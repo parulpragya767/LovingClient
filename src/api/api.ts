@@ -15,12 +15,12 @@
 
 
 export * from './apis/ai-chat-controller-api';
+export * from './apis/auth-controller-api';
 export * from './apis/love-type-controller-api';
 export * from './apis/loving-application-api';
 export * from './apis/ritual-controller-api';
 export * from './apis/ritual-history-controller-api';
 export * from './apis/ritual-pack-controller-api';
-export * from './apis/ritual-tags-controller-api';
 export * from './apis/user-context-controller-api';
 export * from './apis/user-controller-api';
 

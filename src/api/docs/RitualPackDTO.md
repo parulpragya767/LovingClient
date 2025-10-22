@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **title** | **string** |  | [optional] [default to undefined]
 **shortDescription** | **string** |  | [optional] [default to undefined]
 **fullDescription** | **string** |  | [optional] [default to undefined]
-**ritualIds** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
+**rituals** | [**Array&lt;RitualDTO&gt;**](RitualDTO.md) |  | [optional] [default to undefined]
 **ritualTypes** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
 **ritualTones** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
 **sensitivityLevel** | **string** |  | [optional] [default to undefined]
@@ -34,7 +34,7 @@ const instance: RitualPackDTO = {
     title,
     shortDescription,
     fullDescription,
-    ritualIds,
+    rituals,
     ritualTypes,
     ritualTones,
     sensitivityLevel,

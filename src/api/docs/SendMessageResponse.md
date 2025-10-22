@@ -6,8 +6,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **assistantMessage** | [**ChatMessageDTO**](ChatMessageDTO.md) |  | [optional] [default to undefined]
-**askedFollowUp** | **boolean** |  | [optional] [default to undefined]
-**recommendationTriggered** | **boolean** |  | [optional] [default to undefined]
+**recommendedRitualPack** | [**RitualPackDTO**](RitualPackDTO.md) |  | [optional] [default to undefined]
+**readyForRitualSuggestion** | **boolean** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -16,8 +16,8 @@ import { SendMessageResponse } from './api';
 
 const instance: SendMessageResponse = {
     assistantMessage,
-    askedFollowUp,
-    recommendationTriggered,
+    recommendedRitualPack,
+    readyForRitualSuggestion,
 };
 ```
 

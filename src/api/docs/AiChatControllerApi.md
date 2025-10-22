@@ -4,9 +4,11 @@ All URIs are relative to *http://localhost:8080*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**getChatHistory**](#getchathistory) | **GET** /api/ai-chat/sessions/{sessionId}/history | |
-|[**sendMessage**](#sendmessage) | **POST** /api/ai-chat/sessions/{sessionId}/messages | |
-|[**startSession**](#startsession) | **POST** /api/ai-chat/sessions | |
+|[**getChatHistory**](#getchathistory) | **GET** /api/chat/sessions/{sessionId}/messages | |
+|[**getSamplePrompts**](#getsampleprompts) | **GET** /api/chat/sample-prompts | |
+|[**recommendRitualPack**](#recommendritualpack) | **POST** /api/chat/sessions/{sessionId}/recommend | |
+|[**sendMessage**](#sendmessage) | **POST** /api/chat/sessions/{sessionId}/messages | |
+|[**startSession**](#startsession) | **POST** /api/chat/sessions | |
 
 # **getChatHistory**
 > GetHistoryResponse getChatHistory()
@@ -48,6 +50,103 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: */*
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getSamplePrompts**
+> SamplePromptsResponse getSamplePrompts()
+
+
+### Example
+
+```typescript
+import {
+    AiChatControllerApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new AiChatControllerApi(configuration);
+
+const { status, data } = await apiInstance.getSamplePrompts();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+**SamplePromptsResponse**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **recommendRitualPack**
+> SendMessageResponse recommendRitualPack(sendMessageRequest)
+
+
+### Example
+
+```typescript
+import {
+    AiChatControllerApi,
+    Configuration,
+    SendMessageRequest
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new AiChatControllerApi(configuration);
+
+let sessionId: string; // (default to undefined)
+let sendMessageRequest: SendMessageRequest; //
+
+const { status, data } = await apiInstance.recommendRitualPack(
+    sessionId,
+    sendMessageRequest
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **sendMessageRequest** | **SendMessageRequest**|  | |
+| **sessionId** | [**string**] |  | defaults to undefined|
+
+
+### Return type
+
+**SendMessageResponse**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 

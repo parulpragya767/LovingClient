@@ -17,26 +17,26 @@
 /**
  * 
  * @export
- * @interface StartSessionRequest
+ * @interface Pageable
  */
-export interface StartSessionRequest {
+export interface Pageable {
     /**
      * 
-     * @type {string}
-     * @memberof StartSessionRequest
+     * @type {number}
+     * @memberof Pageable
      */
-    'userId'?: string;
+    'page'?: number;
     /**
      * 
-     * @type {string}
-     * @memberof StartSessionRequest
+     * @type {number}
+     * @memberof Pageable
      */
-    'sessionId'?: string;
+    'size'?: number;
     /**
      * 
-     * @type {string}
-     * @memberof StartSessionRequest
+     * @type {Array<string>}
+     * @memberof Pageable
      */
-    'conversationTitle'?: string;
+    'sort'?: Array<string>;
 }
 

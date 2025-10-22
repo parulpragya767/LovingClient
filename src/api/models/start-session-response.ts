@@ -34,7 +34,7 @@ export interface StartSessionResponse {
      * @type {string}
      * @memberof StartSessionResponse
      */
-    'conversationId'?: string;
+    'conversationTitle'?: string;
     /**
      * 
      * @type {Array<ChatMessageDTO>}

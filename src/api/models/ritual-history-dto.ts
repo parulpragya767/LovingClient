@@ -43,6 +43,12 @@ export interface RitualHistoryDTO {
      * @type {string}
      * @memberof RitualHistoryDTO
      */
+    'ritualPackId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RitualHistoryDTO
+     */
     'status'?: RitualHistoryDTOStatusEnum;
     /**
      * 
@@ -50,12 +56,6 @@ export interface RitualHistoryDTO {
      * @memberof RitualHistoryDTO
      */
     'feedback'?: RitualHistoryDTOFeedbackEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof RitualHistoryDTO
-     */
-    'occurredAt'?: string;
     /**
      * 
      * @type {string}
@@ -72,6 +72,7 @@ export interface RitualHistoryDTO {
 
 export const RitualHistoryDTOStatusEnum = {
     Suggested: 'SUGGESTED',
+    Active: 'ACTIVE',
     Started: 'STARTED',
     Completed: 'COMPLETED',
     Skipped: 'SKIPPED',

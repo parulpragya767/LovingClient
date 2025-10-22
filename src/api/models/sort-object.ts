@@ -17,26 +17,26 @@
 /**
  * 
  * @export
- * @interface StartSessionRequest
+ * @interface SortObject
  */
-export interface StartSessionRequest {
+export interface SortObject {
     /**
      * 
-     * @type {string}
-     * @memberof StartSessionRequest
+     * @type {boolean}
+     * @memberof SortObject
      */
-    'userId'?: string;
+    'sorted'?: boolean;
     /**
      * 
-     * @type {string}
-     * @memberof StartSessionRequest
+     * @type {boolean}
+     * @memberof SortObject
      */
-    'sessionId'?: string;
+    'unsorted'?: boolean;
     /**
      * 
-     * @type {string}
-     * @memberof StartSessionRequest
+     * @type {boolean}
+     * @memberof SortObject
      */
-    'conversationTitle'?: string;
+    'empty'?: boolean;
 }
 

@@ -31,74 +31,6 @@ export const RitualPackControllerApiAxiosParamCreator = function (configuration?
     return {
         /**
          * 
-         * @param {RitualPackDTO} ritualPackDTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        create1: async (ritualPackDTO: RitualPackDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'ritualPackDTO' is not null or undefined
-            assertParamExists('create1', 'ritualPackDTO', ritualPackDTO)
-            const localVarPath = `/api/ritual-packs`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(ritualPackDTO, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        delete1: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('delete1', 'id', id)
-            const localVarPath = `/api/ritual-packs/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -159,45 +91,6 @@ export const RitualPackControllerApiAxiosParamCreator = function (configuration?
                 options: localVarRequestOptions,
             };
         },
-        /**
-         * 
-         * @param {string} id 
-         * @param {RitualPackDTO} ritualPackDTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        update1: async (id: string, ritualPackDTO: RitualPackDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('update1', 'id', id)
-            // verify required parameter 'ritualPackDTO' is not null or undefined
-            assertParamExists('update1', 'ritualPackDTO', ritualPackDTO)
-            const localVarPath = `/api/ritual-packs/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(ritualPackDTO, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
     }
 };
 
@@ -208,30 +101,6 @@ export const RitualPackControllerApiAxiosParamCreator = function (configuration?
 export const RitualPackControllerApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = RitualPackControllerApiAxiosParamCreator(configuration)
     return {
-        /**
-         * 
-         * @param {RitualPackDTO} ritualPackDTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async create1(ritualPackDTO: RitualPackDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualPackDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.create1(ritualPackDTO, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['RitualPackControllerApi.create1']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async delete1(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.delete1(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['RitualPackControllerApi.delete1']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
         /**
          * 
          * @param {*} [options] Override http request option.
@@ -255,19 +124,6 @@ export const RitualPackControllerApiFp = function(configuration?: Configuration)
             const localVarOperationServerBasePath = operationServerMap['RitualPackControllerApi.getById1']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
-        /**
-         * 
-         * @param {string} id 
-         * @param {RitualPackDTO} ritualPackDTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async update1(id: string, ritualPackDTO: RitualPackDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualPackDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.update1(id, ritualPackDTO, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['RitualPackControllerApi.update1']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
     }
 };
 
@@ -278,24 +134,6 @@ export const RitualPackControllerApiFp = function(configuration?: Configuration)
 export const RitualPackControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = RitualPackControllerApiFp(configuration)
     return {
-        /**
-         * 
-         * @param {RitualPackControllerApiCreate1Request} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        create1(requestParameters: RitualPackControllerApiCreate1Request, options?: RawAxiosRequestConfig): AxiosPromise<RitualPackDTO> {
-            return localVarFp.create1(requestParameters.ritualPackDTO, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {RitualPackControllerApiDelete1Request} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        delete1(requestParameters: RitualPackControllerApiDelete1Request, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.delete1(requestParameters.id, options).then((request) => request(axios, basePath));
-        },
         /**
          * 
          * @param {*} [options] Override http request option.
@@ -313,15 +151,6 @@ export const RitualPackControllerApiFactory = function (configuration?: Configur
         getById1(requestParameters: RitualPackControllerApiGetById1Request, options?: RawAxiosRequestConfig): AxiosPromise<RitualPackDTO> {
             return localVarFp.getById1(requestParameters.id, options).then((request) => request(axios, basePath));
         },
-        /**
-         * 
-         * @param {RitualPackControllerApiUpdate1Request} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        update1(requestParameters: RitualPackControllerApiUpdate1Request, options?: RawAxiosRequestConfig): AxiosPromise<RitualPackDTO> {
-            return localVarFp.update1(requestParameters.id, requestParameters.ritualPackDTO, options).then((request) => request(axios, basePath));
-        },
     };
 };
 
@@ -331,24 +160,6 @@ export const RitualPackControllerApiFactory = function (configuration?: Configur
  * @interface RitualPackControllerApi
  */
 export interface RitualPackControllerApiInterface {
-    /**
-     * 
-     * @param {RitualPackControllerApiCreate1Request} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof RitualPackControllerApiInterface
-     */
-    create1(requestParameters: RitualPackControllerApiCreate1Request, options?: RawAxiosRequestConfig): AxiosPromise<RitualPackDTO>;
-
-    /**
-     * 
-     * @param {RitualPackControllerApiDelete1Request} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof RitualPackControllerApiInterface
-     */
-    delete1(requestParameters: RitualPackControllerApiDelete1Request, options?: RawAxiosRequestConfig): AxiosPromise<void>;
-
     /**
      * 
      * @param {*} [options] Override http request option.
@@ -366,43 +177,6 @@ export interface RitualPackControllerApiInterface {
      */
     getById1(requestParameters: RitualPackControllerApiGetById1Request, options?: RawAxiosRequestConfig): AxiosPromise<RitualPackDTO>;
 
-    /**
-     * 
-     * @param {RitualPackControllerApiUpdate1Request} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof RitualPackControllerApiInterface
-     */
-    update1(requestParameters: RitualPackControllerApiUpdate1Request, options?: RawAxiosRequestConfig): AxiosPromise<RitualPackDTO>;
-
-}
-
-/**
- * Request parameters for create1 operation in RitualPackControllerApi.
- * @export
- * @interface RitualPackControllerApiCreate1Request
- */
-export interface RitualPackControllerApiCreate1Request {
-    /**
-     * 
-     * @type {RitualPackDTO}
-     * @memberof RitualPackControllerApiCreate1
-     */
-    readonly ritualPackDTO: RitualPackDTO
-}
-
-/**
- * Request parameters for delete1 operation in RitualPackControllerApi.
- * @export
- * @interface RitualPackControllerApiDelete1Request
- */
-export interface RitualPackControllerApiDelete1Request {
-    /**
-     * 
-     * @type {string}
-     * @memberof RitualPackControllerApiDelete1
-     */
-    readonly id: string
 }
 
 /**
@@ -420,55 +194,12 @@ export interface RitualPackControllerApiGetById1Request {
 }
 
 /**
- * Request parameters for update1 operation in RitualPackControllerApi.
- * @export
- * @interface RitualPackControllerApiUpdate1Request
- */
-export interface RitualPackControllerApiUpdate1Request {
-    /**
-     * 
-     * @type {string}
-     * @memberof RitualPackControllerApiUpdate1
-     */
-    readonly id: string
-
-    /**
-     * 
-     * @type {RitualPackDTO}
-     * @memberof RitualPackControllerApiUpdate1
-     */
-    readonly ritualPackDTO: RitualPackDTO
-}
-
-/**
  * RitualPackControllerApi - object-oriented interface
  * @export
  * @class RitualPackControllerApi
  * @extends {BaseAPI}
  */
 export class RitualPackControllerApi extends BaseAPI implements RitualPackControllerApiInterface {
-    /**
-     * 
-     * @param {RitualPackControllerApiCreate1Request} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof RitualPackControllerApi
-     */
-    public create1(requestParameters: RitualPackControllerApiCreate1Request, options?: RawAxiosRequestConfig) {
-        return RitualPackControllerApiFp(this.configuration).create1(requestParameters.ritualPackDTO, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {RitualPackControllerApiDelete1Request} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof RitualPackControllerApi
-     */
-    public delete1(requestParameters: RitualPackControllerApiDelete1Request, options?: RawAxiosRequestConfig) {
-        return RitualPackControllerApiFp(this.configuration).delete1(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
     /**
      * 
      * @param {*} [options] Override http request option.
@@ -488,17 +219,6 @@ export class RitualPackControllerApi extends BaseAPI implements RitualPackContro
      */
     public getById1(requestParameters: RitualPackControllerApiGetById1Request, options?: RawAxiosRequestConfig) {
         return RitualPackControllerApiFp(this.configuration).getById1(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {RitualPackControllerApiUpdate1Request} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof RitualPackControllerApi
-     */
-    public update1(requestParameters: RitualPackControllerApiUpdate1Request, options?: RawAxiosRequestConfig) {
-        return RitualPackControllerApiFp(this.configuration).update1(requestParameters.id, requestParameters.ritualPackDTO, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

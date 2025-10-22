@@ -17,26 +17,32 @@
 /**
  * 
  * @export
- * @interface StartSessionRequest
+ * @interface LoginResponse
  */
-export interface StartSessionRequest {
+export interface LoginResponse {
     /**
      * 
      * @type {string}
-     * @memberof StartSessionRequest
+     * @memberof LoginResponse
      */
-    'userId'?: string;
+    'access_token'?: string;
     /**
      * 
      * @type {string}
-     * @memberof StartSessionRequest
+     * @memberof LoginResponse
      */
-    'sessionId'?: string;
+    'refresh_token'?: string;
     /**
      * 
      * @type {string}
-     * @memberof StartSessionRequest
+     * @memberof LoginResponse
      */
-    'conversationTitle'?: string;
+    'token_type'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof LoginResponse
+     */
+    'expires_in'?: number;
 }
 

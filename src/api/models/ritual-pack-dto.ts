@@ -13,6 +13,9 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { RitualDTO } from './ritual-dto';
 
 /**
  * 
@@ -46,10 +49,10 @@ export interface RitualPackDTO {
     'fullDescription'?: string;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<RitualDTO>}
      * @memberof RitualPackDTO
      */
-    'ritualIds'?: Array<string>;
+    'rituals'?: Array<RitualDTO>;
     /**
      * 
      * @type {Array<string>}

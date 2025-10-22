@@ -1,21 +1,21 @@
-# SendMessageRequest
+# LoginRequest
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**content** | **string** |  | [optional] [default to undefined]
-**readyForRitualSuggestion** | **boolean** |  | [optional] [default to undefined]
+**email** | **string** |  | [default to undefined]
+**password** | **string** |  | [default to undefined]
 
 ## Example
 
 ```typescript
-import { SendMessageRequest } from './api';
+import { LoginRequest } from './api';
 
-const instance: SendMessageRequest = {
-    content,
-    readyForRitualSuggestion,
+const instance: LoginRequest = {
+    email,
+    password,
 };
 ```
 

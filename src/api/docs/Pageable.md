@@ -1,21 +1,23 @@
-# SendMessageRequest
+# Pageable
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**content** | **string** |  | [optional] [default to undefined]
-**readyForRitualSuggestion** | **boolean** |  | [optional] [default to undefined]
+**page** | **number** |  | [optional] [default to undefined]
+**size** | **number** |  | [optional] [default to undefined]
+**sort** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { SendMessageRequest } from './api';
+import { Pageable } from './api';
 
-const instance: SendMessageRequest = {
-    content,
-    readyForRitualSuggestion,
+const instance: Pageable = {
+    page,
+    size,
+    sort,
 };
 ```
 

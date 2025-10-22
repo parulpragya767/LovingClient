@@ -17,26 +17,20 @@
 /**
  * 
  * @export
- * @interface StartSessionRequest
+ * @interface LoginRequest
  */
-export interface StartSessionRequest {
+export interface LoginRequest {
     /**
      * 
      * @type {string}
-     * @memberof StartSessionRequest
+     * @memberof LoginRequest
      */
-    'userId'?: string;
+    'email': string;
     /**
      * 
      * @type {string}
-     * @memberof StartSessionRequest
+     * @memberof LoginRequest
      */
-    'sessionId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof StartSessionRequest
-     */
-    'conversationTitle'?: string;
+    'password': string;
 }
 

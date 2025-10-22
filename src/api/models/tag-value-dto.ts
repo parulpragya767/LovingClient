@@ -17,26 +17,20 @@
 /**
  * 
  * @export
- * @interface StartSessionRequest
+ * @interface TagValueDTO
  */
-export interface StartSessionRequest {
+export interface TagValueDTO {
     /**
      * 
      * @type {string}
-     * @memberof StartSessionRequest
+     * @memberof TagValueDTO
      */
-    'userId'?: string;
+    'key'?: string;
     /**
      * 
      * @type {string}
-     * @memberof StartSessionRequest
+     * @memberof TagValueDTO
      */
-    'sessionId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof StartSessionRequest
-     */
-    'conversationTitle'?: string;
+    'displayName'?: string;
 }
 

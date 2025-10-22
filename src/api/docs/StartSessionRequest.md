@@ -6,8 +6,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **userId** | **string** |  | [optional] [default to undefined]
-**conversationId** | **string** |  | [optional] [default to undefined]
-**systemPrompt** | **string** |  | [optional] [default to undefined]
+**sessionId** | **string** |  | [optional] [default to undefined]
+**conversationTitle** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -16,8 +16,8 @@ import { StartSessionRequest } from './api';
 
 const instance: StartSessionRequest = {
     userId,
-    conversationId,
-    systemPrompt,
+    sessionId,
+    conversationTitle,
 };
 ```
 

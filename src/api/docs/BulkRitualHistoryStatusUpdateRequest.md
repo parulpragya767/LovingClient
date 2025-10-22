@@ -1,21 +1,19 @@
-# SendMessageRequest
+# BulkRitualHistoryStatusUpdateRequest
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**content** | **string** |  | [optional] [default to undefined]
-**readyForRitualSuggestion** | **boolean** |  | [optional] [default to undefined]
+**updates** | [**Array&lt;RitualStatusUpdate&gt;**](RitualStatusUpdate.md) |  | [default to undefined]
 
 ## Example
 
 ```typescript
-import { SendMessageRequest } from './api';
+import { BulkRitualHistoryStatusUpdateRequest } from './api';
 
-const instance: SendMessageRequest = {
-    content,
-    readyForRitualSuggestion,
+const instance: BulkRitualHistoryStatusUpdateRequest = {
+    updates,
 };
 ```
 

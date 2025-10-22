@@ -31,74 +31,6 @@ export const LoveTypeControllerApiAxiosParamCreator = function (configuration?: 
     return {
         /**
          * 
-         * @param {LoveTypeInfo} loveTypeInfo 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createLoveType: async (loveTypeInfo: LoveTypeInfo, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'loveTypeInfo' is not null or undefined
-            assertParamExists('createLoveType', 'loveTypeInfo', loveTypeInfo)
-            const localVarPath = `/api/love-types`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(loveTypeInfo, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteLoveType: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('deleteLoveType', 'id', id)
-            const localVarPath = `/api/love-types/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -159,45 +91,6 @@ export const LoveTypeControllerApiAxiosParamCreator = function (configuration?: 
                 options: localVarRequestOptions,
             };
         },
-        /**
-         * 
-         * @param {number} id 
-         * @param {LoveTypeInfo} loveTypeInfo 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateLoveType: async (id: number, loveTypeInfo: LoveTypeInfo, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateLoveType', 'id', id)
-            // verify required parameter 'loveTypeInfo' is not null or undefined
-            assertParamExists('updateLoveType', 'loveTypeInfo', loveTypeInfo)
-            const localVarPath = `/api/love-types/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(loveTypeInfo, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
     }
 };
 
@@ -208,30 +101,6 @@ export const LoveTypeControllerApiAxiosParamCreator = function (configuration?: 
 export const LoveTypeControllerApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = LoveTypeControllerApiAxiosParamCreator(configuration)
     return {
-        /**
-         * 
-         * @param {LoveTypeInfo} loveTypeInfo 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async createLoveType(loveTypeInfo: LoveTypeInfo, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LoveTypeInfo>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createLoveType(loveTypeInfo, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['LoveTypeControllerApi.createLoveType']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteLoveType(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteLoveType(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['LoveTypeControllerApi.deleteLoveType']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
         /**
          * 
          * @param {*} [options] Override http request option.
@@ -255,19 +124,6 @@ export const LoveTypeControllerApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['LoveTypeControllerApi.getLoveTypeById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
-        /**
-         * 
-         * @param {number} id 
-         * @param {LoveTypeInfo} loveTypeInfo 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async updateLoveType(id: number, loveTypeInfo: LoveTypeInfo, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LoveTypeInfo>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateLoveType(id, loveTypeInfo, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['LoveTypeControllerApi.updateLoveType']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
     }
 };
 
@@ -278,24 +134,6 @@ export const LoveTypeControllerApiFp = function(configuration?: Configuration) {
 export const LoveTypeControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = LoveTypeControllerApiFp(configuration)
     return {
-        /**
-         * 
-         * @param {LoveTypeControllerApiCreateLoveTypeRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createLoveType(requestParameters: LoveTypeControllerApiCreateLoveTypeRequest, options?: RawAxiosRequestConfig): AxiosPromise<LoveTypeInfo> {
-            return localVarFp.createLoveType(requestParameters.loveTypeInfo, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {LoveTypeControllerApiDeleteLoveTypeRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteLoveType(requestParameters: LoveTypeControllerApiDeleteLoveTypeRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.deleteLoveType(requestParameters.id, options).then((request) => request(axios, basePath));
-        },
         /**
          * 
          * @param {*} [options] Override http request option.
@@ -313,15 +151,6 @@ export const LoveTypeControllerApiFactory = function (configuration?: Configurat
         getLoveTypeById(requestParameters: LoveTypeControllerApiGetLoveTypeByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<LoveTypeInfo> {
             return localVarFp.getLoveTypeById(requestParameters.id, options).then((request) => request(axios, basePath));
         },
-        /**
-         * 
-         * @param {LoveTypeControllerApiUpdateLoveTypeRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateLoveType(requestParameters: LoveTypeControllerApiUpdateLoveTypeRequest, options?: RawAxiosRequestConfig): AxiosPromise<LoveTypeInfo> {
-            return localVarFp.updateLoveType(requestParameters.id, requestParameters.loveTypeInfo, options).then((request) => request(axios, basePath));
-        },
     };
 };
 
@@ -331,24 +160,6 @@ export const LoveTypeControllerApiFactory = function (configuration?: Configurat
  * @interface LoveTypeControllerApi
  */
 export interface LoveTypeControllerApiInterface {
-    /**
-     * 
-     * @param {LoveTypeControllerApiCreateLoveTypeRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof LoveTypeControllerApiInterface
-     */
-    createLoveType(requestParameters: LoveTypeControllerApiCreateLoveTypeRequest, options?: RawAxiosRequestConfig): AxiosPromise<LoveTypeInfo>;
-
-    /**
-     * 
-     * @param {LoveTypeControllerApiDeleteLoveTypeRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof LoveTypeControllerApiInterface
-     */
-    deleteLoveType(requestParameters: LoveTypeControllerApiDeleteLoveTypeRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
-
     /**
      * 
      * @param {*} [options] Override http request option.
@@ -366,43 +177,6 @@ export interface LoveTypeControllerApiInterface {
      */
     getLoveTypeById(requestParameters: LoveTypeControllerApiGetLoveTypeByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<LoveTypeInfo>;
 
-    /**
-     * 
-     * @param {LoveTypeControllerApiUpdateLoveTypeRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof LoveTypeControllerApiInterface
-     */
-    updateLoveType(requestParameters: LoveTypeControllerApiUpdateLoveTypeRequest, options?: RawAxiosRequestConfig): AxiosPromise<LoveTypeInfo>;
-
-}
-
-/**
- * Request parameters for createLoveType operation in LoveTypeControllerApi.
- * @export
- * @interface LoveTypeControllerApiCreateLoveTypeRequest
- */
-export interface LoveTypeControllerApiCreateLoveTypeRequest {
-    /**
-     * 
-     * @type {LoveTypeInfo}
-     * @memberof LoveTypeControllerApiCreateLoveType
-     */
-    readonly loveTypeInfo: LoveTypeInfo
-}
-
-/**
- * Request parameters for deleteLoveType operation in LoveTypeControllerApi.
- * @export
- * @interface LoveTypeControllerApiDeleteLoveTypeRequest
- */
-export interface LoveTypeControllerApiDeleteLoveTypeRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof LoveTypeControllerApiDeleteLoveType
-     */
-    readonly id: number
 }
 
 /**
@@ -420,55 +194,12 @@ export interface LoveTypeControllerApiGetLoveTypeByIdRequest {
 }
 
 /**
- * Request parameters for updateLoveType operation in LoveTypeControllerApi.
- * @export
- * @interface LoveTypeControllerApiUpdateLoveTypeRequest
- */
-export interface LoveTypeControllerApiUpdateLoveTypeRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof LoveTypeControllerApiUpdateLoveType
-     */
-    readonly id: number
-
-    /**
-     * 
-     * @type {LoveTypeInfo}
-     * @memberof LoveTypeControllerApiUpdateLoveType
-     */
-    readonly loveTypeInfo: LoveTypeInfo
-}
-
-/**
  * LoveTypeControllerApi - object-oriented interface
  * @export
  * @class LoveTypeControllerApi
  * @extends {BaseAPI}
  */
 export class LoveTypeControllerApi extends BaseAPI implements LoveTypeControllerApiInterface {
-    /**
-     * 
-     * @param {LoveTypeControllerApiCreateLoveTypeRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof LoveTypeControllerApi
-     */
-    public createLoveType(requestParameters: LoveTypeControllerApiCreateLoveTypeRequest, options?: RawAxiosRequestConfig) {
-        return LoveTypeControllerApiFp(this.configuration).createLoveType(requestParameters.loveTypeInfo, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {LoveTypeControllerApiDeleteLoveTypeRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof LoveTypeControllerApi
-     */
-    public deleteLoveType(requestParameters: LoveTypeControllerApiDeleteLoveTypeRequest, options?: RawAxiosRequestConfig) {
-        return LoveTypeControllerApiFp(this.configuration).deleteLoveType(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
     /**
      * 
      * @param {*} [options] Override http request option.
@@ -488,17 +219,6 @@ export class LoveTypeControllerApi extends BaseAPI implements LoveTypeController
      */
     public getLoveTypeById(requestParameters: LoveTypeControllerApiGetLoveTypeByIdRequest, options?: RawAxiosRequestConfig) {
         return LoveTypeControllerApiFp(this.configuration).getLoveTypeById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {LoveTypeControllerApiUpdateLoveTypeRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof LoveTypeControllerApi
-     */
-    public updateLoveType(requestParameters: LoveTypeControllerApiUpdateLoveTypeRequest, options?: RawAxiosRequestConfig) {
-        return LoveTypeControllerApiFp(this.configuration).updateLoveType(requestParameters.id, requestParameters.loveTypeInfo, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

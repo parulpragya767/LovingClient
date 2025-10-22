@@ -17,26 +17,14 @@
 /**
  * 
  * @export
- * @interface StartSessionRequest
+ * @interface SamplePromptsResponse
  */
-export interface StartSessionRequest {
+export interface SamplePromptsResponse {
     /**
      * 
-     * @type {string}
-     * @memberof StartSessionRequest
+     * @type {Array<string>}
+     * @memberof SamplePromptsResponse
      */
-    'userId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof StartSessionRequest
-     */
-    'sessionId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof StartSessionRequest
-     */
-    'conversationTitle'?: string;
+    'prompts'?: Array<string>;
 }
 
