@@ -4,7 +4,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Pressable, ScrollView, TextInput, View } from 'react-native';
-import { apiService } from '@/src/services/api';
+import { useRituals as useRitualsHook } from '@/src/hooks/useRituals';
 import { Ritual } from '@/src/models/ritual';
 
 interface RitualsListScreenProps {
@@ -24,23 +24,8 @@ export default function RitualsListScreen({
   const router = useRouter();
   const { searchTags } = useLocalSearchParams<{ searchTags?: string }>();
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
-  const [rituals, setRituals] = useState<Ritual[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const fetchRituals = useCallback(async () => {
-    try {
-      const data = await apiService.getRituals();
-      setRituals(data);
-    } catch (error) {
-      console.error('Failed to fetch rituals:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchRituals();
-  }, [fetchRituals]);
+  const { data: rituals = [], isLoading } = useRitualsHook();
+  const [favorites, setFavorites] = useState<Record<string, boolean>>({});
   
   // Filter rituals based on search query and tags
   const filteredRituals = rituals.filter(ritual => {
@@ -70,14 +55,7 @@ export default function RitualsListScreen({
   const toggleFavorite = async (id: string, currentState: boolean) => {
     try {
       // In a real app, you would call an API to update the favorite status
-      // await apiService.toggleFavoriteRitual(id, !currentState);
-      setRituals(prevRituals => 
-        prevRituals.map(ritual => 
-          ritual.id === id 
-            ? { ...ritual, isFavorite: !currentState } 
-            : ritual
-        )
-      );
+      setFavorites(prev => ({ ...prev, [id]: !currentState }));
     } catch (error) {
       console.error('Failed to update favorite status:', error);
     }

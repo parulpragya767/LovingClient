@@ -11,6 +11,11 @@ export const useRitualPacks = () => {
       const response = await ritualPackApi.getAll1();
       return response.data;
     },
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+    retry: 1,
   });
 };
 
@@ -23,5 +28,10 @@ export const useRitualPack = (id?: string) => {
       return response.data;
     },
     enabled: !!id,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+    retry: 1,
   });
 };

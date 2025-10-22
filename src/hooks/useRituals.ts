@@ -9,6 +9,11 @@ export const useRituals = () => {
       const response = await ritualService.getAll();
       return response;
     },
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+    retry: 1,
   });
 };
 
@@ -21,5 +26,10 @@ export const useRitual = (id?: string) => {
       return response;
     },
     enabled: !!id,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+    retry: 1,
   });
 };

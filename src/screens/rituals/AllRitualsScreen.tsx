@@ -1,7 +1,7 @@
 import RitualCard from '@/components/RitualCard';
 import { ThemedText } from '@/components/themed-text';
 import { useRituals } from '@/src/hooks/useRituals';
-import { Ritual, toRitual } from '@/src/models/ritual';
+import { Ritual } from '@/src/models/ritual';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, FlatList, View } from 'react-native';
@@ -13,14 +13,8 @@ export default function AllRitualsScreen() {
   const params = useLocalSearchParams();
   const [searchTags, setSearchTags] = useState<string[]>([]);
 
-  // Map the API response to the Ritual type
-  const rituals = useMemo(() => {
-    if (!ritualsData) return [];
-    
-    return ritualsData
-      .filter((ritual) => ritual.status === 'PUBLISHED')
-      .map((r) => ({ ...toRitual(r), isCurrent: false, tags: [] as string[] }));
-  }, [ritualsData]);
+  // Use rituals data directly from the hook
+  const rituals = useMemo(() => ritualsData || [], [ritualsData]);
 
   // Apply filtering when tags or rituals change
   useEffect(() => {
