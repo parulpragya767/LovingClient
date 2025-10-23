@@ -1,44 +1,30 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import type { InfoSection } from '@/src/api/models/InfoSection';
-import { useLoveType } from '@/src/hooks/useLoveTypes';
+import type { LoveLensInfo, LoveLensInfoSection } from '@/src/models/loveLens';
+import { useQueryClient } from '@tanstack/react-query';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect } from 'react';
-import { ActivityIndicator, Pressable, RefreshControl, ScrollView, View } from 'react-native';
+import { Pressable, RefreshControl, ScrollView, View } from 'react-native';
 
 export default function LoveTypeDetailScreen() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { id } = useLocalSearchParams<{ id: string }>();
   const loveTypeId = id ? parseInt(id, 10) : undefined;
-  
-  const { data: loveType, isLoading, error, refetch, isRefetching } = useLoveType(loveTypeId);
 
-  useEffect(() => {
-    if (error) {
-      console.error('Error loading love type:', error);
-    }
-  }, [error]);
+  const loveTypes = queryClient.getQueryData<LoveLensInfo[]>(['loveTypes']);
+  const loveType = loveTypes?.find((lt) => lt.id === loveTypeId);
 
-  if (isLoading && !isRefetching) {
-    return (
-      <ThemedView className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" />
-        <ThemedText className="mt-4">Loading love type details...</ThemedText>
-      </ThemedView>
-    );
-  }
-
-  if (!loveType || error) {
+  if (!loveType) {
     return (
       <ThemedView className="flex-1 items-center justify-center p-4">
         <ThemedText className="text-lg text-red-500 mb-4">
-          {error?.message || 'Failed to load love type details'}
+          Love type details not available. Please open from the list.
         </ThemedText>
         <Pressable
-          onPress={() => refetch()}
+          onPress={() => router.back()}
           className="bg-blue-500 px-4 py-2 rounded-lg"
         >
-          <ThemedText className="text-white">Retry</ThemedText>
+          <ThemedText className="text-white">Go Back</ThemedText>
         </Pressable>
       </ThemedView>
     );
@@ -49,8 +35,8 @@ export default function LoveTypeDetailScreen() {
       className="flex-1 bg-gray-50"
       refreshControl={
         <RefreshControl 
-          refreshing={isRefetching} 
-          onRefresh={refetch}
+          refreshing={false}
+          onRefresh={() => {}}
           colors={['#3b82f6']}
           tintColor="#3b82f6"
         />
@@ -86,7 +72,7 @@ export default function LoveTypeDetailScreen() {
           </View>
 
           {/* Sections */}
-          {loveType.sections?.map((section: InfoSection, index: number) => (
+          {loveType.sections?.map((section: LoveLensInfoSection, index: number) => (
             <View key={index} className="bg-white rounded-xl shadow-sm overflow-hidden">
               {section.title && (
                 <View className="bg-gray-50 px-6 py-3 border-b border-gray-100">
@@ -101,9 +87,9 @@ export default function LoveTypeDetailScreen() {
                     {section.summary}
                   </ThemedText>
                 )}
-                {section.bullets?.length > 0 && (
+                {(section.bullets?.length ?? 0) > 0 && (
                   <View className="space-y-2">
-                    {section.bullets.map((bullet, bulletIndex) => (
+                    {section.bullets?.map((bullet, bulletIndex) => (
                       <View key={bulletIndex} className="flex-row items-start">
                         <ThemedText className="text-blue-500 mr-2 mt-1">•</ThemedText>
                         <ThemedText className="text-gray-700 flex-1">
