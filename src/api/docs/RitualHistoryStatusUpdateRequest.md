@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**status** | **string** |  | [optional] [default to undefined]
-**feedback** | **string** |  | [optional] [default to undefined]
+**status** | [**RitualHistoryStatus**](RitualHistoryStatus.md) |  | [optional] [default to undefined]
+**feedback** | [**EmojiFeedback**](EmojiFeedback.md) |  | [optional] [default to undefined]
 
 ## Example
 

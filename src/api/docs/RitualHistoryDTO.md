@@ -9,8 +9,8 @@ Name | Type | Description | Notes
 **userId** | **string** |  | [optional] [default to undefined]
 **ritualId** | **string** |  | [optional] [default to undefined]
 **ritualPackId** | **string** |  | [optional] [default to undefined]
-**status** | **string** |  | [optional] [default to undefined]
-**feedback** | **string** |  | [optional] [default to undefined]
+**status** | [**RitualHistoryStatus**](RitualHistoryStatus.md) |  | [optional] [default to undefined]
+**feedback** | [**EmojiFeedback**](EmojiFeedback.md) |  | [optional] [default to undefined]
 **createdAt** | **string** |  | [optional] [default to undefined]
 **updatedAt** | **string** |  | [optional] [default to undefined]
 

@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ritualHistoryId** | **string** |  | [default to undefined]
-**status** | **string** |  | [default to undefined]
+**status** | [**RitualHistoryStatus**](RitualHistoryStatus.md) |  | [default to undefined]
 
 ## Example
 

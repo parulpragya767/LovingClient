@@ -15,7 +15,34 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import type { EffortLevel } from './effort-level';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { EmotionalState } from './emotional-state';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { LifeContext } from './life-context';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { LoveType } from './love-type';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { PublicationStatus } from './publication-status';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { RelationalNeed } from './relational-need';
+// May contain unused imports in some cases
+// @ts-ignore
 import type { RitualDTO } from './ritual-dto';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { RitualTone } from './ritual-tone';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { RitualType } from './ritual-type';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { SensitivityLevel } from './sensitivity-level';
 
 /**
  * 
@@ -55,52 +82,52 @@ export interface RitualPackDTO {
     'rituals'?: Array<RitualDTO>;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<RitualType>}
      * @memberof RitualPackDTO
      */
-    'ritualTypes'?: Array<RitualTypesEnum>;
+    'ritualTypes'?: Array<RitualType>;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<RitualTone>}
      * @memberof RitualPackDTO
      */
-    'ritualTones'?: Array<RitualTonesEnum>;
+    'ritualTones'?: Array<RitualTone>;
     /**
      * 
-     * @type {string}
+     * @type {SensitivityLevel}
      * @memberof RitualPackDTO
      */
-    'sensitivityLevel'?: SensitivityLevelEnum;
+    'sensitivityLevel'?: SensitivityLevel;
     /**
      * 
-     * @type {string}
+     * @type {EffortLevel}
      * @memberof RitualPackDTO
      */
-    'effortLevel'?: EffortLevelEnum;
+    'effortLevel'?: EffortLevel;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<LoveType>}
      * @memberof RitualPackDTO
      */
-    'loveTypesSupported'?: Array<LoveTypesSupportedEnum>;
+    'loveTypesSupported'?: Array<LoveType>;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<EmotionalState>}
      * @memberof RitualPackDTO
      */
-    'emotionalStatesSupported'?: Array<EmotionalStatesSupportedEnum>;
+    'emotionalStatesSupported'?: Array<EmotionalState>;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<RelationalNeed>}
      * @memberof RitualPackDTO
      */
-    'relationalNeedsServed'?: Array<RelationalNeedsServedEnum>;
+    'relationalNeedsServed'?: Array<RelationalNeed>;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<LifeContext>}
      * @memberof RitualPackDTO
      */
-    'lifeContextsRelevant'?: Array<LifeContextsRelevantEnum>;
+    'lifeContextsRelevant'?: Array<LifeContext>;
     /**
      * 
      * @type {string}
@@ -109,10 +136,10 @@ export interface RitualPackDTO {
     'semanticSummary'?: string;
     /**
      * 
-     * @type {string}
+     * @type {PublicationStatus}
      * @memberof RitualPackDTO
      */
-    'status'?: StatusEnum;
+    'status'?: PublicationStatus;
     /**
      * 
      * @type {string}
@@ -133,110 +160,5 @@ export interface RitualPackDTO {
     'updatedAt'?: string;
 }
 
-export const RitualTypesEnum = {
-    Reflection: 'Reflection',
-    Conversation: 'Conversation',
-    Play: 'Play',
-    Appreciation: 'Appreciation',
-    Gratitude: 'Gratitude',
-    PhysicalConnection: 'Physical Connection',
-    QualityTime: 'Quality Time',
-    Adventure: 'Adventure',
-    Relaxation: 'Relaxation',
-    SelfImprovement: 'Self-Improvement'
-} as const;
-
-export type RitualTypesEnum = typeof RitualTypesEnum[keyof typeof RitualTypesEnum];
-export const RitualTonesEnum = {
-    Romantic: 'Romantic',
-    Playful: 'Playful',
-    Serious: 'Serious',
-    Lighthearted: 'Lighthearted',
-    Intimate: 'Intimate',
-    Adventurous: 'Adventurous',
-    Calm: 'Calm',
-    Energetic: 'Energetic',
-    Thoughtful: 'Thoughtful',
-    Spontaneous: 'Spontaneous'
-} as const;
-
-export type RitualTonesEnum = typeof RitualTonesEnum[keyof typeof RitualTonesEnum];
-export const SensitivityLevelEnum = {
-    Low: 'LOW',
-    Moderate: 'MODERATE',
-    High: 'HIGH'
-} as const;
-
-export type SensitivityLevelEnum = typeof SensitivityLevelEnum[keyof typeof SensitivityLevelEnum];
-export const EffortLevelEnum = {
-    Low: 'LOW',
-    Moderate: 'MODERATE',
-    High: 'HIGH'
-} as const;
-
-export type EffortLevelEnum = typeof EffortLevelEnum[keyof typeof EffortLevelEnum];
-export const LoveTypesSupportedEnum = {
-    Belong: 'BELONG',
-    Fire: 'FIRE',
-    Spark: 'SPARK',
-    Care: 'CARE',
-    Self: 'SELF',
-    Build: 'BUILD',
-    Grow: 'GROW',
-    Beyond: 'BEYOND',
-    Grace: 'GRACE'
-} as const;
-
-export type LoveTypesSupportedEnum = typeof LoveTypesSupportedEnum[keyof typeof LoveTypesSupportedEnum];
-export const EmotionalStatesSupportedEnum = {
-    Happy: 'Happy',
-    Sad: 'Sad',
-    Anxious: 'Anxious',
-    Peaceful: 'Peaceful',
-    Excited: 'Excited',
-    Tired: 'Tired',
-    Stressed: 'Stressed',
-    Loving: 'Loving',
-    Grateful: 'Grateful',
-    Frustrated: 'Frustrated',
-    Overwhelmed: 'Overwhelmed'
-} as const;
-
-export type EmotionalStatesSupportedEnum = typeof EmotionalStatesSupportedEnum[keyof typeof EmotionalStatesSupportedEnum];
-export const RelationalNeedsServedEnum = {
-    Connection: 'Connection',
-    Appreciation: 'Appreciation',
-    Respect: 'Respect',
-    Trust: 'Trust',
-    Intimacy: 'Intimacy',
-    Support: 'Support',
-    Acceptance: 'Acceptance',
-    Space: 'Space',
-    Security: 'Security',
-    Adventure: 'Adventure'
-} as const;
-
-export type RelationalNeedsServedEnum = typeof RelationalNeedsServedEnum[keyof typeof RelationalNeedsServedEnum];
-export const LifeContextsRelevantEnum = {
-    MorningRoutine: 'Morning Routine',
-    EveningRoutine: 'Evening Routine',
-    Weekend: 'Weekend',
-    Holiday: 'Holiday',
-    Anniversary: 'Anniversary',
-    DateNight: 'Date Night',
-    LongDistance: 'Long Distance',
-    StressfulPeriod: 'Stressful Period',
-    NewRelationship: 'New Relationship',
-    LongTermRelationship: 'Long-term Relationship'
-} as const;
-
-export type LifeContextsRelevantEnum = typeof LifeContextsRelevantEnum[keyof typeof LifeContextsRelevantEnum];
-export const StatusEnum = {
-    Published: 'PUBLISHED',
-    Draft: 'DRAFT',
-    Archived: 'ARCHIVED'
-} as const;
-
-export type StatusEnum = typeof StatusEnum[keyof typeof StatusEnum];
 
 

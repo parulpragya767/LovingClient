@@ -13,6 +13,12 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { EmojiFeedback } from './emoji-feedback';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { RitualHistoryStatus } from './ritual-history-status';
 
 /**
  * 
@@ -22,39 +28,17 @@
 export interface RitualHistoryStatusUpdateRequest {
     /**
      * 
-     * @type {string}
+     * @type {RitualHistoryStatus}
      * @memberof RitualHistoryStatusUpdateRequest
      */
-    'status'?: StatusEnum;
+    'status'?: RitualHistoryStatus;
     /**
      * 
-     * @type {string}
+     * @type {EmojiFeedback}
      * @memberof RitualHistoryStatusUpdateRequest
      */
-    'feedback'?: FeedbackEnum;
+    'feedback'?: EmojiFeedback;
 }
 
-export const StatusEnum = {
-    Suggested: 'SUGGESTED',
-    Active: 'ACTIVE',
-    Started: 'STARTED',
-    Completed: 'COMPLETED',
-    Skipped: 'SKIPPED',
-    Abandoned: 'ABANDONED'
-} as const;
-
-export type StatusEnum = typeof StatusEnum[keyof typeof StatusEnum];
-export const FeedbackEnum = {
-    Heart: 'HEART',
-    Smile: 'SMILE',
-    Neutral: 'NEUTRAL',
-    Sad: 'SAD',
-    Angry: 'ANGRY',
-    Fire: 'FIRE',
-    ThumbsUp: 'THUMBS_UP',
-    ThumbsDown: 'THUMBS_DOWN'
-} as const;
-
-export type FeedbackEnum = typeof FeedbackEnum[keyof typeof FeedbackEnum];
 
 

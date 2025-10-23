@@ -16,6 +16,9 @@
 // May contain unused imports in some cases
 // @ts-ignore
 import type { InfoSection } from './info-section';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { LoveType } from './love-type';
 
 /**
  * 
@@ -31,10 +34,10 @@ export interface LoveTypeInfo {
     'id'?: number;
     /**
      * 
-     * @type {string}
+     * @type {LoveType}
      * @memberof LoveTypeInfo
      */
-    'loveType'?: LoveTypeEnum;
+    'loveType'?: LoveType;
     /**
      * 
      * @type {string}
@@ -61,18 +64,5 @@ export interface LoveTypeInfo {
     'sections'?: Array<InfoSection>;
 }
 
-export const LoveTypeEnum = {
-    Belong: 'BELONG',
-    Fire: 'FIRE',
-    Spark: 'SPARK',
-    Care: 'CARE',
-    Self: 'SELF',
-    Build: 'BUILD',
-    Grow: 'GROW',
-    Beyond: 'BEYOND',
-    Grace: 'GRACE'
-} as const;
-
-export type LoveTypeEnum = typeof LoveTypeEnum[keyof typeof LoveTypeEnum];
 
 

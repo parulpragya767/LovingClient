@@ -5,11 +5,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**loveTypes** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
-**ritualTypes** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
-**ritualModes** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
-**emotionalStates** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
-**relationalNeeds** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
+**loveTypes** | [**Array&lt;LoveType&gt;**](LoveType.md) |  | [optional] [default to undefined]
+**ritualTypes** | [**Array&lt;RitualType&gt;**](RitualType.md) |  | [optional] [default to undefined]
+**ritualModes** | [**Array&lt;RitualMode&gt;**](RitualMode.md) |  | [optional] [default to undefined]
+**emotionalStates** | [**Array&lt;EmotionalState&gt;**](EmotionalState.md) |  | [optional] [default to undefined]
+**relationalNeeds** | [**Array&lt;RelationalNeed&gt;**](RelationalNeed.md) |  | [optional] [default to undefined]
 
 ## Example
 

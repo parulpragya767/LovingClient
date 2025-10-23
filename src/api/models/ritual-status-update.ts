@@ -13,6 +13,9 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { RitualHistoryStatus } from './ritual-history-status';
 
 /**
  * 
@@ -28,21 +31,11 @@ export interface RitualStatusUpdate {
     'ritualHistoryId': string;
     /**
      * 
-     * @type {string}
+     * @type {RitualHistoryStatus}
      * @memberof RitualStatusUpdate
      */
-    'status': StatusEnum;
+    'status': RitualHistoryStatus;
 }
 
-export const StatusEnum = {
-    Suggested: 'SUGGESTED',
-    Active: 'ACTIVE',
-    Started: 'STARTED',
-    Completed: 'COMPLETED',
-    Skipped: 'SKIPPED',
-    Abandoned: 'ABANDONED'
-} as const;
-
-export type StatusEnum = typeof StatusEnum[keyof typeof StatusEnum];
 
 

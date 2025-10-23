@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **number** |  | [optional] [default to undefined]
-**loveType** | **string** |  | [optional] [default to undefined]
+**loveType** | [**LoveType**](LoveType.md) |  | [optional] [default to undefined]
 **title** | **string** |  | [optional] [default to undefined]
 **subtitle** | **string** |  | [optional] [default to undefined]
 **description** | **string** |  | [optional] [default to undefined]

@@ -13,6 +13,9 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { ChatMessageRole } from './chat-message-role';
 
 /**
  * 
@@ -34,10 +37,10 @@ export interface ChatMessageDTO {
     'sessionId'?: string;
     /**
      * 
-     * @type {string}
+     * @type {ChatMessageRole}
      * @memberof ChatMessageDTO
      */
-    'role'?: RoleEnum;
+    'role'?: ChatMessageRole;
     /**
      * 
      * @type {string}
@@ -52,12 +55,5 @@ export interface ChatMessageDTO {
     'createdAt'?: string;
 }
 
-export const RoleEnum = {
-    User: 'USER',
-    Assistant: 'ASSISTANT',
-    System: 'SYSTEM'
-} as const;
-
-export type RoleEnum = typeof RoleEnum[keyof typeof RoleEnum];
 
 

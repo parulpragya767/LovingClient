@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **string** |  | [optional] [default to undefined]
 **sessionId** | **string** |  | [optional] [default to undefined]
-**role** | **string** |  | [optional] [default to undefined]
+**role** | [**ChatMessageRole**](ChatMessageRole.md) |  | [optional] [default to undefined]
 **content** | **string** |  | [optional] [default to undefined]
 **createdAt** | **string** |  | [optional] [default to undefined]
 
