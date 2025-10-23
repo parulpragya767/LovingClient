@@ -1,13 +1,13 @@
+import RitualCard from '@/components/RitualCard';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import RitualCard from '@/components/RitualCard';
-import { useCallback, useEffect, useState } from 'react';
-import { apiService } from '@/src/services/api';
-import { Ritual } from '@/src/models/ritual';
-import { RitualPack } from '@/src/types/data-model';
-import { ActivityIndicator, FlatList, View } from 'react-native';
 import { useRituals } from '@/src/hooks/useRituals';
+import { Ritual } from '@/src/models/rituals';
+import { apiService } from '@/src/services/api';
+import { RitualPack } from '@/src/types/data-model';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, View } from 'react-native';
 
 export default function RitualPackScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();

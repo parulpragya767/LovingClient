@@ -1,13 +1,13 @@
-import React, { useRef, useState, Fragment } from 'react';
-import { View, Pressable } from 'react-native';
-import { ThemedText } from './themed-text';
-import RitualCard from './RitualCard';
-import { Ritual } from '@/src/models/ritual';
-import { RitualPack } from '@/src/types/data-model';
-import { Swipeable, RectButton } from 'react-native-gesture-handler';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Ritual } from '@/src/models/rituals';
 import { userCurrentOverrides } from '@/src/services/userCurrentOverrides';
+import { RitualPack } from '@/src/types/data-model';
+import { MaterialIcons } from '@expo/vector-icons';
+import React, { useRef, useState } from 'react';
+import { Pressable, View } from 'react-native';
+import { RectButton, Swipeable } from 'react-native-gesture-handler';
 import EmojiFeedbackModal from './EmojiFeedbackModal';
+import RitualCard from './RitualCard';
+import { ThemedText } from './themed-text';
 
 type Props = {
   pack: RitualPack;

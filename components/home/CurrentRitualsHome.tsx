@@ -1,5 +1,5 @@
  import { ThemedText } from '@/components/themed-text';
-import { Ritual } from '@/src/models/ritual';
+import { Ritual } from '@/src/models/rituals';
 import { useRouter } from 'expo-router';
 import { useCallback } from 'react';
 import { FlatList, Pressable, View } from 'react-native';

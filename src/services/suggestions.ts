@@ -1,4 +1,4 @@
-import { Ritual } from '../models/ritual';
+import { Ritual } from '../models/rituals';
 
 // Mock suggestions service - replace logic with backend later
 export const suggestionsService = {

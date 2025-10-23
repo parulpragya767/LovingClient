@@ -1,15 +1,15 @@
+import { MaterialIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { FlatList, Pressable, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
 
-import { ThemedText } from '@/components/themed-text';
 import RitualCard from '@/components/RitualCard';
+import { ThemedText } from '@/components/themed-text';
+import { useRituals } from '@/src/hooks/useRituals';
+import { Ritual } from '@/src/models/rituals';
 import { suggestionsService } from '@/src/services/suggestions';
 import { userSelections } from '@/src/services/userSelections';
-import { Ritual } from '@/src/models/ritual';
-import { useRituals } from '@/src/hooks/useRituals';
 
 export default function RitualSuggestionsModal() {
   const router = useRouter();

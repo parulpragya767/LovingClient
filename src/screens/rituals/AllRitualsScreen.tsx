@@ -1,7 +1,7 @@
 import RitualCard from '@/components/RitualCard';
 import { ThemedText } from '@/components/themed-text';
 import { useRituals } from '@/src/hooks/useRituals';
-import { Ritual } from '@/src/models/ritual';
+import { Ritual } from '@/src/models/rituals';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, FlatList, View } from 'react-native';

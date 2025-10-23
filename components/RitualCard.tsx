@@ -1,6 +1,6 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Ritual } from '@/src/models/ritual';
+import { Ritual } from '@/src/models/rituals';
 import { TouchableOpacity, View } from 'react-native';
 
 interface RitualCardProps {

@@ -1,10 +1,10 @@
+import { useRitualPacks } from '@/src/hooks/useRitualPacks';
+import { useRituals } from '@/src/hooks/useRituals';
+import { useCallback } from 'react';
 import { LoveTypeInfo } from '../api/models/love-type-info';
 import { useLoveTypes } from '../hooks/useLoveTypes';
+import { Ritual } from '../models/rituals';
 import { LoveType } from '../types/data-model';
-import { Ritual } from '../models/ritual';
-import { useRituals } from '@/src/hooks/useRituals';
-import { useRitualPacks } from '@/src/hooks/useRitualPacks';
-import { useCallback } from 'react';
 
 export const useUserService = () => {
   const { data: allLoveTypes = [], isLoading: isLoadingLoveTypes } = useLoveTypes();

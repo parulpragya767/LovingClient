@@ -1,4 +1,4 @@
-import { Ritual } from '@/src/models/ritual';
+import { Ritual } from '@/src/models/rituals';
 import { ritualService } from '@/src/services/ritualService';
 import { useQuery } from '@tanstack/react-query';
 

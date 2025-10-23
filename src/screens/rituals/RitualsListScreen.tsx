@@ -1,11 +1,11 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { MaterialIcons } from '@expo/vector-icons';
-import { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Image, Pressable, ScrollView, TextInput, View } from 'react-native';
 import { useRituals as useRitualsHook } from '@/src/hooks/useRituals';
-import { Ritual } from '@/src/models/ritual';
+import { Ritual } from '@/src/models/rituals';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useState } from 'react';
+import { ActivityIndicator, FlatList, Pressable, ScrollView, TextInput, View } from 'react-native';
 
 interface RitualsListScreenProps {
   showSearchHeader?: boolean;

@@ -1,9 +1,9 @@
 import { ThemedText } from '@/components/themed-text';
+import { useRituals } from '@/src/hooks/useRituals';
+import { Ritual } from '@/src/models/rituals';
 import { userCurrentOverrides } from '@/src/services/userCurrentOverrides';
-import { Ritual } from '@/src/models/ritual';
 import { useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
-import { useRituals } from '@/src/hooks/useRituals';
 
 export default function RitualHistoryScreen() {
   const [completedRituals, setCompletedRituals] = useState<{

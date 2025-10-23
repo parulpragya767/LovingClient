@@ -1,5 +1,5 @@
 import { RitualControllerApi } from '@/src/api/apis/ritual-controller-api';
-import { Ritual, toRitual } from '@/src/models/ritual';
+import { Ritual, toRitual } from '@/src/models/rituals';
 import apiClient from './apiClient';
 
 // Initialize the API with our configured axios instance
