@@ -34,7 +34,7 @@ export interface LoveTypeInfo {
      * @type {string}
      * @memberof LoveTypeInfo
      */
-    'loveType'?: LoveTypeInfoLoveTypeEnum;
+    'loveType'?: LoveTypeEnum;
     /**
      * 
      * @type {string}
@@ -61,7 +61,7 @@ export interface LoveTypeInfo {
     'sections'?: Array<InfoSection>;
 }
 
-export const LoveTypeInfoLoveTypeEnum = {
+export const LoveTypeEnum = {
     Belong: 'BELONG',
     Fire: 'FIRE',
     Spark: 'SPARK',
@@ -73,6 +73,6 @@ export const LoveTypeInfoLoveTypeEnum = {
     Grace: 'GRACE'
 } as const;
 
-export type LoveTypeInfoLoveTypeEnum = typeof LoveTypeInfoLoveTypeEnum[keyof typeof LoveTypeInfoLoveTypeEnum];
+export type LoveTypeEnum = typeof LoveTypeEnum[keyof typeof LoveTypeEnum];
 
 

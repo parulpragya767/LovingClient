@@ -37,7 +37,7 @@ export interface ChatMessageDTO {
      * @type {string}
      * @memberof ChatMessageDTO
      */
-    'role'?: ChatMessageDTORoleEnum;
+    'role'?: RoleEnum;
     /**
      * 
      * @type {string}
@@ -52,12 +52,12 @@ export interface ChatMessageDTO {
     'createdAt'?: string;
 }
 
-export const ChatMessageDTORoleEnum = {
+export const RoleEnum = {
     User: 'USER',
     Assistant: 'ASSISTANT',
     System: 'SYSTEM'
 } as const;
 
-export type ChatMessageDTORoleEnum = typeof ChatMessageDTORoleEnum[keyof typeof ChatMessageDTORoleEnum];
+export type RoleEnum = typeof RoleEnum[keyof typeof RoleEnum];
 
 

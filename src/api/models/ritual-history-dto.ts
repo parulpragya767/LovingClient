@@ -49,13 +49,13 @@ export interface RitualHistoryDTO {
      * @type {string}
      * @memberof RitualHistoryDTO
      */
-    'status'?: RitualHistoryDTOStatusEnum;
+    'status'?: StatusEnum;
     /**
      * 
      * @type {string}
      * @memberof RitualHistoryDTO
      */
-    'feedback'?: RitualHistoryDTOFeedbackEnum;
+    'feedback'?: FeedbackEnum;
     /**
      * 
      * @type {string}
@@ -70,7 +70,7 @@ export interface RitualHistoryDTO {
     'updatedAt'?: string;
 }
 
-export const RitualHistoryDTOStatusEnum = {
+export const StatusEnum = {
     Suggested: 'SUGGESTED',
     Active: 'ACTIVE',
     Started: 'STARTED',
@@ -79,8 +79,8 @@ export const RitualHistoryDTOStatusEnum = {
     Abandoned: 'ABANDONED'
 } as const;
 
-export type RitualHistoryDTOStatusEnum = typeof RitualHistoryDTOStatusEnum[keyof typeof RitualHistoryDTOStatusEnum];
-export const RitualHistoryDTOFeedbackEnum = {
+export type StatusEnum = typeof StatusEnum[keyof typeof StatusEnum];
+export const FeedbackEnum = {
     Heart: 'HEART',
     Smile: 'SMILE',
     Neutral: 'NEUTRAL',
@@ -91,6 +91,6 @@ export const RitualHistoryDTOFeedbackEnum = {
     ThumbsDown: 'THUMBS_DOWN'
 } as const;
 
-export type RitualHistoryDTOFeedbackEnum = typeof RitualHistoryDTOFeedbackEnum[keyof typeof RitualHistoryDTOFeedbackEnum];
+export type FeedbackEnum = typeof FeedbackEnum[keyof typeof FeedbackEnum];
 
 

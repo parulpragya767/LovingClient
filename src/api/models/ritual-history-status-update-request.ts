@@ -25,16 +25,16 @@ export interface RitualHistoryStatusUpdateRequest {
      * @type {string}
      * @memberof RitualHistoryStatusUpdateRequest
      */
-    'status'?: RitualHistoryStatusUpdateRequestStatusEnum;
+    'status'?: StatusEnum;
     /**
      * 
      * @type {string}
      * @memberof RitualHistoryStatusUpdateRequest
      */
-    'feedback'?: RitualHistoryStatusUpdateRequestFeedbackEnum;
+    'feedback'?: FeedbackEnum;
 }
 
-export const RitualHistoryStatusUpdateRequestStatusEnum = {
+export const StatusEnum = {
     Suggested: 'SUGGESTED',
     Active: 'ACTIVE',
     Started: 'STARTED',
@@ -43,8 +43,8 @@ export const RitualHistoryStatusUpdateRequestStatusEnum = {
     Abandoned: 'ABANDONED'
 } as const;
 
-export type RitualHistoryStatusUpdateRequestStatusEnum = typeof RitualHistoryStatusUpdateRequestStatusEnum[keyof typeof RitualHistoryStatusUpdateRequestStatusEnum];
-export const RitualHistoryStatusUpdateRequestFeedbackEnum = {
+export type StatusEnum = typeof StatusEnum[keyof typeof StatusEnum];
+export const FeedbackEnum = {
     Heart: 'HEART',
     Smile: 'SMILE',
     Neutral: 'NEUTRAL',
@@ -55,6 +55,6 @@ export const RitualHistoryStatusUpdateRequestFeedbackEnum = {
     ThumbsDown: 'THUMBS_DOWN'
 } as const;
 
-export type RitualHistoryStatusUpdateRequestFeedbackEnum = typeof RitualHistoryStatusUpdateRequestFeedbackEnum[keyof typeof RitualHistoryStatusUpdateRequestFeedbackEnum];
+export type FeedbackEnum = typeof FeedbackEnum[keyof typeof FeedbackEnum];
 
 

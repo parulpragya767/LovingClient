@@ -31,10 +31,10 @@ export interface RitualStatusUpdate {
      * @type {string}
      * @memberof RitualStatusUpdate
      */
-    'status': RitualStatusUpdateStatusEnum;
+    'status': StatusEnum;
 }
 
-export const RitualStatusUpdateStatusEnum = {
+export const StatusEnum = {
     Suggested: 'SUGGESTED',
     Active: 'ACTIVE',
     Started: 'STARTED',
@@ -43,6 +43,6 @@ export const RitualStatusUpdateStatusEnum = {
     Abandoned: 'ABANDONED'
 } as const;
 
-export type RitualStatusUpdateStatusEnum = typeof RitualStatusUpdateStatusEnum[keyof typeof RitualStatusUpdateStatusEnum];
+export type StatusEnum = typeof StatusEnum[keyof typeof StatusEnum];
 
 

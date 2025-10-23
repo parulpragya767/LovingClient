@@ -25,34 +25,34 @@ export interface RitualFilterRequest {
      * @type {Array<string>}
      * @memberof RitualFilterRequest
      */
-    'loveTypes'?: Array<RitualFilterRequestLoveTypesEnum>;
+    'loveTypes'?: Array<LoveTypesEnum>;
     /**
      * 
      * @type {Array<string>}
      * @memberof RitualFilterRequest
      */
-    'ritualTypes'?: Array<RitualFilterRequestRitualTypesEnum>;
+    'ritualTypes'?: Array<RitualTypesEnum>;
     /**
      * 
      * @type {Array<string>}
      * @memberof RitualFilterRequest
      */
-    'ritualModes'?: Array<RitualFilterRequestRitualModesEnum>;
+    'ritualModes'?: Array<RitualModesEnum>;
     /**
      * 
      * @type {Array<string>}
      * @memberof RitualFilterRequest
      */
-    'emotionalStates'?: Array<RitualFilterRequestEmotionalStatesEnum>;
+    'emotionalStates'?: Array<EmotionalStatesEnum>;
     /**
      * 
      * @type {Array<string>}
      * @memberof RitualFilterRequest
      */
-    'relationalNeeds'?: Array<RitualFilterRequestRelationalNeedsEnum>;
+    'relationalNeeds'?: Array<RelationalNeedsEnum>;
 }
 
-export const RitualFilterRequestLoveTypesEnum = {
+export const LoveTypesEnum = {
     Belong: 'BELONG',
     Fire: 'FIRE',
     Spark: 'SPARK',
@@ -64,8 +64,8 @@ export const RitualFilterRequestLoveTypesEnum = {
     Grace: 'GRACE'
 } as const;
 
-export type RitualFilterRequestLoveTypesEnum = typeof RitualFilterRequestLoveTypesEnum[keyof typeof RitualFilterRequestLoveTypesEnum];
-export const RitualFilterRequestRitualTypesEnum = {
+export type LoveTypesEnum = typeof LoveTypesEnum[keyof typeof LoveTypesEnum];
+export const RitualTypesEnum = {
     Reflection: 'Reflection',
     Conversation: 'Conversation',
     Play: 'Play',
@@ -78,15 +78,15 @@ export const RitualFilterRequestRitualTypesEnum = {
     SelfImprovement: 'Self-Improvement'
 } as const;
 
-export type RitualFilterRequestRitualTypesEnum = typeof RitualFilterRequestRitualTypesEnum[keyof typeof RitualFilterRequestRitualTypesEnum];
-export const RitualFilterRequestRitualModesEnum = {
+export type RitualTypesEnum = typeof RitualTypesEnum[keyof typeof RitualTypesEnum];
+export const RitualModesEnum = {
     Solo: 'SOLO',
     Partner: 'PARTNER',
     Pair: 'PAIR'
 } as const;
 
-export type RitualFilterRequestRitualModesEnum = typeof RitualFilterRequestRitualModesEnum[keyof typeof RitualFilterRequestRitualModesEnum];
-export const RitualFilterRequestEmotionalStatesEnum = {
+export type RitualModesEnum = typeof RitualModesEnum[keyof typeof RitualModesEnum];
+export const EmotionalStatesEnum = {
     Happy: 'Happy',
     Sad: 'Sad',
     Anxious: 'Anxious',
@@ -100,8 +100,8 @@ export const RitualFilterRequestEmotionalStatesEnum = {
     Overwhelmed: 'Overwhelmed'
 } as const;
 
-export type RitualFilterRequestEmotionalStatesEnum = typeof RitualFilterRequestEmotionalStatesEnum[keyof typeof RitualFilterRequestEmotionalStatesEnum];
-export const RitualFilterRequestRelationalNeedsEnum = {
+export type EmotionalStatesEnum = typeof EmotionalStatesEnum[keyof typeof EmotionalStatesEnum];
+export const RelationalNeedsEnum = {
     Connection: 'Connection',
     Appreciation: 'Appreciation',
     Respect: 'Respect',
@@ -114,6 +114,6 @@ export const RitualFilterRequestRelationalNeedsEnum = {
     Adventure: 'Adventure'
 } as const;
 
-export type RitualFilterRequestRelationalNeedsEnum = typeof RitualFilterRequestRelationalNeedsEnum[keyof typeof RitualFilterRequestRelationalNeedsEnum];
+export type RelationalNeedsEnum = typeof RelationalNeedsEnum[keyof typeof RelationalNeedsEnum];
 
 

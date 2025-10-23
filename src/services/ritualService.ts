@@ -1,7 +1,9 @@
 import { RitualControllerApi } from '@/src/api/apis/ritual-controller-api';
 import { Ritual, toRitual } from '@/src/models/ritual';
+import apiClient from './apiClient';
 
-const api = new RitualControllerApi();
+// Initialize the API with our configured axios instance
+const api = new RitualControllerApi(undefined, '', apiClient);
 
 export const ritualService = {
   async getAll(): Promise<Ritual[]> {

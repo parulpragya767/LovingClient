@@ -9,7 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "generate:api": "npx @openapitools/openapi-generator-cli generate -i http://localhost:8080/api-docs -g typescript-axios -o ./src/api --additional-properties=useSingleRequestParameter=true,modelPackage=models,apiPackage=apis,withInterfaces=true,supportsES6=true,withSeparateModelsAndApi=true"
+    "generate:api": "npx @openapitools/openapi-generator-cli generate -i http://localhost:8080/api-docs -g typescript-axios -o ./src/api --additional-properties=useSingleRequestParameter=true,modelPackage=models,apiPackage=apis,withInterfaces=true,supportsES6=true,withSeparateModelsAndApi=true,withoutPrefixEnums=true"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
@@ -29,6 +29,7 @@
     "expo-image": "~3.0.8",
     "expo-linking": "~8.0.8",
     "expo-router": "~6.0.4",
+    "expo-secure-store": "^15.0.7",
     "expo-splash-screen": "~31.0.10",
     "expo-status-bar": "~3.0.8",
     "expo-symbols": "~1.0.7",

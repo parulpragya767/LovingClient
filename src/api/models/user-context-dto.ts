@@ -43,31 +43,31 @@ export interface UserContextDTO {
      * @type {Array<string>}
      * @memberof UserContextDTO
      */
-    'emotionalStates'?: Array<UserContextDTOEmotionalStatesEnum>;
+    'emotionalStates'?: Array<EmotionalStatesEnum>;
     /**
      * 
      * @type {Array<string>}
      * @memberof UserContextDTO
      */
-    'relationalNeeds'?: Array<UserContextDTORelationalNeedsEnum>;
+    'relationalNeeds'?: Array<RelationalNeedsEnum>;
     /**
      * 
      * @type {Array<string>}
      * @memberof UserContextDTO
      */
-    'preferredLoveLanguages'?: Array<UserContextDTOPreferredLoveLanguagesEnum>;
+    'preferredLoveLanguages'?: Array<PreferredLoveLanguagesEnum>;
     /**
      * 
      * @type {Array<string>}
      * @memberof UserContextDTO
      */
-    'preferredRitualTypes'?: Array<UserContextDTOPreferredRitualTypesEnum>;
+    'preferredRitualTypes'?: Array<PreferredRitualTypesEnum>;
     /**
      * 
      * @type {Array<string>}
      * @memberof UserContextDTO
      */
-    'preferredTones'?: Array<UserContextDTOPreferredTonesEnum>;
+    'preferredTones'?: Array<PreferredTonesEnum>;
     /**
      * 
      * @type {number}
@@ -79,31 +79,31 @@ export interface UserContextDTO {
      * @type {string}
      * @memberof UserContextDTO
      */
-    'preferredEffortLevel'?: UserContextDTOPreferredEffortLevelEnum;
+    'preferredEffortLevel'?: PreferredEffortLevelEnum;
     /**
      * 
      * @type {string}
      * @memberof UserContextDTO
      */
-    'preferredIntensity'?: UserContextDTOPreferredIntensityEnum;
+    'preferredIntensity'?: PreferredIntensityEnum;
     /**
      * 
      * @type {Array<string>}
      * @memberof UserContextDTO
      */
-    'currentContexts'?: Array<UserContextDTOCurrentContextsEnum>;
+    'currentContexts'?: Array<CurrentContextsEnum>;
     /**
      * 
      * @type {string}
      * @memberof UserContextDTO
      */
-    'timeContext'?: UserContextDTOTimeContextEnum;
+    'timeContext'?: TimeContextEnum;
     /**
      * 
      * @type {string}
      * @memberof UserContextDTO
      */
-    'relationshipStatus'?: UserContextDTORelationshipStatusEnum;
+    'relationshipStatus'?: RelationshipStatusEnum;
     /**
      * 
      * @type {string}
@@ -130,7 +130,7 @@ export interface UserContextDTO {
     'updatedAt'?: string;
 }
 
-export const UserContextDTOEmotionalStatesEnum = {
+export const EmotionalStatesEnum = {
     Happy: 'Happy',
     Sad: 'Sad',
     Anxious: 'Anxious',
@@ -144,8 +144,8 @@ export const UserContextDTOEmotionalStatesEnum = {
     Overwhelmed: 'Overwhelmed'
 } as const;
 
-export type UserContextDTOEmotionalStatesEnum = typeof UserContextDTOEmotionalStatesEnum[keyof typeof UserContextDTOEmotionalStatesEnum];
-export const UserContextDTORelationalNeedsEnum = {
+export type EmotionalStatesEnum = typeof EmotionalStatesEnum[keyof typeof EmotionalStatesEnum];
+export const RelationalNeedsEnum = {
     Connection: 'Connection',
     Appreciation: 'Appreciation',
     Respect: 'Respect',
@@ -158,8 +158,8 @@ export const UserContextDTORelationalNeedsEnum = {
     Adventure: 'Adventure'
 } as const;
 
-export type UserContextDTORelationalNeedsEnum = typeof UserContextDTORelationalNeedsEnum[keyof typeof UserContextDTORelationalNeedsEnum];
-export const UserContextDTOPreferredLoveLanguagesEnum = {
+export type RelationalNeedsEnum = typeof RelationalNeedsEnum[keyof typeof RelationalNeedsEnum];
+export const PreferredLoveLanguagesEnum = {
     Belong: 'BELONG',
     Fire: 'FIRE',
     Spark: 'SPARK',
@@ -171,8 +171,8 @@ export const UserContextDTOPreferredLoveLanguagesEnum = {
     Grace: 'GRACE'
 } as const;
 
-export type UserContextDTOPreferredLoveLanguagesEnum = typeof UserContextDTOPreferredLoveLanguagesEnum[keyof typeof UserContextDTOPreferredLoveLanguagesEnum];
-export const UserContextDTOPreferredRitualTypesEnum = {
+export type PreferredLoveLanguagesEnum = typeof PreferredLoveLanguagesEnum[keyof typeof PreferredLoveLanguagesEnum];
+export const PreferredRitualTypesEnum = {
     Reflection: 'Reflection',
     Conversation: 'Conversation',
     Play: 'Play',
@@ -185,8 +185,8 @@ export const UserContextDTOPreferredRitualTypesEnum = {
     SelfImprovement: 'Self-Improvement'
 } as const;
 
-export type UserContextDTOPreferredRitualTypesEnum = typeof UserContextDTOPreferredRitualTypesEnum[keyof typeof UserContextDTOPreferredRitualTypesEnum];
-export const UserContextDTOPreferredTonesEnum = {
+export type PreferredRitualTypesEnum = typeof PreferredRitualTypesEnum[keyof typeof PreferredRitualTypesEnum];
+export const PreferredTonesEnum = {
     Romantic: 'Romantic',
     Playful: 'Playful',
     Serious: 'Serious',
@@ -199,23 +199,23 @@ export const UserContextDTOPreferredTonesEnum = {
     Spontaneous: 'Spontaneous'
 } as const;
 
-export type UserContextDTOPreferredTonesEnum = typeof UserContextDTOPreferredTonesEnum[keyof typeof UserContextDTOPreferredTonesEnum];
-export const UserContextDTOPreferredEffortLevelEnum = {
+export type PreferredTonesEnum = typeof PreferredTonesEnum[keyof typeof PreferredTonesEnum];
+export const PreferredEffortLevelEnum = {
     Low: 'LOW',
     Moderate: 'MODERATE',
     High: 'HIGH'
 } as const;
 
-export type UserContextDTOPreferredEffortLevelEnum = typeof UserContextDTOPreferredEffortLevelEnum[keyof typeof UserContextDTOPreferredEffortLevelEnum];
-export const UserContextDTOPreferredIntensityEnum = {
+export type PreferredEffortLevelEnum = typeof PreferredEffortLevelEnum[keyof typeof PreferredEffortLevelEnum];
+export const PreferredIntensityEnum = {
     Low: 'LOW',
     Moderate: 'MODERATE',
     High: 'HIGH',
     Intense: 'INTENSE'
 } as const;
 
-export type UserContextDTOPreferredIntensityEnum = typeof UserContextDTOPreferredIntensityEnum[keyof typeof UserContextDTOPreferredIntensityEnum];
-export const UserContextDTOCurrentContextsEnum = {
+export type PreferredIntensityEnum = typeof PreferredIntensityEnum[keyof typeof PreferredIntensityEnum];
+export const CurrentContextsEnum = {
     MorningRoutine: 'Morning Routine',
     EveningRoutine: 'Evening Routine',
     Weekend: 'Weekend',
@@ -228,8 +228,8 @@ export const UserContextDTOCurrentContextsEnum = {
     LongTermRelationship: 'Long-term Relationship'
 } as const;
 
-export type UserContextDTOCurrentContextsEnum = typeof UserContextDTOCurrentContextsEnum[keyof typeof UserContextDTOCurrentContextsEnum];
-export const UserContextDTOTimeContextEnum = {
+export type CurrentContextsEnum = typeof CurrentContextsEnum[keyof typeof CurrentContextsEnum];
+export const TimeContextEnum = {
     Morning: 'MORNING',
     Afternoon: 'AFTERNOON',
     Evening: 'EVENING',
@@ -240,8 +240,8 @@ export const UserContextDTOTimeContextEnum = {
     Anytime: 'ANYTIME'
 } as const;
 
-export type UserContextDTOTimeContextEnum = typeof UserContextDTOTimeContextEnum[keyof typeof UserContextDTOTimeContextEnum];
-export const UserContextDTORelationshipStatusEnum = {
+export type TimeContextEnum = typeof TimeContextEnum[keyof typeof TimeContextEnum];
+export const RelationshipStatusEnum = {
     New: 'NEW',
     Established: 'ESTABLISHED',
     Committed: 'COMMITTED',
@@ -254,6 +254,6 @@ export const UserContextDTORelationshipStatusEnum = {
     Other: 'OTHER'
 } as const;
 
-export type UserContextDTORelationshipStatusEnum = typeof UserContextDTORelationshipStatusEnum[keyof typeof UserContextDTORelationshipStatusEnum];
+export type RelationshipStatusEnum = typeof RelationshipStatusEnum[keyof typeof RelationshipStatusEnum];
 
 
