@@ -1,100 +1,45 @@
-import EmojiFeedbackModal from '@/components/EmojiFeedbackModal';
-import RitualCard from '@/components/RitualCard';
+import SwipeableRitualCard from '@/components/SwipeableRitualCard';
 import RitualPackCard from '@/components/RitualPackCard';
 import { ThemedText } from '@/components/themed-text';
-import { useRitualPacks } from '@/src/hooks/useRitualPacks';
-import { useRituals } from '@/src/hooks/useRituals';
-import { Ritual, toRitual } from '@/src/models/rituals';
-import { userCurrentOverrides } from '@/src/services/userCurrentOverrides';
-import { userSelections } from '@/src/services/userSelections';
-import { RitualPack } from '@/src/types/data-model';
-import { MaterialIcons } from '@expo/vector-icons';
+import { useCurrentRituals } from '@/src/hooks/useRitualHistory';
+import { RitualPack } from '@/src/models/ritualPacks';
+import { Ritual } from '@/src/models/rituals';
 import { useFocusEffect, useRouter } from 'expo-router';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { FlatList, View } from 'react-native';
-import { RectButton, Swipeable } from 'react-native-gesture-handler';
 
 export default function CurrentRitualsScreen() {
-  const { data: ritualsData, isLoading: isLoadingRituals } = useRituals();
-  const { data: packsData, isLoading: isLoadingPacks } = useRitualPacks();
-  const [filteredRituals, setFilteredRituals] = useState<Ritual[]>([]);
-  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
-  const [selectedRitualId, setSelectedRitualId] = useState<string | null>(null);
-  const swipeRefs = useRef<Record<string, Swipeable | null>>({});
+  const { data: currentData, isLoading, refetch } = useCurrentRituals();
   const router = useRouter();
 
-  const isLoading = isLoadingRituals || isLoadingPacks;
-  // Process rituals data
-  const { rituals, ritualsById }: { rituals: Ritual[], ritualsById: Record<string, Ritual> } = useMemo(() => {
-    if (!ritualsData) return { rituals: [], ritualsById: {} };
-    
-    const byId: Record<string, Ritual> = {};
-    
-    // Map RitualDTO to Ritual
-    const currentRituals = ritualsData
-      .filter((ritual) => ritual.status === 'PUBLISHED')
-      .map((r) => ({ ...toRitual(r), isCurrent: true, tags: [] as string[] }));
-      
-    // Populate the byId map
-    currentRituals.forEach(r => {
-      byId[r.id] = r;
-    });
-      
-    return { rituals: currentRituals, ritualsById: byId };
-  }, [ritualsData]);
-  
-  // Process packs data
-  const packs: RitualPack[] = useMemo(() => {
-    if (!packsData) return [];
-    
-    // Map RitualPackDTO to RitualPack
-    return packsData
-      .filter((p) => p.status === 'PUBLISHED') // Filter published packs
-      .map((p): RitualPack => ({
-        id: p.id || '',
-        title: p.title || 'Unnamed Pack',
-        description: p.fullDescription || p.shortDescription || '',
-        tags: [], // Not available in DTO
-        ritualIds: (p.rituals || []).map(r => r.id || '').filter(Boolean),
-        isCurrent: true // Assuming all returned packs are current for now
-      }));
-  }, [packsData]);
-  
-  const handleMarkCompleted = (id: string, emoji?: string) => {
-    if (selectedRitualId) {
-      userCurrentOverrides.markCompleted(selectedRitualId, emoji);
-      setFilteredRituals(prev => [...prev]);
-      swipeRefs.current[selectedRitualId]?.close();
-    }
-  };
+  const rituals: Ritual[] = useMemo(() => currentData?.rituals ?? [], [currentData]);
+  const packs: RitualPack[] = useMemo(() => currentData?.ritualPacks ?? [], [currentData]);
 
-  const renderRitualItem = ({ item }: { item: Ritual }) => (
-    <RitualCard ritual={item} onPress={() => handleRitualPress(item.id)} />
-  );
+  const ritualHistoryByRitualId = useMemo(() => {
+    const entries = (currentData?.ritualHistory ?? [])
+      .filter(h => !!h.ritualId && !!h.id)
+      .map(h => [h.ritualId as string, h.id as string] as const);
+    return new Map<string, string>(entries);
+  }, [currentData]);
 
   useFocusEffect(
     useCallback(() => {
-      setFilteredRituals(rituals);
-      // Remove any existing swipeable refs when refocusing
-      swipeRefs.current = {};
-    }, [rituals])
+      refetch();
+    }, [refetch])
+  );
+
+  const packRitualIds = useMemo(
+    () => new Set(packs.flatMap(p => p.rituals.map(r => r.id))), 
+    [packs]
+  );
+
+  const individualRituals = useMemo(
+    () => rituals.filter(r => !packRitualIds.has(r.id)),
+    [rituals, packRitualIds]
   );
 
   const handleRitualPress = (id: string) => {
     router.push(`/rituals/${id}`);
-  };
-
-  const handleCompletePress = (id: string) => {
-    setSelectedRitualId(id);
-    setShowFeedbackModal(true);
-  };
-
-  const handleEmojiSelect = (emoji: string) => {
-    if (selectedRitualId) {
-      handleMarkCompleted(selectedRitualId, emoji);
-      setShowFeedbackModal(false);
-      setSelectedRitualId(null);
-    }
   };
 
   if (isLoading) {
@@ -105,72 +50,23 @@ export default function CurrentRitualsScreen() {
     );
   }
 
-  const currentPackRitualIds = new Set(packs.flatMap(p => p.ritualIds));
-
-  const selectedIds = userSelections.getAll();
-  const mergedCurrentMap: Record<string, Ritual> = {};
-  filteredRituals.forEach(r => { mergedCurrentMap[r.id] = r; });
-  selectedIds.forEach(id => {
-    const r = ritualsById[id];
-    if (r) mergedCurrentMap[id] = r;
-  });
-  const mergedCurrent = Object.values(mergedCurrentMap);
-
-  let currentIndividualRituals = mergedCurrent.filter(r => !currentPackRitualIds.has(r.id));
-  currentIndividualRituals = currentIndividualRituals.filter(r => !userCurrentOverrides.isRemoved(r.id));
-
   return (
     <View className="flex-1 bg-white">
       <View className="flex-1">
         <FlatList
           style={{ flex: 1 }}
-          data={currentIndividualRituals}
+          data={individualRituals}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => {
-            const completed = userCurrentOverrides.isCompleted(item.id);
-
-            const renderRightActions = () => (
-              <View className="flex-row h-full items-stretch">
-                <RectButton
-                  onPress={() => handleCompletePress(item.id)}
-                  style={{ justifyContent: 'center' }}
-                >
-                  <View className="bg-green-100 h-full w-14 justify-center items-center">
-                    <MaterialIcons name="check-circle" size={24} color="#15803D" />
-                  </View>
-                </RectButton>
-                <RectButton
-                  onPress={() => {
-                    userCurrentOverrides.removeFromCurrent(item.id);
-                    setFilteredRituals(prev => prev.filter(r => r.id !== item.id));
-                  }}
-                  style={{ justifyContent: 'center' }}
-                >
-                  <View className="bg-rose-100 h-full w-14 justify-center items-center">
-                    <MaterialIcons name="delete" size={24} color="#BE123C" />
-                  </View>
-                </RectButton>
-              </View>
-            );
-
-            return (
-              <View className="px-4">
-                <Swipeable
-                  ref={(ref) => { swipeRefs.current[item.id] = ref; }}
-                  renderRightActions={renderRightActions}
-                  overshootRight={false}
-                >
-                  <View className={completed ? 'opacity-60' : ''}>
-                    <RitualCard 
-                      ritual={item} 
-                      onPress={() => handleRitualPress(item.id)}
-                      onLongPress={() => swipeRefs.current[item.id]?.openRight?.()}
-                    />
-                  </View>
-                </Swipeable>
-              </View>
-            );
-          }}
+          renderItem={({ item }) => (
+            <View className="px-4">
+              <SwipeableRitualCard
+                ritual={item}
+                ritualHistoryId={ritualHistoryByRitualId.get(item.id)}
+                onRitualPress={() => handleRitualPress(item.id)}
+                onChanged={() => { refetch(); }}
+              />
+            </View>
+          )}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 16, paddingTop: 0 }}
           ListHeaderComponent={
@@ -185,8 +81,9 @@ export default function CurrentRitualsScreen() {
                     <RitualPackCard
                       key={pack.id}
                       pack={pack}
-                      ritualsById={ritualsById}
                       onRitualPress={handleRitualPress}
+                      ritualHistoryIdByRitualId={ritualHistoryByRitualId}
+                      onChanged={() => { refetch(); }}
                       onPressPack={(id) => router.push(`/(tabs)/rituals/pack/${id}`)}
                     />
                   ))}
@@ -203,11 +100,6 @@ export default function CurrentRitualsScreen() {
           }
         />
       </View>
-      <EmojiFeedbackModal
-        visible={showFeedbackModal}
-        onClose={() => setShowFeedbackModal(false)}
-        onSelectEmoji={handleEmojiSelect}
-      />
     </View>
   );
 }

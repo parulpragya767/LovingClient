@@ -1,4 +1,3 @@
-import type { CurrentRitualsDTO } from '@/src/api/models/current-rituals-dto';
 import type { MediaAsset as ApiMediaAsset } from '@/src/api/models/media-asset';
 import type { RitualDTO } from '@/src/api/models/ritual-dto';
 import type { RitualFilterRequest as ApiRitualFilterRequest } from '@/src/api/models/ritual-filter-request';
@@ -19,7 +18,6 @@ export function toRitual(dto: RitualDTO): Ritual {
   };
 }
 
-export interface CurrentRituals extends CurrentRitualsDTO {}
 export interface RitualStep extends ApiRitualStep {}
 export interface MediaAsset extends ApiMediaAsset {}
 export interface RitualFilter extends ApiRitualFilterRequest {}

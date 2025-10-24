@@ -1,8 +1,8 @@
+import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
-import { Modal, View, Text, Pressable, StyleSheet } from 'react-native';
+import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { ThemedText } from './themed-text';
 import { ThemedView } from './themed-view';
-import { MaterialIcons } from '@expo/vector-icons';
 
 type EmojiFeedbackModalProps = {
   visible: boolean;
@@ -10,7 +10,7 @@ type EmojiFeedbackModalProps = {
   onSelectEmoji: (emoji: string) => void;
 };
 
-const EMOJIS = ['😊', '😍', '🙂', '😐', '😕', '😢'];
+const EMOJIS = ['❤️', '😊', '😐', '😢', '😠', '🔥', '👍', '👎'];
 
 export default function EmojiFeedbackModal({ visible, onClose, onSelectEmoji }: EmojiFeedbackModalProps) {
   const [selectedEmoji, setSelectedEmoji] = useState<string | null>(null);
