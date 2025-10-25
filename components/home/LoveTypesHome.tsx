@@ -1,23 +1,24 @@
 import { ThemedText } from '@/components/themed-text';
-import { LoveType } from '@/src/types/data-model';
+import { LoveLensInfo } from '@/src/models/loveLens';
 import { useRouter } from 'expo-router';
 import { FlatList, Pressable, View } from 'react-native';
 
 interface LoveTypesHomeProps {
-  loveTypes: LoveType[];
+  loveTypes: LoveLensInfo[];
 }
 
 export default function LoveTypesHome({ loveTypes }: LoveTypesHomeProps) {
   const router = useRouter();
-  const handlePress = (id: string) => {
+  const handlePress = (id: number | undefined) => {
+    if (id === undefined) return;
     router.push(`/love-lens/${id}`);
   };
 
-  const renderLoveTypeCard = ({ item }: { item: LoveType }) => (
+  const renderLoveTypeCard = ({ item }: { item: LoveLensInfo }) => (
     <Pressable onPress={() => handlePress(item.id)} className="mr-3 w-64">
       <View className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
         <ThemedText className="text-gray-900 text-base font-semibold mb-1" numberOfLines={1}>
-          {item.name}
+          {item.title}
         </ThemedText>
         <ThemedText className="text-gray-600 text-sm" numberOfLines={2}>
           {item.description}
@@ -34,7 +35,7 @@ export default function LoveTypesHome({ loveTypes }: LoveTypesHomeProps) {
       </View>
       <FlatList
         data={loveTypes}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id?.toString() || ''}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 8 }}

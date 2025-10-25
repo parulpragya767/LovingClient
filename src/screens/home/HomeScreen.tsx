@@ -6,7 +6,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Ritual } from '@/src/models/rituals';
 import { useUserService } from '@/src/services/user';
-import { LoveType } from '@/src/types/data-model';
+import { LoveLensInfo } from '@/src/models/loveLens';
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -15,7 +15,7 @@ export default function HomeScreen() {
   const [rituals, setRituals] = useState<Ritual[]>([]);
   const [loading, setLoading] = useState(true);
   const { getCurrentRituals, getCurrentLoveTypes, isLoadingLoveTypes } = useUserService();
-  const [loveTypes, setLoveTypes] = useState<LoveType[]>([]);
+  const [loveTypes, setLoveTypes] = useState<LoveLensInfo[]>([]);
 
   const loadData = useCallback(async () => {
     try {

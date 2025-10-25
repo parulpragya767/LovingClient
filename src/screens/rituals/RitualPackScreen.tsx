@@ -1,60 +1,34 @@
 import RitualCard from '@/components/RitualCard';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { useRituals } from '@/src/hooks/useRituals';
+import { useRitualPack } from '@/src/hooks/useRitualPacks';
 import { Ritual } from '@/src/models/rituals';
-import { apiService } from '@/src/services/api';
-import { RitualPack } from '@/src/types/data-model';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { ActivityIndicator, FlatList, View } from 'react-native';
 
 export default function RitualPackScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const [pack, setPack] = useState<RitualPack | null>(null);
-  const [rituals, setRituals] = useState<Ritual[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const { data: allRituals = [], isLoading: ritualsLoading } = useRituals();
-
-  const loadPack = useCallback(async () => {
-    if (!id) return;
-    
-    try {
-      const packData = await apiService.getRitualPackById(id);
-
-      if (!packData) {
-        console.error('Ritual pack not found');
-        return;
-      }
-
-      // Filter rituals that belong to this pack
-      const packRituals = allRituals.filter((r: Ritual) =>
-        packData.ritualIds.includes(r.id)
-      );
-
-      setPack(packData);
-      setRituals(packRituals);
-    } catch (error) {
-      console.error('Failed to load ritual pack:', error);
-      // Handle error appropriately in your UI
-    } finally {
-      setIsLoading(false);
-    }
-  }, [id, allRituals]);
-
-  useEffect(() => {
-    loadPack();
-  }, [loadPack]);
+  const { data: pack, isLoading, error, refetch, isRefetching } = useRitualPack(id);
+  const rituals: Ritual[] = useMemo(() => pack?.rituals ?? [], [pack]);
 
   const handleRitualPress = (ritualId: string) => {
     router.push(`/rituals/${ritualId}`);
   };
 
-  if (isLoading || ritualsLoading || !pack) {
+  if (isLoading) {
     return (
       <ThemedView className="flex-1 items-center justify-center">
         <ActivityIndicator size="large" color="#8B5CF6" />
+      </ThemedView>
+    );
+  }
+
+  if (error || !pack) {
+    return (
+      <ThemedView className="flex-1 items-center justify-center p-4">
+        <ThemedText>{error?.message || 'Failed to load ritual pack'}</ThemedText>
       </ThemedView>
     );
   }
@@ -69,17 +43,6 @@ export default function RitualPackScreen() {
           <ThemedText className="text-gray-600 mb-4">
             {pack.description}
           </ThemedText>
-        )}
-        {pack.tags && pack.tags.length > 0 && (
-          <View className="flex-row flex-wrap mb-4">
-            {pack.tags.map((tag, index) => (
-              <View key={index} className="bg-gray-100 rounded-full px-2 py-1 mr-2 mb-1">
-                <ThemedText className="text-gray-600 text-xs">
-                  {tag}
-                </ThemedText>
-              </View>
-            ))}
-          </View>
         )}
         <ThemedText className="text-lg font-semibold mb-2">
           Rituals in this pack ({rituals.length})
@@ -103,8 +66,8 @@ export default function RitualPackScreen() {
             <ThemedText className="text-gray-500">No rituals in this pack.</ThemedText>
           </View>
         }
-        refreshing={isLoading}
-        onRefresh={loadPack}
+        refreshing={isRefetching}
+        onRefresh={refetch}
       />
     </ThemedView>
   );

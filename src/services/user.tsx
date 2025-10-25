@@ -1,10 +1,9 @@
 import { useRitualPacks } from '@/src/hooks/useRitualPacks';
 import { useRituals } from '@/src/hooks/useRituals';
 import { useCallback } from 'react';
-import { LoveTypeInfo } from '../api/models/love-type-info';
 import { useLoveTypes } from '../hooks/useLoveTypes';
 import { Ritual } from '../models/rituals';
-import { LoveType } from '../types/data-model';
+import { LoveLensInfo } from '../models/loveLens';
 
 export const useUserService = () => {
   const { data: allLoveTypes = [], isLoading: isLoadingLoveTypes } = useLoveTypes();
@@ -31,39 +30,11 @@ export const useUserService = () => {
     return [...packRituals, ...individualCurrent];
   }, [ritualsData, packsData]);
 
-  const mapToLoveType = useCallback((loveTypeInfo: LoveTypeInfo): LoveType => {
-    // Map LoveTypeInfo to LoveType
-    const howToSection = loveTypeInfo.sections?.find(s => s.title === 'How to Express');
-    const howToExpress = (howToSection?.bullets || [])
-      .map(bullet => bullet.text)
-      .filter((text): text is string => text !== undefined);
-      
-    return {
-      id: loveTypeInfo.id?.toString() || '',
-      name: loveTypeInfo.title || '',
-      description: loveTypeInfo.description || '',
-      emoji: getEmojiForLoveType(loveTypeInfo.loveType || ''),
-      longDescription: loveTypeInfo.subtitle,
-      howToExpress
-    };
-  }, []);
-
-  const getEmojiForLoveType = (loveType: string): string => {
-    // Map love type to emoji
-    const emojiMap: Record<string, string> = {
-      'BELONG': '🤝',
-      'FIRE': '🔥',
-      'SPARK': '⚡',
-      // Add more mappings as needed
-    };
-    return emojiMap[loveType] || '❤️';
-  };
-
-  const getCurrentLoveTypes = useCallback((): LoveType[] => {
+  const getCurrentLoveTypes = useCallback((): LoveLensInfo[] => {
     // Return first 3 love types as the user's current focus
     // In a real app, we would filter based on user preferences
-    return allLoveTypes.slice(0, 3).map(mapToLoveType);
-  }, [allLoveTypes, mapToLoveType]);
+    return allLoveTypes.slice(0, 3);
+  }, [allLoveTypes]);
 
   return {
     getCurrentRituals,
