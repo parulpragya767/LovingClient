@@ -1,6 +1,7 @@
+import { ThemedText } from '@/components/themes/themed-text';
+import { useRitualHistory } from '@/src/hooks/useRitualHistory';
 import { EmojiFeedback, RitualHistoryStatus } from '@/src/models/enums';
 import { Ritual } from '@/src/models/rituals';
-import { useRitualHistory } from '@/src/hooks/useRitualHistory';
 import { ritualHistoryService } from '@/src/services/ritualHistoryService';
 import React, { useRef, useState } from 'react';
 import { Pressable, View } from 'react-native';
@@ -8,7 +9,6 @@ import { Swipeable } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import EmojiFeedbackModal from './EmojiFeedbackModal';
 import RitualCard from './RitualCard';
-import { ThemedText } from './themed-text';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 

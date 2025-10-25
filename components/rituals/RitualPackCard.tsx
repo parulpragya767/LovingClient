@@ -1,8 +1,8 @@
+import { ThemedText } from '@/components/themes/themed-text';
 import { RitualPack } from '@/src/models/ritualPacks';
 import React from 'react';
 import { Pressable, View } from 'react-native';
 import SwipeableRitualCard from './SwipeableRitualCard';
-import { ThemedText } from './themed-text';
 
 type Props = {
   pack: RitualPack;

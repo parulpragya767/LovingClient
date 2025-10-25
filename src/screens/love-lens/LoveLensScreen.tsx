@@ -1,9 +1,9 @@
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { ThemedText } from '@/components/themes/themed-text';
+import { ThemedView } from '@/components/themes/themed-view';
 import { useLoveTypes } from '@/src/hooks/useLoveTypes';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { FlatList, Pressable, View, ActivityIndicator, RefreshControl } from 'react-native';
+import { ActivityIndicator, FlatList, Pressable, RefreshControl, View } from 'react-native';
 
 export default function LoveLensScreen() {
   const router = useRouter();

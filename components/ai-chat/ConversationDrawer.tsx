@@ -1,9 +1,9 @@
-import { ThemedText } from '@/components/themed-text';
-import { ChatMessage, Conversation } from '@/src/types/chat';
+import { ThemedText } from '@/components/themes/themed-text';
+import { chatService } from '@/src/services/chatServiceOld';
+import { Conversation } from '@/src/types/chat';
 import { MaterialIcons } from '@expo/vector-icons';
-import { View, Pressable, Modal, StyleSheet, TouchableOpacity } from 'react-native';
-import { useState, useEffect } from 'react';
-import { chatService } from '@/src/services/chatService';
+import { useEffect, useState } from 'react';
+import { Modal, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type ConversationDrawerProps = {

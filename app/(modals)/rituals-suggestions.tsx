@@ -4,8 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { FlatList, Pressable, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import RitualCard from '@/components/RitualCard';
-import { ThemedText } from '@/components/themed-text';
+import RitualCard from '@/components/rituals/RitualCard';
+import { ThemedText } from '@/components/themes/themed-text';
 import { useRituals } from '@/src/hooks/useRituals';
 import { Ritual } from '@/src/models/rituals';
 import { suggestionsService } from '@/src/services/suggestions';

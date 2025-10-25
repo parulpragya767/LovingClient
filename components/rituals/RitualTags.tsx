@@ -1,5 +1,5 @@
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { ThemedText } from '@/components/themes/themed-text';
+import { ThemedView } from '@/components/themes/themed-view';
 import type { RitualTag, TagValue } from '@/src/models/ritualTags';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Pressable, View } from 'react-native';

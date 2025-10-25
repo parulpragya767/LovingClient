@@ -1,4 +1,4 @@
-import { ThemedText } from '@/components/themed-text';
+import { ThemedText } from '@/components/themes/themed-text';
 import { MaterialIcons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator, MaterialTopTabNavigationOptions } from '@react-navigation/material-top-tabs';
 import { router, withLayoutContext } from 'expo-router';

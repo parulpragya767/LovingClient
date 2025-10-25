@@ -1,5 +1,5 @@
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { ThemedText } from '@/components/themes/themed-text';
+import { ThemedView } from '@/components/themes/themed-view';
 import type { LoveLensInfo, LoveLensInfoSection } from '@/src/models/loveLens';
 import { useQueryClient } from '@tanstack/react-query';
 import { useLocalSearchParams, useRouter } from 'expo-router';

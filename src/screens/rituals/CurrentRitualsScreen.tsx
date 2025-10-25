@@ -1,6 +1,6 @@
-import SwipeableRitualCard from '@/components/SwipeableRitualCard';
-import RitualPackCard from '@/components/RitualPackCard';
-import { ThemedText } from '@/components/themed-text';
+import RitualPackCard from '@/components/rituals/RitualPackCard';
+import SwipeableRitualCard from '@/components/rituals/SwipeableRitualCard';
+import { ThemedText } from '@/components/themes/themed-text';
 import { useCurrentRituals } from '@/src/hooks/useRitualHistory';
 import { RitualPack } from '@/src/models/ritualPacks';
 import { Ritual } from '@/src/models/rituals';

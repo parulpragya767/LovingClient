@@ -1,5 +1,4 @@
-import { ThemedText } from '@/components/themed-text';
-import { ChatMessage } from '@/src/types/chat';
+import { ThemedText } from '@/components/themes/themed-text';
 import { Pressable, View } from 'react-native';
 
 type ConversationItemProps = {

@@ -1,4 +1,4 @@
-import { ThemedText } from '@/components/themed-text';
+import { ThemedText } from '@/components/themes/themed-text';
 import { useRitualHistory } from '@/src/hooks/useRitualHistory';
 import { useRituals } from '@/src/hooks/useRituals';
 import { EmojiFeedback, RitualHistoryStatus } from '@/src/models/enums';

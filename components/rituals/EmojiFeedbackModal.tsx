@@ -1,8 +1,8 @@
+import { ThemedText } from '@/components/themes/themed-text';
+import { ThemedView } from '@/components/themes/themed-view';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
-import { ThemedText } from './themed-text';
-import { ThemedView } from './themed-view';
 
 type EmojiFeedbackModalProps = {
   visible: boolean;

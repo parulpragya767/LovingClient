@@ -1,4 +1,4 @@
-import { ThemedText } from '@/components/themed-text';
+import { ThemedText } from '@/components/themes/themed-text';
 import { ChatMessage as ChatMessageType } from '@/src/types/chat';
 import { View } from 'react-native';
 

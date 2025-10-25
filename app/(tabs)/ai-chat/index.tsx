@@ -1,8 +1,8 @@
-import { ChatMessage } from '@/components/ChatMessage';
-import { ConversationDrawer } from '@/components/ConversationDrawer';
-import { StarterPrompt } from '@/components/StarterPrompt';
-import { ThemedText } from '@/components/themed-text';
-import { chatService } from '@/src/services/chatService';
+import { ChatMessage } from '@/components/ai-chat/ChatMessage';
+import { ConversationDrawer } from '@/components/ai-chat/ConversationDrawer';
+import { StarterPrompt } from '@/components/ai-chat/StarterPrompt';
+import { ThemedText } from '@/components/themes/themed-text';
+import { chatService } from '@/src/services/chatServiceOld';
 import { ChatMessage as ChatMessageType, Conversation, StarterPrompt as StarterPromptType } from '@/src/types/chat';
 // Removed unused Drawer import
 import { MaterialIcons } from '@expo/vector-icons';

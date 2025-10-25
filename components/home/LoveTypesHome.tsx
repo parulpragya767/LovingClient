@@ -1,4 +1,4 @@
-import { ThemedText } from '@/components/themed-text';
+import { ThemedText } from '@/components/themes/themed-text';
 import { LoveLensInfo } from '@/src/models/loveLens';
 import { useRouter } from 'expo-router';
 import { FlatList, Pressable, View } from 'react-native';

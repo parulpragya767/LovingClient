@@ -1,5 +1,5 @@
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { ThemedText } from '@/components/themes/themed-text';
+import { ThemedView } from '@/components/themes/themed-view';
 import { Ritual } from '@/src/models/rituals';
 import { TouchableOpacity, View } from 'react-native';
 import RitualTag from './RitualTags';

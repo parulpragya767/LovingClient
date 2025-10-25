@@ -1,12 +1,12 @@
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { ThemedText } from '@/components/themes/themed-text';
+import { ThemedView } from '@/components/themes/themed-view';
+import { RitualDTO } from '@/src/api/models/ritual-dto';
+import { RitualStep } from '@/src/api/models/ritual-step';
 import { useRitual } from '@/src/hooks/useRitual';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { ActivityIndicator, Image, Pressable, ScrollView, View } from 'react-native';
-import { RitualDTO } from '@/src/api/models/ritual-dto';
-import { RitualStep } from '@/src/api/models/ritual-step';
 
 // Local type for the UI
 interface RitualDetails {

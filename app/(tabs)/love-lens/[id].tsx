@@ -1,4 +1,4 @@
-import LoveTypeDetailScreen from '@/src/screens/LoveLens/LoveTypeDetailScreen';
+import LoveTypeDetailScreen from '@/src/screens/love-lens/LoveTypeDetailScreen';
 
 export default function LoveTypeDetailRoute() {
   return <LoveTypeDetailScreen />;

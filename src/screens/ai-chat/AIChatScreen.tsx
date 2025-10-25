@@ -1,9 +1,9 @@
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { ThemedText } from '@/components/themes/themed-text';
+import { ThemedView } from '@/components/themes/themed-view';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { KeyboardAvoidingView, Platform, TextInput, TouchableOpacity, View, FlatList } from 'react-native';
+import { FlatList, KeyboardAvoidingView, Platform, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface Message {
   id: string;
@@ -12,7 +12,7 @@ interface Message {
   timestamp: Date;
 }
 
-export default function AICompanionChatScreen() {
+export default function AIChatScreen() {
   const router = useRouter();
   const { topic } = useLocalSearchParams<{ topic?: string }>();
   const [messages, setMessages] = useState<Message[]>([
@@ -59,7 +59,7 @@ export default function AICompanionChatScreen() {
           <MaterialIcons name="arrow-back" size={24} color="#4B5563" />
         </TouchableOpacity>
         <View>
-          <ThemedText className="text-lg font-semibold">AI Companion</ThemedText>
+          <ThemedText className="text-lg font-semibold">AI Chat</ThemedText>
           <ThemedText className="text-sm text-gray-500">Online</ThemedText>
         </View>
       </View>

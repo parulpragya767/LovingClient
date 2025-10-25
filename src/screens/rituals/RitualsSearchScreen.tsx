@@ -1,6 +1,6 @@
-import TagCategory from '@/components/TagCategory';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import TagCategory from '@/components/rituals/TagCategory';
+import { ThemedText } from '@/components/themes/themed-text';
+import { ThemedView } from '@/components/themes/themed-view';
 import { useRitualSearchStore } from '@/src/hooks/useRitualSearchStore';
 import { useRitualTags } from '@/src/hooks/useRitualTags';
 import { MaterialIcons } from '@expo/vector-icons';

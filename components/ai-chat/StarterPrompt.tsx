@@ -1,4 +1,4 @@
-import { ThemedText } from '@/components/themed-text';
+import { ThemedText } from '@/components/themes/themed-text';
 import { StarterPrompt as StarterPromptType } from '@/src/types/chat';
 import { Pressable, View } from 'react-native';
 

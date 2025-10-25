@@ -1,6 +1,6 @@
+import { ThemedText } from '@/components/themes/themed-text';
 import { Pressable, View } from 'react-native';
 import RitualTags from './RitualTags';
-import { ThemedText } from './themed-text';
 
 interface TagCategoryProps {
   title: string;

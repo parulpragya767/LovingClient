@@ -1,6 +1,6 @@
-import RitualCard from '@/components/RitualCard';
-import RitualTags from '@/components/RitualTags';
-import { ThemedText } from '@/components/themed-text';
+import RitualCard from '@/components/rituals/RitualCard';
+import RitualTags from '@/components/rituals/RitualTags';
+import { ThemedText } from '@/components/themes/themed-text';
 import { useRitualSearchStore } from '@/src/hooks/useRitualSearchStore';
 import { useRitualTagSelection } from '@/src/hooks/useRitualTagSelection';
 import { Ritual } from '@/src/models/rituals';
