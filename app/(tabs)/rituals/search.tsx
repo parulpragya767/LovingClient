@@ -1,5 +1,5 @@
-import RitualsListScreen from "@/src/screens/rituals/RitualsListScreen";
+import RitualsSearchScreen from "@/src/screens/rituals/RitualsSearchScreen";
 
-export default function RitualsSearchScreen() {
-  return <RitualsListScreen showSearchHeader />;
+export default function RitualsSearchRoute() {
+  return <RitualsSearchScreen />;
 }

@@ -1,5 +1,5 @@
-import RitualsListScreen from '@/src/screens/rituals/RitualsListScreen';
+import AllRitualsScreen from "@/src/screens/rituals/AllRitualsScreen";
 
-export default function AllRitualsScreen() {
-  return <RitualsListScreen />;
+export default function AllRitualsRoute() {
+  return <AllRitualsScreen />;
 }

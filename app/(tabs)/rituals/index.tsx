@@ -1,5 +1,5 @@
-import RitualsHomeScreen from '@/src/screens/rituals/RitualsHomeScreen';
+import CurrentRitualsScreen from '@/src/screens/rituals/CurrentRitualsScreen';
 
 export default function RitualsIndexRedirect() {
-  return <RitualsHomeScreen />;
+  return <CurrentRitualsScreen />;
 }

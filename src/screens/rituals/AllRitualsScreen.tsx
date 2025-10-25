@@ -1,43 +1,33 @@
 import RitualCard from '@/components/RitualCard';
+import RitualTags from '@/components/RitualTags';
 import { ThemedText } from '@/components/themed-text';
-import { useRituals } from '@/src/hooks/useRituals';
+import { useRitualSearchStore } from '@/src/hooks/useRitualSearchStore';
+import { useRitualTagSelection } from '@/src/hooks/useRitualTagSelection';
 import { Ritual } from '@/src/models/rituals';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, FlatList, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { useCallback, useEffect } from 'react';
+import { ActivityIndicator, FlatList, ScrollView, View } from 'react-native';
 
 export default function AllRitualsScreen() {
-  const { data: ritualsData, isLoading, error } = useRituals();
-  const [filteredRituals, setFilteredRituals] = useState<Ritual[]>([]);
   const router = useRouter();
-  const params = useLocalSearchParams();
-  const [searchTags, setSearchTags] = useState<string[]>([]);
+  const { state, actions } = useRitualSearchStore();
+  const { rituals, isLoading, error, filter } = state;
+  const { chips, removeChip } = useRitualTagSelection();
 
-  // Use rituals data directly from the hook
-  const rituals = useMemo(() => ritualsData || [], [ritualsData]);
+  const loadNext = useCallback(() => {
+    actions.loadNextPage();
+  }, [actions]);
 
-  // Apply filtering when tags or rituals change
   useEffect(() => {
-    let data = rituals;
-    if (searchTags.length > 0) {
-      data = data.filter(r => searchTags.every(t => r.tags.includes(t)));
+    if (!isLoading && rituals.length === 0) {
+      actions.runSearch(true);
     }
-    setFilteredRituals(data);
-  }, [rituals, searchTags]);
+  }, [actions, isLoading, rituals.length]);
 
-  // Read tags from route params
   useEffect(() => {
-    if (params?.searchTags) {
-      try {
-        const tags = JSON.parse(String(params.searchTags)) as string[];
-        setSearchTags(Array.isArray(tags) ? tags : []);
-      } catch (e) {
-        setSearchTags([]);
-      }
-    } else {
-      setSearchTags([]);
-    }
-  }, [params?.searchTags]);
+    // Trigger fresh search when filter changes
+    actions.runSearch(true);
+  }, [actions, filter]);
 
   const handleRitualPress = (id: string) => {
     router.push(`/(tabs)/rituals/${id}`);
@@ -51,7 +41,7 @@ export default function AllRitualsScreen() {
     />
   ), [handleRitualPress]);
 
-  if (isLoading) {
+  if (isLoading && rituals.length === 0) {
     return (
       <View className="flex-1 justify-center items-center bg-white">
         <ActivityIndicator size="large" />
@@ -71,13 +61,42 @@ export default function AllRitualsScreen() {
   }
 
   return (
-    <View className="flex-1 bg-white">
+    <View className="bg-white">
+        {chips.length > 0 && (
+          <ScrollView 
+            horizontal 
+            className="px-4 pt-3" 
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ gap: 8 }}
+          >
+            {chips.map((c) => (
+              <RitualTags 
+                key={c}
+                tag={{ displayName: c }}
+                bgClassName="bg-violet-100"
+                borderClassName="border-violet-200"
+                colorClassName="text-violet-700"
+                closable
+                onClose={() => removeChip(c)}
+              />
+            ))}
+          </ScrollView>
+        )}
         <FlatList
-          data={filteredRituals}
+          data={rituals}
           keyExtractor={(item) => item.id}
           renderItem={renderRitualCard}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 16 }}
+          onEndReached={loadNext}
+          onEndReachedThreshold={0.6}
+          ListFooterComponent={
+            isLoading ? (
+              <View className="py-4">
+                <ActivityIndicator />
+              </View>
+            ) : null
+          }
           ListEmptyComponent={
             <View className="flex-1 justify-center items-center py-10">
               <ThemedText className="text-gray-500">
