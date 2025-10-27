@@ -1,6 +1,5 @@
 import { ThemedText } from '@/components/themes/themed-text';
-import { chatService } from '@/src/services/chatServiceOld';
-import { Conversation } from '@/src/types/chat';
+import type { ConversationState } from '@/src/hooks/useChat';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import { Modal, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -11,46 +10,38 @@ type ConversationDrawerProps = {
   onClose: () => void;
   onConversationSelect: (conversationId: string) => void;
   currentConversationId: string | null;
+  conversations: ConversationState[];
+  onDeleteConversation: (id: string) => Promise<void> | void;
+  onNewConversation: () => Promise<void> | void;
 };
 
 export function ConversationDrawer({ 
   isOpen, 
   onClose, 
   onConversationSelect, 
-  currentConversationId 
+  currentConversationId,
+  conversations,
+  onDeleteConversation,
+  onNewConversation,
 }: ConversationDrawerProps) {
-  const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const insets = useSafeAreaInsets();
 
-  const loadConversations = async () => {
-    try {
-      setIsLoading(true);
-      const convs = await chatService.getConversations();
-      setConversations(convs);
-    } catch (error) {
-      console.error('Failed to load conversations:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
-    loadConversations();
-  }, [currentConversationId]);
+    // placeholder for potential loading indicator when prop changes
+    setIsLoading(false);
+  }, [currentConversationId, conversations]);
 
   const handleDeleteConversation = async (id: string) => {
     try {
-      await chatService.deleteConversation(id);
-      loadConversations();
+      await onDeleteConversation(id);
     } catch (error) {
       console.error('Failed to delete conversation:', error);
     }
   };
 
-  const handleNewChat = () => {
-    const newId = chatService.createNewConversation();
-    onConversationSelect(newId);
+  const handleNewChat = async () => {
+    await onNewConversation();
   };
 
   return (
@@ -62,7 +53,7 @@ export function ConversationDrawer({
     >
       <SafeAreaProvider>
         <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
-          <View style={[styles.header, { paddingTop: 16 + insets.top }]}>
+          <View style={[styles.header, { paddingTop: 16 + insets.top }]}> 
             <ThemedText className="text-xl font-bold text-gray-900">Conversations</ThemedText>
             <TouchableOpacity onPress={onClose} style={styles.closeButton}>
               <MaterialIcons name="close" size={24} color="#4B5563" />
@@ -97,7 +88,7 @@ export function ConversationDrawer({
                       numberOfLines={1}
                       ellipsizeMode="tail"
                     >
-                      {conversation.messages[0]?.text || 'No messages yet'}
+                      {conversation.messages[0]?.content || 'No messages yet'}
                     </ThemedText>
                   </View>
                   <Pressable 

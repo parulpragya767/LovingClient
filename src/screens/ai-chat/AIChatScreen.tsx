@@ -1,26 +1,22 @@
 import { ThemedText } from '@/components/themes/themed-text';
 import { ThemedView } from '@/components/themes/themed-view';
+import { ChatMessageRole } from '@/src/api/models/chat-message-role';
+import { ChatMessage } from '@/src/models/chat';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { FlatList, KeyboardAvoidingView, Platform, TextInput, TouchableOpacity, View } from 'react-native';
 
-interface Message {
-  id: string;
-  text: string;
-  sender: 'user' | 'ai';
-  timestamp: Date;
-}
-
 export default function AIChatScreen() {
   const router = useRouter();
   const { topic } = useLocalSearchParams<{ topic?: string }>();
-  const [messages, setMessages] = useState<Message[]>([
+  const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
-      text: topic ? `I'm here to help you with ${topic}. What would you like to discuss?` : 'Hello! How can I help you today?',
-      sender: 'ai',
-      timestamp: new Date(),
+      content: topic ? `I'm here to help you with ${topic}. What would you like to discuss?` : 'Hello! How can I help you today?',
+      role: ChatMessageRole.Assistant,
+      createdAt: new Date().toISOString(),
+      sessionId: 'session-1',
     },
   ]);
   const [inputText, setInputText] = useState('');
@@ -29,11 +25,12 @@ export default function AIChatScreen() {
     if (!inputText.trim()) return;
     
     // Add user message
-    const userMessage: Message = {
+    const userMessage: ChatMessage = {
       id: Date.now().toString(),
-      text: inputText,
-      sender: 'user',
-      timestamp: new Date(),
+      content: inputText,
+      role: ChatMessageRole.User,
+      createdAt: new Date().toISOString(),
+      sessionId: 'session-1',
     };
     
     setMessages(prev => [...prev, userMessage]);
@@ -41,11 +38,12 @@ export default function AIChatScreen() {
     
     // Simulate AI response
     setTimeout(() => {
-      const aiMessage: Message = {
+      const aiMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
-        text: `I understand you're asking about "${inputText}". While I'm an AI and can provide general advice, remember that I'm not a substitute for professional relationship counseling.`,
-        sender: 'ai',
-        timestamp: new Date(),
+        content: `I understand you're asking about "${inputText}". While I'm an AI and can provide general advice, remember that I'm not a substitute for professional relationship counseling.`,
+        role: ChatMessageRole.Assistant,
+        createdAt: new Date().toISOString(),
+        sessionId: 'session-1',
       };
       setMessages(prev => [...prev, aiMessage]);
     }, 1000);
@@ -67,15 +65,15 @@ export default function AIChatScreen() {
       {/* Messages */}
       <FlatList
         data={messages}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id || ''}
         contentContainerStyle={{ padding: 16 }}
         renderItem={({ item }) => (
           <View 
-            className={`mb-4 max-w-[80%] ${item.sender === 'user' ? 'self-end bg-blue-100' : 'self-start bg-gray-100'} rounded-2xl p-4`}
+            className={`mb-4 max-w-[80%] ${item.role === ChatMessageRole.User ? 'self-end bg-blue-100' : 'self-start bg-gray-100'} rounded-2xl p-4`}
           >
-            <ThemedText>{item.text}</ThemedText>
+            <ThemedText>{item.content}</ThemedText>
             <ThemedText className="text-xs text-gray-500 mt-1">
-              {item.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              {item.createdAt ? new Date(item.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
             </ThemedText>
           </View>
         )}

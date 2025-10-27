@@ -2,115 +2,56 @@ import { ChatMessage } from '@/components/ai-chat/ChatMessage';
 import { ConversationDrawer } from '@/components/ai-chat/ConversationDrawer';
 import { StarterPrompt } from '@/components/ai-chat/StarterPrompt';
 import { ThemedText } from '@/components/themes/themed-text';
-import { chatService } from '@/src/services/chatServiceOld';
-import { ChatMessage as ChatMessageType, Conversation, StarterPrompt as StarterPromptType } from '@/src/types/chat';
+import { useChat } from '@/src/hooks/useChat';
+import type { ChatMessage as ChatMessageModel } from '@/src/models/chat';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, Pressable, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const AIChatHomeScreen = () => {
   const router = useRouter();
-  const [conversation, setConversation] = useState<Conversation | null>(null);
-  const [messages, setMessages] = useState<ChatMessageType[]>([]);
+  const {
+    conversations,
+    currentConversation,
+    currentConversationId,
+    samplePromptsQuery,
+    startNewConversation,
+    selectConversation,
+    sendMessage,
+    deleteConversation,
+  } = useChat();
   const [inputText, setInputText] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [starterPrompts, setStarterPrompts] = useState<StarterPromptType[]>([]);
+  const [isSending, setIsSending] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const flatListRef = useRef<FlatList>(null);
 
-  // Load conversation and starter prompts on mount
-  useEffect(() => {
-    const loadInitialData = async () => {
-      try {
-        // Load starter prompts
-        const prompts = await chatService.getStarterPrompts();
-        setStarterPrompts(prompts);
-
-        // Load or create conversation
-        let convId = chatService.getCurrentConversationId();
-        if (!convId) {
-          convId = chatService.createNewConversation();
-        }
-        loadConversation(convId);
-      } catch (error) {
-        console.error('Failed to load initial data:', error);
-      }
-    };
-
-    loadInitialData();
-  }, []);
-
-  // Load conversation by ID
-  const loadConversation = async (conversationId: string) => {
-    try {
-      const conv = await chatService.getConversation(conversationId);
-      if (conv) {
-        setConversation(conv);
-        setMessages(conv.messages);
-        chatService.setCurrentConversation(conversationId);
-      }
-    } catch (error) {
-      console.error('Failed to load conversation:', error);
-    }
-  };
-
   // Handle conversation selection from drawer
   const handleSelectConversation = (conversationId: string) => {
-    loadConversation(conversationId);
+    selectConversation(conversationId);
     setIsDrawerOpen(false);
   };
 
   // Create a new conversation
-  const handleNewConversation = () => {
-    const newId = chatService.createNewConversation();
-    loadConversation(newId);
+  const handleNewConversation = async () => {
+    await startNewConversation();
   };
 
   // Scroll to bottom when messages change
-  useEffect(() => {
-    if (messages.length > 0) {
-      setTimeout(() => {
-        flatListRef.current?.scrollToEnd({ animated: true });
-      }, 100);
-    }
-  }, [messages]);
+  const messages = useMemo<ChatMessageModel[]>(() => currentConversation?.messages || [], [currentConversation]);
 
   const handleSendMessage = useCallback(async () => {
-    if (!inputText.trim() || isLoading) return;
-
-    const userMessage: ChatMessageType = {
-      id: Date.now().toString(),
-      text: inputText,
-      sender: 'user',
-      timestamp: new Date(),
-    };
-
-    // Add user message to UI immediately
-    setMessages(prev => [...prev, userMessage]);
+    if (!inputText.trim() || isSending) return;
     setInputText('');
-    setIsLoading(true);
+    setIsSending(true);
 
     try {
-      // Send message and get AI response
-      const response = await chatService.sendMessage(inputText);
-      
-      // Update messages with AI response
-      setMessages(prev => [...prev, response]);
-      
-      // Refresh conversation to get updated data
-      const currentId = chatService.getCurrentConversationId();
-      if (currentId) {
-        const updatedConv = await chatService.getConversation(currentId);
-        if (updatedConv) {
-          setConversation(updatedConv);
-        }
-      }
+      await sendMessage(inputText);
     } catch (error) {
       console.error('Failed to send message:', error);
     } finally {
-      setIsLoading(false);
+      setIsSending(false);
     }
   }, [inputText]);
 
@@ -118,11 +59,11 @@ export const AIChatHomeScreen = () => {
     setInputText(prompt);
   }, []);
 
-  const renderMessage = useCallback(({ item }: { item: ChatMessageType }) => (
+  const renderMessage = useCallback(({ item }: { item: ChatMessageModel }) => (
     <ChatMessage message={item} />
   ), []);
 
-  const renderStarterPrompt = useCallback(({ item }: { item: StarterPromptType }) => (
+  const renderStarterPrompt = useCallback(({ item }: { item: string }) => (
     <StarterPrompt prompt={item} onPress={handleStarterPromptPress} />
   ), [handleStarterPromptPress]);
 
@@ -138,7 +79,10 @@ export const AIChatHomeScreen = () => {
           isOpen={isDrawerOpen}
           onClose={() => setIsDrawerOpen(false)}
           onConversationSelect={handleSelectConversation}
-          currentConversationId={conversation?.id || null}
+          currentConversationId={currentConversationId}
+          conversations={conversations}
+          onDeleteConversation={deleteConversation}
+          onNewConversation={handleNewConversation}
         />
         
         {/* Main Content */}
@@ -152,7 +96,7 @@ export const AIChatHomeScreen = () => {
               <MaterialIcons name="menu" size={24} color="#4B5563" />
             </TouchableOpacity>
             <ThemedText className="text-xl font-semibold text-gray-900">
-              {conversation?.title || 'AI Companion'}
+              {currentConversation?.title || 'AI Companion'}
             </ThemedText>
           </View>
 
@@ -161,7 +105,7 @@ export const AIChatHomeScreen = () => {
             ref={flatListRef}
             data={messages}
             renderItem={renderMessage}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item, index) => item.id ?? `${index}-${item.createdAt}`}
             className="flex-1 px-4 pt-4"
             contentContainerStyle={{ flexGrow: 1 }}
             keyboardShouldPersistTaps="handled"
@@ -192,14 +136,14 @@ export const AIChatHomeScreen = () => {
                   How can I help you today?
                 </ThemedText>
                 
-                {starterPrompts.length > 0 && (
+                {samplePromptsQuery.data && samplePromptsQuery.data.length > 0 && (
                   <View className="w-full max-w-lg">
                     <ThemedText className="text-base font-semibold text-gray-600 mb-3 ml-2">
                       Try asking me...
                     </ThemedText>
-                    {starterPrompts.map((prompt) => (
+                    {samplePromptsQuery.data.map((prompt, idx) => (
                       <StarterPrompt 
-                        key={prompt.id}
+                        key={`${idx}-${prompt}`}
                         prompt={prompt}
                         onPress={handleStarterPromptPress}
                       />
@@ -225,12 +169,12 @@ export const AIChatHomeScreen = () => {
             />
             <TouchableOpacity
               className={`w-12 h-12 rounded-full bg-purple-600 justify-center items-center ${
-                !inputText.trim() || isLoading ? 'opacity-50' : ''
+                !inputText.trim() || isSending ? 'opacity-50' : ''
               }`}
               onPress={handleSendMessage}
-              disabled={!inputText.trim() || isLoading}
+              disabled={!inputText.trim() || isSending}
             >
-              {isLoading ? (
+              {isSending ? (
                 <ActivityIndicator size="small" color="white" />
               ) : (
                 <MaterialIcons name="send" size={24} color="white" />

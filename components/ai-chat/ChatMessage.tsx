@@ -1,5 +1,6 @@
 import { ThemedText } from '@/components/themes/themed-text';
-import { ChatMessage as ChatMessageType } from '@/src/types/chat';
+import type { ChatMessage as ChatMessageType } from '@/src/models/chat';
+import { ChatMessageRole } from '@/src/api/models/chat-message-role';
 import { View } from 'react-native';
 
 type ChatMessageProps = {
@@ -7,7 +8,7 @@ type ChatMessageProps = {
 };
 
 export function ChatMessage({ message }: ChatMessageProps) {
-  const isUser = message.sender === 'user';
+  const isUser = message.role === ChatMessageRole.User;
   
   return (
     <View className={`my-1 max-w-[80%] ${isUser ? 'self-end ml-[20%]' : 'self-start mr-[20%]'}`}>
@@ -19,7 +20,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
         <ThemedText 
           className={`text-base leading-[22px] ${isUser ? 'text-white' : 'text-gray-800'}`}
         >
-          {message.text}
+          {message.content}
         </ThemedText>
       </View>
     </View>
