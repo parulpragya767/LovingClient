@@ -24,6 +24,8 @@ import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError
 // @ts-ignore
 import type { GetHistoryResponse } from '../models';
 // @ts-ignore
+import type { ListSessionsResponse } from '../models';
+// @ts-ignore
 import type { SamplePromptsResponse } from '../models';
 // @ts-ignore
 import type { SendMessageRequest } from '../models';
@@ -89,6 +91,45 @@ export const AiChatControllerApiAxiosParamCreator = function (configuration?: Co
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} [page] 
+         * @param {number} [size] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listSessions: async (page?: number, size?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/chat/sessions`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
 
 
     
@@ -249,6 +290,19 @@ export const AiChatControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {number} [page] 
+         * @param {number} [size] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listSessions(page?: number, size?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListSessionsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listSessions(page, size, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AiChatControllerApi.listSessions']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {string} sessionId 
          * @param {SendMessageRequest} sendMessageRequest 
          * @param {*} [options] Override http request option.
@@ -314,6 +368,15 @@ export const AiChatControllerApiFactory = function (configuration?: Configuratio
         },
         /**
          * 
+         * @param {AiChatControllerApiListSessionsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listSessions(requestParameters: AiChatControllerApiListSessionsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<ListSessionsResponse> {
+            return localVarFp.listSessions(requestParameters.page, requestParameters.size, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {AiChatControllerApiRecommendRitualPackRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -367,6 +430,15 @@ export interface AiChatControllerApiInterface {
 
     /**
      * 
+     * @param {AiChatControllerApiListSessionsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AiChatControllerApiInterface
+     */
+    listSessions(requestParameters?: AiChatControllerApiListSessionsRequest, options?: RawAxiosRequestConfig): AxiosPromise<ListSessionsResponse>;
+
+    /**
+     * 
      * @param {AiChatControllerApiRecommendRitualPackRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -406,6 +478,27 @@ export interface AiChatControllerApiGetChatHistoryRequest {
      * @memberof AiChatControllerApiGetChatHistory
      */
     readonly sessionId: string
+}
+
+/**
+ * Request parameters for listSessions operation in AiChatControllerApi.
+ * @export
+ * @interface AiChatControllerApiListSessionsRequest
+ */
+export interface AiChatControllerApiListSessionsRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof AiChatControllerApiListSessions
+     */
+    readonly page?: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof AiChatControllerApiListSessions
+     */
+    readonly size?: number
 }
 
 /**
@@ -490,6 +583,17 @@ export class AiChatControllerApi extends BaseAPI implements AiChatControllerApiI
      */
     public getSamplePrompts(options?: RawAxiosRequestConfig) {
         return AiChatControllerApiFp(this.configuration).getSamplePrompts(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {AiChatControllerApiListSessionsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AiChatControllerApi
+     */
+    public listSessions(requestParameters: AiChatControllerApiListSessionsRequest = {}, options?: RawAxiosRequestConfig) {
+        return AiChatControllerApiFp(this.configuration).listSessions(requestParameters.page, requestParameters.size, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

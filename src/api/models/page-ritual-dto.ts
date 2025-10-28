@@ -49,12 +49,6 @@ export interface PageRitualDTO {
     'pageable'?: PageableObject;
     /**
      * 
-     * @type {number}
-     * @memberof PageRitualDTO
-     */
-    'numberOfElements'?: number;
-    /**
-     * 
      * @type {boolean}
      * @memberof PageRitualDTO
      */
@@ -65,6 +59,12 @@ export interface PageRitualDTO {
      * @memberof PageRitualDTO
      */
     'last'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageRitualDTO
+     */
+    'numberOfElements'?: number;
     /**
      * 
      * @type {number}

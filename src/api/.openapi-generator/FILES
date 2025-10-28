@@ -18,6 +18,7 @@ docs/AuthControllerApi.md
 docs/BulkRitualHistoryStatusUpdateRequest.md
 docs/ChatMessageDTO.md
 docs/ChatMessageRole.md
+docs/ChatSessionStatus.md
 docs/CurrentRitualsDTO.md
 docs/EffortLevel.md
 docs/EmojiFeedback.md
@@ -27,6 +28,7 @@ docs/InfoBullet.md
 docs/InfoSection.md
 docs/IntensityLevel.md
 docs/LifeContext.md
+docs/ListSessionsResponse.md
 docs/LoginRequest.md
 docs/LoginResponse.md
 docs/LoveType.md
@@ -61,6 +63,7 @@ docs/SamplePromptsResponse.md
 docs/SendMessageRequest.md
 docs/SendMessageResponse.md
 docs/SensitivityLevel.md
+docs/SessionSummaryDTO.md
 docs/SortObject.md
 docs/StartSessionRequest.md
 docs/StartSessionResponse.md
@@ -75,6 +78,7 @@ index.ts
 models/bulk-ritual-history-status-update-request.ts
 models/chat-message-dto.ts
 models/chat-message-role.ts
+models/chat-session-status.ts
 models/current-rituals-dto.ts
 models/effort-level.ts
 models/emoji-feedback.ts
@@ -85,6 +89,7 @@ models/info-bullet.ts
 models/info-section.ts
 models/intensity-level.ts
 models/life-context.ts
+models/list-sessions-response.ts
 models/login-request.ts
 models/login-response.ts
 models/love-type-info.ts
@@ -114,6 +119,7 @@ models/sample-prompts-response.ts
 models/send-message-request.ts
 models/send-message-response.ts
 models/sensitivity-level.ts
+models/session-summary-dto.ts
 models/sort-object.ts
 models/start-session-request.ts
 models/start-session-response.ts

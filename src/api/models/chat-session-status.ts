@@ -17,26 +17,16 @@
 /**
  * 
  * @export
- * @interface SortObject
+ * @enum {string}
  */
-export interface SortObject {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof SortObject
-     */
-    'unsorted'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof SortObject
-     */
-    'sorted'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof SortObject
-     */
-    'empty'?: boolean;
-}
+
+export const ChatSessionStatus = {
+    Active: 'ACTIVE',
+    Completed: 'COMPLETED',
+    Cancelled: 'CANCELLED'
+} as const;
+
+export type ChatSessionStatus = typeof ChatSessionStatus[keyof typeof ChatSessionStatus];
+
+
 
