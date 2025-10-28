@@ -6,6 +6,7 @@ import type {
   ChatSendMessageResponse,
   ChatStartSessionRequest,
   ChatStartSessionResponse,
+  ChatListSessionsResponse,
 } from '@/src/models/chat';
 import apiClient from './apiClient';
 
@@ -47,4 +48,10 @@ export const chatService = {
     const res = await api.getSamplePrompts();
     return res.data;
   },
+
+  async listSessions(page?: number, size?: number): Promise<ChatListSessionsResponse> {
+    const res = await api.listSessions({ page, size });
+    return res.data;
+  },
 };
+

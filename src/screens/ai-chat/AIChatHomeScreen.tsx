@@ -27,16 +27,7 @@ export const AIChatHomeScreen = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const flatListRef = useRef<FlatList>(null);
 
-  // Handle conversation selection from drawer
-  const handleSelectConversation = (conversationId: string) => {
-    selectConversation(conversationId);
-    setIsDrawerOpen(false);
-  };
-
-  // Create a new conversation
-  const handleNewConversation = async () => {
-    await startNewConversation();
-  };
+  // Drawer internal actions are now handled inside ConversationDrawer via useChat
 
   // Scroll to bottom when messages change
   const messages = useMemo<ChatMessageModel[]>(() => currentConversation?.messages || [], [currentConversation]);
@@ -78,11 +69,6 @@ export const AIChatHomeScreen = () => {
         <ConversationDrawer
           isOpen={isDrawerOpen}
           onClose={() => setIsDrawerOpen(false)}
-          onConversationSelect={handleSelectConversation}
-          currentConversationId={currentConversationId}
-          conversations={conversations}
-          onDeleteConversation={deleteConversation}
-          onNewConversation={handleNewConversation}
         />
         
         {/* Main Content */}

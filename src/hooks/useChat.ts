@@ -1,10 +1,10 @@
-import { ChatMessageRole } from '@/src/api/models/chat-message-role';
 import type {
   ChatGetHistoryResponse,
   ChatMessage,
   ChatSendMessageRequest,
   ChatSendMessageResponse,
 } from '@/src/models/chat';
+import { ChatMessageRole } from '@/src/models/enums';
 import { chatService } from '@/src/services/chatService';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -92,15 +92,39 @@ export const useChat = () => {
     updateConversationTitleIfNeeded(id);
   }, [ensureConversation, setConversationMessages, updateConversationTitleIfNeeded]);
 
-  // Initial setup: create one if none exists
+  const loadSessions = useCallback(async () => {
+    const resp = await chatService.listSessions(0, 50);
+    const sessions = resp.sessions ?? [];
+    if (sessions.length === 0) {
+      const id = await startNewConversation();
+      await selectConversation(id);
+      return;
+    }
+    const mapped: ConversationState[] = sessions.map((s) => ({
+      id: s.id || '',
+      title: s.conversationTitle || 'New Chat',
+      messages: [],
+      createdAt: s.createdAt ? new Date(s.createdAt) : new Date(),
+      updatedAt: s.updatedAt ? new Date(s.updatedAt) : new Date(),
+    }));
+    setConversations(mapped);
+    const firstId = mapped[0]?.id;
+    if (firstId) {
+      setCurrentConversationId(firstId);
+      const history = await chatService.getHistory(firstId);
+      setConversationMessages(firstId, history.messages || []);
+      updateConversationTitleIfNeeded(firstId);
+    }
+  }, [selectConversation, setConversationMessages, startNewConversation, updateConversationTitleIfNeeded]);
+
+  // Initial setup: fetch sessions and hydrate state; create one if none exists
   useEffect(() => {
     if (isInitRef.current) return;
     isInitRef.current = true;
     (async () => {
-      const id = await startNewConversation();
-      await selectConversation(id);
+      await loadSessions();
     })();
-  }, [selectConversation, startNewConversation]);
+  }, [loadSessions]);
 
   const sendMessage = useCallback(
     async (

@@ -5,6 +5,8 @@ import type { SendMessageRequest } from '@/src/api/models/send-message-request';
 import type { SendMessageResponse } from '@/src/api/models/send-message-response';
 import type { StartSessionRequest } from '@/src/api/models/start-session-request';
 import type { StartSessionResponse } from '@/src/api/models/start-session-response';
+import type { ListSessionsResponse } from '@/src/api/models/list-sessions-response';
+import type { SessionSummaryDTO } from '@/src/api/models/session-summary-dto';
 
 export interface ChatMessage extends ChatMessageDTO {}
 export interface ChatGetHistoryResponse extends GetHistoryResponse {}
@@ -13,4 +15,6 @@ export interface ChatSendMessageResponse extends SendMessageResponse {}
 export interface ChatStartSessionRequest extends StartSessionRequest {}
 export interface ChatStartSessionResponse extends StartSessionResponse {}
 export interface ChatSamplePromptsResponse extends SamplePromptsResponse {}
+export interface ChatListSessionsResponse extends ListSessionsResponse {}
+export interface ChatSessionSummary extends SessionSummaryDTO {}
 

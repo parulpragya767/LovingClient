@@ -1,52 +1,44 @@
 import { ThemedText } from '@/components/themes/themed-text';
 import { ThemedView } from '@/components/themes/themed-view';
-import { ChatMessageRole } from '@/src/api/models/chat-message-role';
 import { ChatMessage } from '@/src/models/chat';
+import { ChatMessageRole } from '@/src/models/enums';
+import { useChat } from '@/src/hooks/useChat';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FlatList, KeyboardAvoidingView, Platform, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function AIChatScreen() {
   const router = useRouter();
   const { topic } = useLocalSearchParams<{ topic?: string }>();
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: '1',
-      content: topic ? `I'm here to help you with ${topic}. What would you like to discuss?` : 'Hello! How can I help you today?',
-      role: ChatMessageRole.Assistant,
-      createdAt: new Date().toISOString(),
-      sessionId: 'session-1',
-    },
-  ]);
+  const {
+    currentConversation,
+    sendMessage,
+    currentConversationId,
+    startNewConversation,
+  } = useChat();
   const [inputText, setInputText] = useState('');
+  const messages = currentConversation?.messages || [];
 
-  const handleSend = () => {
-    if (!inputText.trim()) return;
+  useEffect(() => {
+    // If there's a topic but no conversation, start a new one
+    if (topic && !currentConversationId) {
+      startNewConversation(`Discussion about ${topic}`);
+    }
+  }, [topic, currentConversationId, startNewConversation]);
+
+  const handleSend = async () => {
+    if (!inputText.trim() || !currentConversationId) return;
     
-    // Add user message
-    const userMessage: ChatMessage = {
-      id: Date.now().toString(),
-      content: inputText,
-      role: ChatMessageRole.User,
-      createdAt: new Date().toISOString(),
-      sessionId: 'session-1',
-    };
-    
-    setMessages(prev => [...prev, userMessage]);
+    const message = inputText;
     setInputText('');
     
-    // Simulate AI response
-    setTimeout(() => {
-      const aiMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        content: `I understand you're asking about "${inputText}". While I'm an AI and can provide general advice, remember that I'm not a substitute for professional relationship counseling.`,
-        role: ChatMessageRole.Assistant,
-        createdAt: new Date().toISOString(),
-        sessionId: 'session-1',
-      };
-      setMessages(prev => [...prev, aiMessage]);
-    }, 1000);
+    try {
+      await sendMessage(message);
+    } catch (error) {
+      console.error('Failed to send message:', error);
+      // Optionally show error to user
+    }
   };
 
   return (
