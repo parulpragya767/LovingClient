@@ -22,8 +22,7 @@
 
 export const RitualMode = {
     Solo: 'SOLO',
-    Partner: 'PARTNER',
-    Pair: 'PAIR'
+    Together: 'TOGETHER'
 } as const;
 
 export type RitualMode = typeof RitualMode[keyof typeof RitualMode];

@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ritualHistory** | [**Array&lt;RitualHistoryDTO&gt;**](RitualHistoryDTO.md) |  | [optional] [default to undefined]
+**ritualHistoryMap** | **{ [key: string]: Array&lt;RitualHistoryDTO&gt;; }** |  | [optional] [default to undefined]
 **ritualPacks** | [**Array&lt;RitualPackDTO&gt;**](RitualPackDTO.md) |  | [optional] [default to undefined]
 **rituals** | [**Array&lt;RitualDTO&gt;**](RitualDTO.md) |  | [optional] [default to undefined]
 
@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 import { CurrentRitualsDTO } from './api';
 
 const instance: CurrentRitualsDTO = {
-    ritualHistory,
+    ritualHistoryMap,
     ritualPacks,
     rituals,
 };

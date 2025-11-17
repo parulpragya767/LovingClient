@@ -28,9 +28,9 @@ import type { Pageable } from '../models';
 // @ts-ignore
 import type { RitualDTO } from '../models';
 // @ts-ignore
-import type { RitualFilterRequest } from '../models';
+import type { RitualFilterDTO } from '../models';
 // @ts-ignore
-import type { RitualTagsDTO } from '../models';
+import type { RitualTags } from '../models';
 /**
  * RitualControllerApi - axios parameter creator
  * @export
@@ -131,11 +131,11 @@ export const RitualControllerApiAxiosParamCreator = function (configuration?: Co
         /**
          * 
          * @param {Pageable} pageable 
-         * @param {RitualFilterRequest} [ritualFilterRequest] 
+         * @param {RitualFilterDTO} [ritualFilterDTO] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        search: async (pageable: Pageable, ritualFilterRequest?: RitualFilterRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        search: async (pageable: Pageable, ritualFilterDTO?: RitualFilterDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'pageable' is not null or undefined
             assertParamExists('search', 'pageable', pageable)
             const localVarPath = `/api/rituals/search`;
@@ -163,7 +163,7 @@ export const RitualControllerApiAxiosParamCreator = function (configuration?: Co
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(ritualFilterRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(ritualFilterDTO, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -196,7 +196,7 @@ export const RitualControllerApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllTags(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualTagsDTO>> {
+        async getAllTags(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualTags>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getAllTags(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RitualControllerApi.getAllTags']?.[localVarOperationServerIndex]?.url;
@@ -217,12 +217,12 @@ export const RitualControllerApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {Pageable} pageable 
-         * @param {RitualFilterRequest} [ritualFilterRequest] 
+         * @param {RitualFilterDTO} [ritualFilterDTO] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async search(pageable: Pageable, ritualFilterRequest?: RitualFilterRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageRitualDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.search(pageable, ritualFilterRequest, options);
+        async search(pageable: Pageable, ritualFilterDTO?: RitualFilterDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageRitualDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.search(pageable, ritualFilterDTO, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RitualControllerApi.search']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -250,7 +250,7 @@ export const RitualControllerApiFactory = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllTags(options?: RawAxiosRequestConfig): AxiosPromise<RitualTagsDTO> {
+        getAllTags(options?: RawAxiosRequestConfig): AxiosPromise<RitualTags> {
             return localVarFp.getAllTags(options).then((request) => request(axios, basePath));
         },
         /**
@@ -269,7 +269,7 @@ export const RitualControllerApiFactory = function (configuration?: Configuratio
          * @throws {RequiredError}
          */
         search(requestParameters: RitualControllerApiSearchRequest, options?: RawAxiosRequestConfig): AxiosPromise<PageRitualDTO> {
-            return localVarFp.search(requestParameters.pageable, requestParameters.ritualFilterRequest, options).then((request) => request(axios, basePath));
+            return localVarFp.search(requestParameters.pageable, requestParameters.ritualFilterDTO, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -294,7 +294,7 @@ export interface RitualControllerApiInterface {
      * @throws {RequiredError}
      * @memberof RitualControllerApiInterface
      */
-    getAllTags(options?: RawAxiosRequestConfig): AxiosPromise<RitualTagsDTO>;
+    getAllTags(options?: RawAxiosRequestConfig): AxiosPromise<RitualTags>;
 
     /**
      * 
@@ -345,10 +345,10 @@ export interface RitualControllerApiSearchRequest {
 
     /**
      * 
-     * @type {RitualFilterRequest}
+     * @type {RitualFilterDTO}
      * @memberof RitualControllerApiSearch
      */
-    readonly ritualFilterRequest?: RitualFilterRequest
+    readonly ritualFilterDTO?: RitualFilterDTO
 }
 
 /**
@@ -397,7 +397,7 @@ export class RitualControllerApi extends BaseAPI implements RitualControllerApiI
      * @memberof RitualControllerApi
      */
     public search(requestParameters: RitualControllerApiSearchRequest, options?: RawAxiosRequestConfig) {
-        return RitualControllerApiFp(this.configuration).search(requestParameters.pageable, requestParameters.ritualFilterRequest, options).then((request) => request(this.axios, this.basePath));
+        return RitualControllerApiFp(this.configuration).search(requestParameters.pageable, requestParameters.ritualFilterDTO, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

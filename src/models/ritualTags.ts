@@ -1,8 +1,8 @@
-import type { RitualTagDTO } from '@/src/api/models/ritual-tag-dto';
-import type { RitualTagsDTO } from '@/src/api/models/ritual-tags-dto';
-import type { TagValueDTO } from '@/src/api/models/tag-value-dto';
+import type { RitualTag as ApiRitualTag } from '@/src/api/models/ritual-tag';
+import type { RitualTags as ApiRitualTags } from '@/src/api/models/ritual-tags';
+import type { TagValue as ApiTagValue } from '@/src/api/models/tag-value';
 
-export interface RitualTag extends RitualTagDTO {}
-export interface RitualTags extends RitualTagsDTO {}
-export interface TagValue extends TagValueDTO {}
+export interface RitualTag extends ApiRitualTag {}
+export interface RitualTags extends ApiRitualTags {}
+export interface TagValue extends ApiTagValue {}
 

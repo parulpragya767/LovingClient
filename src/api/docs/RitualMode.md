@@ -5,8 +5,6 @@
 
 * `Solo` (value: `'SOLO'`)
 
-* `Partner` (value: `'PARTNER'`)
-
-* `Pair` (value: `'PAIR'`)
+* `Together` (value: `'TOGETHER'`)
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

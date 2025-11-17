@@ -15,31 +15,30 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { TagValueDTO } from './tag-value-dto';
+import type { EmojiFeedback } from './emoji-feedback';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { RitualHistoryStatus } from './ritual-history-status';
 
 /**
  * 
  * @export
- * @interface RitualTagDTO
+ * @interface RitualHistoryUpdateRequest
  */
-export interface RitualTagDTO {
+export interface RitualHistoryUpdateRequest {
     /**
      * 
-     * @type {string}
-     * @memberof RitualTagDTO
+     * @type {RitualHistoryStatus}
+     * @memberof RitualHistoryUpdateRequest
      */
-    'displayName'?: string;
+    'status'?: RitualHistoryStatus;
     /**
      * 
-     * @type {number}
-     * @memberof RitualTagDTO
+     * @type {EmojiFeedback}
+     * @memberof RitualHistoryUpdateRequest
      */
-    'position'?: number;
-    /**
-     * 
-     * @type {Array<TagValueDTO>}
-     * @memberof RitualTagDTO
-     */
-    'values'?: Array<TagValueDTO>;
+    'feedback'?: EmojiFeedback;
 }
+
+
 

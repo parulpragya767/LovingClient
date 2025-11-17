@@ -1,12 +1,9 @@
 import { AiChatControllerApi } from '@/src/api/apis/ai-chat-controller-api';
 import type {
-  ChatGetHistoryResponse,
-  ChatSamplePromptsResponse,
   ChatSendMessageRequest,
   ChatSendMessageResponse,
-  ChatStartSessionRequest,
-  ChatStartSessionResponse,
-  ChatListSessionsResponse,
+  ChatSession,
+  RecommendRitualPackResponse
 } from '@/src/models/chat';
 import apiClient from './apiClient';
 
@@ -14,43 +11,38 @@ import apiClient from './apiClient';
 const api = new AiChatControllerApi(undefined, '', apiClient);
 
 export const chatService = {
-  async startSession(req: ChatStartSessionRequest): Promise<ChatStartSessionResponse> {
-    const res = await api.startSession({ startSessionRequest: req });
+  async startSession(): Promise<ChatSession> {
+    const res = await api.createSession();
     return res.data;
   },
 
-  async getHistory(sessionId: string): Promise<ChatGetHistoryResponse> {
+  async getHistory(sessionId: string): Promise<ChatSession> {
     const res = await api.getChatHistory({ sessionId });
     return res.data;
   },
 
   async sendMessage(
     sessionId: string,
-    payload: Omit<ChatSendMessageRequest, 'readyForRitualSuggestion'> & { readyForRitualSuggestion?: boolean }
+    payload: ChatSendMessageRequest
   ): Promise<ChatSendMessageResponse> {
-    const req: ChatSendMessageRequest = {
-      content: payload.content,
-      readyForRitualSuggestion: payload.readyForRitualSuggestion ?? false,
-    };
-    const res = await api.sendMessage({ sessionId, sendMessageRequest: req });
+    const res = await api.sendMessage({ sessionId, sendMessageRequest: payload });
     return res.data;
   },
 
   async recommendRitualPack(
     sessionId: string,
-    payload: ChatSendMessageRequest
-  ): Promise<ChatSendMessageResponse> {
-    const res = await api.recommendRitualPack({ sessionId, sendMessageRequest: payload });
+  ): Promise<RecommendRitualPackResponse> {
+    const res = await api.recommendRitualPack({ sessionId });
     return res.data;
   },
 
-  async getSamplePrompts(): Promise<ChatSamplePromptsResponse> {
+  async getSamplePrompts(): Promise<string[]> {
     const res = await api.getSamplePrompts();
     return res.data;
   },
 
-  async listSessions(page?: number, size?: number): Promise<ChatListSessionsResponse> {
-    const res = await api.listSessions({ page, size });
+  async listSessions(): Promise<ChatSession[]> {
+    const res = await api.listSessions();
     return res.data;
   },
 };

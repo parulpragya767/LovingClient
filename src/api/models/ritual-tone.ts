@@ -21,16 +21,15 @@
  */
 
 export const RitualTone = {
-    Romantic: 'Romantic',
-    Playful: 'Playful',
-    Serious: 'Serious',
-    Lighthearted: 'Lighthearted',
-    Intimate: 'Intimate',
-    Adventurous: 'Adventurous',
-    Calm: 'Calm',
-    Energetic: 'Energetic',
-    Thoughtful: 'Thoughtful',
-    Spontaneous: 'Spontaneous'
+    Warm: 'WARM',
+    Playful: 'PLAYFUL',
+    Intimate: 'INTIMATE',
+    Reflective: 'REFLECTIVE',
+    Calm: 'CALM',
+    Adventurous: 'ADVENTUROUS',
+    Energetic: 'ENERGETIC',
+    Healing: 'HEALING',
+    Sacred: 'SACRED'
 } as const;
 
 export type RitualTone = typeof RitualTone[keyof typeof RitualTone];

@@ -1,4 +1,4 @@
-# RitualFilterRequest
+# RitualFilterDTO
 
 
 ## Properties
@@ -6,22 +6,24 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **loveTypes** | [**Array&lt;LoveType&gt;**](LoveType.md) |  | [optional] [default to undefined]
-**ritualTypes** | [**Array&lt;RitualType&gt;**](RitualType.md) |  | [optional] [default to undefined]
 **ritualModes** | [**Array&lt;RitualMode&gt;**](RitualMode.md) |  | [optional] [default to undefined]
-**emotionalStates** | [**Array&lt;EmotionalState&gt;**](EmotionalState.md) |  | [optional] [default to undefined]
+**timeTaken** | [**Array&lt;TimeTaken&gt;**](TimeTaken.md) |  | [optional] [default to undefined]
 **relationalNeeds** | [**Array&lt;RelationalNeed&gt;**](RelationalNeed.md) |  | [optional] [default to undefined]
+**ritualTones** | [**Array&lt;RitualTone&gt;**](RitualTone.md) |  | [optional] [default to undefined]
+**status** | [**PublicationStatus**](PublicationStatus.md) |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { RitualFilterRequest } from './api';
+import { RitualFilterDTO } from './api';
 
-const instance: RitualFilterRequest = {
+const instance: RitualFilterDTO = {
     loveTypes,
-    ritualTypes,
     ritualModes,
-    emotionalStates,
+    timeTaken,
     relationalNeeds,
+    ritualTones,
+    status,
 };
 ```
 

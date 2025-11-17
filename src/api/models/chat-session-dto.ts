@@ -20,19 +20,37 @@ import type { ChatMessageDTO } from './chat-message-dto';
 /**
  * 
  * @export
- * @interface GetHistoryResponse
+ * @interface ChatSessionDTO
  */
-export interface GetHistoryResponse {
+export interface ChatSessionDTO {
     /**
      * 
      * @type {string}
-     * @memberof GetHistoryResponse
+     * @memberof ChatSessionDTO
      */
-    'sessionId'?: string;
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ChatSessionDTO
+     */
+    'title'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ChatSessionDTO
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ChatSessionDTO
+     */
+    'updatedAt'?: string;
     /**
      * 
      * @type {Array<ChatMessageDTO>}
-     * @memberof GetHistoryResponse
+     * @memberof ChatSessionDTO
      */
     'messages'?: Array<ChatMessageDTO>;
 }

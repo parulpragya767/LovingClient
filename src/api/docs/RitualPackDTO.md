@@ -7,20 +7,18 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **string** |  | [optional] [default to undefined]
 **title** | **string** |  | [optional] [default to undefined]
-**shortDescription** | **string** |  | [optional] [default to undefined]
-**fullDescription** | **string** |  | [optional] [default to undefined]
+**tagLine** | **string** |  | [optional] [default to undefined]
+**description** | **string** |  | [optional] [default to undefined]
+**howItHelps** | **string** |  | [optional] [default to undefined]
 **rituals** | [**Array&lt;RitualDTO&gt;**](RitualDTO.md) |  | [optional] [default to undefined]
-**ritualTypes** | [**Array&lt;RitualType&gt;**](RitualType.md) |  | [optional] [default to undefined]
-**ritualTones** | [**Array&lt;RitualTone&gt;**](RitualTone.md) |  | [optional] [default to undefined]
-**sensitivityLevel** | [**SensitivityLevel**](SensitivityLevel.md) |  | [optional] [default to undefined]
-**effortLevel** | [**EffortLevel**](EffortLevel.md) |  | [optional] [default to undefined]
-**loveTypesSupported** | [**Array&lt;LoveType&gt;**](LoveType.md) |  | [optional] [default to undefined]
-**emotionalStatesSupported** | [**Array&lt;EmotionalState&gt;**](EmotionalState.md) |  | [optional] [default to undefined]
-**relationalNeedsServed** | [**Array&lt;RelationalNeed&gt;**](RelationalNeed.md) |  | [optional] [default to undefined]
-**lifeContextsRelevant** | [**Array&lt;LifeContext&gt;**](LifeContext.md) |  | [optional] [default to undefined]
+**ritualIds** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
+**journey** | [**Journey**](Journey.md) |  | [optional] [default to undefined]
+**loveTypes** | [**Array&lt;LoveType&gt;**](LoveType.md) |  | [optional] [default to undefined]
+**relationalNeeds** | [**Array&lt;RelationalNeed&gt;**](RelationalNeed.md) |  | [optional] [default to undefined]
+**mediaAssets** | [**Array&lt;MediaAsset&gt;**](MediaAsset.md) |  | [optional] [default to undefined]
 **semanticSummary** | **string** |  | [optional] [default to undefined]
 **status** | [**PublicationStatus**](PublicationStatus.md) |  | [optional] [default to undefined]
-**createdBy** | **string** |  | [optional] [default to undefined]
+**contentHash** | **string** |  | [optional] [default to undefined]
 **createdAt** | **string** |  | [optional] [default to undefined]
 **updatedAt** | **string** |  | [optional] [default to undefined]
 
@@ -32,20 +30,18 @@ import { RitualPackDTO } from './api';
 const instance: RitualPackDTO = {
     id,
     title,
-    shortDescription,
-    fullDescription,
+    tagLine,
+    description,
+    howItHelps,
     rituals,
-    ritualTypes,
-    ritualTones,
-    sensitivityLevel,
-    effortLevel,
-    loveTypesSupported,
-    emotionalStatesSupported,
-    relationalNeedsServed,
-    lifeContextsRelevant,
+    ritualIds,
+    journey,
+    loveTypes,
+    relationalNeeds,
+    mediaAssets,
     semanticSummary,
     status,
-    createdBy,
+    contentHash,
     createdAt,
     updatedAt,
 };

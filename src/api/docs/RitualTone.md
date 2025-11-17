@@ -3,24 +3,22 @@
 
 ## Enum
 
-* `Romantic` (value: `'Romantic'`)
+* `Warm` (value: `'WARM'`)
 
-* `Playful` (value: `'Playful'`)
+* `Playful` (value: `'PLAYFUL'`)
 
-* `Serious` (value: `'Serious'`)
+* `Intimate` (value: `'INTIMATE'`)
 
-* `Lighthearted` (value: `'Lighthearted'`)
+* `Reflective` (value: `'REFLECTIVE'`)
 
-* `Intimate` (value: `'Intimate'`)
+* `Calm` (value: `'CALM'`)
 
-* `Adventurous` (value: `'Adventurous'`)
+* `Adventurous` (value: `'ADVENTUROUS'`)
 
-* `Calm` (value: `'Calm'`)
+* `Energetic` (value: `'ENERGETIC'`)
 
-* `Energetic` (value: `'Energetic'`)
+* `Healing` (value: `'HEALING'`)
 
-* `Thoughtful` (value: `'Thoughtful'`)
-
-* `Spontaneous` (value: `'Spontaneous'`)
+* `Sacred` (value: `'SACRED'`)
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

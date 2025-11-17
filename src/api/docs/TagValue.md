@@ -1,21 +1,21 @@
-# RitualStatusUpdate
+# TagValue
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ritualHistoryId** | **string** |  | [default to undefined]
-**status** | [**RitualHistoryStatus**](RitualHistoryStatus.md) |  | [default to undefined]
+**key** | **string** |  | [optional] [default to undefined]
+**displayName** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { RitualStatusUpdate } from './api';
+import { TagValue } from './api';
 
-const instance: RitualStatusUpdate = {
-    ritualHistoryId,
-    status,
+const instance: TagValue = {
+    key,
+    displayName,
 };
 ```
 

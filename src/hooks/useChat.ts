@@ -1,8 +1,8 @@
 import type {
-  ChatGetHistoryResponse,
   ChatMessage,
   ChatSendMessageRequest,
   ChatSendMessageResponse,
+  ChatSession,
 } from '@/src/models/chat';
 import { ChatMessageRole } from '@/src/models/enums';
 import { chatService } from '@/src/services/chatService';
@@ -27,7 +27,7 @@ export const useChat = () => {
     queryKey: ['chat', 'sample-prompts'],
     queryFn: async () => {
       const resp = await chatService.getSamplePrompts();
-      return resp.prompts || [];
+      return resp || [];
     },
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
@@ -76,8 +76,8 @@ export const useChat = () => {
   }, []);
 
   const startNewConversation = useCallback(async (title?: string) => {
-    const resp = await chatService.startSession({ conversationTitle: title });
-    const sessionId = resp.sessionId || '';
+    const resp = await chatService.startSession();
+    const sessionId = resp.id || '';
     ensureConversation(sessionId, title);
     setCurrentConversationId(sessionId);
     return sessionId;
@@ -93,8 +93,8 @@ export const useChat = () => {
   }, [ensureConversation, setConversationMessages, updateConversationTitleIfNeeded]);
 
   const loadSessions = useCallback(async () => {
-    const resp = await chatService.listSessions(0, 50);
-    const sessions = resp.sessions ?? [];
+    const resp = await chatService.listSessions();
+    const sessions = resp ?? [];
     if (sessions.length === 0) {
       const id = await startNewConversation();
       await selectConversation(id);
@@ -102,7 +102,7 @@ export const useChat = () => {
     }
     const mapped: ConversationState[] = sessions.map((s) => ({
       id: s.id || '',
-      title: s.conversationTitle || 'New Chat',
+      title: s.title || 'New Chat',
       messages: [],
       createdAt: s.createdAt ? new Date(s.createdAt) : new Date(),
       updatedAt: s.updatedAt ? new Date(s.updatedAt) : new Date(),
@@ -155,11 +155,11 @@ export const useChat = () => {
         readyForRitualSuggestion: options?.readyForRitualSuggestion ?? false,
       } as ChatSendMessageRequest);
 
-      if (resp.assistantMessage) {
+      if (resp.assistantResponse) {
         setConversations((prev) =>
           prev.map((c) =>
             c.id === sessionId
-              ? { ...c, messages: [...c.messages, resp.assistantMessage!], updatedAt: new Date() }
+              ? { ...c, messages: [...c.messages, resp.assistantResponse!], updatedAt: new Date() }
               : c
           )
         );
@@ -187,7 +187,7 @@ export const useChat = () => {
 
   const refreshCurrent = useCallback(async () => {
     if (!currentConversationId) return;
-    const history: ChatGetHistoryResponse = await chatService.getHistory(currentConversationId);
+    const history: ChatSession = await chatService.getHistory(currentConversationId);
     setConversationMessages(currentConversationId, history.messages || []);
     updateConversationTitleIfNeeded(currentConversationId);
   }, [currentConversationId, setConversationMessages, updateConversationTitleIfNeeded]);

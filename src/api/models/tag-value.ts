@@ -17,21 +17,20 @@
 /**
  * 
  * @export
- * @enum {string}
+ * @interface TagValue
  */
-
-export const TimeContext = {
-    Morning: 'MORNING',
-    Afternoon: 'AFTERNOON',
-    Evening: 'EVENING',
-    Night: 'NIGHT',
-    Weekday: 'WEEKDAY',
-    Weekend: 'WEEKEND',
-    Holiday: 'HOLIDAY',
-    Anytime: 'ANYTIME'
-} as const;
-
-export type TimeContext = typeof TimeContext[keyof typeof TimeContext];
-
-
+export interface TagValue {
+    /**
+     * 
+     * @type {string}
+     * @memberof TagValue
+     */
+    'key'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TagValue
+     */
+    'displayName'?: string;
+}
 

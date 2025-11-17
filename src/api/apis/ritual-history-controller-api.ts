@@ -28,7 +28,7 @@ import type { CurrentRitualsDTO } from '../models';
 // @ts-ignore
 import type { RitualHistoryDTO } from '../models';
 // @ts-ignore
-import type { RitualHistoryStatusUpdateRequest } from '../models';
+import type { RitualHistoryUpdateRequest } from '../models';
 /**
  * RitualHistoryControllerApi - axios parameter creator
  * @export
@@ -141,15 +141,15 @@ export const RitualHistoryControllerApiAxiosParamCreator = function (configurati
         /**
          * 
          * @param {string} id 
-         * @param {RitualHistoryStatusUpdateRequest} ritualHistoryStatusUpdateRequest 
+         * @param {RitualHistoryUpdateRequest} ritualHistoryUpdateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        complete: async (id: string, ritualHistoryStatusUpdateRequest: RitualHistoryStatusUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        complete: async (id: string, ritualHistoryUpdateRequest: RitualHistoryUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('complete', 'id', id)
-            // verify required parameter 'ritualHistoryStatusUpdateRequest' is not null or undefined
-            assertParamExists('complete', 'ritualHistoryStatusUpdateRequest', ritualHistoryStatusUpdateRequest)
+            // verify required parameter 'ritualHistoryUpdateRequest' is not null or undefined
+            assertParamExists('complete', 'ritualHistoryUpdateRequest', ritualHistoryUpdateRequest)
             const localVarPath = `/api/ritual-history/{id}/complete`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -170,7 +170,7 @@ export const RitualHistoryControllerApiAxiosParamCreator = function (configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(ritualHistoryStatusUpdateRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(ritualHistoryUpdateRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -273,15 +273,15 @@ export const RitualHistoryControllerApiAxiosParamCreator = function (configurati
         /**
          * 
          * @param {string} id 
-         * @param {RitualHistoryStatusUpdateRequest} ritualHistoryStatusUpdateRequest 
+         * @param {RitualHistoryUpdateRequest} ritualHistoryUpdateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateStatus: async (id: string, ritualHistoryStatusUpdateRequest: RitualHistoryStatusUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateStatus: async (id: string, ritualHistoryUpdateRequest: RitualHistoryUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateStatus', 'id', id)
-            // verify required parameter 'ritualHistoryStatusUpdateRequest' is not null or undefined
-            assertParamExists('updateStatus', 'ritualHistoryStatusUpdateRequest', ritualHistoryStatusUpdateRequest)
+            // verify required parameter 'ritualHistoryUpdateRequest' is not null or undefined
+            assertParamExists('updateStatus', 'ritualHistoryUpdateRequest', ritualHistoryUpdateRequest)
             const localVarPath = `/api/ritual-history/{id}/status`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -302,7 +302,7 @@ export const RitualHistoryControllerApiAxiosParamCreator = function (configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(ritualHistoryStatusUpdateRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(ritualHistoryUpdateRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -358,12 +358,12 @@ export const RitualHistoryControllerApiFp = function(configuration?: Configurati
         /**
          * 
          * @param {string} id 
-         * @param {RitualHistoryStatusUpdateRequest} ritualHistoryStatusUpdateRequest 
+         * @param {RitualHistoryUpdateRequest} ritualHistoryUpdateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async complete(id: string, ritualHistoryStatusUpdateRequest: RitualHistoryStatusUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualHistoryDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.complete(id, ritualHistoryStatusUpdateRequest, options);
+        async complete(id: string, ritualHistoryUpdateRequest: RitualHistoryUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualHistoryDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.complete(id, ritualHistoryUpdateRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RitualHistoryControllerApi.complete']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -405,12 +405,12 @@ export const RitualHistoryControllerApiFp = function(configuration?: Configurati
         /**
          * 
          * @param {string} id 
-         * @param {RitualHistoryStatusUpdateRequest} ritualHistoryStatusUpdateRequest 
+         * @param {RitualHistoryUpdateRequest} ritualHistoryUpdateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateStatus(id: string, ritualHistoryStatusUpdateRequest: RitualHistoryStatusUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualHistoryDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateStatus(id, ritualHistoryStatusUpdateRequest, options);
+        async updateStatus(id: string, ritualHistoryUpdateRequest: RitualHistoryUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualHistoryDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateStatus(id, ritualHistoryUpdateRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RitualHistoryControllerApi.updateStatus']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -459,7 +459,7 @@ export const RitualHistoryControllerApiFactory = function (configuration?: Confi
          * @throws {RequiredError}
          */
         complete(requestParameters: RitualHistoryControllerApiCompleteRequest, options?: RawAxiosRequestConfig): AxiosPromise<RitualHistoryDTO> {
-            return localVarFp.complete(requestParameters.id, requestParameters.ritualHistoryStatusUpdateRequest, options).then((request) => request(axios, basePath));
+            return localVarFp.complete(requestParameters.id, requestParameters.ritualHistoryUpdateRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -493,7 +493,7 @@ export const RitualHistoryControllerApiFactory = function (configuration?: Confi
          * @throws {RequiredError}
          */
         updateStatus(requestParameters: RitualHistoryControllerApiUpdateStatusRequest, options?: RawAxiosRequestConfig): AxiosPromise<RitualHistoryDTO> {
-            return localVarFp.updateStatus(requestParameters.id, requestParameters.ritualHistoryStatusUpdateRequest, options).then((request) => request(axios, basePath));
+            return localVarFp.updateStatus(requestParameters.id, requestParameters.ritualHistoryUpdateRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -633,10 +633,10 @@ export interface RitualHistoryControllerApiCompleteRequest {
 
     /**
      * 
-     * @type {RitualHistoryStatusUpdateRequest}
+     * @type {RitualHistoryUpdateRequest}
      * @memberof RitualHistoryControllerApiComplete
      */
-    readonly ritualHistoryStatusUpdateRequest: RitualHistoryStatusUpdateRequest
+    readonly ritualHistoryUpdateRequest: RitualHistoryUpdateRequest
 }
 
 /**
@@ -668,10 +668,10 @@ export interface RitualHistoryControllerApiUpdateStatusRequest {
 
     /**
      * 
-     * @type {RitualHistoryStatusUpdateRequest}
+     * @type {RitualHistoryUpdateRequest}
      * @memberof RitualHistoryControllerApiUpdateStatus
      */
-    readonly ritualHistoryStatusUpdateRequest: RitualHistoryStatusUpdateRequest
+    readonly ritualHistoryUpdateRequest: RitualHistoryUpdateRequest
 }
 
 /**
@@ -722,7 +722,7 @@ export class RitualHistoryControllerApi extends BaseAPI implements RitualHistory
      * @memberof RitualHistoryControllerApi
      */
     public complete(requestParameters: RitualHistoryControllerApiCompleteRequest, options?: RawAxiosRequestConfig) {
-        return RitualHistoryControllerApiFp(this.configuration).complete(requestParameters.id, requestParameters.ritualHistoryStatusUpdateRequest, options).then((request) => request(this.axios, this.basePath));
+        return RitualHistoryControllerApiFp(this.configuration).complete(requestParameters.id, requestParameters.ritualHistoryUpdateRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -764,7 +764,7 @@ export class RitualHistoryControllerApi extends BaseAPI implements RitualHistory
      * @memberof RitualHistoryControllerApi
      */
     public updateStatus(requestParameters: RitualHistoryControllerApiUpdateStatusRequest, options?: RawAxiosRequestConfig) {
-        return RitualHistoryControllerApiFp(this.configuration).updateStatus(requestParameters.id, requestParameters.ritualHistoryStatusUpdateRequest, options).then((request) => request(this.axios, this.basePath));
+        return RitualHistoryControllerApiFp(this.configuration).updateStatus(requestParameters.id, requestParameters.ritualHistoryUpdateRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

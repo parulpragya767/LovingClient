@@ -5,9 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**assistantMessage** | [**ChatMessageDTO**](ChatMessageDTO.md) |  | [optional] [default to undefined]
-**recommendedRitualPack** | [**RitualPackDTO**](RitualPackDTO.md) |  | [optional] [default to undefined]
-**readyForRitualSuggestion** | **boolean** |  | [optional] [default to undefined]
+**assistantResponse** | [**ChatMessageDTO**](ChatMessageDTO.md) |  | [optional] [default to undefined]
+**readyForRitualPackRecommendation** | **boolean** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -15,9 +14,8 @@ Name | Type | Description | Notes
 import { SendMessageResponse } from './api';
 
 const instance: SendMessageResponse = {
-    assistantMessage,
-    recommendedRitualPack,
-    readyForRitualSuggestion,
+    assistantResponse,
+    readyForRitualPackRecommendation,
 };
 ```
 

@@ -21,16 +21,19 @@
  */
 
 export const RelationalNeed = {
-    Connection: 'Connection',
-    Appreciation: 'Appreciation',
-    Respect: 'Respect',
-    Trust: 'Trust',
-    Intimacy: 'Intimacy',
-    Support: 'Support',
-    Acceptance: 'Acceptance',
-    Space: 'Space',
-    Security: 'Security',
-    Adventure: 'Adventure'
+    Connection: 'CONNECTION',
+    Intimacy: 'INTIMACY',
+    Understanding: 'UNDERSTANDING',
+    AcceptanceAndForgiveness: 'ACCEPTANCE_AND_FORGIVENESS',
+    TrustAndSafety: 'TRUST_AND_SAFETY',
+    Support: 'SUPPORT',
+    BalanceAndFairness: 'BALANCE_AND_FAIRNESS',
+    Communication: 'COMMUNICATION',
+    PlayAndJoy: 'PLAY_AND_JOY',
+    Growth: 'GROWTH',
+    GratitudeAndAppreciation: 'GRATITUDE_AND_APPRECIATION',
+    PresenceAndQualityTime: 'PRESENCE_AND_QUALITY_TIME',
+    Space: 'SPACE'
 } as const;
 
 export type RelationalNeed = typeof RelationalNeed[keyof typeof RelationalNeed];

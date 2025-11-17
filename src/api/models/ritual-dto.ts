@@ -15,15 +15,6 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { EffortLevel } from './effort-level';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { EmotionalState } from './emotional-state';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { LifeContext } from './life-context';
-// May contain unused imports in some cases
-// @ts-ignore
 import type { LoveType } from './love-type';
 // May contain unused imports in some cases
 // @ts-ignore
@@ -36,22 +27,13 @@ import type { PublicationStatus } from './publication-status';
 import type { RelationalNeed } from './relational-need';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { Rhythm } from './rhythm';
-// May contain unused imports in some cases
-// @ts-ignore
 import type { RitualMode } from './ritual-mode';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { RitualStep } from './ritual-step';
 // May contain unused imports in some cases
 // @ts-ignore
 import type { RitualTone } from './ritual-tone';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { RitualType } from './ritual-type';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { SensitivityLevel } from './sensitivity-level';
+import type { TimeTaken } from './time-taken';
 
 /**
  * 
@@ -76,19 +58,37 @@ export interface RitualDTO {
      * @type {string}
      * @memberof RitualDTO
      */
-    'shortDescription'?: string;
+    'tagLine'?: string;
     /**
      * 
      * @type {string}
      * @memberof RitualDTO
      */
-    'fullDescription'?: string;
+    'description'?: string;
     /**
      * 
-     * @type {Array<RitualType>}
+     * @type {string}
      * @memberof RitualDTO
      */
-    'ritualTypes'?: Array<RitualType>;
+    'howItHelps'?: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof RitualDTO
+     */
+    'steps'?: Array<string>;
+    /**
+     * 
+     * @type {Array<LoveType>}
+     * @memberof RitualDTO
+     */
+    'loveTypes'?: Array<LoveType>;
+    /**
+     * 
+     * @type {Array<RelationalNeed>}
+     * @memberof RitualDTO
+     */
+    'relationalNeeds'?: Array<RelationalNeed>;
     /**
      * 
      * @type {RitualMode}
@@ -103,70 +103,16 @@ export interface RitualDTO {
     'ritualTones'?: Array<RitualTone>;
     /**
      * 
-     * @type {SensitivityLevel}
+     * @type {TimeTaken}
      * @memberof RitualDTO
      */
-    'sensitivityLevel'?: SensitivityLevel;
-    /**
-     * 
-     * @type {EffortLevel}
-     * @memberof RitualDTO
-     */
-    'effortLevel'?: EffortLevel;
-    /**
-     * 
-     * @type {number}
-     * @memberof RitualDTO
-     */
-    'estimatedDurationMinutes'?: number;
-    /**
-     * 
-     * @type {Array<RitualStep>}
-     * @memberof RitualDTO
-     */
-    'ritualSteps'?: Array<RitualStep>;
+    'timeTaken'?: TimeTaken;
     /**
      * 
      * @type {Array<MediaAsset>}
      * @memberof RitualDTO
      */
     'mediaAssets'?: Array<MediaAsset>;
-    /**
-     * 
-     * @type {Array<LoveType>}
-     * @memberof RitualDTO
-     */
-    'loveTypesSupported'?: Array<LoveType>;
-    /**
-     * 
-     * @type {Array<EmotionalState>}
-     * @memberof RitualDTO
-     */
-    'emotionalStatesSupported'?: Array<EmotionalState>;
-    /**
-     * 
-     * @type {Array<RelationalNeed>}
-     * @memberof RitualDTO
-     */
-    'relationalNeedsServed'?: Array<RelationalNeed>;
-    /**
-     * 
-     * @type {Array<LifeContext>}
-     * @memberof RitualDTO
-     */
-    'lifeContextsRelevant'?: Array<LifeContext>;
-    /**
-     * 
-     * @type {Rhythm}
-     * @memberof RitualDTO
-     */
-    'rhythm'?: Rhythm;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof RitualDTO
-     */
-    'preparationRequirements'?: Array<string>;
     /**
      * 
      * @type {string}
@@ -184,7 +130,7 @@ export interface RitualDTO {
      * @type {string}
      * @memberof RitualDTO
      */
-    'createdBy'?: string;
+    'contentHash'?: string;
     /**
      * 
      * @type {string}

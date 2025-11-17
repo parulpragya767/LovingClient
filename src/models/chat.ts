@@ -1,20 +1,12 @@
 import type { ChatMessageDTO } from '@/src/api/models/chat-message-dto';
-import type { GetHistoryResponse } from '@/src/api/models/get-history-response';
-import type { SamplePromptsResponse } from '@/src/api/models/sample-prompts-response';
+import type { ChatSessionDTO } from '@/src/api/models/chat-session-dto';
+import type { RecommendRitualPackResponse as ApiRecommendRitualPackResponse } from '@/src/api/models/recommend-ritual-pack-response';
 import type { SendMessageRequest } from '@/src/api/models/send-message-request';
 import type { SendMessageResponse } from '@/src/api/models/send-message-response';
-import type { StartSessionRequest } from '@/src/api/models/start-session-request';
-import type { StartSessionResponse } from '@/src/api/models/start-session-response';
-import type { ListSessionsResponse } from '@/src/api/models/list-sessions-response';
-import type { SessionSummaryDTO } from '@/src/api/models/session-summary-dto';
 
 export interface ChatMessage extends ChatMessageDTO {}
-export interface ChatGetHistoryResponse extends GetHistoryResponse {}
+export interface ChatSession extends ChatSessionDTO {}
 export interface ChatSendMessageRequest extends SendMessageRequest {}
 export interface ChatSendMessageResponse extends SendMessageResponse {}
-export interface ChatStartSessionRequest extends StartSessionRequest {}
-export interface ChatStartSessionResponse extends StartSessionResponse {}
-export interface ChatSamplePromptsResponse extends SamplePromptsResponse {}
-export interface ChatListSessionsResponse extends ListSessionsResponse {}
-export interface ChatSessionSummary extends SessionSummaryDTO {}
+export interface RecommendRitualPackResponse extends ApiRecommendRitualPackResponse {}
 

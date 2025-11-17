@@ -62,6 +62,12 @@ export interface LoveTypeInfo {
      * @memberof LoveTypeInfo
      */
     'sections'?: Array<InfoSection>;
+    /**
+     * 
+     * @type {string}
+     * @memberof LoveTypeInfo
+     */
+    'contentHash'?: string;
 }
 
 

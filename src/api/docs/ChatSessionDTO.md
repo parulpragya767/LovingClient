@@ -1,4 +1,4 @@
-# SessionSummaryDTO
+# ChatSessionDTO
 
 
 ## Properties
@@ -6,22 +6,22 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **string** |  | [optional] [default to undefined]
-**conversationTitle** | **string** |  | [optional] [default to undefined]
-**status** | [**ChatSessionStatus**](ChatSessionStatus.md) |  | [optional] [default to undefined]
+**title** | **string** |  | [optional] [default to undefined]
 **createdAt** | **string** |  | [optional] [default to undefined]
 **updatedAt** | **string** |  | [optional] [default to undefined]
+**messages** | [**Array&lt;ChatMessageDTO&gt;**](ChatMessageDTO.md) |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { SessionSummaryDTO } from './api';
+import { ChatSessionDTO } from './api';
 
-const instance: SessionSummaryDTO = {
+const instance: ChatSessionDTO = {
     id,
-    conversationTitle,
-    status,
+    title,
     createdAt,
     updatedAt,
+    messages,
 };
 ```
 

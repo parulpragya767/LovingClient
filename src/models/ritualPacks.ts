@@ -1,14 +1,13 @@
 import type { RitualDTO } from '@/src/api/models/ritual-dto';
 import type { RitualPackDTO } from '@/src/api/models/ritual-pack-dto';
-import type { Ritual as RitualType } from '@/src/models/rituals';
+import type { Ritual } from '@/src/models/rituals';
 import { toRitual } from '@/src/models/rituals';
 
-// Domain model for use across the app
 export interface RitualPack {
   id: string;
   title: string;
   description: string;
-  rituals: RitualType[];
+  rituals: Ritual[];
 }
 
 export function toRitualPack(dto: RitualPackDTO): RitualPack {
@@ -16,7 +15,7 @@ export function toRitualPack(dto: RitualPackDTO): RitualPack {
   return {
     id: dto.id || '',
     title: dto.title || 'Unnamed Pack',
-    description: dto.fullDescription || dto.shortDescription || '',
+    description: dto.description || '',
     rituals: rituals.map(ritual => toRitual(ritual)),
   };
 }

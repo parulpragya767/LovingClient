@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { RitualStatusUpdate } from './ritual-status-update';
+import type { StatusUpdateEntry } from './status-update-entry';
 
 /**
  * 
@@ -25,9 +25,9 @@ import type { RitualStatusUpdate } from './ritual-status-update';
 export interface BulkRitualHistoryStatusUpdateRequest {
     /**
      * 
-     * @type {Array<RitualStatusUpdate>}
+     * @type {Array<StatusUpdateEntry>}
      * @memberof BulkRitualHistoryStatusUpdateRequest
      */
-    'updates': Array<RitualStatusUpdate>;
+    'updates': Array<StatusUpdateEntry>;
 }
 

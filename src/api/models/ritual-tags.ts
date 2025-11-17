@@ -15,45 +15,43 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { ChatSessionStatus } from './chat-session-status';
+import type { RitualTag } from './ritual-tag';
 
 /**
  * 
  * @export
- * @interface SessionSummaryDTO
+ * @interface RitualTags
  */
-export interface SessionSummaryDTO {
+export interface RitualTags {
     /**
      * 
-     * @type {string}
-     * @memberof SessionSummaryDTO
+     * @type {RitualTag}
+     * @memberof RitualTags
      */
-    'id'?: string;
+    'loveTypes'?: RitualTag;
     /**
      * 
-     * @type {string}
-     * @memberof SessionSummaryDTO
+     * @type {RitualTag}
+     * @memberof RitualTags
      */
-    'conversationTitle'?: string;
+    'ritualModes'?: RitualTag;
     /**
      * 
-     * @type {ChatSessionStatus}
-     * @memberof SessionSummaryDTO
+     * @type {RitualTag}
+     * @memberof RitualTags
      */
-    'status'?: ChatSessionStatus;
+    'timeTaken'?: RitualTag;
     /**
      * 
-     * @type {string}
-     * @memberof SessionSummaryDTO
+     * @type {RitualTag}
+     * @memberof RitualTags
      */
-    'createdAt'?: string;
+    'relationalNeeds'?: RitualTag;
     /**
      * 
-     * @type {string}
-     * @memberof SessionSummaryDTO
+     * @type {RitualTag}
+     * @memberof RitualTags
      */
-    'updatedAt'?: string;
+    'ritualTones'?: RitualTag;
 }
-
-
 

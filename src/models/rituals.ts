@@ -1,7 +1,6 @@
 import type { MediaAsset as ApiMediaAsset } from '@/src/api/models/media-asset';
 import type { RitualDTO } from '@/src/api/models/ritual-dto';
-import type { RitualFilterRequest as ApiRitualFilterRequest } from '@/src/api/models/ritual-filter-request';
-import type { RitualStep as ApiRitualStep } from '@/src/api/models/ritual-step';
+import type { RitualFilterDTO } from '@/src/api/models/ritual-filter-dto';
 
 export interface Ritual extends Omit<RitualDTO, 'id'> {
     id: string;
@@ -18,6 +17,5 @@ export function toRitual(dto: RitualDTO): Ritual {
   };
 }
 
-export interface RitualStep extends ApiRitualStep {}
 export interface MediaAsset extends ApiMediaAsset {}
-export interface RitualFilter extends ApiRitualFilterRequest {}
+export interface RitualFilter extends RitualFilterDTO {}

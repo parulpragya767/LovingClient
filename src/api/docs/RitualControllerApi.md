@@ -53,7 +53,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getAllTags**
-> RitualTagsDTO getAllTags()
+> RitualTags getAllTags()
 
 
 ### Example
@@ -76,7 +76,7 @@ This endpoint does not have any parameters.
 
 ### Return type
 
-**RitualTagsDTO**
+**RitualTags**
 
 ### Authorization
 
@@ -156,18 +156,18 @@ import {
     RitualControllerApi,
     Configuration,
     Pageable,
-    RitualFilterRequest
+    RitualFilterDTO
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new RitualControllerApi(configuration);
 
 let pageable: Pageable; // (default to undefined)
-let ritualFilterRequest: RitualFilterRequest; // (optional)
+let ritualFilterDTO: RitualFilterDTO; // (optional)
 
 const { status, data } = await apiInstance.search(
     pageable,
-    ritualFilterRequest
+    ritualFilterDTO
 );
 ```
 
@@ -175,7 +175,7 @@ const { status, data } = await apiInstance.search(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **ritualFilterRequest** | **RitualFilterRequest**|  | |
+| **ritualFilterDTO** | **RitualFilterDTO**|  | |
 | **pageable** | **Pageable** |  | defaults to undefined|
 
 

@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**updates** | [**Array&lt;RitualStatusUpdate&gt;**](RitualStatusUpdate.md) |  | [default to undefined]
+**updates** | [**Array&lt;StatusUpdateEntry&gt;**](StatusUpdateEntry.md) |  | [default to undefined]
 
 ## Example
 

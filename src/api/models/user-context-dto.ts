@@ -15,16 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { EffortLevel } from './effort-level';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { EmotionalState } from './emotional-state';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { IntensityLevel } from './intensity-level';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { LifeContext } from './life-context';
+import type { Journey } from './journey';
 // May contain unused imports in some cases
 // @ts-ignore
 import type { LoveType } from './love-type';
@@ -34,15 +25,6 @@ import type { RelationalNeed } from './relational-need';
 // May contain unused imports in some cases
 // @ts-ignore
 import type { RelationshipStatus } from './relationship-status';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { RitualTone } from './ritual-tone';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { RitualType } from './ritual-type';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { TimeContext } from './time-context';
 
 /**
  * 
@@ -70,64 +52,22 @@ export interface UserContextDTO {
     'conversationId'?: string;
     /**
      * 
-     * @type {Array<EmotionalState>}
+     * @type {Journey}
      * @memberof UserContextDTO
      */
-    'emotionalStates'?: Array<EmotionalState>;
+    'journey'?: Journey;
+    /**
+     * 
+     * @type {Array<LoveType>}
+     * @memberof UserContextDTO
+     */
+    'loveTypes'?: Array<LoveType>;
     /**
      * 
      * @type {Array<RelationalNeed>}
      * @memberof UserContextDTO
      */
     'relationalNeeds'?: Array<RelationalNeed>;
-    /**
-     * 
-     * @type {Array<LoveType>}
-     * @memberof UserContextDTO
-     */
-    'preferredLoveLanguages'?: Array<LoveType>;
-    /**
-     * 
-     * @type {Array<RitualType>}
-     * @memberof UserContextDTO
-     */
-    'preferredRitualTypes'?: Array<RitualType>;
-    /**
-     * 
-     * @type {Array<RitualTone>}
-     * @memberof UserContextDTO
-     */
-    'preferredTones'?: Array<RitualTone>;
-    /**
-     * 
-     * @type {number}
-     * @memberof UserContextDTO
-     */
-    'availableTimeMinutes'?: number;
-    /**
-     * 
-     * @type {EffortLevel}
-     * @memberof UserContextDTO
-     */
-    'preferredEffortLevel'?: EffortLevel;
-    /**
-     * 
-     * @type {IntensityLevel}
-     * @memberof UserContextDTO
-     */
-    'preferredIntensity'?: IntensityLevel;
-    /**
-     * 
-     * @type {Array<LifeContext>}
-     * @memberof UserContextDTO
-     */
-    'currentContexts'?: Array<LifeContext>;
-    /**
-     * 
-     * @type {TimeContext}
-     * @memberof UserContextDTO
-     */
-    'timeContext'?: TimeContext;
     /**
      * 
      * @type {RelationshipStatus}
@@ -139,13 +79,7 @@ export interface UserContextDTO {
      * @type {string}
      * @memberof UserContextDTO
      */
-    'semanticQuery'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserContextDTO
-     */
-    'lastInteractionAt'?: string;
+    'semanticSummary'?: string;
     /**
      * 
      * @type {string}

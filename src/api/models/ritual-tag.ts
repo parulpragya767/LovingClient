@@ -13,20 +13,27 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { TagValue } from './tag-value';
 
 /**
  * 
  * @export
- * @enum {string}
+ * @interface RitualTag
  */
-
-export const SensitivityLevel = {
-    Low: 'LOW',
-    Moderate: 'MODERATE',
-    High: 'HIGH'
-} as const;
-
-export type SensitivityLevel = typeof SensitivityLevel[keyof typeof SensitivityLevel];
-
-
+export interface RitualTag {
+    /**
+     * 
+     * @type {string}
+     * @memberof RitualTag
+     */
+    'displayName'?: string;
+    /**
+     * 
+     * @type {Array<TagValue>}
+     * @memberof RitualTag
+     */
+    'values'?: Array<TagValue>;
+}
 

@@ -6,7 +6,6 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **content** | **string** |  | [optional] [default to undefined]
-**readyForRitualSuggestion** | **boolean** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -15,7 +14,6 @@ import { SendMessageRequest } from './api';
 
 const instance: SendMessageRequest = {
     content,
-    readyForRitualSuggestion,
 };
 ```
 

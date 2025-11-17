@@ -1,19 +1,21 @@
-# SamplePromptsResponse
+# StatusUpdateEntry
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**prompts** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
+**ritualHistoryId** | **string** |  | [default to undefined]
+**status** | [**RitualHistoryStatus**](RitualHistoryStatus.md) |  | [default to undefined]
 
 ## Example
 
 ```typescript
-import { SamplePromptsResponse } from './api';
+import { StatusUpdateEntry } from './api';
 
-const instance: SamplePromptsResponse = {
-    prompts,
+const instance: StatusUpdateEntry = {
+    ritualHistoryId,
+    status,
 };
 ```
 

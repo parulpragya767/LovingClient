@@ -15,16 +15,13 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { EffortLevel } from './effort-level';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { EmotionalState } from './emotional-state';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { LifeContext } from './life-context';
+import type { Journey } from './journey';
 // May contain unused imports in some cases
 // @ts-ignore
 import type { LoveType } from './love-type';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { MediaAsset } from './media-asset';
 // May contain unused imports in some cases
 // @ts-ignore
 import type { PublicationStatus } from './publication-status';
@@ -34,15 +31,6 @@ import type { RelationalNeed } from './relational-need';
 // May contain unused imports in some cases
 // @ts-ignore
 import type { RitualDTO } from './ritual-dto';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { RitualTone } from './ritual-tone';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { RitualType } from './ritual-type';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { SensitivityLevel } from './sensitivity-level';
 
 /**
  * 
@@ -67,13 +55,19 @@ export interface RitualPackDTO {
      * @type {string}
      * @memberof RitualPackDTO
      */
-    'shortDescription'?: string;
+    'tagLine'?: string;
     /**
      * 
      * @type {string}
      * @memberof RitualPackDTO
      */
-    'fullDescription'?: string;
+    'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RitualPackDTO
+     */
+    'howItHelps'?: string;
     /**
      * 
      * @type {Array<RitualDTO>}
@@ -82,52 +76,34 @@ export interface RitualPackDTO {
     'rituals'?: Array<RitualDTO>;
     /**
      * 
-     * @type {Array<RitualType>}
+     * @type {Array<string>}
      * @memberof RitualPackDTO
      */
-    'ritualTypes'?: Array<RitualType>;
+    'ritualIds'?: Array<string>;
     /**
      * 
-     * @type {Array<RitualTone>}
+     * @type {Journey}
      * @memberof RitualPackDTO
      */
-    'ritualTones'?: Array<RitualTone>;
-    /**
-     * 
-     * @type {SensitivityLevel}
-     * @memberof RitualPackDTO
-     */
-    'sensitivityLevel'?: SensitivityLevel;
-    /**
-     * 
-     * @type {EffortLevel}
-     * @memberof RitualPackDTO
-     */
-    'effortLevel'?: EffortLevel;
+    'journey'?: Journey;
     /**
      * 
      * @type {Array<LoveType>}
      * @memberof RitualPackDTO
      */
-    'loveTypesSupported'?: Array<LoveType>;
-    /**
-     * 
-     * @type {Array<EmotionalState>}
-     * @memberof RitualPackDTO
-     */
-    'emotionalStatesSupported'?: Array<EmotionalState>;
+    'loveTypes'?: Array<LoveType>;
     /**
      * 
      * @type {Array<RelationalNeed>}
      * @memberof RitualPackDTO
      */
-    'relationalNeedsServed'?: Array<RelationalNeed>;
+    'relationalNeeds'?: Array<RelationalNeed>;
     /**
      * 
-     * @type {Array<LifeContext>}
+     * @type {Array<MediaAsset>}
      * @memberof RitualPackDTO
      */
-    'lifeContextsRelevant'?: Array<LifeContext>;
+    'mediaAssets'?: Array<MediaAsset>;
     /**
      * 
      * @type {string}
@@ -145,7 +121,7 @@ export interface RitualPackDTO {
      * @type {string}
      * @memberof RitualPackDTO
      */
-    'createdBy'?: string;
+    'contentHash'?: string;
     /**
      * 
      * @type {string}

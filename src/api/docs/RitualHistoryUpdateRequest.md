@@ -1,4 +1,4 @@
-# RitualHistoryStatusUpdateRequest
+# RitualHistoryUpdateRequest
 
 
 ## Properties
@@ -11,9 +11,9 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { RitualHistoryStatusUpdateRequest } from './api';
+import { RitualHistoryUpdateRequest } from './api';
 
-const instance: RitualHistoryStatusUpdateRequest = {
+const instance: RitualHistoryUpdateRequest = {
     status,
     feedback,
 };

@@ -13,30 +13,29 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { RitualHistoryStatus } from './ritual-history-status';
 
 /**
  * 
  * @export
- * @interface StartSessionRequest
+ * @interface StatusUpdateEntry
  */
-export interface StartSessionRequest {
+export interface StatusUpdateEntry {
     /**
      * 
      * @type {string}
-     * @memberof StartSessionRequest
+     * @memberof StatusUpdateEntry
      */
-    'userId'?: string;
+    'ritualHistoryId': string;
     /**
      * 
-     * @type {string}
-     * @memberof StartSessionRequest
+     * @type {RitualHistoryStatus}
+     * @memberof StatusUpdateEntry
      */
-    'sessionId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof StartSessionRequest
-     */
-    'conversationTitle'?: string;
+    'status': RitualHistoryStatus;
 }
+
+
 

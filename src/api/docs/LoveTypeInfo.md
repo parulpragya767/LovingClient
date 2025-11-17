@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **subtitle** | **string** |  | [optional] [default to undefined]
 **description** | **string** |  | [optional] [default to undefined]
 **sections** | [**Array&lt;InfoSection&gt;**](InfoSection.md) |  | [optional] [default to undefined]
+**contentHash** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -24,6 +25,7 @@ const instance: LoveTypeInfo = {
     subtitle,
     description,
     sections,
+    contentHash,
 };
 ```
 

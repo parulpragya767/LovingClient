@@ -3,24 +3,30 @@
 
 ## Enum
 
-* `Connection` (value: `'Connection'`)
+* `Connection` (value: `'CONNECTION'`)
 
-* `Appreciation` (value: `'Appreciation'`)
+* `Intimacy` (value: `'INTIMACY'`)
 
-* `Respect` (value: `'Respect'`)
+* `Understanding` (value: `'UNDERSTANDING'`)
 
-* `Trust` (value: `'Trust'`)
+* `AcceptanceAndForgiveness` (value: `'ACCEPTANCE_AND_FORGIVENESS'`)
 
-* `Intimacy` (value: `'Intimacy'`)
+* `TrustAndSafety` (value: `'TRUST_AND_SAFETY'`)
 
-* `Support` (value: `'Support'`)
+* `Support` (value: `'SUPPORT'`)
 
-* `Acceptance` (value: `'Acceptance'`)
+* `BalanceAndFairness` (value: `'BALANCE_AND_FAIRNESS'`)
 
-* `Space` (value: `'Space'`)
+* `Communication` (value: `'COMMUNICATION'`)
 
-* `Security` (value: `'Security'`)
+* `PlayAndJoy` (value: `'PLAY_AND_JOY'`)
 
-* `Adventure` (value: `'Adventure'`)
+* `Growth` (value: `'GROWTH'`)
+
+* `GratitudeAndAppreciation` (value: `'GRATITUDE_AND_APPRECIATION'`)
+
+* `PresenceAndQualityTime` (value: `'PRESENCE_AND_QUALITY_TIME'`)
+
+* `Space` (value: `'SPACE'`)
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -1,21 +1,21 @@
-# GetHistoryResponse
+# RitualTag
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**sessionId** | **string** |  | [optional] [default to undefined]
-**messages** | [**Array&lt;ChatMessageDTO&gt;**](ChatMessageDTO.md) |  | [optional] [default to undefined]
+**displayName** | **string** |  | [optional] [default to undefined]
+**values** | [**Array&lt;TagValue&gt;**](TagValue.md) |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { GetHistoryResponse } from './api';
+import { RitualTag } from './api';
 
-const instance: GetHistoryResponse = {
-    sessionId,
-    messages,
+const instance: RitualTag = {
+    displayName,
+    values,
 };
 ```
 

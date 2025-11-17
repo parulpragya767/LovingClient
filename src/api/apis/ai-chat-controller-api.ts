@@ -22,25 +22,81 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import type { GetHistoryResponse } from '../models';
+import type { ChatSessionDTO } from '../models';
 // @ts-ignore
-import type { ListSessionsResponse } from '../models';
-// @ts-ignore
-import type { SamplePromptsResponse } from '../models';
+import type { RecommendRitualPackResponse } from '../models';
 // @ts-ignore
 import type { SendMessageRequest } from '../models';
 // @ts-ignore
 import type { SendMessageResponse } from '../models';
-// @ts-ignore
-import type { StartSessionRequest } from '../models';
-// @ts-ignore
-import type { StartSessionResponse } from '../models';
 /**
  * AiChatControllerApi - axios parameter creator
  * @export
  */
 export const AiChatControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createSession: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/chat/sessions`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} sessionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteSession: async (sessionId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'sessionId' is not null or undefined
+            assertParamExists('deleteSession', 'sessionId', sessionId)
+            const localVarPath = `/api/chat/sessions/{sessionId}`
+                .replace(`{${"sessionId"}}`, encodeURIComponent(String(sessionId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @param {string} sessionId 
@@ -105,12 +161,10 @@ export const AiChatControllerApiAxiosParamCreator = function (configuration?: Co
         },
         /**
          * 
-         * @param {number} [page] 
-         * @param {number} [size] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listSessions: async (page?: number, size?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        listSessions: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/chat/sessions`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -122,14 +176,6 @@ export const AiChatControllerApiAxiosParamCreator = function (configuration?: Co
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-            if (size !== undefined) {
-                localVarQueryParameter['size'] = size;
-            }
 
 
     
@@ -145,15 +191,12 @@ export const AiChatControllerApiAxiosParamCreator = function (configuration?: Co
         /**
          * 
          * @param {string} sessionId 
-         * @param {SendMessageRequest} sendMessageRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        recommendRitualPack: async (sessionId: string, sendMessageRequest: SendMessageRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        recommendRitualPack: async (sessionId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'sessionId' is not null or undefined
             assertParamExists('recommendRitualPack', 'sessionId', sessionId)
-            // verify required parameter 'sendMessageRequest' is not null or undefined
-            assertParamExists('recommendRitualPack', 'sendMessageRequest', sendMessageRequest)
             const localVarPath = `/api/chat/sessions/{sessionId}/recommend`
                 .replace(`{${"sessionId"}}`, encodeURIComponent(String(sessionId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -169,12 +212,9 @@ export const AiChatControllerApiAxiosParamCreator = function (configuration?: Co
 
 
     
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(sendMessageRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -220,41 +260,6 @@ export const AiChatControllerApiAxiosParamCreator = function (configuration?: Co
                 options: localVarRequestOptions,
             };
         },
-        /**
-         * 
-         * @param {StartSessionRequest} startSessionRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        startSession: async (startSessionRequest: StartSessionRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'startSessionRequest' is not null or undefined
-            assertParamExists('startSession', 'startSessionRequest', startSessionRequest)
-            const localVarPath = `/api/chat/sessions`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(startSessionRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
     }
 };
 
@@ -267,11 +272,34 @@ export const AiChatControllerApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createSession(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ChatSessionDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createSession(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AiChatControllerApi.createSession']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {string} sessionId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getChatHistory(sessionId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetHistoryResponse>> {
+        async deleteSession(sessionId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteSession(sessionId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AiChatControllerApi.deleteSession']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} sessionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getChatHistory(sessionId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ChatSessionDTO>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getChatHistory(sessionId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AiChatControllerApi.getChatHistory']?.[localVarOperationServerIndex]?.url;
@@ -282,7 +310,7 @@ export const AiChatControllerApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getSamplePrompts(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SamplePromptsResponse>> {
+        async getSamplePrompts(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getSamplePrompts(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AiChatControllerApi.getSamplePrompts']?.[localVarOperationServerIndex]?.url;
@@ -290,13 +318,11 @@ export const AiChatControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {number} [page] 
-         * @param {number} [size] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listSessions(page?: number, size?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListSessionsResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listSessions(page, size, options);
+        async listSessions(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ChatSessionDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listSessions(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AiChatControllerApi.listSessions']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -304,12 +330,11 @@ export const AiChatControllerApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} sessionId 
-         * @param {SendMessageRequest} sendMessageRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async recommendRitualPack(sessionId: string, sendMessageRequest: SendMessageRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SendMessageResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.recommendRitualPack(sessionId, sendMessageRequest, options);
+        async recommendRitualPack(sessionId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RecommendRitualPackResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.recommendRitualPack(sessionId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AiChatControllerApi.recommendRitualPack']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -327,18 +352,6 @@ export const AiChatControllerApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['AiChatControllerApi.sendMessage']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
-        /**
-         * 
-         * @param {StartSessionRequest} startSessionRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async startSession(startSessionRequest: StartSessionRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StartSessionResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.startSession(startSessionRequest, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['AiChatControllerApi.startSession']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
     }
 };
 
@@ -351,11 +364,28 @@ export const AiChatControllerApiFactory = function (configuration?: Configuratio
     return {
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createSession(options?: RawAxiosRequestConfig): AxiosPromise<ChatSessionDTO> {
+            return localVarFp.createSession(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {AiChatControllerApiDeleteSessionRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteSession(requestParameters: AiChatControllerApiDeleteSessionRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.deleteSession(requestParameters.sessionId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {AiChatControllerApiGetChatHistoryRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getChatHistory(requestParameters: AiChatControllerApiGetChatHistoryRequest, options?: RawAxiosRequestConfig): AxiosPromise<GetHistoryResponse> {
+        getChatHistory(requestParameters: AiChatControllerApiGetChatHistoryRequest, options?: RawAxiosRequestConfig): AxiosPromise<ChatSessionDTO> {
             return localVarFp.getChatHistory(requestParameters.sessionId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -363,17 +393,16 @@ export const AiChatControllerApiFactory = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSamplePrompts(options?: RawAxiosRequestConfig): AxiosPromise<SamplePromptsResponse> {
+        getSamplePrompts(options?: RawAxiosRequestConfig): AxiosPromise<Array<string>> {
             return localVarFp.getSamplePrompts(options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {AiChatControllerApiListSessionsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listSessions(requestParameters: AiChatControllerApiListSessionsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<ListSessionsResponse> {
-            return localVarFp.listSessions(requestParameters.page, requestParameters.size, options).then((request) => request(axios, basePath));
+        listSessions(options?: RawAxiosRequestConfig): AxiosPromise<Array<ChatSessionDTO>> {
+            return localVarFp.listSessions(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -381,8 +410,8 @@ export const AiChatControllerApiFactory = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        recommendRitualPack(requestParameters: AiChatControllerApiRecommendRitualPackRequest, options?: RawAxiosRequestConfig): AxiosPromise<SendMessageResponse> {
-            return localVarFp.recommendRitualPack(requestParameters.sessionId, requestParameters.sendMessageRequest, options).then((request) => request(axios, basePath));
+        recommendRitualPack(requestParameters: AiChatControllerApiRecommendRitualPackRequest, options?: RawAxiosRequestConfig): AxiosPromise<RecommendRitualPackResponse> {
+            return localVarFp.recommendRitualPack(requestParameters.sessionId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -392,15 +421,6 @@ export const AiChatControllerApiFactory = function (configuration?: Configuratio
          */
         sendMessage(requestParameters: AiChatControllerApiSendMessageRequest, options?: RawAxiosRequestConfig): AxiosPromise<SendMessageResponse> {
             return localVarFp.sendMessage(requestParameters.sessionId, requestParameters.sendMessageRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {AiChatControllerApiStartSessionRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        startSession(requestParameters: AiChatControllerApiStartSessionRequest, options?: RawAxiosRequestConfig): AxiosPromise<StartSessionResponse> {
-            return localVarFp.startSession(requestParameters.startSessionRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -413,12 +433,29 @@ export const AiChatControllerApiFactory = function (configuration?: Configuratio
 export interface AiChatControllerApiInterface {
     /**
      * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AiChatControllerApiInterface
+     */
+    createSession(options?: RawAxiosRequestConfig): AxiosPromise<ChatSessionDTO>;
+
+    /**
+     * 
+     * @param {AiChatControllerApiDeleteSessionRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AiChatControllerApiInterface
+     */
+    deleteSession(requestParameters: AiChatControllerApiDeleteSessionRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+
+    /**
+     * 
      * @param {AiChatControllerApiGetChatHistoryRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AiChatControllerApiInterface
      */
-    getChatHistory(requestParameters: AiChatControllerApiGetChatHistoryRequest, options?: RawAxiosRequestConfig): AxiosPromise<GetHistoryResponse>;
+    getChatHistory(requestParameters: AiChatControllerApiGetChatHistoryRequest, options?: RawAxiosRequestConfig): AxiosPromise<ChatSessionDTO>;
 
     /**
      * 
@@ -426,16 +463,15 @@ export interface AiChatControllerApiInterface {
      * @throws {RequiredError}
      * @memberof AiChatControllerApiInterface
      */
-    getSamplePrompts(options?: RawAxiosRequestConfig): AxiosPromise<SamplePromptsResponse>;
+    getSamplePrompts(options?: RawAxiosRequestConfig): AxiosPromise<Array<string>>;
 
     /**
      * 
-     * @param {AiChatControllerApiListSessionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AiChatControllerApiInterface
      */
-    listSessions(requestParameters?: AiChatControllerApiListSessionsRequest, options?: RawAxiosRequestConfig): AxiosPromise<ListSessionsResponse>;
+    listSessions(options?: RawAxiosRequestConfig): AxiosPromise<Array<ChatSessionDTO>>;
 
     /**
      * 
@@ -444,7 +480,7 @@ export interface AiChatControllerApiInterface {
      * @throws {RequiredError}
      * @memberof AiChatControllerApiInterface
      */
-    recommendRitualPack(requestParameters: AiChatControllerApiRecommendRitualPackRequest, options?: RawAxiosRequestConfig): AxiosPromise<SendMessageResponse>;
+    recommendRitualPack(requestParameters: AiChatControllerApiRecommendRitualPackRequest, options?: RawAxiosRequestConfig): AxiosPromise<RecommendRitualPackResponse>;
 
     /**
      * 
@@ -455,15 +491,20 @@ export interface AiChatControllerApiInterface {
      */
     sendMessage(requestParameters: AiChatControllerApiSendMessageRequest, options?: RawAxiosRequestConfig): AxiosPromise<SendMessageResponse>;
 
+}
+
+/**
+ * Request parameters for deleteSession operation in AiChatControllerApi.
+ * @export
+ * @interface AiChatControllerApiDeleteSessionRequest
+ */
+export interface AiChatControllerApiDeleteSessionRequest {
     /**
      * 
-     * @param {AiChatControllerApiStartSessionRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AiChatControllerApiInterface
+     * @type {string}
+     * @memberof AiChatControllerApiDeleteSession
      */
-    startSession(requestParameters: AiChatControllerApiStartSessionRequest, options?: RawAxiosRequestConfig): AxiosPromise<StartSessionResponse>;
-
+    readonly sessionId: string
 }
 
 /**
@@ -481,27 +522,6 @@ export interface AiChatControllerApiGetChatHistoryRequest {
 }
 
 /**
- * Request parameters for listSessions operation in AiChatControllerApi.
- * @export
- * @interface AiChatControllerApiListSessionsRequest
- */
-export interface AiChatControllerApiListSessionsRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof AiChatControllerApiListSessions
-     */
-    readonly page?: number
-
-    /**
-     * 
-     * @type {number}
-     * @memberof AiChatControllerApiListSessions
-     */
-    readonly size?: number
-}
-
-/**
  * Request parameters for recommendRitualPack operation in AiChatControllerApi.
  * @export
  * @interface AiChatControllerApiRecommendRitualPackRequest
@@ -513,13 +533,6 @@ export interface AiChatControllerApiRecommendRitualPackRequest {
      * @memberof AiChatControllerApiRecommendRitualPack
      */
     readonly sessionId: string
-
-    /**
-     * 
-     * @type {SendMessageRequest}
-     * @memberof AiChatControllerApiRecommendRitualPack
-     */
-    readonly sendMessageRequest: SendMessageRequest
 }
 
 /**
@@ -544,26 +557,33 @@ export interface AiChatControllerApiSendMessageRequest {
 }
 
 /**
- * Request parameters for startSession operation in AiChatControllerApi.
- * @export
- * @interface AiChatControllerApiStartSessionRequest
- */
-export interface AiChatControllerApiStartSessionRequest {
-    /**
-     * 
-     * @type {StartSessionRequest}
-     * @memberof AiChatControllerApiStartSession
-     */
-    readonly startSessionRequest: StartSessionRequest
-}
-
-/**
  * AiChatControllerApi - object-oriented interface
  * @export
  * @class AiChatControllerApi
  * @extends {BaseAPI}
  */
 export class AiChatControllerApi extends BaseAPI implements AiChatControllerApiInterface {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AiChatControllerApi
+     */
+    public createSession(options?: RawAxiosRequestConfig) {
+        return AiChatControllerApiFp(this.configuration).createSession(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {AiChatControllerApiDeleteSessionRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AiChatControllerApi
+     */
+    public deleteSession(requestParameters: AiChatControllerApiDeleteSessionRequest, options?: RawAxiosRequestConfig) {
+        return AiChatControllerApiFp(this.configuration).deleteSession(requestParameters.sessionId, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {AiChatControllerApiGetChatHistoryRequest} requestParameters Request parameters.
@@ -587,13 +607,12 @@ export class AiChatControllerApi extends BaseAPI implements AiChatControllerApiI
 
     /**
      * 
-     * @param {AiChatControllerApiListSessionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AiChatControllerApi
      */
-    public listSessions(requestParameters: AiChatControllerApiListSessionsRequest = {}, options?: RawAxiosRequestConfig) {
-        return AiChatControllerApiFp(this.configuration).listSessions(requestParameters.page, requestParameters.size, options).then((request) => request(this.axios, this.basePath));
+    public listSessions(options?: RawAxiosRequestConfig) {
+        return AiChatControllerApiFp(this.configuration).listSessions(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -604,7 +623,7 @@ export class AiChatControllerApi extends BaseAPI implements AiChatControllerApiI
      * @memberof AiChatControllerApi
      */
     public recommendRitualPack(requestParameters: AiChatControllerApiRecommendRitualPackRequest, options?: RawAxiosRequestConfig) {
-        return AiChatControllerApiFp(this.configuration).recommendRitualPack(requestParameters.sessionId, requestParameters.sendMessageRequest, options).then((request) => request(this.axios, this.basePath));
+        return AiChatControllerApiFp(this.configuration).recommendRitualPack(requestParameters.sessionId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -616,17 +635,6 @@ export class AiChatControllerApi extends BaseAPI implements AiChatControllerApiI
      */
     public sendMessage(requestParameters: AiChatControllerApiSendMessageRequest, options?: RawAxiosRequestConfig) {
         return AiChatControllerApiFp(this.configuration).sendMessage(requestParameters.sessionId, requestParameters.sendMessageRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {AiChatControllerApiStartSessionRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AiChatControllerApi
-     */
-    public startSession(requestParameters: AiChatControllerApiStartSessionRequest, options?: RawAxiosRequestConfig) {
-        return AiChatControllerApiFp(this.configuration).startSession(requestParameters.startSessionRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

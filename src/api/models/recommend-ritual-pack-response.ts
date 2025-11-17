@@ -15,27 +15,28 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { RitualHistoryStatus } from './ritual-history-status';
+import type { ChatMessageDTO } from './chat-message-dto';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { RitualPackDTO } from './ritual-pack-dto';
 
 /**
  * 
  * @export
- * @interface RitualStatusUpdate
+ * @interface RecommendRitualPackResponse
  */
-export interface RitualStatusUpdate {
+export interface RecommendRitualPackResponse {
     /**
      * 
-     * @type {string}
-     * @memberof RitualStatusUpdate
+     * @type {RitualPackDTO}
+     * @memberof RecommendRitualPackResponse
      */
-    'ritualHistoryId': string;
+    'ritualPack'?: RitualPackDTO;
     /**
      * 
-     * @type {RitualHistoryStatus}
-     * @memberof RitualStatusUpdate
+     * @type {ChatMessageDTO}
+     * @memberof RecommendRitualPackResponse
      */
-    'status': RitualHistoryStatus;
+    'wrapUpResponse'?: ChatMessageDTO;
 }
-
-
 

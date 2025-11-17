@@ -31,10 +31,10 @@ import type { RitualPackDTO } from './ritual-pack-dto';
 export interface CurrentRitualsDTO {
     /**
      * 
-     * @type {Array<RitualHistoryDTO>}
+     * @type {{ [key: string]: Array<RitualHistoryDTO>; }}
      * @memberof CurrentRitualsDTO
      */
-    'ritualHistory'?: Array<RitualHistoryDTO>;
+    'ritualHistoryMap'?: { [key: string]: Array<RitualHistoryDTO>; };
     /**
      * 
      * @type {Array<RitualPackDTO>}

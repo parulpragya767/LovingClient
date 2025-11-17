@@ -20,14 +20,16 @@
  * @enum {string}
  */
 
-export const Rhythm = {
-    Daily: 'DAILY',
-    Weekly: 'WEEKLY',
-    Occasional: 'OCCASIONAL',
-    EventTriggered: 'EVENT_TRIGGERED'
+export const TimeTaken = {
+    Moment: 'MOMENT',
+    Short: 'SHORT',
+    Medium: 'MEDIUM',
+    Long: 'LONG',
+    Extended: 'EXTENDED',
+    Flexible: 'FLEXIBLE'
 } as const;
 
-export type Rhythm = typeof Rhythm[keyof typeof Rhythm];
+export type TimeTaken = typeof TimeTaken[keyof typeof TimeTaken];
 
 
 

@@ -1,7 +1,7 @@
 import { RitualControllerApi } from '@/src/api/apis/ritual-controller-api';
-import { Ritual, toRitual } from '@/src/models/rituals';
-import type { RitualFilter } from '@/src/models/rituals';
 import type { Pageable } from '@/src/api/models/pageable';
+import type { RitualFilter } from '@/src/models/rituals';
+import { Ritual, toRitual } from '@/src/models/rituals';
 import type { RitualTags } from '@/src/models/ritualTags';
 import apiClient from './apiClient';
 
@@ -32,7 +32,7 @@ export const ritualService = {
     totalElements: number;
     last: boolean;
   }> {
-    const res = await api.search({ pageable, ritualFilterRequest: filter });
+    const res = await api.search({ pageable, ritualFilterDTO: filter });
     const data = res.data;
     return {
       items: (data.content || []).map(toRitual),

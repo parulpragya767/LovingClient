@@ -15,10 +15,10 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { EmotionalState } from './emotional-state';
+import type { LoveType } from './love-type';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { LoveType } from './love-type';
+import type { PublicationStatus } from './publication-status';
 // May contain unused imports in some cases
 // @ts-ignore
 import type { RelationalNeed } from './relational-need';
@@ -27,43 +27,54 @@ import type { RelationalNeed } from './relational-need';
 import type { RitualMode } from './ritual-mode';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { RitualType } from './ritual-type';
+import type { RitualTone } from './ritual-tone';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { TimeTaken } from './time-taken';
 
 /**
  * 
  * @export
- * @interface RitualFilterRequest
+ * @interface RitualFilterDTO
  */
-export interface RitualFilterRequest {
+export interface RitualFilterDTO {
     /**
      * 
      * @type {Array<LoveType>}
-     * @memberof RitualFilterRequest
+     * @memberof RitualFilterDTO
      */
     'loveTypes'?: Array<LoveType>;
     /**
      * 
-     * @type {Array<RitualType>}
-     * @memberof RitualFilterRequest
-     */
-    'ritualTypes'?: Array<RitualType>;
-    /**
-     * 
      * @type {Array<RitualMode>}
-     * @memberof RitualFilterRequest
+     * @memberof RitualFilterDTO
      */
     'ritualModes'?: Array<RitualMode>;
     /**
      * 
-     * @type {Array<EmotionalState>}
-     * @memberof RitualFilterRequest
+     * @type {Array<TimeTaken>}
+     * @memberof RitualFilterDTO
      */
-    'emotionalStates'?: Array<EmotionalState>;
+    'timeTaken'?: Array<TimeTaken>;
     /**
      * 
      * @type {Array<RelationalNeed>}
-     * @memberof RitualFilterRequest
+     * @memberof RitualFilterDTO
      */
     'relationalNeeds'?: Array<RelationalNeed>;
+    /**
+     * 
+     * @type {Array<RitualTone>}
+     * @memberof RitualFilterDTO
+     */
+    'ritualTones'?: Array<RitualTone>;
+    /**
+     * 
+     * @type {PublicationStatus}
+     * @memberof RitualFilterDTO
+     */
+    'status'?: PublicationStatus;
 }
+
+
 

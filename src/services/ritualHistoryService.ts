@@ -1,5 +1,5 @@
 import { RitualHistoryControllerApi } from '@/src/api/apis/ritual-history-controller-api';
-import type { BulkRitualHistoryStatusUpdate, CurrentRituals, RitualHistory, RitualHistoryStatusUpdate } from '@/src/models/ritualHistory';
+import type { BulkRitualHistoryStatusUpdate, CurrentRituals, RitualHistory, RitualHistoryUpdate } from '@/src/models/ritualHistory';
 import { toCurrentRituals } from '@/src/models/ritualHistory';
 import apiClient from './apiClient';
 
@@ -22,13 +22,13 @@ export const ritualHistoryService = {
     return res.data as RitualHistory;
   },
 
-  async updateStatus(id: string, payload: RitualHistoryStatusUpdate): Promise<RitualHistory> {
-    const res = await api.updateStatus({ id, ritualHistoryStatusUpdateRequest: payload });
+  async updateStatus(id: string, payload: RitualHistoryUpdate): Promise<RitualHistory> {
+    const res = await api.updateStatus({ id, ritualHistoryUpdateRequest: payload });
     return res.data as RitualHistory;
   },
 
-  async complete(id: string, payload: RitualHistoryStatusUpdate): Promise<RitualHistory> {
-    const res = await api.complete({ id, ritualHistoryStatusUpdateRequest: payload });
+  async complete(id: string, payload: RitualHistoryUpdate): Promise<RitualHistory> {
+    const res = await api.complete({ id, ritualHistoryUpdateRequest: payload });
     return res.data as RitualHistory;
   },
 
