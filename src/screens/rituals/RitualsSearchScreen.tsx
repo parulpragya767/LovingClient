@@ -14,9 +14,10 @@ export default function RitualsSearchScreen() {
   const { data: tagData, isLoading: tagsLoading } = useRitualTags();
   const { selected, toggle, clearAll, filter } = useTagSelection();
   
-  const navigateToResults = () => {
-    const serialized = JSON.stringify(filter || {});
-    router.replace({ pathname: '/(tabs)/rituals/(top-nav)/all-rituals', params: { filter: serialized } });
+  const navigateToResults = async () => {
+    // actions.setSelection({ selected, chips: selectedChips, filter });
+    // await actions.runSearch(true);
+    router.replace('/(tabs)/rituals/(top-nav)/all-rituals');
   };
 
   
