@@ -55,14 +55,6 @@ export default function RitualsSearchScreen() {
             />
 
             <TagCategory
-              title={tagData?.ritualTypes?.displayName || ''}
-              values={tagData?.ritualTypes?.values}
-              keyPrefix="rt"
-              isSelected={(k) => selected.ritualTypes.includes(k)}
-              onToggle={(k) => toggle('ritualTypes', k)}
-            />
-
-            <TagCategory
               title={tagData?.ritualModes?.displayName || ''}
               values={tagData?.ritualModes?.values}
               keyPrefix="rm"
@@ -71,11 +63,19 @@ export default function RitualsSearchScreen() {
             />
 
             <TagCategory
-              title={tagData?.emotionalStates?.displayName || ''}
-              values={tagData?.emotionalStates?.values}
-              keyPrefix="es"
-              isSelected={(k) => selected.emotionalStates.includes(k)}
-              onToggle={(k) => toggle('emotionalStates', k)}
+              title={tagData?.timeTaken?.displayName || ''}
+              values={tagData?.timeTaken?.values}
+              keyPrefix="tt"
+              isSelected={(k) => selected.timeTaken.includes(k)}
+              onToggle={(k) => toggle('timeTaken', k)}
+            />
+
+            <TagCategory
+              title={tagData?.ritualTones?.displayName || ''}
+              values={tagData?.ritualTones?.values}
+              keyPrefix="rt"
+              isSelected={(k) => selected.ritualTones.includes(k)}
+              onToggle={(k) => toggle('ritualTones', k)}
             />
 
             <TagCategory

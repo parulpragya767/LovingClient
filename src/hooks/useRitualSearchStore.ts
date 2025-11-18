@@ -1,7 +1,7 @@
-import { useSyncExternalStore } from 'react';
-import { ritualService } from '@/src/services/ritualService';
-import type { Ritual, RitualFilter } from '@/src/models/rituals';
 import type { SelectedTagState } from '@/src/hooks/useRitualTags';
+import type { Ritual, RitualFilter } from '@/src/models/rituals';
+import { ritualService } from '@/src/services/ritualService';
+import { useSyncExternalStore } from 'react';
 
 // Simple in-memory store with subscribe capability
 interface RitualSearchState {
@@ -18,10 +18,10 @@ interface RitualSearchState {
 
 const defaultSelected: SelectedTagState = {
   loveTypes: [],
-  ritualTypes: [],
   ritualModes: [],
-  emotionalStates: [],
+  timeTaken: [],
   relationalNeeds: [],
+  ritualTones: [],
 };
 
 const state: RitualSearchState = {

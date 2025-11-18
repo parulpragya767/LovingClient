@@ -6,18 +6,18 @@ import { useMemo, useState } from 'react';
 
 export type SelectedTagState = {
   loveTypes: string[];
-  ritualTypes: string[];
   ritualModes: string[];
-  emotionalStates: string[];
+  timeTaken: string[];
   relationalNeeds: string[];
+  ritualTones: string[];
 };
 
 const emptySelected: SelectedTagState = {
   loveTypes: [],
-  ritualTypes: [],
   ritualModes: [],
-  emotionalStates: [],
+  timeTaken: [],
   relationalNeeds: [],
+  ritualTones: [],
 };
 
 export const useRitualTags = () => {
@@ -31,24 +31,23 @@ export const useRitualTags = () => {
 
   const toggle = (category: keyof SelectedTagState, value: string) => {
     setSelected((prev) => {
-      const exists = prev[category].includes(value);
-      const nextVals = exists
-        ? prev[category].filter((v) => v !== value)
-        : [...prev[category], value];
+      const list = prev[category] as unknown as string[];
+      const exists = list.includes(value);
+      const nextVals = exists ? list.filter((v) => v !== value) : [...list, value];
       return { ...prev, [category]: nextVals } as SelectedTagState;
     });
   };
 
   const clearAll = () => setSelected(emptySelected);
 
-  const buildFilter = useMemo(() => {
+  const buildFilter = useMemo((): RitualFilter | undefined => {
     const f: Partial<RitualFilter> = {};
     if (selected.loveTypes.length) f.loveTypes = selected.loveTypes as any;
-    if (selected.ritualTypes.length) f.ritualTypes = selected.ritualTypes as any;
     if (selected.ritualModes.length) f.ritualModes = selected.ritualModes as any;
-    if (selected.emotionalStates.length) f.emotionalStates = selected.emotionalStates as any;
+    if (selected.timeTaken.length) f.timeTaken = selected.timeTaken as any;
     if (selected.relationalNeeds.length) f.relationalNeeds = selected.relationalNeeds as any;
-    return f as RitualFilter;
+    if (selected.ritualTones.length) f.ritualTones = selected.ritualTones as any;
+    return Object.keys(f).length ? (f as RitualFilter) : undefined;
   }, [selected]);
 
   const selectedChips = useMemo(() => {
@@ -57,11 +56,11 @@ export const useRitualTags = () => {
       const map = new Map((values || []).map((v) => [v.key, v.displayName || v.key || '']));
       keys.forEach((k) => chips.push(map.get(k) || k));
     };
-    pushDisplayNames(data?.loveTypes?.values, selected.loveTypes);
-    pushDisplayNames(data?.ritualTypes?.values, selected.ritualTypes);
-    pushDisplayNames(data?.ritualModes?.values, selected.ritualModes);
-    pushDisplayNames(data?.emotionalStates?.values, selected.emotionalStates);
-    pushDisplayNames(data?.relationalNeeds?.values, selected.relationalNeeds);
+    pushDisplayNames(data?.loveTypes?.values, selected.loveTypes as unknown as string[]);
+    pushDisplayNames(data?.ritualModes?.values, selected.ritualModes as unknown as string[]);
+    pushDisplayNames(data?.timeTaken?.values, selected.timeTaken as unknown as string[]);
+    pushDisplayNames(data?.relationalNeeds?.values, selected.relationalNeeds as unknown as string[]);
+    pushDisplayNames(data?.ritualTones?.values, selected.ritualTones as unknown as string[]);
     return chips;
   }, [data, selected]);
 

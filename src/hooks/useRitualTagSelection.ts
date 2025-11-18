@@ -1,8 +1,8 @@
-import { useCallback, useMemo } from 'react';
-import type { SelectedTagState } from '@/src/hooks/useRitualTags';
-import type { RitualFilter } from '@/src/models/rituals';
-import { useRitualTags } from '@/src/hooks/useRitualTags';
 import { useRitualSearchStore } from '@/src/hooks/useRitualSearchStore';
+import type { SelectedTagState } from '@/src/hooks/useRitualTags';
+import { useRitualTags } from '@/src/hooks/useRitualTags';
+import type { RitualFilter } from '@/src/models/rituals';
+import { useCallback, useMemo } from 'react';
 
 export function useRitualTagSelection() {
   const { data: tagData } = useRitualTags();
@@ -10,48 +10,48 @@ export function useRitualTagSelection() {
 
   const valueToDisplayMaps = useMemo(() => ({
     loveTypes: new Map((tagData?.loveTypes?.values || []).map(v => [v.key || '', v.displayName || v.key || ''])),
-    ritualTypes: new Map((tagData?.ritualTypes?.values || []).map(v => [v.key || '', v.displayName || v.key || ''])),
     ritualModes: new Map((tagData?.ritualModes?.values || []).map(v => [v.key || '', v.displayName || v.key || ''])),
-    emotionalStates: new Map((tagData?.emotionalStates?.values || []).map(v => [v.key || '', v.displayName || v.key || ''])),
+    timeTaken: new Map((tagData?.timeTaken?.values || []).map(v => [v.key || '', v.displayName || v.key || ''])),
     relationalNeeds: new Map((tagData?.relationalNeeds?.values || []).map(v => [v.key || '', v.displayName || v.key || ''])),
+    ritualTones: new Map((tagData?.ritualTones?.values || []).map(v => [v.key || '', v.displayName || v.key || ''])),
   }), [tagData]);
 
   const displayToValueMaps = useMemo(() => ({
     loveTypes: new Map((tagData?.loveTypes?.values || []).map(v => [v.displayName || v.key || '', v.key || ''])),
-    ritualTypes: new Map((tagData?.ritualTypes?.values || []).map(v => [v.displayName || v.key || '', v.key || ''])),
     ritualModes: new Map((tagData?.ritualModes?.values || []).map(v => [v.displayName || v.key || '', v.key || ''])),
-    emotionalStates: new Map((tagData?.emotionalStates?.values || []).map(v => [v.displayName || v.key || '', v.key || ''])),
+    timeTaken: new Map((tagData?.timeTaken?.values || []).map(v => [v.displayName || v.key || '', v.key || ''])),
     relationalNeeds: new Map((tagData?.relationalNeeds?.values || []).map(v => [v.displayName || v.key || '', v.key || ''])),
+    ritualTones: new Map((tagData?.ritualTones?.values || []).map(v => [v.displayName || v.key || '', v.key || ''])),
   }), [tagData]);
 
   const buildFilter = (selected: SelectedTagState): RitualFilter | undefined => {
     const f: any = {};
     if (selected.loveTypes.length) f.loveTypes = selected.loveTypes;
-    if (selected.ritualTypes.length) f.ritualTypes = selected.ritualTypes;
     if (selected.ritualModes.length) f.ritualModes = selected.ritualModes;
-    if (selected.emotionalStates.length) f.emotionalStates = selected.emotionalStates;
+    if (selected.timeTaken.length) f.timeTaken = selected.timeTaken;
     if (selected.relationalNeeds.length) f.relationalNeeds = selected.relationalNeeds;
+    if (selected.ritualTones.length) f.ritualTones = selected.ritualTones;
     return Object.keys(f).length ? f : undefined;
   };
 
   const buildChips = (selected: SelectedTagState): string[] => {
-    const toDisplay = (map: Map<string, string>, keys: string[]) => keys.map(k => map.get(k) || k);
+    const toDisplay = (map: Map<string, string>, keys: readonly string[] | string[]) => keys.map(k => map.get(k) || k);
     return [
       ...toDisplay(valueToDisplayMaps.loveTypes, selected.loveTypes),
-      ...toDisplay(valueToDisplayMaps.ritualTypes, selected.ritualTypes),
       ...toDisplay(valueToDisplayMaps.ritualModes, selected.ritualModes),
-      ...toDisplay(valueToDisplayMaps.emotionalStates, selected.emotionalStates),
+      ...toDisplay(valueToDisplayMaps.timeTaken, selected.timeTaken),
       ...toDisplay(valueToDisplayMaps.relationalNeeds, selected.relationalNeeds),
+      ...toDisplay(valueToDisplayMaps.ritualTones, selected.ritualTones),
     ];
   };
 
   const toggle = useCallback(async (category: keyof SelectedTagState, key: string) => {
-    const exists = state.selected[category].includes(key);
+    const exists = (state.selected[category] as unknown as string[]).includes(key);
     const nextSelected: SelectedTagState = {
       ...state.selected,
       [category]: exists
-        ? state.selected[category].filter(v => v !== key)
-        : [...state.selected[category], key],
+        ? (state.selected[category] as unknown as string[]).filter(v => v !== key) as any
+        : ([...state.selected[category], key] as any),
     } as SelectedTagState;
 
     const nextFilter = buildFilter(nextSelected);
@@ -65,8 +65,8 @@ export function useRitualTagSelection() {
     let removed = false;
     (Object.keys(displayToValueMaps) as Array<keyof typeof displayToValueMaps>).some(cat => {
       const key = displayToValueMaps[cat].get(label);
-      if (key && nextSelected[cat].includes(key)) {
-        nextSelected[cat] = nextSelected[cat].filter(k => k !== key);
+      if (key && (nextSelected[cat] as unknown as string[]).includes(key)) {
+        nextSelected[cat] = (nextSelected[cat] as unknown as string[]).filter(k => k !== key) as any;
         removed = true;
         return true;
       }
