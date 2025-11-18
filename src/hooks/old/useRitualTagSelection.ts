@@ -1,4 +1,4 @@
-import { useRitualSearchStore } from '@/src/hooks/useRitualSearchStore';
+import { useRitualSearchStore } from '@/src/hooks/useRitualSearch';
 import type { SelectedTagState } from '@/src/hooks/useRitualTags';
 import { useRitualTags } from '@/src/hooks/useRitualTags';
 import type { RitualFilter } from '@/src/models/rituals';

@@ -1,33 +1,37 @@
 import RitualCard from '@/components/rituals/RitualCard';
-import RitualTags from '@/components/rituals/RitualTags';
 import { ThemedText } from '@/components/themes/themed-text';
-import { useRitualSearchStore } from '@/src/hooks/useRitualSearchStore';
-import { useRitualTagSelection } from '@/src/hooks/useRitualTagSelection';
+import { useRitualSearch } from '@/src/hooks/useRitualSearch';
 import { Ritual } from '@/src/models/rituals';
-import { useRouter } from 'expo-router';
-import { useCallback, useEffect } from 'react';
-import { ActivityIndicator, FlatList, ScrollView, View } from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useCallback, useEffect, useMemo } from 'react';
+import { ActivityIndicator, FlatList, Pressable, View } from 'react-native';
 
 export default function AllRitualsScreen() {
   const router = useRouter();
-  const { state, actions } = useRitualSearchStore();
-  const { rituals, isLoading, error, filter } = state;
-  const { chips, removeChip } = useRitualTagSelection();
+  const params = useLocalSearchParams();
+  const { results, isLoading, error, runSearch, loadNext, clearResults } = useRitualSearch();
 
-  const loadNext = useCallback(() => {
-    actions.loadNextPage();
-  }, [actions]);
+  // Parse filter passed from search screen (if any)
+  const initialFilter = useMemo(() => {
+    try {
+      if (params?.filter && typeof params.filter === 'string') {
+        return JSON.parse(params.filter as string);
+      }
+    } catch {}
+    return undefined;
+  }, [params]);
 
+  // Kick off search when filter arrives/changes
   useEffect(() => {
-    if (!isLoading && rituals.length === 0) {
-      actions.runSearch(true);
+    if (initialFilter) {
+      runSearch(initialFilter);
     }
-  }, [actions, isLoading, rituals.length]);
+  }, [initialFilter, runSearch]);
 
-  useEffect(() => {
-    // Trigger fresh search when filter changes
-    actions.runSearch(true);
-  }, [actions, filter]);
+  const onClear = useCallback(() => {
+    clearResults();
+    router.setParams({ filter: undefined as unknown as string });
+  }, [clearResults, router]);
 
   const handleRitualPress = (id: string) => {
     router.push(`/(tabs)/rituals/${id}`);
@@ -41,7 +45,7 @@ export default function AllRitualsScreen() {
     />
   ), [handleRitualPress]);
 
-  if (isLoading && rituals.length === 0) {
+  if (isLoading && results.length === 0) {
     return (
       <View className="flex-1 justify-center items-center bg-white">
         <ActivityIndicator size="large" />
@@ -61,29 +65,15 @@ export default function AllRitualsScreen() {
   }
 
   return (
-    <View className="bg-white">
-        {chips.length > 0 && (
-          <ScrollView 
-            horizontal 
-            className="px-4 pt-3" 
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ gap: 8 }}
-          >
-            {chips.map((c) => (
-              <RitualTags 
-                key={c}
-                tag={{ displayName: c }}
-                bgClassName="bg-violet-100"
-                borderClassName="border-violet-200"
-                colorClassName="text-violet-700"
-                closable
-                onClose={() => removeChip(c)}
-              />
-            ))}
-          </ScrollView>
-        )}
+    <View className="bg-white flex-1">
+        <View className="flex-row justify-between items-center px-4 pt-3 pb-2">
+          <ThemedText className="font-semibold">All rituals</ThemedText>
+          <Pressable onPress={onClear} className="px-3 py-1 rounded bg-gray-100">
+            <ThemedText className="text-gray-600">Clear</ThemedText>
+          </Pressable>
+        </View>
         <FlatList
-          data={rituals}
+          data={results}
           keyExtractor={(item) => item.id}
           renderItem={renderRitualCard}
           showsVerticalScrollIndicator={false}

@@ -25,12 +25,12 @@ export interface TagValue {
      * @type {string}
      * @memberof TagValue
      */
-    'key'?: string;
+    'key': string;
     /**
      * 
      * @type {string}
      * @memberof TagValue
      */
-    'displayName'?: string;
+    'displayName': string;
 }
 
