@@ -1,34 +1,32 @@
 import { ChatMessage } from '@/components/ai-chat/ChatMessage';
 import { StarterPrompt } from '@/components/ai-chat/StarterPrompt';
 import { ThemedText } from '@/components/themes/themed-text';
-import { useChat } from '@/src/hooks/useChat';
-import type { ChatMessage as ChatMessageModel } from '@/src/models/chat';
+import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
+import { useChatMessages } from '@/src/hooks/ai-chat/useChatMessages';
+import { useSamplePrompts } from '@/src/hooks/ai-chat/useSamplePrompts';
 import { AIChatListScreen } from '@/src/screens/ai-chat/AIChatListScreen';
+import { useChatStore } from '@/src/store/useChatStore';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, Pressable, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const AIChatHomeScreen = () => {
   const router = useRouter();
+
+  const currentSessionId = useChatStore((s) => s.currentSessionId);
+  const { data: messages } = useChatMessages(currentSessionId ?? '');
   const {
-    conversations,
-    currentConversation,
-    currentConversationId,
-    samplePromptsQuery,
     startNewConversation,
-    selectConversation,
     sendMessage,
-    deleteConversation,
-  } = useChat();
+  } = useChatActions();
   const [inputText, setInputText] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const flatListRef = useRef<FlatList>(null);
 
-  // Scroll to bottom when messages change
-  const messages = useMemo<ChatMessageModel[]>(() => currentConversation?.messages || [], [currentConversation]);
+  const { data: samplePrompts } = useSamplePrompts();
 
   const handleSendMessage = useCallback(async () => {
     if (!inputText.trim() || isSending) return;
@@ -37,7 +35,7 @@ export const AIChatHomeScreen = () => {
     setIsSending(true);
 
     try {
-      if (!currentConversationId) {
+      if (!currentSessionId) {
         await startNewConversation();
       }
       await sendMessage(message);
@@ -46,7 +44,7 @@ export const AIChatHomeScreen = () => {
     } finally {
       setIsSending(false);
     }
-  }, [inputText, isSending, currentConversationId, startNewConversation, sendMessage]);
+  }, [inputText, isSending, currentSessionId, startNewConversation, sendMessage]);
 
   const handleStarterPromptPress = useCallback((prompt: string) => {
     setInputText(prompt);
@@ -76,7 +74,7 @@ export const AIChatHomeScreen = () => {
               <MaterialIcons name="menu" size={24} color="#4B5563" />
             </TouchableOpacity>
             <ThemedText className="text-xl font-semibold text-gray-900">
-              {currentConversation?.title || 'AI Companion'}
+              { currentSessionId ?? 'AI Companion'}
             </ThemedText>
           </View>
 
@@ -90,7 +88,7 @@ export const AIChatHomeScreen = () => {
             contentContainerStyle={{ flexGrow: 1 }}
             keyboardShouldPersistTaps="handled"
             ListFooterComponent={
-              messages.length > 0 ? (
+              messages!= undefined && messages.length > 0 ? (
                 <View className="mt-4 mb-24">
                   <Pressable
                     onPress={() => router.push('/(modals)/rituals-suggestions')}
@@ -116,12 +114,12 @@ export const AIChatHomeScreen = () => {
                   How can I help you today?
                 </ThemedText>
                 
-                {samplePromptsQuery.data && samplePromptsQuery.data.length > 0 && (
+                {samplePrompts && samplePrompts.length > 0 && (
                   <View className="w-full max-w-lg">
                     <ThemedText className="text-base font-semibold text-gray-600 mb-3 ml-2">
                       Try asking me...
                     </ThemedText>
-                    {samplePromptsQuery.data.map((prompt, idx) => (
+                    {samplePrompts.map((prompt, idx) => (
                       <StarterPrompt 
                         key={`${idx}-${prompt}`}
                         prompt={prompt}

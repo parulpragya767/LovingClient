@@ -1,7 +1,9 @@
 import { ThemedText } from '@/components/themes/themed-text';
 import { ThemedView } from '@/components/themes/themed-view';
-import { useChat } from '@/src/hooks/useChat';
+import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
+import { useChatMessages } from '@/src/hooks/ai-chat/useChatMessages';
 import { ChatMessageRole } from '@/src/models/enums';
+import { useChatStore } from '@/src/store/useChatStore';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -11,13 +13,14 @@ export default function AIChatScreen() {
   const router = useRouter();
   const { topic } = useLocalSearchParams<{ topic?: string }>();
   const {
-    currentConversation,
     sendMessage,
-    currentConversationId,
     startNewConversation,
-  } = useChat();
+  } = useChatActions();
   const [inputText, setInputText] = useState('');
-  const messages = currentConversation?.messages || [];
+  // const messages = currentConversation?.messages || [];
+
+  const currentConversationId = useChatStore((s) => s.currentSessionId);
+  const { data: messages } = useChatMessages(currentConversationId ?? '');
 
   useEffect(() => {
     // If there's a topic but no conversation, start a new one

@@ -46,6 +46,10 @@ export const chatService = {
     const res = await api.listSessions();
     return (res.data || []).map(s => toChatSession(s));
   },
+
+  async deleteSession(sessionId: string): Promise<void> {
+    await api.deleteSession({ sessionId });
+  },
 };
 
 

@@ -1,5 +1,7 @@
 import { ThemedText } from '@/components/themes/themed-text';
-import { useChat } from '@/src/hooks/useChat';
+import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
+import { useChatSessions } from '@/src/hooks/ai-chat/useChatSessions';
+import { useChatStore } from "@/src/store/useChatStore";
 import { MaterialIcons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import { Modal, Pressable, TouchableOpacity, View } from 'react-native';
@@ -16,18 +18,22 @@ export function AIChatListScreen({
 }: ConversationDrawerProps) {
   const [isLoading, setIsLoading] = useState(false);
   const insets = useSafeAreaInsets();
+
+  const { data: sessions } = useChatSessions();
+
+  const currentSessionId = useChatStore((s) => s.currentSessionId);
+  const setCurrentSession = useChatStore((s) => s.setCurrentSession);
+
   const {
-    conversations,
-    currentConversationId,
     selectConversation,
     deleteConversation,
     startNewConversation,
-  } = useChat();
+  } = useChatActions();
 
   useEffect(() => {
     // placeholder for potential loading indicator when prop changes
     setIsLoading(false);
-  }, [currentConversationId, conversations]);
+  }, [currentSessionId, sessions]);
 
   const handleDeleteConversation = async (id: string) => {
     try {
@@ -77,38 +83,39 @@ export function AIChatListScreen({
               <View className="p-4">
                 <ThemedText>Loading conversations...</ThemedText>
               </View>
-            ) : conversations.length === 0 ? (
+            ) : sessions?.length === 0 ? (
               <View className="p-4">
                 <ThemedText className="text-gray-500">No conversations yet</ThemedText>
               </View>
             ) : (
-              conversations.map((conversation) => (
+              sessions?.map((session) => (
                 <Pressable
-                  key={conversation.id}
+                  key={session.id}
                   onPress={() => {
-                    selectConversation(conversation.id);
+                    setCurrentSession(session.id);
+                    selectConversation(session.id);
                     onClose();
                   }}
                   className={`p-4 border-b border-gray-100 flex-row items-center ${
-                    conversation.id === currentConversationId ? 'bg-purple-50' : 'bg-white'
+                    session.id === currentSessionId ? 'bg-purple-50' : 'bg-white'
                   }`}
                 >
                   <View className="flex-1">
                     <ThemedText className="font-medium text-gray-900" numberOfLines={1}>
-                      {conversation.title}
+                      {session.title}
                     </ThemedText>
                     <ThemedText 
                       className="text-sm text-gray-500 mt-1"
                       numberOfLines={1}
                       ellipsizeMode="tail"
                     >
-                      {conversation.messages[0]?.content || 'No messages yet'}
+                      {session.messages[0]?.content || 'No messages yet'}
                     </ThemedText>
                   </View>
                   <Pressable 
                     onPress={(e) => {
                       e.stopPropagation();
-                      handleDeleteConversation(conversation.id);
+                      handleDeleteConversation(session.id);
                     }}
                     className="p-1 ml-2"
                   >
@@ -118,8 +125,6 @@ export function AIChatListScreen({
               ))
             )}
           </View>
-          
-          
         </SafeAreaView>
       </SafeAreaProvider>
     </Modal>
