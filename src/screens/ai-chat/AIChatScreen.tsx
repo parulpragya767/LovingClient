@@ -1,8 +1,7 @@
 import { ThemedText } from '@/components/themes/themed-text';
 import { ThemedView } from '@/components/themes/themed-view';
-import { ChatMessage } from '@/src/models/chat';
-import { ChatMessageRole } from '@/src/models/enums';
 import { useChat } from '@/src/hooks/useChat';
+import { ChatMessageRole } from '@/src/models/enums';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -23,17 +22,19 @@ export default function AIChatScreen() {
   useEffect(() => {
     // If there's a topic but no conversation, start a new one
     if (topic && !currentConversationId) {
-      startNewConversation(`Discussion about ${topic}`);
+      startNewConversation();
     }
   }, [topic, currentConversationId, startNewConversation]);
 
   const handleSend = async () => {
-    if (!inputText.trim() || !currentConversationId) return;
-    
+    if (!inputText.trim()) return;
     const message = inputText;
     setInputText('');
     
     try {
+      if (!currentConversationId) {
+        await startNewConversation();
+      }
       await sendMessage(message);
     } catch (error) {
       console.error('Failed to send message:', error);
@@ -57,7 +58,7 @@ export default function AIChatScreen() {
       {/* Messages */}
       <FlatList
         data={messages}
-        keyExtractor={(item) => item.id || ''}
+        keyExtractor={(item, index) => item.id || `${index}-${item.createdAt}`}
         contentContainerStyle={{ padding: 16 }}
         renderItem={({ item }) => (
           <View 

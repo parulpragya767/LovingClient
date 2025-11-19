@@ -1,9 +1,9 @@
 import { ChatMessage } from '@/components/ai-chat/ChatMessage';
-import { ConversationDrawer } from '@/components/ai-chat/ConversationDrawer';
 import { StarterPrompt } from '@/components/ai-chat/StarterPrompt';
 import { ThemedText } from '@/components/themes/themed-text';
 import { useChat } from '@/src/hooks/useChat';
 import type { ChatMessage as ChatMessageModel } from '@/src/models/chat';
+import { AIChatListScreen } from '@/src/screens/ai-chat/AIChatListScreen';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useCallback, useMemo, useRef, useState } from 'react';
@@ -27,36 +27,30 @@ export const AIChatHomeScreen = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const flatListRef = useRef<FlatList>(null);
 
-  // Drawer internal actions are now handled inside ConversationDrawer via useChat
-
   // Scroll to bottom when messages change
   const messages = useMemo<ChatMessageModel[]>(() => currentConversation?.messages || [], [currentConversation]);
 
   const handleSendMessage = useCallback(async () => {
     if (!inputText.trim() || isSending) return;
+    const message = inputText;
     setInputText('');
     setIsSending(true);
 
     try {
-      await sendMessage(inputText);
+      if (!currentConversationId) {
+        await startNewConversation();
+      }
+      await sendMessage(message);
     } catch (error) {
       console.error('Failed to send message:', error);
     } finally {
       setIsSending(false);
     }
-  }, [inputText]);
+  }, [inputText, isSending, currentConversationId, startNewConversation, sendMessage]);
 
   const handleStarterPromptPress = useCallback((prompt: string) => {
     setInputText(prompt);
   }, []);
-
-  const renderMessage = useCallback(({ item }: { item: ChatMessageModel }) => (
-    <ChatMessage message={item} />
-  ), []);
-
-  const renderStarterPrompt = useCallback(({ item }: { item: string }) => (
-    <StarterPrompt prompt={item} onPress={handleStarterPromptPress} />
-  ), [handleStarterPromptPress]);
 
   return (
     <SafeAreaView style={{ flex: 1 }} edges={['top', 'bottom']}>
@@ -66,7 +60,7 @@ export const AIChatHomeScreen = () => {
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 90}
       >
         {/* Conversation Drawer */}
-        <ConversationDrawer
+        <AIChatListScreen
           isOpen={isDrawerOpen}
           onClose={() => setIsDrawerOpen(false)}
         />
@@ -90,7 +84,7 @@ export const AIChatHomeScreen = () => {
           <FlatList
             ref={flatListRef}
             data={messages}
-            renderItem={renderMessage}
+            renderItem={({ item }) => <ChatMessage message={item} />}
             keyExtractor={(item, index) => item.id ?? `${index}-${item.createdAt}`}
             className="flex-1 px-4 pt-4"
             contentContainerStyle={{ flexGrow: 1 }}

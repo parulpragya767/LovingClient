@@ -10,7 +10,7 @@ type ConversationDrawerProps = {
   onClose: () => void;
 };
 
-export function ConversationDrawer({ 
+export function AIChatListScreen({ 
   isOpen, 
   onClose, 
 }: ConversationDrawerProps) {
@@ -60,6 +60,18 @@ export function ConversationDrawer({
             </TouchableOpacity>
           </View>
           
+          <TouchableOpacity
+            onPress={async () => {
+              await handleNewChat();
+              onClose();
+            }}
+            className="flex-row items-center p-4 border-t border-gray-200 bg-white"
+            style={{ paddingBottom: 16 + insets.bottom }}
+          >
+            <MaterialIcons name="add" size={24} color="#8B5CF6" />
+            <ThemedText className="ml-2 text-purple-500 font-medium">New Chat</ThemedText>
+          </TouchableOpacity>
+          
           <View className="flex-1">
             {isLoading ? (
               <View className="p-4">
@@ -107,17 +119,7 @@ export function ConversationDrawer({
             )}
           </View>
           
-          <TouchableOpacity
-            onPress={async () => {
-              await handleNewChat();
-              onClose();
-            }}
-            className="flex-row items-center p-4 border-t border-gray-200 bg-white"
-            style={{ paddingBottom: 16 + insets.bottom }}
-          >
-            <MaterialIcons name="add" size={24} color="#8B5CF6" />
-            <ThemedText className="ml-2 text-purple-500 font-medium">New Chat</ThemedText>
-          </TouchableOpacity>
+          
         </SafeAreaView>
       </SafeAreaProvider>
     </Modal>

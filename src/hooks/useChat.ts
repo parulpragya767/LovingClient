@@ -1,210 +1,189 @@
 import type {
   ChatMessage,
-  ChatSendMessageRequest,
-  ChatSendMessageResponse,
-  ChatSession,
+  ChatSession
 } from '@/src/models/chat';
-import { ChatMessageRole } from '@/src/models/enums';
 import { chatService } from '@/src/services/chatService';
 import { useQuery } from '@tanstack/react-query';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
-export interface ConversationState {
-  id: string;
-  title: string;
-  messages: ChatMessage[];
-  createdAt: Date;
-  updatedAt: Date;
+import { ChatMessageRole } from '@/src/models/enums';
+import { useReducer } from "react";
+
+interface ChatState {
+  conversations: ChatSession[];
+  currentId: string | null;
 }
 
-export const useChat = () => {
-  const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
-  const [conversations, setConversations] = useState<ConversationState[]>([]);
-  const isInitRef = useRef(false);
+type ChatAction =
+  | { type: "SET_SESSIONS"; sessions: ChatSession[] }
+  | { type: "SET_CURRENT"; id: string | null }
+  | { type: "ENSURE_SESSION"; session: ChatSession }
+  | { type: "SET_MESSAGES"; id: string; messages: ChatMessage[] }
+  | { type: "ADD_MESSAGE"; id: string; message: ChatMessage }
+  | { type: "DELETE_SESSION"; id: string };
 
-  // Sample prompts
-  const samplePromptsQuery = useQuery<string[], Error>({
-    queryKey: ['chat', 'sample-prompts'],
-    queryFn: async () => {
-      const resp = await chatService.getSamplePrompts();
-      return resp || [];
-    },
-    staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    refetchOnMount: false,
-    retry: 1,
+//
+// -------------------- Reducer --------------------
+//
+function chatReducer(state: ChatState, action: ChatAction): ChatState {
+  switch (action.type) {
+    case "SET_SESSIONS":
+      return { ...state, conversations: action.sessions };
+
+    case "SET_CURRENT":
+      return { ...state, currentId: action.id };
+
+    case "ENSURE_SESSION": {
+      const exists = state.conversations.some(
+        (c) => c.id === action.session.id
+      );
+      if (exists) return state;
+      return {
+        ...state,
+        conversations: [action.session, ...state.conversations],
+      };
+    }
+
+    case "SET_MESSAGES":
+      return {
+        ...state,
+        conversations: state.conversations.map((c) =>
+          c.id === action.id
+            ? { ...c, messages: action.messages }
+            : c
+        ),
+      };
+
+    case "ADD_MESSAGE":
+      return {
+        ...state,
+        conversations: state.conversations.map((c) =>
+          c.id === action.id
+            ? {
+                ...c,
+                messages: [...c.messages, action.message]
+              }
+            : c
+        ),
+      };
+
+    case "DELETE_SESSION": {
+      const filtered = state.conversations.filter(
+        (c) => c.id !== action.id
+      );
+      const next =
+        state.currentId === action.id ? filtered[0]?.id ?? null : state.currentId;
+      return { conversations: filtered, currentId: next };
+    }
+
+    default:
+      return state;
+  }
+}
+
+//
+// -------------------- Hook --------------------
+//
+export const useChat = () => {
+  const [state, dispatch] = useReducer(chatReducer, {
+    conversations: [],
+    currentId: null,
   });
 
-  const currentConversation = useMemo(() => {
-    if (!currentConversationId) return null;
-    return conversations.find((c) => c.id === currentConversationId) || null;
-  }, [conversations, currentConversationId]);
+  const currentConversation = useMemo(
+    () =>
+      state.currentId
+        ? state.conversations.find((c) => c.id === state.currentId) ?? null
+        : null,
+    [state.currentId, state.conversations]
+  );
 
-  const ensureConversation = useCallback((id: string, title?: string) => {
-    setConversations((prev) => {
-      const exists = prev.find((c) => c.id === id);
-      if (exists) return prev;
-      const created: ConversationState = {
-        id,
-        title: title || 'New Chat',
-        messages: [],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-      return [created, ...prev];
+  //
+  // ------------- Sample Prompts -------------
+  //
+  const samplePromptsQuery = useQuery({
+    queryKey: ["chat", "sample-prompts"],
+    queryFn: () => chatService.getSamplePrompts(),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const hydrateSessions = useCallback(async () => {
+    const sessions = await chatService.listSessions();
+    dispatch({ type: "SET_SESSIONS", sessions: sessions });
+  }, []);
+
+  useEffect(() => {
+    hydrateSessions();
+  }, []);
+
+  const startNewConversation = useCallback(async () => {
+    const session = await chatService.startSession();
+
+    dispatch({ type: "ENSURE_SESSION", session });
+    dispatch({ type: "SET_CURRENT", id: session.id});
+    return session.id;
+  }, []);
+
+  const selectConversation = useCallback(async (id: string) => {
+    dispatch({ type: "SET_CURRENT", id });
+
+    // load history
+    const history = await chatService.getHistory(id);
+    dispatch({
+      type: "SET_MESSAGES",
+      id,
+      messages: history.messages ?? [],
     });
   }, []);
 
-  const setConversationMessages = useCallback((id: string, messages: ChatMessage[]) => {
-    setConversations((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, messages, updatedAt: new Date() } : c))
-    );
-  }, []);
-
-  const updateConversationTitleIfNeeded = useCallback((id: string) => {
-    setConversations((prev) =>
-      prev.map((c) => {
-        if (c.id !== id) return c;
-        if (c.title && c.title !== 'New Chat') return c;
-        const firstUser = c.messages.find((m) => m.role === ChatMessageRole.User);
-        const text = firstUser?.content || 'New Chat';
-        const title = text.length > 30 ? `${text.substring(0, 30)}...` : text;
-        return { ...c, title };
-      })
-    );
-  }, []);
-
-  const startNewConversation = useCallback(async (title?: string) => {
-    const resp = await chatService.startSession();
-    const sessionId = resp.id || '';
-    ensureConversation(sessionId, title);
-    setCurrentConversationId(sessionId);
-    return sessionId;
-  }, [ensureConversation]);
-
-  const selectConversation = useCallback(async (id: string) => {
-    ensureConversation(id);
-    setCurrentConversationId(id);
-    // Load history when selecting
-    const history = await chatService.getHistory(id);
-    setConversationMessages(id, history.messages || []);
-    updateConversationTitleIfNeeded(id);
-  }, [ensureConversation, setConversationMessages, updateConversationTitleIfNeeded]);
-
-  const loadSessions = useCallback(async () => {
-    const resp = await chatService.listSessions();
-    const sessions = resp ?? [];
-    if (sessions.length === 0) {
-      const id = await startNewConversation();
-      await selectConversation(id);
-      return;
-    }
-    const mapped: ConversationState[] = sessions.map((s) => ({
-      id: s.id || '',
-      title: s.title || 'New Chat',
-      messages: [],
-      createdAt: s.createdAt ? new Date(s.createdAt) : new Date(),
-      updatedAt: s.updatedAt ? new Date(s.updatedAt) : new Date(),
-    }));
-    setConversations(mapped);
-    const firstId = mapped[0]?.id;
-    if (firstId) {
-      setCurrentConversationId(firstId);
-      const history = await chatService.getHistory(firstId);
-      setConversationMessages(firstId, history.messages || []);
-      updateConversationTitleIfNeeded(firstId);
-    }
-  }, [selectConversation, setConversationMessages, startNewConversation, updateConversationTitleIfNeeded]);
-
-  // Initial setup: fetch sessions and hydrate state; create one if none exists
-  useEffect(() => {
-    if (isInitRef.current) return;
-    isInitRef.current = true;
-    (async () => {
-      await loadSessions();
-    })();
-  }, [loadSessions]);
-
   const sendMessage = useCallback(
-    async (
-      content: string,
-      options?: { readyForRitualSuggestion?: boolean }
-    ): Promise<ChatSendMessageResponse | null> => {
-      if (!currentConversationId) return null;
-      const sessionId = currentConversationId;
+    async (content: string, opts?: { readyForRitualSuggestion?: boolean }) => {
+      if (!state.currentId) return null;
+      const id = state.currentId;
 
-      // Optimistic update: add user message
-      const userMessage: ChatMessage = {
-        id: Date.now().toString(),
-        sessionId,
+      const userMsg: ChatMessage = {
+        sessionId: id,
         role: ChatMessageRole.User,
         content,
         createdAt: new Date().toISOString(),
       };
-      setConversations((prev) =>
-        prev.map((c) =>
-          c.id === sessionId
-            ? { ...c, messages: [...c.messages, userMessage], updatedAt: new Date() }
-            : c
-        )
-      );
 
-      const resp = await chatService.sendMessage(sessionId, {
+      dispatch({ type: "ADD_MESSAGE", id, message: userMsg });
+
+      // actual API call
+      const resp = await chatService.sendMessage(id, {
         content,
-        readyForRitualSuggestion: options?.readyForRitualSuggestion ?? false,
-      } as ChatSendMessageRequest);
+      });
 
       if (resp.assistantResponse) {
-        setConversations((prev) =>
-          prev.map((c) =>
-            c.id === sessionId
-              ? { ...c, messages: [...c.messages, resp.assistantResponse!], updatedAt: new Date() }
-              : c
-          )
-        );
+        dispatch({
+          type: "ADD_MESSAGE",
+          id,
+          message: resp.assistantResponse,
+        });
       }
 
-      updateConversationTitleIfNeeded(sessionId);
       return resp;
     },
-    [currentConversationId, updateConversationTitleIfNeeded]
+    [state.currentId]
   );
 
-  const deleteConversation = useCallback(async (id: string) => {
-    setConversations((prev) => prev.filter((c) => c.id !== id));
-    if (currentConversationId === id) {
-      const next = conversations.find((c) => c.id !== id)?.id || null;
-      setCurrentConversationId(next);
-      if (next) await selectConversation(next);
-    }
-  }, [currentConversationId, conversations, selectConversation]);
-
-  const clearAllConversations = useCallback(async () => {
-    setConversations([]);
-    setCurrentConversationId(null);
-  }, []);
-
-  const refreshCurrent = useCallback(async () => {
-    if (!currentConversationId) return;
-    const history: ChatSession = await chatService.getHistory(currentConversationId);
-    setConversationMessages(currentConversationId, history.messages || []);
-    updateConversationTitleIfNeeded(currentConversationId);
-  }, [currentConversationId, setConversationMessages, updateConversationTitleIfNeeded]);
+  const deleteConversation = useCallback(
+    async (id: string) => {
+      dispatch({ type: "DELETE_SESSION", id });
+    },
+    [state.conversations]
+  );
 
   return {
-    // state
-    conversations,
+    conversations: state.conversations,
     currentConversation,
-    currentConversationId,
+    currentConversationId: state.currentId,
     samplePromptsQuery,
 
-    // actions
     startNewConversation,
     selectConversation,
     sendMessage,
     deleteConversation,
-    clearAllConversations,
-    refreshCurrent,
   };
 };

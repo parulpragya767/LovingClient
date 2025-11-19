@@ -28,7 +28,7 @@ export interface ChatSessionDTO {
      * @type {string}
      * @memberof ChatSessionDTO
      */
-    'id'?: string;
+    'id': string;
     /**
      * 
      * @type {string}

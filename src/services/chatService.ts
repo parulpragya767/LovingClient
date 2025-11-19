@@ -5,6 +5,7 @@ import type {
   ChatSession,
   RecommendRitualPackResponse
 } from '@/src/models/chat';
+import { toChatSendMessageResponse, toChatSession } from '@/src/models/chat';
 import apiClient from './apiClient';
 
 // Initialize the API with our configured axios instance (same pattern as ritualService)
@@ -13,12 +14,12 @@ const api = new AiChatControllerApi(undefined, '', apiClient);
 export const chatService = {
   async startSession(): Promise<ChatSession> {
     const res = await api.createSession();
-    return res.data;
+    return toChatSession(res.data);
   },
 
   async getHistory(sessionId: string): Promise<ChatSession> {
     const res = await api.getChatHistory({ sessionId });
-    return res.data;
+    return toChatSession(res.data);
   },
 
   async sendMessage(
@@ -26,7 +27,7 @@ export const chatService = {
     payload: ChatSendMessageRequest
   ): Promise<ChatSendMessageResponse> {
     const res = await api.sendMessage({ sessionId, sendMessageRequest: payload });
-    return res.data;
+    return toChatSendMessageResponse(res.data);
   },
 
   async recommendRitualPack(
@@ -43,7 +44,8 @@ export const chatService = {
 
   async listSessions(): Promise<ChatSession[]> {
     const res = await api.listSessions();
-    return res.data;
+    return (res.data || []).map(s => toChatSession(s));
   },
 };
+
 
