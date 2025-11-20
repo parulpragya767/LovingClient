@@ -1,68 +1,18 @@
 import { ThemedText } from '@/components/themes/themed-text';
 import { ThemedView } from '@/components/themes/themed-view';
-import { RitualDTO } from '@/src/api/models/ritual-dto';
-import { RitualStep } from '@/src/api/models/ritual-step';
 import { useRitual } from '@/src/hooks/rituals/useRitual';
-import { MaterialIcons } from '@expo/vector-icons';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useState } from 'react';
-import { ActivityIndicator, Image, Pressable, ScrollView, View } from 'react-native';
-
-// Local type for the UI
-interface RitualDetails {
-  id: string;
-  title: string;
-  description: string;
-  duration: string;
-  frequency: string;
-  category: string;
-  steps: string[];
-  benefits: string[];
-  image?: string;
-}
-
-// Helper function to map API data to UI format
-const mapRitualToDetails = (ritual: RitualDTO): RitualDetails => {
-  const duration = ritual.estimatedDurationMinutes 
-    ? `${ritual.estimatedDurationMinutes} min` 
-    : 'Varies';
-    
-  const frequency = ritual.ritualMode ? 
-    ritual.ritualMode.charAt(0) + ritual.ritualMode.slice(1).toLowerCase().replace('_', ' ') : 
-    'As needed';
-    
-  const category = ritual.ritualTypes?.[0] || 'Connection';
-  
-  // Map steps
-  const steps = (ritual.ritualSteps || [])
-    .sort((a, b) => (a.order || 0) - (b.order || 0))
-    .map((step: RitualStep) => step.description || '')
-    .filter(Boolean);
-    
-  // Use relational needs served as benefits
-  const benefits = ritual.relationalNeedsServed?.length ? 
-    ritual.relationalNeedsServed : 
-    [ritual.shortDescription || ''];
-  
-  return {
-    id: ritual.id || '',
-    title: ritual.title || 'Untitled Ritual',
-    description: ritual.fullDescription || ritual.shortDescription || 'No description available',
-    duration,
-    frequency,
-    category,
-    steps,
-    benefits,
-    image: ritual.mediaAssets?.[0]?.url
-  };
-};
+import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
+import { useLocalSearchParams } from 'expo-router';
+import { ChevronDown, ChevronUp } from 'lucide-react-native';
+import React, { useState } from 'react';
+import { ActivityIndicator, ScrollView, TouchableOpacity, View } from 'react-native';
+import Markdown from 'react-native-markdown-display';
 
 export default function RitualDetailScreen() {
-  const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const [isFavorite, setIsFavorite] = useState(false);
-  
-  const { data: ritualData, isLoading, error } = useRitual(id);
+  const [isHowItHelpsExpanded, setIsHowItHelpsExpanded] = useState(true);
+  const { data: ritual, isLoading, error } = useRitual(id);
+  const { getTagDisplayName } = useRitualTags();
   
   if (isLoading) {
     return (
@@ -72,7 +22,7 @@ export default function RitualDetailScreen() {
     );
   }
   
-  if (error || !ritualData) {
+  if (error || !ritual) {
     return (
       <ThemedView className="flex-1 items-center justify-center p-4">
         <ThemedText className="text-center">
@@ -81,117 +31,100 @@ export default function RitualDetailScreen() {
       </ThemedView>
     );
   }
-  
-  const ritual = mapRitualToDetails(ritualData);
+
+  const timeTakenDisplayName = ritual.timeTaken ? getTagDisplayName(ritual.timeTaken.toString(), 'timeTaken') : null;
+  const ritualModeDisplayName = ritual.ritualMode ? getTagDisplayName(ritual.ritualMode, 'ritualModes') : null;
+  const loveTypesDisplayName = ritual.loveTypes?.length 
+    ? ritual.loveTypes.map(type => getTagDisplayName(type.toString(), 'loveTypes')).join(', ')
+    : null;
 
   return (
     <ScrollView className="flex-1 bg-gray-50">
-      {/* Header Image */}
-      <View className="h-48 bg-gray-200 overflow-hidden">
-        {ritual.image ? (
-          <Image 
-            source={{ uri: ritual.image }} 
-            className="w-full h-full" 
-            resizeMode="cover"
-          />
-        ) : (
-          <View className="flex-1 items-center justify-center bg-gray-200">
-            <MaterialIcons name="celebration" size={64} color="#9CA3AF" />
-          </View>
-        )}
-        <Pressable 
-          onPress={() => router.back()}
-          className="absolute top-4 left-4 bg-white/80 p-2 rounded-full"
-        >
-          <MaterialIcons name="arrow-back" size={24} color="#4B5563" />
-        </Pressable>
-      </View>
-
       <View className="p-6">
-        {/* Title and Favorite Button */}
+        {/* Title */}
         <View className="flex-row justify-between items-start mb-4">
           <View className="flex-1">
             <ThemedText className="text-2xl font-bold mb-1">
               {ritual.title}
             </ThemedText>
             <ThemedText className="text-gray-600">
-              {ritual.description}
+              {ritual.tagLine}
             </ThemedText>
           </View>
-          <Pressable 
-            onPress={() => setIsFavorite(!isFavorite)}
-            className="p-2 ml-2"
-          >
-            <MaterialIcons 
-              name={isFavorite ? 'favorite' : 'favorite-border'} 
-              size={24} 
-              color={isFavorite ? '#EF4444' : '#9CA3AF'} 
-            />
-          </Pressable>
         </View>
 
         {/* Quick Info */}
         <View className="flex-row justify-between mb-6">
-          <View className="items-center">
-            <ThemedText className="text-gray-500 text-xs">Duration</ThemedText>
-            <ThemedText className="font-medium">{ritual.duration}</ThemedText>
-          </View>
-          <View className="items-center">
-            <ThemedText className="text-gray-500 text-xs">Frequency</ThemedText>
-            <ThemedText className="font-medium">{ritual.frequency}</ThemedText>
-          </View>
-          <View className="items-center">
-            <ThemedText className="text-gray-500 text-xs">Category</ThemedText>
-            <ThemedText className="font-medium">{ritual.category}</ThemedText>
-          </View>
+          {[
+            { label: 'Duration', value: timeTakenDisplayName },
+            { label: 'Mode', value: ritualModeDisplayName },
+            { label: 'Love Types', value: loveTypesDisplayName }
+          ]
+            .filter(item => item.value)
+            .map((item, index, array) => (
+              <View 
+                key={item.label}
+                className="items-center"
+                style={{ width: `${100 / array.length}%` }}
+              >
+                <ThemedText className="text-gray-500 text-xs">{item.label}</ThemedText>
+                <ThemedText className="font-medium text-center">
+                  {item.value}
+                </ThemedText>
+              </View>
+            ))}
+        </View>
+
+        {/* Description */}
+        <View className="bg-white rounded-xl p-4 shadow-sm">
+          <ThemedText className="text-green-600 mr-2">{ritual.description}</ThemedText>
+        </View>
+
+        {/* How it helps */}
+        <View className="mb-8">
+          <TouchableOpacity 
+            className="flex-row items-center justify-between mb-2"
+            onPress={() => setIsHowItHelpsExpanded(!isHowItHelpsExpanded)}
+            activeOpacity={0.7}
+          >
+            <ThemedText className="text-lg font-semibold">How It Helps</ThemedText>
+            {isHowItHelpsExpanded ? 
+              <ChevronUp size={20} color="#4B5563" /> : 
+              <ChevronDown size={20} color="#4B5563" />
+            }
+          </TouchableOpacity>
+          {isHowItHelpsExpanded && (
+            <View className="bg-white rounded-xl p-4 shadow-sm">
+              <ThemedText className="text-green-600 mr-2">{ritual.howItHelps}</ThemedText>
+            </View>
+          )}
         </View>
 
         {/* Steps */}
         <View className="mb-8">
           <ThemedText className="text-lg font-semibold mb-3">How to Do It</ThemedText>
           <View className="bg-white rounded-xl p-4 shadow-sm">
-            {ritual.steps.map((step, index) => (
+            {ritual.steps?.map((step, index) => (
               <View key={index} className="flex-row mb-3 last:mb-0">
                 <View className="bg-blue-100 w-6 h-6 rounded-full items-center justify-center mr-3 mt-0.5">
                   <ThemedText className="text-blue-700 font-bold text-xs">
                     {index + 1}
                   </ThemedText>
                 </View>
-                <ThemedText className="flex-1 text-gray-700">
-                  {step}
-                </ThemedText>
+                <View className="flex-1">
+                  <Markdown
+                    style={{
+                      body: { color: '#374151' }, // text-gray-700
+                      strong: { fontWeight: '600' } // font-semibold
+                    }}
+                  >
+                    {step}
+                  </Markdown>
+                </View>
               </View>
             ))}
           </View>
         </View>
-
-        {/* Benefits */}
-        <View className="mb-8">
-          <ThemedText className="text-lg font-semibold mb-3">Benefits</ThemedText>
-          <View className="bg-white rounded-xl p-4 shadow-sm">
-            {ritual.benefits.map((benefit, index) => (
-              <View key={index} className="flex-row items-start mb-2 last:mb-0">
-                <ThemedText className="text-green-600 mr-2">✓</ThemedText>
-                <ThemedText className="text-gray-700 flex-1">
-                  {benefit}
-                </ThemedText>
-              </View>
-            ))}
-          </View>
-        </View>
-
-        {/* Start Button */}
-        <Pressable 
-          onPress={() => {
-            // Start the ritual
-            router.push(`/rituals/start/${ritual.id}`);
-          }}
-          className="bg-blue-600 py-4 rounded-xl items-center justify-center mb-6"
-        >
-          <ThemedText className="text-white font-semibold text-lg">
-            Start This Ritual
-          </ThemedText>
-        </Pressable>
       </View>
     </ScrollView>
   );

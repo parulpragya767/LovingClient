@@ -43,8 +43,22 @@ export function useRitualTags() {
     };
   }, [query.data]);
 
+  // Helper function to get display name for a single tag of any type
+  const getTagDisplayName = useMemo(() => {
+    return (tagKey: string, tagType: 'loveTypes' | 'ritualModes' | 'timeTaken'): string | undefined => {
+      if (!query.data) return undefined;
+      
+      const tagGroup = query.data[tagType];
+      if (!tagGroup?.values?.length) return undefined;
+      
+      const found = tagGroup.values.find(tag => tag.key === tagKey);
+      return found?.displayName;
+    };
+  }, [query.data]);
+
   return {
     ...query,
-    getRitualTagDisplayNames
+    getRitualTagDisplayNames,
+    getTagDisplayName
   };
 }
