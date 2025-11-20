@@ -5,7 +5,7 @@ import { useRitualSearch } from '@/src/hooks/useRitualSearch';
 import { useTagSelection } from '@/src/hooks/useTagSelection';
 import { useRouter } from 'expo-router';
 import { useRef } from 'react';
-import { ActivityIndicator, FlatList, ScrollView, View } from 'react-native';
+import { ActivityIndicator, FlatList, Pressable, ScrollView, View } from 'react-native';
 
 export default function AllRitualsScreen() {
   const router = useRouter();
@@ -13,7 +13,7 @@ export default function AllRitualsScreen() {
   const listRef = useRef(null);
   const onEndReachedCalledDuringMomentum = useRef(false);
 
-  const { filter, chips, removeChip } = useTagSelection();
+  const { filter, chips, removeChip, clearAll } = useTagSelection();
 
   const {
     rituals,
@@ -63,6 +63,17 @@ export default function AllRitualsScreen() {
                 onClose={() => removeChip(c)}
               />
             ))}
+            {chips.length > 0 && (
+              <Pressable onPress={clearAll}>
+                <RitualTags 
+                  key="clear-all"
+                  tag={{ displayName: 'Clear All' }}
+                  bgClassName="bg-gray-100"
+                  borderClassName="border-gray-200"
+                  colorClassName="text-gray-600"
+                />
+              </Pressable>
+            )}
           </ScrollView>
         )}
         <FlatList

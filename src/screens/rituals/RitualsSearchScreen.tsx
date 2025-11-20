@@ -12,11 +12,9 @@ import { ActivityIndicator, Pressable, ScrollView, View } from 'react-native';
 export default function RitualsSearchScreen() {
   const router = useRouter();
   const { data: tagData, isLoading: tagsLoading } = useRitualTags();
-  const { selected, toggle, clearAll, filter } = useTagSelection();
+  const { selected, toggle, clearAll } = useTagSelection();
   
   const navigateToResults = async () => {
-    // actions.setSelection({ selected, chips: selectedChips, filter });
-    // await actions.runSearch(true);
     router.replace('/(tabs)/rituals/(top-nav)/all-rituals');
   };
 

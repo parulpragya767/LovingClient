@@ -1,45 +1,36 @@
 import { LoveType, RelationalNeed, RitualMode, RitualTone, TimeTaken } from '@/src/models/enums';
 import { Chip, RitualFilter, SelectedTagState, TagValue } from '@/src/models/ritualTags';
-import { useCallback, useMemo, useState } from 'react';
-
-const EMPTY_SELECTED: SelectedTagState = {
-  loveTypes: [],
-  ritualModes: [],
-  timeTaken: [],
-  relationalNeeds: [],
-  ritualTones: [],
-};
+import { useRitualFilterStore } from '@/src/store/useRitualFilterStore';
+import { useCallback, useMemo } from 'react';
 
 export const useTagSelection = () => {
-  const [selected, setSelected] = useState<SelectedTagState>(EMPTY_SELECTED);
+  const { selectedTags: selected, setSelectedTags, clearSelectedTags } = useRitualFilterStore();
 
   // Toggle selection
   const toggle = useCallback(
     (category: keyof SelectedTagState, value: TagValue) => {
-      setSelected(prev => {
-        const exists = prev[category].some(v => v.key === value.key);
-        const updated = exists
-          ? prev[category].filter(v => v.key !== value.key)
-          : [...prev[category], value];
-
-        return { ...prev, [category]: updated };
+      setSelectedTags({
+        ...selected,
+        [category]: selected[category].some(v => v.key === value.key)
+          ? selected[category].filter(v => v.key !== value.key)
+          : [...selected[category], value]
       });
     },
-    []
+    [selected, setSelectedTags]
   );
 
   // Remove chip
   const removeChip = useCallback((chip: Chip) => {
-    setSelected(prev => ({
-      ...prev,
-      [chip.category]: prev[chip.category].filter(v => v.key !== chip.key)
-    }));
-  }, []);
+    setSelectedTags({
+      ...selected,
+      [chip.category]: selected[chip.category].filter(v => v.key !== chip.key)
+    });
+  }, [selected, setSelectedTags]);
 
   // Clear all
   const clearAll = useCallback(() => {
-    setSelected(EMPTY_SELECTED);
-  }, []);
+    clearSelectedTags();
+  }, [clearSelectedTags]);
 
   // Build chips array for UI
   const chips = useMemo<Chip[]>(() => {

@@ -10,7 +10,7 @@ export function useRitualSearch(filter: RitualFilter) {
   const query = useInfiniteQuery({
     queryKey: ["ritual-search", filter],
 
-    queryFn: async ({ pageParam = 1 }) => {
+    queryFn: async ({ pageParam = 0 }) => {
       const res = await ritualService.search({ page: pageParam, size: 20 }, filter);
 
       return {
@@ -22,7 +22,7 @@ export function useRitualSearch(filter: RitualFilter) {
     getNextPageParam: (lastPage, pages) =>
       lastPage.hasMore ? pages.length + 1 : undefined,
 
-    initialPageParam: 1,
+    initialPageParam: 0,
   });
 
   // merged content for UI
