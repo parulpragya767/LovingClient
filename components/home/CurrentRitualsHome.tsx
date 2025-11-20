@@ -1,4 +1,5 @@
- import { ThemedText } from '@/components/themes/themed-text';
+import { ThemedText } from '@/components/themes/themed-text';
+import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
 import { Ritual } from '@/src/models/rituals';
 import { useRouter } from 'expo-router';
 import { useCallback } from 'react';
@@ -15,27 +16,33 @@ interface RitualCardProps {
     router.push(`/rituals/${id}`);
   };
 
-  const renderRitualCard = useCallback(({ item }: { item: Ritual }) => (
-    <Pressable onPress={() => handleRitualPress(item.id)} className="mr-3 w-72">
-      <View className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
-        <ThemedText className="text-gray-900 text-base font-semibold mb-1" numberOfLines={1}>
-          {item.title}
-        </ThemedText>
-        <ThemedText className="text-gray-600 text-sm" numberOfLines={2}>
-          {item.shortDescription}
-        </ThemedText>
-        {item.tags?.length ? (
-          <View className="flex-row flex-wrap mt-2">
-            {item.tags.slice(0, 2).map(tag => (
-              <View key={tag} className="bg-gray-100 rounded-full px-2 py-1 mr-2 mb-2">
-                <ThemedText className="text-xs text-gray-600">{tag}</ThemedText>
-              </View>
-            ))}
-          </View>
-        ) : null}
-      </View>
-    </Pressable>
-  ), [handleRitualPress]);
+  const { getRitualTagDisplayNames } = useRitualTags();
+
+  const renderRitualCard = useCallback(({ item }: { item: Ritual }) => {
+    const tagDisplayNames = getRitualTagDisplayNames(item);
+    
+    return (
+      <Pressable onPress={() => handleRitualPress(item.id)} className="mr-3 w-72">
+        <View className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+          <ThemedText className="text-gray-900 text-base font-semibold mb-1" numberOfLines={1}>
+            {item.title}
+          </ThemedText>
+          <ThemedText className="text-gray-600 text-sm" numberOfLines={2}>
+            {item.description}
+          </ThemedText>
+          {tagDisplayNames.length > 0 && (
+            <View className="flex-row flex-wrap mt-2">
+              {tagDisplayNames.slice(0, 2).map((tag, index) => (
+                <View key={index} className="bg-gray-100 rounded-full px-2 py-1 mr-2 mb-2">
+                  <ThemedText className="text-xs text-gray-600">{tag}</ThemedText>
+                </View>
+              ))}
+            </View>
+          )}
+        </View>
+      </Pressable>
+    );
+  }, [handleRitualPress, getRitualTagDisplayNames]);
 
   return (
     <View>

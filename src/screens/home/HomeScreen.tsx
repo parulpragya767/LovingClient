@@ -4,37 +4,39 @@ import LoveTypesHome from '@/components/home/LoveTypesHome';
 import WeeklySuggestionCard from '@/components/home/WeeklySuggestionCard';
 import { ThemedText } from '@/components/themes/themed-text';
 import { ThemedView } from '@/components/themes/themed-view';
-import { LoveLensInfo } from '@/src/models/loveLens';
+import { useLoveTypes } from '@/src/hooks/love-lens/useLoveTypes';
+import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { Ritual } from '@/src/models/rituals';
-import { useUserService } from '@/src/services/user';
-import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
-  const [rituals, setRituals] = useState<Ritual[]>([]);
-  const [loading, setLoading] = useState(true);
-  const { getCurrentRituals, getCurrentLoveTypes, isLoadingLoveTypes } = useUserService();
-  const [loveTypes, setLoveTypes] = useState<LoveLensInfo[]>([]);
+  const { data: currentData, isLoading, error } = useCurrentRituals();
+  const { data: allLoveTypes = [] } = useLoveTypes();
+  const loveTypes = allLoveTypes.slice(0, 3);
 
-  const loadData = useCallback(async () => {
-    try {
-      const [ritualsData, loveTypesData] = await Promise.all([
-        getCurrentRituals(),
-        getCurrentLoveTypes(),
-      ]);
-      setRituals(ritualsData);
-      setLoveTypes(loveTypesData);
-    } catch (error) {
-      console.error('Error loading data:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, [getCurrentRituals, getCurrentLoveTypes]);
+  // Merge rituals from currentData.rituals and all rituals from ritualPacks
+  const mergedRituals = (() => {
+    if (!currentData) return [];
+    
+    const ritualMap = new Map<string, Ritual>();
+    
+    // Add rituals from currentData.rituals
+    currentData.rituals?.forEach(ritual => {
+      ritualMap.set(ritual.id, ritual);
+    });
+    
+    // Add rituals from each ritual pack
+    currentData.ritualPacks?.forEach(pack => {
+      pack.rituals?.forEach(ritual => {
+        ritualMap.set(ritual.id, ritual);
+      });
+    });
+    
+    return Array.from(ritualMap.values());
+  })();
 
-  useEffect(() => {
-    loadData();
-  }, [loadData]);
+  const loading = isLoading || (!currentData && !error);
 
   if (loading) {
     return (
@@ -50,7 +52,7 @@ export default function HomeScreen() {
     <SafeAreaView className="flex-1" edges={['top']}>
       <ThemedView className="flex-1 bg-white">
         <ScrollView>
-          <CurrentRitualsHome rituals={rituals} />
+          <CurrentRitualsHome rituals={mergedRituals} />
           <LoveTypesHome loveTypes={loveTypes} />
           <AICompanionCard />
           <WeeklySuggestionCard />

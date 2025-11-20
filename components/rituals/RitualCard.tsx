@@ -1,5 +1,6 @@
 import { ThemedText } from '@/components/themes/themed-text';
 import { ThemedView } from '@/components/themes/themed-view';
+import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
 import { Ritual } from '@/src/models/rituals';
 import { TouchableOpacity, View } from 'react-native';
 import RitualTag from './RitualTags';
@@ -11,35 +12,7 @@ interface RitualCardProps {
 }
 
 export default function RitualCard({ ritual, onPress, onLongPress }: RitualCardProps) {
-  const titleizeEnum = (value?: string): string | null => {
-    if (!value) return null;
-    return value
-      .split('_')
-      .map((w: string) => (w ? w[0] + w.slice(1).toLowerCase() : w))
-      .join(' ');
-  };
-
-  const getRitualTags = (r: Ritual): string[] => {
-    const labels: string[] = [];
-    if (r.estimatedDurationMinutes) labels.push(`${r.estimatedDurationMinutes}m`);
-    if (Array.isArray(r.loveTypesSupported)) {
-      r.loveTypesSupported.forEach((lt) => {
-        const t = titleizeEnum(String(lt));
-        if (t) labels.push(t);
-      });
-    }
-    if (r.ritualMode) {
-      const t = titleizeEnum(String(r.ritualMode));
-      if (t) labels.push(t);
-    }
-    if (Array.isArray(r.ritualTypes)) {
-      r.ritualTypes.forEach((rt) => {
-        const t = titleizeEnum(String(rt));
-        if (t) labels.push(t);
-      });
-    }
-    return labels;
-  };
+  const { getRitualTagDisplayNames } = useRitualTags();
   const handlePress = () => {
     if (onPress) {
       onPress(ritual.id);
@@ -62,10 +35,10 @@ export default function RitualCard({ ritual, onPress, onLongPress }: RitualCardP
           numberOfLines={2} 
           ellipsizeMode="tail"
         >
-          {ritual.shortDescription}
+          {ritual.description}
         </ThemedText>
         <View className="flex-row flex-wrap gap-2">
-          {getRitualTags(ritual).slice(0, 3).map((label: string, idx: number) => (
+          {getRitualTagDisplayNames(ritual).slice(0, 3).map((label: string, idx: number) => (
             <RitualTag key={idx} label={label} />
           ))}
         </View>

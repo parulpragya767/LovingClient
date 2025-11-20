@@ -11,6 +11,7 @@ interface RitualTagProps {
   bgClassName?: string;
   borderClassName?: string;
   closable?: boolean;
+  small?: boolean;
   onClose?: () => void;
 }
 
@@ -21,18 +22,21 @@ export default function RitualTags({
   bgClassName = 'bg-gray-100',
   borderClassName = 'border-gray-200',
   closable = false,
+  small = false,
   onClose,
 }: RitualTagProps) {
   const resolvedLabel = label ?? tag?.displayName ?? '';
   return (
-    <ThemedView className={`${bgClassName} rounded-full px-3 py-1.5 border ${borderClassName}`}>
+    <ThemedView 
+      className={`${bgClassName} rounded-full border ${borderClassName} ${small ? 'px-2 py-0.5' : 'px-3 py-1.5'}`}
+    >
       <View className="flex-row items-center gap-1">
-        <ThemedText className={`text-xs font-medium ${colorClassName}`}>
+        <ThemedText className={`${small ? 'text-2xs' : 'text-xs'} font-medium ${colorClassName}`}>
           {resolvedLabel}
         </ThemedText>
         {closable && (
-          <Pressable onPress={onClose} hitSlop={8} className="ml-1">
-            <MaterialIcons name="close" size={14} color="#4B5563" />
+          <Pressable onPress={onClose} hitSlop={8} className="ml-0.5">
+            <MaterialIcons name="close" size={small ? 12 : 14} color="#4B5563" />
           </Pressable>
         )}
       </View>
