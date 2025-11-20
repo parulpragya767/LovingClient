@@ -10,6 +10,20 @@ export default function AIChatLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen 
+        name="list" 
+        options={{
+          title: 'List',
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen 
+        name="chat" 
+        options={{
+          title: 'Chat',
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }

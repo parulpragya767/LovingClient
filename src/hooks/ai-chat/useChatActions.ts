@@ -18,8 +18,8 @@ export const useChatActions = () => {
   const currentConversation = useMemo(
     () =>
       currentSessionId
-        ? messages ?? null
-        : null,
+        ? messages ?? []
+        : [],
     [currentSessionId, messages]
   );
 
