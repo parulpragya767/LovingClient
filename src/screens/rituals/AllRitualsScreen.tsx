@@ -1,8 +1,8 @@
 import RitualCard from '@/components/rituals/RitualCard';
 import RitualTags from '@/components/rituals/RitualTags';
 import { ThemedText } from '@/components/themes/themed-text';
-import { useRitualSearch } from '@/src/hooks/useRitualSearch';
-import { useTagSelection } from '@/src/hooks/useTagSelection';
+import { useRitualSearch } from '@/src/hooks/rituals/useRitualSearch';
+import { useTagSelection } from '@/src/hooks/rituals/useTagSelection';
 import { useRouter } from 'expo-router';
 import { useRef } from 'react';
 import { ActivityIndicator, FlatList, Pressable, ScrollView, View } from 'react-native';

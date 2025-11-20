@@ -1,18 +1,14 @@
 import { ThemedText } from '@/components/themes/themed-text';
 import { ThemedView } from '@/components/themes/themed-view';
-import type { LoveLensInfo, LoveLensInfoSection } from '@/src/models/loveLens';
-import { useQueryClient } from '@tanstack/react-query';
+import { useLoveType } from '@/src/hooks/love-lens/useLoveType';
+import type { LoveLensInfoSection } from '@/src/models/loveLens';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Pressable, RefreshControl, ScrollView, View } from 'react-native';
 
 export default function LoveTypeDetailScreen() {
   const router = useRouter();
-  const queryClient = useQueryClient();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const loveTypeId = id ? parseInt(id, 10) : undefined;
-
-  const loveTypes = queryClient.getQueryData<LoveLensInfo[]>(['loveTypes']);
-  const loveType = loveTypes?.find((lt) => lt.id === loveTypeId);
+  const loveType = useLoveType(parseInt(id)).data;
 
   if (!loveType) {
     return (

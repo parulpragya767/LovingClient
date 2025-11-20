@@ -1,7 +1,8 @@
 import RitualPackCard from '@/components/rituals/RitualPackCard';
 import SwipeableRitualCard from '@/components/rituals/SwipeableRitualCard';
 import { ThemedText } from '@/components/themes/themed-text';
-import { useCurrentRituals } from '@/src/hooks/useRitualHistory';
+import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
+import { RitualHistory } from '@/src/models/ritualHistory';
 import { RitualPack } from '@/src/models/ritualPacks';
 import { Ritual } from '@/src/models/rituals';
 import { useFocusEffect, useRouter } from 'expo-router';
@@ -15,12 +16,10 @@ export default function CurrentRitualsScreen() {
   const rituals: Ritual[] = useMemo(() => currentData?.rituals ?? [], [currentData]);
   const packs: RitualPack[] = useMemo(() => currentData?.ritualPacks ?? [], [currentData]);
 
-  const ritualHistoryByRitualId = useMemo(() => {
-    const entries = (currentData?.ritualHistory ?? [])
-      .filter(h => !!h.ritualId && !!h.id)
-      .map(h => [h.ritualId as string, h.id as string] as const);
-    return new Map<string, string>(entries);
-  }, [currentData]);
+  const ritualHistoryByRitualId: Map<string, RitualHistory[]> = useMemo(
+    () => currentData?.ritualHistoryMap ?? new Map<string, RitualHistory[]>(),
+    [currentData]
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -61,7 +60,7 @@ export default function CurrentRitualsScreen() {
             <View className="px-4">
               <SwipeableRitualCard
                 ritual={item}
-                ritualHistoryId={ritualHistoryByRitualId.get(item.id)}
+                ritualHistoryId={ritualHistoryByRitualId.get(item.id)?.[0].id}
                 onRitualPress={() => handleRitualPress(item.id)}
                 onChanged={() => { refetch(); }}
               />

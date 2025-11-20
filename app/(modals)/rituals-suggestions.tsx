@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import RitualCard from '@/components/rituals/RitualCard';
 import { ThemedText } from '@/components/themes/themed-text';
-import { useRituals } from '@/src/hooks/useRituals';
+import { useRituals } from '@/src/hooks/rituals/useRituals';
 import { Ritual } from '@/src/models/rituals';
 import { suggestionsService } from '@/src/services/suggestions';
 import { userSelections } from '@/src/services/userSelections';

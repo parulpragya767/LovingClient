@@ -1,6 +1,6 @@
 import { ThemedText } from '@/components/themes/themed-text';
-import { useRitualHistory } from '@/src/hooks/useRitualHistory';
-import { useRituals } from '@/src/hooks/useRituals';
+import { useRitualHistory } from '@/src/hooks/rituals/useRitualHistory';
+import { useRituals } from '@/src/hooks/rituals/useRituals';
 import { EmojiFeedback, RitualHistoryStatus } from '@/src/models/enums';
 import { Ritual } from '@/src/models/rituals';
 import { ActivityIndicator, FlatList, View } from 'react-native';

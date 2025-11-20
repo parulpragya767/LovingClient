@@ -1,4 +1,4 @@
-import type { CurrentRituals, RitualHistory } from '@/src/models/ritualHistory';
+import type { RitualHistory } from '@/src/models/ritualHistory';
 import { ritualHistoryService } from '@/src/services/ritualHistoryService';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -21,7 +21,6 @@ export const useRitualHistory = () => {
   const invalidateQueries = () => {
     return Promise.all([
       queryClient.invalidateQueries({ queryKey: ['ritual-history'] }),
-      queryClient.invalidateQueries({ queryKey: ['ritual-history', 'current'] })
     ]);
   };
 
@@ -29,19 +28,4 @@ export const useRitualHistory = () => {
     ...query,
     invalidateQueries
   };
-};
-
-export const useCurrentRituals = () => {
-  return useQuery<CurrentRituals, Error>({
-    queryKey: ['ritual-history', 'current'],
-    queryFn: async () => {
-      const response = await ritualHistoryService.listCurrent();
-      return response;
-    },
-    staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    refetchOnMount: false,
-    retry: 1,
-  });
 };

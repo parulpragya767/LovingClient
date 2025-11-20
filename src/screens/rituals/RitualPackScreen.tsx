@@ -1,7 +1,7 @@
 import RitualCard from '@/components/rituals/RitualCard';
 import { ThemedText } from '@/components/themes/themed-text';
 import { ThemedView } from '@/components/themes/themed-view';
-import { useRitualPack } from '@/src/hooks/useRitualPacks';
+import { useRitualPack } from '@/src/hooks/rituals/useRitualPack';
 import { Ritual } from '@/src/models/rituals';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useMemo } from 'react';

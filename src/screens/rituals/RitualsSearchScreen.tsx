@@ -1,8 +1,8 @@
 import TagCategory from '@/components/rituals/TagCategory';
 import { ThemedText } from '@/components/themes/themed-text';
 import { ThemedView } from '@/components/themes/themed-view';
-import { useRitualTags } from '@/src/hooks/useRitualTags';
-import { useTagSelection } from '@/src/hooks/useTagSelection';
+import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
+import { useTagSelection } from '@/src/hooks/rituals/useTagSelection';
 import { TagValue } from '@/src/models/ritualTags';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';

@@ -1,6 +1,6 @@
 import { ritualService } from '@/src/services/ritualService';
 import { useQuery } from '@tanstack/react-query';
-import { RitualTags } from '../models/ritualTags';
+import { RitualTags } from '../../models/ritualTags';
 
 export function useRitualTags() {
   return useQuery<RitualTags, Error>({

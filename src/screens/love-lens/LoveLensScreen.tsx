@@ -1,6 +1,6 @@
 import { ThemedText } from '@/components/themes/themed-text';
 import { ThemedView } from '@/components/themes/themed-view';
-import { useLoveTypes } from '@/src/hooks/useLoveTypes';
+import { useLoveTypes } from '@/src/hooks/love-lens/useLoveTypes';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { ActivityIndicator, FlatList, Pressable, RefreshControl, View } from 'react-native';

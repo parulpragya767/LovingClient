@@ -2,7 +2,7 @@ import { ThemedText } from '@/components/themes/themed-text';
 import { ThemedView } from '@/components/themes/themed-view';
 import { RitualDTO } from '@/src/api/models/ritual-dto';
 import { RitualStep } from '@/src/api/models/ritual-step';
-import { useRitual } from '@/src/hooks/useRitual';
+import { useRitual } from '@/src/hooks/rituals/useRitual';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';

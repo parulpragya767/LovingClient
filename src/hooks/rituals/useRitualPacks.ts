@@ -15,19 +15,3 @@ export const useRitualPacks = () => {
     retry: 1,
   });
 };
-
-export const useRitualPack = (id?: string) => {
-  return useQuery<RitualPack, Error>({
-    queryKey: ['ritualPack', id],
-    queryFn: async () => {
-      if (!id) throw new Error('Ritual Pack ID is required');
-      return ritualPackService.getById(id);
-    },
-    enabled: !!id,
-    staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    refetchOnMount: false,
-    retry: 1,
-  });
-};

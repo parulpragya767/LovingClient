@@ -1,5 +1,5 @@
 import { ThemedText } from '@/components/themes/themed-text';
-import { useRitualHistory } from '@/src/hooks/useRitualHistory';
+import { useRitualHistory } from '@/src/hooks/rituals/useRitualHistory';
 import { EmojiFeedback, RitualHistoryStatus } from '@/src/models/enums';
 import { Ritual } from '@/src/models/rituals';
 import { ritualHistoryService } from '@/src/services/ritualHistoryService';

@@ -1,4 +1,5 @@
 import { ThemedText } from '@/components/themes/themed-text';
+import { RitualHistory } from '@/src/models/ritualHistory';
 import { RitualPack } from '@/src/models/ritualPacks';
 import React from 'react';
 import { Pressable, View } from 'react-native';
@@ -8,7 +9,7 @@ type Props = {
   pack: RitualPack;
   onRitualPress?: (id: string) => void;
   onPressPack?: (id: string) => void;
-  ritualHistoryIdByRitualId?: Map<string, string>;
+  ritualHistoryIdByRitualId?: Map<string, RitualHistory[]>;
   onChanged?: () => void;
 };
 
@@ -27,7 +28,7 @@ export default function RitualPackCard({ pack, onRitualPress, onPressPack, ritua
           <View key={ritual.id} className="mb-3">
             <SwipeableRitualCard
               ritual={ritual}
-              ritualHistoryId={ritualHistoryIdByRitualId?.get(ritual.id)}
+              ritualHistoryId={ritualHistoryIdByRitualId?.get(ritual.id)?.[0]?.id}
               onRitualPress={() => onRitualPress?.(ritual.id)}
               onChanged={onChanged}
             />

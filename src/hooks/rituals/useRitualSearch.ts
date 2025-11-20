@@ -1,7 +1,7 @@
 import { ritualService } from '@/src/services/ritualService';
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
-import { RitualFilter } from '../models/ritualTags';
+import { RitualFilter } from '../../models/ritualTags';
 
 export function useRitualSearch(filter: RitualFilter) {
   const queryClient = useQueryClient();
