@@ -1,11 +1,14 @@
 import { ThemedText } from '@/components/themes/themed-text';
 import { ThemedView } from '@/components/themes/themed-view';
+import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { useRitual } from '@/src/hooks/rituals/useRitual';
+import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
-import { useLocalSearchParams } from 'expo-router';
+import { RitualHistoryStatus } from '@/src/models/enums';
+import { router, useLocalSearchParams } from 'expo-router';
 import { ChevronDown, ChevronUp } from 'lucide-react-native';
 import React, { useState } from 'react';
-import { ActivityIndicator, ScrollView, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, ScrollView, TouchableOpacity, View } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 
 export default function RitualDetailScreen() {
@@ -13,6 +16,29 @@ export default function RitualDetailScreen() {
   const [isHowItHelpsExpanded, setIsHowItHelpsExpanded] = useState(true);
   const { data: ritual, isLoading, error } = useRitual(id);
   const { getTagDisplayName } = useRitualTags();
+  const { addRitualToCurrent } = useRitualActions();
+  const { isCurrentRitual } = useCurrentRituals();
+  
+  const isCurrent = ritual ? isCurrentRitual(ritual.id) : false;
+  
+  const handleAddToCurrent = async () => {
+    if (!ritual) return;
+    
+    try {
+      await addRitualToCurrent({
+        ritualId: ritual.id,
+        status: RitualHistoryStatus.Active
+      });
+      Alert.alert('Success', 'Ritual added to your current rituals!');
+    } catch (error) {
+      console.error('Error adding ritual to current:', error);
+      Alert.alert('Error', 'Failed to add ritual to current. Please try again.');
+    }
+  };
+
+  const handleGoToCurrentRituals = () => {
+    router.push('/(tabs)/rituals/current');
+  };
   
   if (isLoading) {
     return (
@@ -51,6 +77,29 @@ export default function RitualDetailScreen() {
               {ritual.tagLine}
             </ThemedText>
           </View>
+          {isCurrent ? (
+            <View className="items-end">
+              <View className="flex-row items-center mb-1">
+                <ThemedText className="text-green-500 font-medium mr-2">✓</ThemedText>
+                <ThemedText className="text-gray-600">Added to Your Rituals</ThemedText>
+              </View>
+              <TouchableOpacity
+                onPress={handleGoToCurrentRituals}
+                className="bg-gray-100 px-3 py-1.5 rounded-lg"
+                activeOpacity={0.8}
+              >
+                <ThemedText className="text-gray-900 font-medium text-sm">Go to My Rituals</ThemedText>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <TouchableOpacity
+              onPress={handleAddToCurrent}
+              className="bg-white-900 px-4 py-2.5 rounded-lg"
+              activeOpacity={0.8}
+            >
+              <ThemedText className="text-gray-900 font-medium">Add to My Rituals</ThemedText>
+            </TouchableOpacity>
+          )}
         </View>
 
         {/* Quick Info */}

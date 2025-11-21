@@ -1,7 +1,6 @@
 import '@/global.css';
 import { AuthProvider, useAuth } from '@/src/context/AuthContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Redirect, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
@@ -44,7 +43,7 @@ export default function RootLayout() {
         </GestureHandlerRootView>
       </AuthProvider>
 
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
 
     </QueryClientProvider>
   );

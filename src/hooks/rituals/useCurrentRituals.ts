@@ -24,8 +24,14 @@ export const useCurrentRituals = () => {
     ]);
   };
 
+  const isCurrentRitual = (ritualId: string): boolean => {
+    if (!query.data) return false;
+    return query.data.ritualHistoryMap.has(ritualId);
+  };
+
   return {
     ...query,
-    invalidateQueries
+    invalidateQueries,
+    isCurrentRitual
   };
 };
