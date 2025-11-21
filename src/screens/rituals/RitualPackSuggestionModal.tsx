@@ -1,23 +1,30 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { FlatList, Pressable, View } from 'react-native';
+import { FlatList, Modal, Pressable, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import SuggestedRitual from '@/components/rituals/SuggestedRitual';
 import { ThemedText } from '@/components/themes/themed-text';
-import { useRitualPacks } from '@/src/hooks/rituals/useRitualPacks';
+import { RitualPack } from '@/src/models/ritualPacks';
 
-export default function RitualPackSuggestionModal() {
-  const router = useRouter();
+type RitualPackSuggestionModalProps = {
+  isVisible: boolean;
+  ritualPack: RitualPack;
+  onClose: () => void;
+  onAddRituals?: (selectedIds: string[]) => void;
+};
+
+export default function RitualPackSuggestionModal({
+  isVisible,
+  ritualPack,
+  onClose,
+  onAddRituals,
+}: RitualPackSuggestionModalProps) {
   const [selected, setSelected] = useState<Record<string, boolean>>({});
-  const { data: ritualPacks = [], isLoading } = useRitualPacks();
   
-  // Get the first ritual pack's rituals as suggestions
   const suggestions = useMemo(() => {
-    if (!ritualPacks.length) return [];
-    return ritualPacks[0]?.rituals || [];
-  }, [ritualPacks]);
+    return ritualPack?.rituals || [];
+  }, [ritualPack]);
 
   const toggle = (id: string) => {
     setSelected(prev => ({
@@ -34,64 +41,72 @@ export default function RitualPackSuggestionModal() {
   const canAdd = selectedIds.length > 0;
 
   const handleAdd = () => {
-    if (!canAdd) return;
-    // logic to call ritual history actions with the selected ids
-    router.back();
+    if (!canAdd || !onAddRituals) return;
+    onAddRituals(selectedIds);
+    onClose();
   };
 
-  if (isLoading) {
-    return (
-      <View className="flex-1 justify-center items-center bg-white">
-        <ThemedText>Loading suggestions...</ThemedText>
-      </View>
-    );
+  if (!isVisible || !ritualPack) {
+    return null;
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={['top', 'bottom']}>
-      {/* Modal Header */}
-      <View className="w-full px-4 pt-3 pb-2 border-b border-gray-200 bg-white flex-row items-center">
-        <Pressable onPress={() => router.back()} className="p-2 mr-2">
-          <MaterialIcons name="close" size={24} color="#4B5563" />
-        </Pressable>
-        <ThemedText className="text-base font-semibold text-gray-900">
-          Weekly Ritual Pack Suggestion
-        </ThemedText>
-      </View>
-
-      <FlatList
-        data={suggestions}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <SuggestedRitual 
-            ritual={item} 
-            selected={!!selected[item.id]}
-            onPress={toggle}
-          />
-        )}
-        ListHeaderComponent={
-          <View className="px-4 pt-4 pb-2">
-            <ThemedText className="text-gray-600">
-              Pick 3–4 rituals to add to your current focus this week.
-            </ThemedText>
-          </View>
-        }
-        contentContainerStyle={{ paddingBottom: 96 }}
-        showsVerticalScrollIndicator={false}
-      />
-
-      {/* Bottom bar */}
-      <View className="absolute left-0 right-0 bottom-0 px-4 pb-6 pt-3 bg-white border-t border-gray-200">
-        <Pressable
-          onPress={handleAdd}
-          className={`rounded-xl py-3 items-center ${canAdd ? 'bg-purple-600' : 'bg-gray-300'}`}
-          disabled={!canAdd}
-        >
-          <ThemedText className="text-white font-semibold">
-            Add {selectedIds.length} ritual{selectedIds.length === 1 ? '' : 's'} to Current
+    <Modal
+      visible={isVisible}
+      animationType="slide"
+      onRequestClose={onClose}
+      presentationStyle="pageSheet"
+    >
+      <SafeAreaView className="flex-1 bg-white" edges={['top', 'bottom']}>
+        {/* Modal Header */}
+        <View className="w-full px-4 pt-3 pb-2 border-b border-gray-200 bg-white flex-row items-center">
+          <Pressable onPress={onClose} className="p-2 mr-2">
+            <MaterialIcons name="close" size={24} color="#4B5563" />
+          </Pressable>
+          <ThemedText className="text-base font-semibold text-gray-900">
+            {ritualPack.title || 'Ritual Pack'}
           </ThemedText>
-        </Pressable>
-      </View>
-    </SafeAreaView>
+        </View>
+
+        <FlatList
+          data={suggestions}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <SuggestedRitual 
+              ritual={item} 
+              selected={!!selected[item.id]}
+              onPress={() => toggle(item.id)}
+            />
+          )}
+          ListHeaderComponent={
+            <View className="px-4 pt-4 pb-2">
+              {ritualPack.description ? (
+                <ThemedText className="text-gray-600 mb-2">
+                  {ritualPack.description}
+                </ThemedText>
+              ) : null}
+              <ThemedText className="text-gray-600">
+                Pick {ritualPack.rituals?.length > 1 ? '1–' + ritualPack.rituals.length : '1'} ritual{ritualPack.rituals?.length !== 1 ? 's' : ''} to add to your current focus.
+              </ThemedText>
+            </View>
+          }
+          contentContainerStyle={{ paddingBottom: 96 }}
+          showsVerticalScrollIndicator={false}
+        />
+
+        {/* Bottom bar */}
+        <View className="absolute left-0 right-0 bottom-0 px-4 pb-6 pt-3 bg-white border-t border-gray-200">
+          <Pressable
+            onPress={handleAdd}
+            className={`rounded-xl py-3 items-center ${canAdd ? 'bg-purple-600' : 'bg-gray-300'}`}
+            disabled={!canAdd}
+          >
+            <ThemedText className="text-white font-semibold">
+              Add {selectedIds.length} ritual{selectedIds.length === 1 ? '' : 's'} to Current
+            </ThemedText>
+          </Pressable>
+        </View>
+      </SafeAreaView>
+    </Modal>
   );
 }

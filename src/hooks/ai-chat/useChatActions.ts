@@ -5,6 +5,7 @@ import { chatService } from '@/src/services/chatService';
 import { useMemo } from 'react';
 
 import { ChatMessageRole } from '@/src/models/enums';
+import type { RitualPack } from '@/src/models/ritualPacks';
 import { useChatStore } from "@/src/store/useChatStore";
 import { useChatMessages } from "./useChatMessages";
 import { useChatSessions } from "./useChatSessions";
@@ -37,9 +38,9 @@ export const useChatActions = () => {
     await invalidateMessages();
   };
 
-  const sendMessage = async (content: string) => {
+  const sendMessage = async (content: string): Promise<boolean> => {
     const sessionId = useChatStore.getState().currentSessionId;
-    if (!sessionId) return;
+    if (!sessionId) return false;
 
     const userMsg: ChatMessage = {
       sessionId: sessionId,
@@ -57,6 +58,8 @@ export const useChatActions = () => {
     if (resp.assistantResponse) {
       sendMessageToStore(resp.assistantResponse, sessionId);
     }
+
+    return resp.readyForRitualPackRecommendation ?? false;
   };
 
   const deleteConversation = async (id: string) => {
@@ -65,11 +68,31 @@ export const useChatActions = () => {
     await invalidateSessions();
   };
 
+  const recommendRitualPack = async (): Promise<RitualPack | null> => {
+    const sessionId = useChatStore.getState().currentSessionId;
+    if (!sessionId) return null;
+
+    try {
+      const response = await chatService.recommendRitualPack(sessionId);
+      
+      // Send the wrap-up response to the chat if it exists
+      if (response.wrapUpResponse) {
+        sendMessageToStore(response.wrapUpResponse, sessionId);
+      }
+      
+      return response.ritualPack || null;
+    } catch (error) {
+      console.error('Failed to recommend ritual pack:', error);
+      return null;
+    }
+  };
+
   return { 
     currentConversation,
     startNewConversation,
     selectConversation,
     sendMessage,
-    deleteConversation
+    deleteConversation,
+    recommendRitualPack
   };
 };

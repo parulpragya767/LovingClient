@@ -5,7 +5,7 @@ import type {
   ChatSession,
   RecommendRitualPackResponse
 } from '@/src/models/chat';
-import { toChatSendMessageResponse, toChatSession } from '@/src/models/chat';
+import { toChatSendMessageResponse, toChatSession, toRecommendRitualPackResponse } from '@/src/models/chat';
 import apiClient from './apiClient';
 
 // Initialize the API with our configured axios instance (same pattern as ritualService)
@@ -34,7 +34,7 @@ export const chatService = {
     sessionId: string,
   ): Promise<RecommendRitualPackResponse> {
     const res = await api.recommendRitualPack({ sessionId });
-    return res.data;
+    return toRecommendRitualPackResponse(res.data);
   },
 
   async getSamplePrompts(): Promise<string[]> {

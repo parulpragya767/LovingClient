@@ -12,13 +12,15 @@ export type ChatInputHandle = {
 type ChatInputProps = {
   placeholder?: string;
   navigateToChatOnSend?: boolean;
+  onSubmit?: (message: string) => Promise<unknown>;
 };
 
 export const ChatInput = forwardRef<ChatInputHandle, ChatInputProps>(
-  ({ placeholder = 'Type your message...', navigateToChatOnSend = false }, ref) => {
+  ({ placeholder = 'Type your message...', navigateToChatOnSend = false, onSubmit }, ref) => {
     const router = useRouter();
-    const { sendMessage, startNewConversation } = useChatActions();
+    const { sendMessage: defaultSendMessage, startNewConversation } = useChatActions();
     const currentConversationId = useChatStore((s) => s.currentSessionId);
+    const sendMessage = onSubmit || defaultSendMessage;
 
     const [inputText, setInputText] = useState('');
     const [isSending, setIsSending] = useState(false);
@@ -34,7 +36,7 @@ export const ChatInput = forwardRef<ChatInputHandle, ChatInputProps>(
       setIsSending(true);
 
       try {
-        if (!currentConversationId) {
+        if (!currentConversationId && !onSubmit) {
           await startNewConversation();
         }
         await sendMessage(message);
@@ -46,7 +48,7 @@ export const ChatInput = forwardRef<ChatInputHandle, ChatInputProps>(
       } finally {
         setIsSending(false);
       }
-    }, [inputText, isSending, currentConversationId, startNewConversation, sendMessage, navigateToChatOnSend, router]);
+    }, [inputText, isSending, currentConversationId, startNewConversation, sendMessage, navigateToChatOnSend, router, onSubmit]);
 
     return (
       <View className="flex-row items-center p-4 border-t border-gray-200 bg-white">

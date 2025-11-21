@@ -3,6 +3,8 @@ import type { ChatSessionDTO } from '@/src/api/models/chat-session-dto';
 import type { RecommendRitualPackResponse as ApiRecommendRitualPackResponse } from '@/src/api/models/recommend-ritual-pack-response';
 import type { SendMessageRequest } from '@/src/api/models/send-message-request';
 import type { SendMessageResponse } from '@/src/api/models/send-message-response';
+import type { RitualPack } from './ritualPacks';
+import { toRitualPack } from './ritualPacks';
 
 export interface ChatMessage extends ChatMessageDTO {}
 
@@ -48,4 +50,17 @@ export function toChatSendMessageResponse(dto: SendMessageResponse): ChatSendMes
   };
 }
 
-export interface RecommendRitualPackResponse extends ApiRecommendRitualPackResponse {}
+export interface RecommendRitualPackResponse extends Omit<ApiRecommendRitualPackResponse, 'ritualPack' | 'wrapUpResponse'> {
+  ritualPack?: RitualPack;
+  wrapUpResponse?: ChatMessage;
+}
+
+export function toRecommendRitualPackResponse(
+  dto: ApiRecommendRitualPackResponse
+): RecommendRitualPackResponse {
+  return {
+    ...dto,
+    ritualPack: dto.ritualPack ? toRitualPack(dto.ritualPack) : undefined,
+    wrapUpResponse: dto.wrapUpResponse ? toChatMessage(dto.wrapUpResponse) : undefined,
+  };
+}
