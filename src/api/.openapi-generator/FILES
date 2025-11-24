@@ -1,6 +1,5 @@
 .gitignore
 .npmignore
-.openapi-generator-ignore
 api.ts
 apis/ai-chat-controller-api.ts
 apis/auth-controller-api.ts
@@ -9,6 +8,7 @@ apis/loving-application-api.ts
 apis/ritual-controller-api.ts
 apis/ritual-history-controller-api.ts
 apis/ritual-pack-controller-api.ts
+apis/ritual-recommendation-controller-api.ts
 apis/user-context-controller-api.ts
 apis/user-controller-api.ts
 base.ts
@@ -19,6 +19,7 @@ docs/AuthControllerApi.md
 docs/BulkRitualHistoryStatusUpdateRequest.md
 docs/ChatMessageDTO.md
 docs/ChatMessageRole.md
+docs/ChatMetadata.md
 docs/ChatSessionDTO.md
 docs/CurrentRitualsDTO.md
 docs/EmojiFeedback.md
@@ -37,6 +38,8 @@ docs/Pageable.md
 docs/PageableObject.md
 docs/PublicationStatus.md
 docs/RecommendRitualPackResponse.md
+docs/RecommendationSource.md
+docs/RecommendationStatus.md
 docs/RelationalNeed.md
 docs/RelationshipStatus.md
 docs/RitualControllerApi.md
@@ -49,6 +52,9 @@ docs/RitualHistoryUpdateRequest.md
 docs/RitualMode.md
 docs/RitualPackControllerApi.md
 docs/RitualPackDTO.md
+docs/RitualRecommendationControllerApi.md
+docs/RitualRecommendationDTO.md
+docs/RitualRecommendationUpdateStatusRequest.md
 docs/RitualTag.md
 docs/RitualTags.md
 docs/RitualTone.md
@@ -67,6 +73,7 @@ index.ts
 models/bulk-ritual-history-status-update-request.ts
 models/chat-message-dto.ts
 models/chat-message-role.ts
+models/chat-metadata.ts
 models/chat-session-dto.ts
 models/current-rituals-dto.ts
 models/emoji-feedback.ts
@@ -84,6 +91,8 @@ models/pageable-object.ts
 models/pageable.ts
 models/publication-status.ts
 models/recommend-ritual-pack-response.ts
+models/recommendation-source.ts
+models/recommendation-status.ts
 models/relational-need.ts
 models/relationship-status.ts
 models/ritual-dto.ts
@@ -93,6 +102,8 @@ models/ritual-history-status.ts
 models/ritual-history-update-request.ts
 models/ritual-mode.ts
 models/ritual-pack-dto.ts
+models/ritual-recommendation-dto.ts
+models/ritual-recommendation-update-status-request.ts
 models/ritual-tag.ts
 models/ritual-tags.ts
 models/ritual-tone.ts

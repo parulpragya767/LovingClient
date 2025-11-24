@@ -1,21 +1,19 @@
-# TagValue
+# ChatMetadata
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**key** | **string** |  | [default to undefined]
-**displayName** | **string** |  | [default to undefined]
+**recommendationId** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { TagValue } from './api';
+import { ChatMetadata } from './api';
 
-const instance: TagValue = {
-    key,
-    displayName,
+const instance: ChatMetadata = {
+    recommendationId,
 };
 ```
 

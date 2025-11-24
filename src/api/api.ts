@@ -21,6 +21,7 @@ export * from './apis/loving-application-api';
 export * from './apis/ritual-controller-api';
 export * from './apis/ritual-history-controller-api';
 export * from './apis/ritual-pack-controller-api';
+export * from './apis/ritual-recommendation-controller-api';
 export * from './apis/user-context-controller-api';
 export * from './apis/user-controller-api';
 

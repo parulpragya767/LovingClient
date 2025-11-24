@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **sessionId** | **string** |  | [optional] [default to undefined]
 **role** | [**ChatMessageRole**](ChatMessageRole.md) |  | [optional] [default to undefined]
 **content** | **string** |  | [optional] [default to undefined]
+**metadata** | [**ChatMetadata**](ChatMetadata.md) |  | [optional] [default to undefined]
 **createdAt** | **string** |  | [optional] [default to undefined]
 
 ## Example
@@ -21,6 +22,7 @@ const instance: ChatMessageDTO = {
     sessionId,
     role,
     content,
+    metadata,
     createdAt,
 };
 ```

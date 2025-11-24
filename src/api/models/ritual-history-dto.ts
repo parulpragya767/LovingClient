@@ -52,6 +52,12 @@ export interface RitualHistoryDTO {
     'ritualPackId'?: string;
     /**
      * 
+     * @type {string}
+     * @memberof RitualHistoryDTO
+     */
+    'recommendationId'?: string;
+    /**
+     * 
      * @type {RitualHistoryStatus}
      * @memberof RitualHistoryDTO
      */

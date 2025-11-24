@@ -1,21 +1,19 @@
-# TagValue
+# RitualRecommendationUpdateStatusRequest
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**key** | **string** |  | [default to undefined]
-**displayName** | **string** |  | [default to undefined]
+**status** | [**RecommendationStatus**](RecommendationStatus.md) |  | [default to undefined]
 
 ## Example
 
 ```typescript
-import { TagValue } from './api';
+import { RitualRecommendationUpdateStatusRequest } from './api';
 
-const instance: TagValue = {
-    key,
-    displayName,
+const instance: RitualRecommendationUpdateStatusRequest = {
+    status,
 };
 ```
 

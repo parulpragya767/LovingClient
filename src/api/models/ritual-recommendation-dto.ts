@@ -15,51 +15,57 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { ChatMessageRole } from './chat-message-role';
+import type { RecommendationSource } from './recommendation-source';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { ChatMetadata } from './chat-metadata';
+import type { RecommendationStatus } from './recommendation-status';
 
 /**
  * 
  * @export
- * @interface ChatMessageDTO
+ * @interface RitualRecommendationDTO
  */
-export interface ChatMessageDTO {
+export interface RitualRecommendationDTO {
     /**
      * 
      * @type {string}
-     * @memberof ChatMessageDTO
+     * @memberof RitualRecommendationDTO
      */
-    'id'?: string;
+    'id': string;
     /**
      * 
      * @type {string}
-     * @memberof ChatMessageDTO
+     * @memberof RitualRecommendationDTO
      */
-    'sessionId'?: string;
+    'userId': string;
     /**
      * 
-     * @type {ChatMessageRole}
-     * @memberof ChatMessageDTO
+     * @type {RecommendationSource}
+     * @memberof RitualRecommendationDTO
      */
-    'role'?: ChatMessageRole;
-    /**
-     * 
-     * @type {string}
-     * @memberof ChatMessageDTO
-     */
-    'content'?: string;
-    /**
-     * 
-     * @type {ChatMetadata}
-     * @memberof ChatMessageDTO
-     */
-    'metadata'?: ChatMetadata;
+    'source': RecommendationSource;
     /**
      * 
      * @type {string}
-     * @memberof ChatMessageDTO
+     * @memberof RitualRecommendationDTO
+     */
+    'sourceId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RitualRecommendationDTO
+     */
+    'ritualPackId': string;
+    /**
+     * 
+     * @type {RecommendationStatus}
+     * @memberof RitualRecommendationDTO
+     */
+    'status': RecommendationStatus;
+    /**
+     * 
+     * @type {string}
+     * @memberof RitualRecommendationDTO
      */
     'createdAt'?: string;
 }
