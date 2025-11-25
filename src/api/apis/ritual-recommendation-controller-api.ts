@@ -24,7 +24,7 @@ import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError
 // @ts-ignore
 import type { RitualRecommendationDTO } from '../models';
 // @ts-ignore
-import type { RitualRecommendationUpdateStatusRequest } from '../models';
+import type { RitualRecommendationUpdateRequest } from '../models';
 /**
  * RitualRecommendationControllerApi - axios parameter creator
  * @export
@@ -96,16 +96,16 @@ export const RitualRecommendationControllerApiAxiosParamCreator = function (conf
         /**
          * 
          * @param {string} id 
-         * @param {RitualRecommendationUpdateStatusRequest} ritualRecommendationUpdateStatusRequest 
+         * @param {RitualRecommendationUpdateRequest} ritualRecommendationUpdateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateStatus: async (id: string, ritualRecommendationUpdateStatusRequest: RitualRecommendationUpdateStatusRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateRecommendationAndRitualHistoryStatus: async (id: string, ritualRecommendationUpdateRequest: RitualRecommendationUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateStatus', 'id', id)
-            // verify required parameter 'ritualRecommendationUpdateStatusRequest' is not null or undefined
-            assertParamExists('updateStatus', 'ritualRecommendationUpdateStatusRequest', ritualRecommendationUpdateStatusRequest)
-            const localVarPath = `/api/ritual-recommendation/{id}/status`
+            assertParamExists('updateRecommendationAndRitualHistoryStatus', 'id', id)
+            // verify required parameter 'ritualRecommendationUpdateRequest' is not null or undefined
+            assertParamExists('updateRecommendationAndRitualHistoryStatus', 'ritualRecommendationUpdateRequest', ritualRecommendationUpdateRequest)
+            const localVarPath = `/api/ritual-recommendation/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -125,7 +125,7 @@ export const RitualRecommendationControllerApiAxiosParamCreator = function (conf
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(ritualRecommendationUpdateStatusRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(ritualRecommendationUpdateRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -168,14 +168,14 @@ export const RitualRecommendationControllerApiFp = function(configuration?: Conf
         /**
          * 
          * @param {string} id 
-         * @param {RitualRecommendationUpdateStatusRequest} ritualRecommendationUpdateStatusRequest 
+         * @param {RitualRecommendationUpdateRequest} ritualRecommendationUpdateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateStatus(id: string, ritualRecommendationUpdateStatusRequest: RitualRecommendationUpdateStatusRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualRecommendationDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateStatus(id, ritualRecommendationUpdateStatusRequest, options);
+        async updateRecommendationAndRitualHistoryStatus(id: string, ritualRecommendationUpdateRequest: RitualRecommendationUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateRecommendationAndRitualHistoryStatus(id, ritualRecommendationUpdateRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['RitualRecommendationControllerApi.updateStatus']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['RitualRecommendationControllerApi.updateRecommendationAndRitualHistoryStatus']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -207,12 +207,12 @@ export const RitualRecommendationControllerApiFactory = function (configuration?
         },
         /**
          * 
-         * @param {RitualRecommendationControllerApiUpdateStatusRequest} requestParameters Request parameters.
+         * @param {RitualRecommendationControllerApiUpdateRecommendationAndRitualHistoryStatusRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateStatus(requestParameters: RitualRecommendationControllerApiUpdateStatusRequest, options?: RawAxiosRequestConfig): AxiosPromise<RitualRecommendationDTO> {
-            return localVarFp.updateStatus(requestParameters.id, requestParameters.ritualRecommendationUpdateStatusRequest, options).then((request) => request(axios, basePath));
+        updateRecommendationAndRitualHistoryStatus(requestParameters: RitualRecommendationControllerApiUpdateRecommendationAndRitualHistoryStatusRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateRecommendationAndRitualHistoryStatus(requestParameters.id, requestParameters.ritualRecommendationUpdateRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -242,12 +242,12 @@ export interface RitualRecommendationControllerApiInterface {
 
     /**
      * 
-     * @param {RitualRecommendationControllerApiUpdateStatusRequest} requestParameters Request parameters.
+     * @param {RitualRecommendationControllerApiUpdateRecommendationAndRitualHistoryStatusRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RitualRecommendationControllerApiInterface
      */
-    updateStatus(requestParameters: RitualRecommendationControllerApiUpdateStatusRequest, options?: RawAxiosRequestConfig): AxiosPromise<RitualRecommendationDTO>;
+    updateRecommendationAndRitualHistoryStatus(requestParameters: RitualRecommendationControllerApiUpdateRecommendationAndRitualHistoryStatusRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
 }
 
@@ -266,24 +266,24 @@ export interface RitualRecommendationControllerApiListByIdRequest {
 }
 
 /**
- * Request parameters for updateStatus operation in RitualRecommendationControllerApi.
+ * Request parameters for updateRecommendationAndRitualHistoryStatus operation in RitualRecommendationControllerApi.
  * @export
- * @interface RitualRecommendationControllerApiUpdateStatusRequest
+ * @interface RitualRecommendationControllerApiUpdateRecommendationAndRitualHistoryStatusRequest
  */
-export interface RitualRecommendationControllerApiUpdateStatusRequest {
+export interface RitualRecommendationControllerApiUpdateRecommendationAndRitualHistoryStatusRequest {
     /**
      * 
      * @type {string}
-     * @memberof RitualRecommendationControllerApiUpdateStatus
+     * @memberof RitualRecommendationControllerApiUpdateRecommendationAndRitualHistoryStatus
      */
     readonly id: string
 
     /**
      * 
-     * @type {RitualRecommendationUpdateStatusRequest}
-     * @memberof RitualRecommendationControllerApiUpdateStatus
+     * @type {RitualRecommendationUpdateRequest}
+     * @memberof RitualRecommendationControllerApiUpdateRecommendationAndRitualHistoryStatus
      */
-    readonly ritualRecommendationUpdateStatusRequest: RitualRecommendationUpdateStatusRequest
+    readonly ritualRecommendationUpdateRequest: RitualRecommendationUpdateRequest
 }
 
 /**
@@ -316,13 +316,13 @@ export class RitualRecommendationControllerApi extends BaseAPI implements Ritual
 
     /**
      * 
-     * @param {RitualRecommendationControllerApiUpdateStatusRequest} requestParameters Request parameters.
+     * @param {RitualRecommendationControllerApiUpdateRecommendationAndRitualHistoryStatusRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RitualRecommendationControllerApi
      */
-    public updateStatus(requestParameters: RitualRecommendationControllerApiUpdateStatusRequest, options?: RawAxiosRequestConfig) {
-        return RitualRecommendationControllerApiFp(this.configuration).updateStatus(requestParameters.id, requestParameters.ritualRecommendationUpdateStatusRequest, options).then((request) => request(this.axios, this.basePath));
+    public updateRecommendationAndRitualHistoryStatus(requestParameters: RitualRecommendationControllerApiUpdateRecommendationAndRitualHistoryStatusRequest, options?: RawAxiosRequestConfig) {
+        return RitualRecommendationControllerApiFp(this.configuration).updateRecommendationAndRitualHistoryStatus(requestParameters.id, requestParameters.ritualRecommendationUpdateRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

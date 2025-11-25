@@ -1,5 +1,6 @@
 .gitignore
 .npmignore
+.openapi-generator-ignore
 api.ts
 apis/ai-chat-controller-api.ts
 apis/auth-controller-api.ts
@@ -54,7 +55,8 @@ docs/RitualPackControllerApi.md
 docs/RitualPackDTO.md
 docs/RitualRecommendationControllerApi.md
 docs/RitualRecommendationDTO.md
-docs/RitualRecommendationUpdateStatusRequest.md
+docs/RitualRecommendationUpdateRequest.md
+docs/RitualStatusUpdate.md
 docs/RitualTag.md
 docs/RitualTags.md
 docs/RitualTone.md
@@ -103,7 +105,8 @@ models/ritual-history-update-request.ts
 models/ritual-mode.ts
 models/ritual-pack-dto.ts
 models/ritual-recommendation-dto.ts
-models/ritual-recommendation-update-status-request.ts
+models/ritual-recommendation-update-request.ts
+models/ritual-status-update.ts
 models/ritual-tag.ts
 models/ritual-tags.ts
 models/ritual-tone.ts

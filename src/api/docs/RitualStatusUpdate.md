@@ -1,18 +1,20 @@
-# RitualRecommendationUpdateStatusRequest
+# RitualStatusUpdate
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**status** | [**RecommendationStatus**](RecommendationStatus.md) |  | [default to undefined]
+**ritualId** | **string** |  | [default to undefined]
+**status** | [**RitualHistoryStatus**](RitualHistoryStatus.md) |  | [default to undefined]
 
 ## Example
 
 ```typescript
-import { RitualRecommendationUpdateStatusRequest } from './api';
+import { RitualStatusUpdate } from './api';
 
-const instance: RitualRecommendationUpdateStatusRequest = {
+const instance: RitualStatusUpdate = {
+    ritualId,
     status,
 };
 ```

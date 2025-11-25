@@ -6,7 +6,7 @@ All URIs are relative to *http://localhost:8080*
 |------------- | ------------- | -------------|
 |[**listAll**](#listall) | **GET** /api/ritual-recommendation | |
 |[**listById**](#listbyid) | **GET** /api/ritual-recommendation/{id} | |
-|[**updateStatus**](#updatestatus) | **PUT** /api/ritual-recommendation/{id}/status | |
+|[**updateRecommendationAndRitualHistoryStatus**](#updaterecommendationandritualhistorystatus) | **PUT** /api/ritual-recommendation/{id} | |
 
 # **listAll**
 > Array<RitualRecommendationDTO> listAll()
@@ -101,8 +101,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateStatus**
-> RitualRecommendationDTO updateStatus(ritualRecommendationUpdateStatusRequest)
+# **updateRecommendationAndRitualHistoryStatus**
+> updateRecommendationAndRitualHistoryStatus(ritualRecommendationUpdateRequest)
 
 
 ### Example
@@ -111,18 +111,18 @@ No authorization required
 import {
     RitualRecommendationControllerApi,
     Configuration,
-    RitualRecommendationUpdateStatusRequest
+    RitualRecommendationUpdateRequest
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new RitualRecommendationControllerApi(configuration);
 
 let id: string; // (default to undefined)
-let ritualRecommendationUpdateStatusRequest: RitualRecommendationUpdateStatusRequest; //
+let ritualRecommendationUpdateRequest: RitualRecommendationUpdateRequest; //
 
-const { status, data } = await apiInstance.updateStatus(
+const { status, data } = await apiInstance.updateRecommendationAndRitualHistoryStatus(
     id,
-    ritualRecommendationUpdateStatusRequest
+    ritualRecommendationUpdateRequest
 );
 ```
 
@@ -130,13 +130,13 @@ const { status, data } = await apiInstance.updateStatus(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **ritualRecommendationUpdateStatusRequest** | **RitualRecommendationUpdateStatusRequest**|  | |
+| **ritualRecommendationUpdateRequest** | **RitualRecommendationUpdateRequest**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
 
-**RitualRecommendationDTO**
+void (empty response body)
 
 ### Authorization
 
@@ -145,7 +145,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: */*
+ - **Accept**: Not defined
 
 
 ### HTTP response details

@@ -16,19 +16,28 @@
 // May contain unused imports in some cases
 // @ts-ignore
 import type { RecommendationStatus } from './recommendation-status';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { RitualStatusUpdate } from './ritual-status-update';
 
 /**
  * 
  * @export
- * @interface RitualRecommendationUpdateStatusRequest
+ * @interface RitualRecommendationUpdateRequest
  */
-export interface RitualRecommendationUpdateStatusRequest {
+export interface RitualRecommendationUpdateRequest {
     /**
      * 
      * @type {RecommendationStatus}
-     * @memberof RitualRecommendationUpdateStatusRequest
+     * @memberof RitualRecommendationUpdateRequest
      */
-    'status': RecommendationStatus;
+    'status'?: RecommendationStatus;
+    /**
+     * 
+     * @type {Array<RitualStatusUpdate>}
+     * @memberof RitualRecommendationUpdateRequest
+     */
+    'ritualStatusUpdates'?: Array<RitualStatusUpdate>;
 }
 
 

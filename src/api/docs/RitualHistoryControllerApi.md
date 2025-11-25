@@ -11,7 +11,7 @@ All URIs are relative to *http://localhost:8080*
 |[**create**](#create) | **POST** /api/ritual-history | |
 |[**list**](#list) | **GET** /api/ritual-history | |
 |[**listCurrent**](#listcurrent) | **GET** /api/ritual-history/current | |
-|[**updateStatus1**](#updatestatus1) | **PUT** /api/ritual-history/{id}/status | |
+|[**updateStatus**](#updatestatus) | **PUT** /api/ritual-history/{id}/status | |
 
 # **_delete**
 > _delete()
@@ -355,8 +355,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateStatus1**
-> RitualHistoryDTO updateStatus1(ritualHistoryUpdateRequest)
+# **updateStatus**
+> RitualHistoryDTO updateStatus(ritualHistoryUpdateRequest)
 
 
 ### Example
@@ -374,7 +374,7 @@ const apiInstance = new RitualHistoryControllerApi(configuration);
 let id: string; // (default to undefined)
 let ritualHistoryUpdateRequest: RitualHistoryUpdateRequest; //
 
-const { status, data } = await apiInstance.updateStatus1(
+const { status, data } = await apiInstance.updateStatus(
     id,
     ritualHistoryUpdateRequest
 );
