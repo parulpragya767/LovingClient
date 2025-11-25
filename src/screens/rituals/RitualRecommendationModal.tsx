@@ -1,7 +1,10 @@
 import RecommendedRitualCard from '@/components/rituals/RecommendedRitualCard';
 import { ThemedText } from '@/components/themes/themed-text';
+import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
+import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useRitualPack } from '@/src/hooks/rituals/useRitualPack';
 import { useRitualRecommendation } from '@/src/hooks/rituals/useRitualRecommendation';
+import { RecommendationStatus } from '@/src/models/enums';
 import { useChatStore } from "@/src/store/useChatStore";
 import { MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useMemo, useState } from 'react';
@@ -14,6 +17,7 @@ export default function RitualRecommendationModal() {
   const ritualRecommendationId = useChatStore((s) => s.ritualRecommendationId);
   const isModalVisible = useChatStore((s) => s.isRitualRecommendationModalVisible);
   const { setIsRitualRecommendationModalVisible, setRitualRecommendationId } = useChatStore();
+  const { refreshConversation } = useChatActions();
 
   const { data: recommendation, isLoading: isLoadingRecommendation } = useRitualRecommendation(ritualRecommendationId ?? '');
   const ritualPackId = recommendation?.ritualPackId;
@@ -42,33 +46,67 @@ export default function RitualRecommendationModal() {
     setRitualRecommendationId(null);
   };
 
-  const handleAdd = useCallback(() => {
-    if (!canAdd) return;
+  const { updateRecommendationAndHistoryStatus } = useRitualActions();
+
+  const handleAdd = useCallback(async () => {
+    if (!canAdd || !ritualRecommendationId) return;
+    
+    const skippedRitualIds = rituals
+      .filter(ritual => !selected[ritual.id])
+      .map(ritual => ritual.id);
+    
+    try {
+      await updateRecommendationAndHistoryStatus(
+        ritualRecommendationId,
+        RecommendationStatus.Added,
+        selectedIds,
+        skippedRitualIds
+      );
+      refreshRecommendationModalStates();
+      refreshConversation();
+    } catch (error) {
+      console.error('Failed to update recommendation and ritual statuses:', error);
+    }
+  }, [canAdd, ritualRecommendationId, selected, rituals, selectedIds, updateRecommendationAndHistoryStatus]);
+
+  const handleCloseModal = useCallback(async () => {
+    if (ritualRecommendationId) {
+      try {
+        await updateRecommendationAndHistoryStatus(
+          ritualRecommendationId,
+          RecommendationStatus.Viewed,
+          [],
+          []
+        );
+      } catch (error) {
+        console.error('Failed to update recommendation statuses on close:', error);
+      }
+    }
     refreshRecommendationModalStates();
-  }, [canAdd]);
+  }, [ritualRecommendationId, updateRecommendationAndHistoryStatus]);
 
-  const handleCloseModal = useCallback(() => {
+  const handleDismiss = useCallback(async () => {
+    if (ritualRecommendationId) {
+      try {
+        // Mark all rituals as skipped when modal is dismissed
+        const allRitualIds = rituals.map(ritual => ritual.id);
+        await updateRecommendationAndHistoryStatus(
+          ritualRecommendationId,
+          RecommendationStatus.Skipped,
+          [],
+          allRitualIds
+        );
+      } catch (error) {
+        console.error('Failed to update recommendation and ritual statuses on dismiss:', error);
+      }
+    }
     refreshRecommendationModalStates();
-  }, []);
+    refreshConversation();
+  }, [ritualRecommendationId, rituals, updateRecommendationAndHistoryStatus]);
 
-  const handleDismiss = useCallback(() => {
-    refreshRecommendationModalStates();
-  }, []);
-
-  if (isModalVisible && (isLoadingRecommendation || isLoadingRitualPack)) {
-    return (
-      <View className="my-1 w-full self-start p-4">
-        <ThemedText>Loading recommendation...</ThemedText>
-      </View>
-    );
-  }
-
-  if (!recommendation || !ritualPack) {
-    return (
-      <View className="my-1 w-full self-start p-4">
-        <ThemedText>Recommendation not found</ThemedText>
-      </View>
-    );
+  // Early return if modal is not visible
+  if (!isModalVisible) {
+    return null;
   }
 
   return (
@@ -78,6 +116,15 @@ export default function RitualRecommendationModal() {
       onRequestClose={handleCloseModal}
       presentationStyle="pageSheet"
     >
+      {(isLoadingRecommendation || isLoadingRitualPack) ? (
+        <View className="flex-1 justify-center items-center">
+          <ThemedText>Loading recommendation...</ThemedText>
+        </View>
+      ) : (!recommendation || !ritualPack) ? (
+        <View className="flex-1 justify-center items-center">
+          <ThemedText>Recommendation not found</ThemedText>
+        </View>
+      ) : (
       <SafeAreaView className="flex-1 bg-white" edges={['top', 'bottom']}>
         {/* Modal Header */}
         <View className="w-full px-4 pt-3 pb-2 border-b border-gray-200 bg-white flex-row items-center">
@@ -138,6 +185,7 @@ export default function RitualRecommendationModal() {
           </View>
         </View>
       </SafeAreaView>
+      )}
     </Modal>
   );
 }

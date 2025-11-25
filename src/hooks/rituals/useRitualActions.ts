@@ -1,7 +1,10 @@
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { useRitualHistory } from '@/src/hooks/rituals/useRitualHistory';
-import type { BulkRitualHistoryStatusUpdate, RitualHistory, RitualHistoryUpdate } from '@/src/models/ritualHistory';
+import { RecommendationStatus, RitualHistoryStatus } from '@/src/models/enums';
+import type { RitualHistory, RitualHistoryUpdate } from '@/src/models/ritualHistory';
+import type { RitualRecommendationUpdate, RitualStatusUpdate } from '@/src/models/ritualRecommendation';
 import { ritualHistoryService } from '@/src/services/ritualHistoryService';
+import { ritualRecommendationService } from '@/src/services/ritualRecommendationService';
 
 export const useRitualActions = () => {
   const { invalidateQueries: invalidateHistory } = useRitualHistory();
@@ -22,27 +25,35 @@ export const useRitualActions = () => {
     await Promise.all([invalidateHistory(), invalidateCurrentRituals()]);
   };
 
-  const addBulkRitualsToHistory = async (rituals: RitualHistory[]) => {
-    await ritualHistoryService.bulkCreate(rituals);
-    await Promise.all([invalidateHistory(), invalidateCurrentRituals()]);
-  };
+  const updateRecommendationAndHistoryStatus = async (
+    recommendationId: string,
+    status: RecommendationStatus,
+    selectedRitualIds: string[],
+    skippedRitualIds: string[]
+  ) => {
+    const selectedUpdates: RitualStatusUpdate[] = selectedRitualIds.map(ritualId => ({
+      ritualId,
+      status: RitualHistoryStatus.Active,
+    }));
 
-  const updateRitualStatus = async (id: string, payload: RitualHistoryUpdate) => {
-    await ritualHistoryService.updateStatus(id, payload);
-    await Promise.all([invalidateHistory(), invalidateCurrentRituals()]);
-  };
+    const skippedUpdates: RitualStatusUpdate[] = skippedRitualIds.map(ritualId => ({
+      ritualId,
+      status: RitualHistoryStatus.Skipped,
+    }));
 
-  const bulkUpdateRitualsStatus = async (payload: BulkRitualHistoryStatusUpdate) => {
-    await ritualHistoryService.bulkUpdateStatus(payload);
+    const recommendationUpdate: RitualRecommendationUpdate = {
+      status,
+      ritualStatusUpdates: [...selectedUpdates, ...skippedUpdates],
+    };
+
+    await ritualRecommendationService.update(recommendationId, recommendationUpdate);
     await Promise.all([invalidateHistory(), invalidateCurrentRituals()]);
   };
 
   return {
     addRitualToCurrent,
-    addBulkRitualsToHistory,
     deleteRitualFromCurrent,
     markRitualAsCompleted,
-    updateRitualStatus,
-    bulkUpdateRitualsStatus,
+    updateRecommendationAndHistoryStatus,
   };
 };

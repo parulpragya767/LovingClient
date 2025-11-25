@@ -28,11 +28,10 @@ export const ritualRecommendationService = {
    * @param id The ID of the ritual recommendation to update
    * @param payload The update payload containing the new status
    */
-  async updateStatus(id: string, payload: RitualRecommendationUpdate): Promise<RitualRecommendation> {
-    const res = await api.updateStatus({ 
+  async update(id: string, payload: RitualRecommendationUpdate): Promise<void> {
+    await api.updateRecommendationAndRitualHistoryStatus({ 
       id, 
-      ritualRecommendationUpdateStatusRequest: payload 
+      ritualRecommendationUpdateRequest: payload 
     });
-    return res.data as RitualRecommendation;
   },
 };

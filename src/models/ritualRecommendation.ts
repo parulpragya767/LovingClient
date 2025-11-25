@@ -1,6 +1,9 @@
 import type { RitualRecommendationDTO } from '@/src/api/models/ritual-recommendation-dto';
-import type { RitualRecommendationUpdateStatusRequest } from '@/src/api/models/ritual-recommendation-update-status-request';
+import type { RitualRecommendationUpdateRequest } from '@/src/api/models/ritual-recommendation-update-request';
+import type { RitualStatusUpdate as RitualStatusUpdateRequest } from '@/src/api/models/ritual-status-update';
 
 export interface RitualRecommendation extends RitualRecommendationDTO {}
 
-export interface RitualRecommendationUpdate extends RitualRecommendationUpdateStatusRequest {}
+export interface RitualRecommendationUpdate extends RitualRecommendationUpdateRequest {}
+
+export interface RitualStatusUpdate extends RitualStatusUpdateRequest {}
