@@ -13,16 +13,16 @@ import RitualRecommendationModal from '../rituals/RitualRecommendationModal';
 export default function AIChatScreen() {
   const router = useRouter();
   const { currentConversation, sendMessage, recommendRitualPack, refreshConversation } = useChatActions();
-  const [showRitualPackButton, setShowRitualPackButton] = useState(false);
+  const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(false);
 
   const handleSendMessage = async (message: string) => {
     const isReadyForRitualPack = await sendMessage(message);
     if (isReadyForRitualPack) {
-      setShowRitualPackButton(true);
+      setIsRecommendationConsentCardVisible(true);
     }
   };
 
-  const handleGetRitualPack = async () => {
+  const handleRitualRecommendation = async () => {
     try {
       const ritualPack = await recommendRitualPack();
       if (ritualPack) {
@@ -33,6 +33,9 @@ export default function AIChatScreen() {
     } catch (error) {
       console.error('Error getting ritual pack:', error);
       Alert.alert('Error', 'Failed to get ritual pack recommendations. Please try again.');
+    }
+    finally {
+      setIsRecommendationConsentCardVisible(false);
     }
   };
 
@@ -48,7 +51,7 @@ export default function AIChatScreen() {
         </View>
       </View>
 
-      {/* Messages and ritual suggestions */}
+      {/* Messages and ritual recommendation cards */}
       <FlatList
         data={currentConversation}
         keyExtractor={(item, index) => item.id || `${index}-${item.createdAt}`}
@@ -56,8 +59,8 @@ export default function AIChatScreen() {
         renderItem={({ item }) => <ChatMessage message={item}/>}
         ListFooterComponent={
           <View className="w-full">
-            {showRitualPackButton && (
-              <RitualRecommendationConsentCard onPress={handleGetRitualPack} />
+            {isRecommendationConsentCardVisible && (
+              <RitualRecommendationConsentCard onPress={handleRitualRecommendation} />
             )}
           </View>
         }
@@ -69,7 +72,7 @@ export default function AIChatScreen() {
         onSubmit={handleSendMessage}
       />
 
-      {/* Ritual Pack Suggestion Modal */}
+      {/* Ritual Recommendation Modal */}
       <RitualRecommendationModal />
     </ThemedView>
   );

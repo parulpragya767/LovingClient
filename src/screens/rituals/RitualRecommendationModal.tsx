@@ -1,4 +1,4 @@
-import SuggestedRitual from '@/components/rituals/SuggestedRitual';
+import RecommendedRitualCard from '@/components/rituals/RecommendedRitualCard';
 import { ThemedText } from '@/components/themes/themed-text';
 import { useRitualPack } from '@/src/hooks/rituals/useRitualPack';
 import { useRitualRecommendation } from '@/src/hooks/rituals/useRitualRecommendation';
@@ -15,11 +15,11 @@ export default function RitualRecommendationModal() {
   const isModalVisible = useChatStore((s) => s.isRitualRecommendationModalVisible);
   const { setIsRitualRecommendationModalVisible, setRitualRecommendationId } = useChatStore();
 
-  const { data: ritualRecommendation, isLoading: isLoadingRecommendation } = useRitualRecommendation(ritualRecommendationId ?? '');
-  const ritualPackId = ritualRecommendation?.ritualPackId;
+  const { data: recommendation, isLoading: isLoadingRecommendation } = useRitualRecommendation(ritualRecommendationId ?? '');
+  const ritualPackId = recommendation?.ritualPackId;
   const { data: ritualPack, isLoading: isLoadingRitualPack } = useRitualPack(ritualPackId);
 
-  const suggestions = useMemo(() => {
+  const rituals = useMemo(() => {
     return ritualPack?.rituals || [];
   }, [ritualPack]);
 
@@ -37,26 +37,38 @@ export default function RitualRecommendationModal() {
 
   const canAdd = selectedIds.length > 0;
 
-  const refreshModalStates = () => {
+  const refreshRecommendationModalStates = () => {
     setIsRitualRecommendationModalVisible(false);
     setRitualRecommendationId(null);
   };
 
   const handleAdd = useCallback(() => {
     if (!canAdd) return;
-    refreshModalStates();
+    refreshRecommendationModalStates();
   }, [canAdd]);
 
   const handleCloseModal = useCallback(() => {
-    refreshModalStates();
+    refreshRecommendationModalStates();
   }, []);
 
   const handleDismiss = useCallback(() => {
-    refreshModalStates();
+    refreshRecommendationModalStates();
   }, []);
 
-  if (!isModalVisible || !ritualPack) {
-    return null;
+  if (isModalVisible && (isLoadingRecommendation || isLoadingRitualPack)) {
+    return (
+      <View className="my-1 w-full self-start p-4">
+        <ThemedText>Loading recommendation...</ThemedText>
+      </View>
+    );
+  }
+
+  if (!recommendation || !ritualPack) {
+    return (
+      <View className="my-1 w-full self-start p-4">
+        <ThemedText>Recommendation not found</ThemedText>
+      </View>
+    );
   }
 
   return (
@@ -78,10 +90,10 @@ export default function RitualRecommendationModal() {
         </View>
 
         <FlatList
-          data={suggestions}
+          data={rituals}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <SuggestedRitual 
+            <RecommendedRitualCard 
               ritual={item} 
               selected={!!selected[item.id]}
               onPress={() => toggle(item.id)}
@@ -116,10 +128,10 @@ export default function RitualRecommendationModal() {
               </Pressable>
             <Pressable
               onPress={handleAdd}
-              className={`flex-1 rounded-xl py-3 items-center ${canAdd ? 'bg-purple-600' : 'bg-gray-300'}`}
+              className={`flex-1 items-center rounded-xl py-3 border ${!canAdd ? 'bg-gray-300 border-gray-300' : 'bg-purple-600 border-purple-600'}`}
               disabled={!canAdd}
             >
-              <ThemedText className="text-white font-semibold">
+              <ThemedText className={`font-semibold ${!canAdd ? 'text-gray-900' : 'text-white'}`}>
                 Add {selectedIds.length} ritual{selectedIds.length === 1 ? '' : 's'} to Current
               </ThemedText>
             </Pressable>

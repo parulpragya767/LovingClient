@@ -28,7 +28,7 @@ export function RitualRecommendationHandler({
     setRitualRecommendationId(recommendationId);
   };
 
-  if (isLoadingRecommendation) {
+  if (isLoadingRecommendation || isLoadingRitualPack) {
     return (
       <View className="my-1 w-full self-start p-4">
         <ThemedText>Loading recommendation...</ThemedText>
@@ -36,7 +36,7 @@ export function RitualRecommendationHandler({
     );
   }
 
-  if (!recommendation) {
+  if (!recommendation || !ritualPack) {
     return (
       <View className="my-1 w-full self-start p-4">
         <ThemedText>Recommendation not found</ThemedText>
@@ -56,14 +56,14 @@ export function RitualRecommendationHandler({
 
   return (
     <View className="my-1 w-full self-start">
-      {isSuggestedOrViewed && !isLoadingRitualPack && ritualPack && (
+      {isSuggestedOrViewed && (
         <RitualRecommendationSelectionCard 
           ritualPack={ritualPack} 
           onPress={setRitualRecommendationModalStates} 
         />
       )}
       {isAddedOrSkipped && (
-        <RitualRecommendationViewCard recommendationId={recommendationId} />
+        <RitualRecommendationViewCard ritualPackId={ritualPack.id} />
       )}
     </View>
   );

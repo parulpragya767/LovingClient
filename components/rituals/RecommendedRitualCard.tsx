@@ -4,13 +4,13 @@ import { Ritual } from '@/src/models/rituals';
 import { Pressable, View } from 'react-native';
 import RitualTag from './RitualTags';
 
-interface SuggestedRitualProps {
+interface RecommendedRitualProps {
   ritual: Ritual;
   selected?: boolean;
   onPress?: (id: string) => void;
 }
 
-export default function SuggestedRitual({ ritual, selected = false, onPress }: SuggestedRitualProps) {
+export default function RecommendedRitualCard({ ritual, selected = false, onPress }: RecommendedRitualProps) {
   const { getRitualTagDisplayNames } = useRitualTags();
 
   const handlePress = () => {
