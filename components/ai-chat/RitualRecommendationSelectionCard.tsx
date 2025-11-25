@@ -2,12 +2,12 @@ import { ThemedText } from '@/components/themes/themed-text';
 import { RitualPack } from '@/src/models/ritualPacks';
 import { Pressable, View } from 'react-native';
 
-type SuggestedRitualPackProps = {
+type RitualRecommendationSelectionCardProps = {
   ritualPack: RitualPack;
   onPress?: () => void;
 };
 
-export function SuggestedRitualPack({ ritualPack, onPress }: SuggestedRitualPackProps) {
+export function RitualRecommendationSelectionCard({ ritualPack, onPress }: RitualRecommendationSelectionCardProps) {
   return (
     <View className="mt-4 mb-24">
       <Pressable onPress={onPress} className="w-full">

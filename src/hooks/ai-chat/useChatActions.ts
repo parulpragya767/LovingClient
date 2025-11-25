@@ -87,12 +87,17 @@ export const useChatActions = () => {
     }
   };
 
+  const refreshConversation = () => {
+    invalidateMessages();
+  };
+
   return { 
     currentConversation,
     startNewConversation,
     selectConversation,
     sendMessage,
     deleteConversation,
-    recommendRitualPack
+    recommendRitualPack,
+    refreshConversation
   };
 };

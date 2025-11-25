@@ -23,7 +23,7 @@ export const ritualHistoryService = {
   },
 
   async updateStatus(id: string, payload: RitualHistoryUpdate): Promise<RitualHistory> {
-    const res = await api.updateStatus({ id, ritualHistoryUpdateRequest: payload });
+    const res = await api.updateStatus1({ id, ritualHistoryUpdateRequest: payload });
     return res.data as RitualHistory;
   },
 

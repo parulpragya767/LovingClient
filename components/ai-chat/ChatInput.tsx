@@ -3,7 +3,7 @@ import { useChatStore } from '@/src/store/useChatStore';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { forwardRef, useCallback, useImperativeHandle, useState } from 'react';
-import { ActivityIndicator, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, Platform, TextInput, TouchableOpacity, View } from 'react-native';
 
 export type ChatInputHandle = {
   setText: (text: string) => void;
@@ -51,32 +51,37 @@ export const ChatInput = forwardRef<ChatInputHandle, ChatInputProps>(
     }, [inputText, isSending, currentConversationId, startNewConversation, sendMessage, navigateToChatOnSend, router, onSubmit]);
 
     return (
-      <View className="flex-row items-center p-4 border-t border-gray-200 bg-white">
-        <TextInput
-          className="flex-1 max-h-30 bg-gray-100 rounded-full px-4 py-3 text-base text-gray-800 mr-2"
-          value={inputText}
-          onChangeText={setInputText}
-          placeholder={placeholder}
-          placeholderTextColor="#9CA3AF"
-          multiline
-          onSubmitEditing={handleSend}
-          returnKeyType="send"
-          blurOnSubmit={false}
-        />
-        <TouchableOpacity
-          className={`w-12 h-12 rounded-full bg-purple-600 justify-center items-center ${
-            !inputText.trim() || isSending ? 'opacity-50' : ''
-          }`}
-          onPress={handleSend}
-          disabled={!inputText.trim() || isSending}
-        >
-          {isSending ? (
-            <ActivityIndicator size="small" color="white" />
-          ) : (
-            <MaterialIcons name="send" size={24} color="white" />
-          )}
-        </TouchableOpacity>
-      </View>
+      <KeyboardAvoidingView 
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              className="p-0"
+          >
+          <View className="flex-row w-full items-center p-4 border-t border-gray-200 bg-white">
+            <TextInput
+            className="flex-1 max-h-30 bg-gray-100 rounded-full px-4 py-3 text-base text-gray-800 mr-2"
+            value={inputText}
+            onChangeText={setInputText}
+            placeholder={placeholder}
+            placeholderTextColor="#9CA3AF"
+            multiline
+            onSubmitEditing={handleSend}
+            returnKeyType="send"
+            blurOnSubmit={false}
+          />
+          <TouchableOpacity
+            className={`w-12 h-12 rounded-full bg-purple-600 justify-center items-center ${
+              !inputText.trim() || isSending ? 'opacity-50' : ''
+            }`}
+            onPress={handleSend}
+            disabled={!inputText.trim() || isSending}
+          >
+            {isSending ? (
+              <ActivityIndicator size="small" color="white" />
+            ) : (
+              <MaterialIcons name="send" size={24} color="white" />
+            )}
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
     );
   }
 );
