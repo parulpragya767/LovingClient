@@ -3,13 +3,10 @@ import RitualTags from '@/components/rituals/RitualTags';
 import { ThemedText } from '@/components/themes/themed-text';
 import { useRitualSearch } from '@/src/hooks/rituals/useRitualSearch';
 import { useTagSelection } from '@/src/hooks/rituals/useTagSelection';
-import { useRouter } from 'expo-router';
 import { useRef } from 'react';
 import { ActivityIndicator, FlatList, Pressable, ScrollView, View } from 'react-native';
 
 export default function AllRitualsScreen() {
-  const router = useRouter();
-
   const listRef = useRef(null);
   const onEndReachedCalledDuringMomentum = useRef(false);
 
@@ -38,10 +35,6 @@ export default function AllRitualsScreen() {
   if (isLoading) {
     return <ActivityIndicator style={{ marginTop: 50 }} />;
   }
-
-  const handleRitualPress = (id: string) => {
-    router.push(`/(tabs)/rituals/${id}`);
-  };
 
   return (
     <View className="bg-white">
@@ -84,7 +77,6 @@ export default function AllRitualsScreen() {
             <RitualCard 
               key={item.id}
               ritual={item}
-              onPress={() => handleRitualPress(item.id)}
             />
           )}
           showsVerticalScrollIndicator={false}

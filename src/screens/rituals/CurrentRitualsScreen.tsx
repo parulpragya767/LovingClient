@@ -27,7 +27,7 @@ export default function CurrentRitualsScreen() {
   if (isLoading) {
     return (
       <View className="flex-1 justify-center items-center bg-white">
-        <ThemedText>Loading rituals...</ThemedText>
+        <ThemedText>Loading your rituals...</ThemedText>
       </View>
     );
   }
@@ -35,52 +35,53 @@ export default function CurrentRitualsScreen() {
   return (
     <View className="flex-1 bg-white">
       <View className="flex-1">
-        <FlatList
-          style={{ flex: 1 }}
-          data={rituals}
-          keyExtractor={(item) => item.ritual.id}
-          renderItem={({ item }) => (
-            <View className="px-4">
-              <SwipeableRitualCard
-                ritual={item.ritual}
-                ritualHistoryId={item.ritualHistoryId}
-                onRitualPress={() => handleRitualPress(item.ritual.id)}
-                onChanged={() => { refetch(); }}
-              />
-            </View>
-          )}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 16, paddingTop: 0 }}
-          ListHeaderComponent={
-            <View className="px-4 pt-4 pb-3">
-              <View className="mb-4">
-                <ThemedText className="text-2xl font-bold mb-1 text-gray-900">Your Current Rituals</ThemedText>
-                <ThemedText className="text-sm text-gray-500">Keep track of your daily practices</ThemedText>
+        <View className="px-4 pt-4">
+          <View className="mb-4">
+            <ThemedText className="text-2xl font-bold mb-1 text-gray-900">Your Current Rituals</ThemedText>
+            <ThemedText className="text-sm text-gray-500">Keep track of your daily practices</ThemedText>
+          </View>
+        </View>
+        
+        {packs.length > 0 && (
+          <FlatList
+            style={{ flex: 1 }}
+            data={packs}
+            keyExtractor={(item) => `pack-${item.ritualPack.id}`}
+            renderItem={({ item: pack }) => (
+              <View className="px-4">
+                <RitualPackCard
+                  pack={pack.ritualPack}
+                  rituals={pack.rituals}
+                  onRitualPress={handleRitualPress}
+                  onChanged={() => { refetch(); }}
+                  onPressPack={(id) => router.push(`/rituals/pack/${id}`)}
+                />
               </View>
-              {packs.length > 0 && (
-                <View className="mb-4">
-                  {packs.map(pack => (
-                    <RitualPackCard
-                      key={pack.ritualPack.id}
-                      pack={pack.ritualPack}
-                      rituals={pack.rituals}
-                      onRitualPress={handleRitualPress}
-                      onChanged={() => { refetch(); }}
-                      onPressPack={(id) => router.push(`/(tabs)/rituals/pack/${id}`)}
-                    />
-                  ))}
-                </View>
-              )}
-            </View>
-          }
-          ListEmptyComponent={
-            <View className="flex-1 justify-center items-center py-10">
-              <ThemedText className="text-gray-500">
-                No current individual rituals
-              </ThemedText>
-            </View>
-          }
-        />
+            )}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingVertical: 8 }}
+          />
+        )}
+
+        {rituals.length > 0 && (
+          <FlatList
+            style={{ flex: 1 }}
+            data={rituals}
+            keyExtractor={(item) => item.ritual.id}
+            renderItem={({ item }) => (
+              <View className="px-4">
+                <SwipeableRitualCard
+                  ritual={item.ritual}
+                  ritualHistoryId={item.ritualHistoryId}
+                  onRitualPress={() => handleRitualPress(item.ritual.id)}
+                  onChanged={() => { refetch(); }}
+                />
+              </View>
+            )}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 16 }}
+          />
+        )}
       </View>
     </View>
   );

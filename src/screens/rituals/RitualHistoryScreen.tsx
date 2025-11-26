@@ -1,7 +1,8 @@
+import { RitualHistoryCard } from '@/components/rituals/RitualHistoryCard';
 import { ThemedText } from '@/components/themes/themed-text';
 import { useRitualHistory } from '@/src/hooks/rituals/useRitualHistory';
 import { useRituals } from '@/src/hooks/rituals/useRituals';
-import { EmojiFeedback, RitualHistoryStatus } from '@/src/models/enums';
+import { RitualHistoryStatus } from '@/src/models/enums';
 import { Ritual } from '@/src/models/rituals';
 import { ActivityIndicator, FlatList, View } from 'react-native';
 
@@ -19,37 +20,6 @@ export default function RitualHistoryScreen() {
       return bd - ad;
     });
 
-  const formatDate = (iso?: string) => {
-    if (!iso) return '';
-    return new Date(iso).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    });
-  };
-
-  const feedbackToEmoji = (fb?: EmojiFeedback) => {
-    switch (fb) {
-      case EmojiFeedback.Heart:
-        return '❤️';
-      case EmojiFeedback.Smile:
-        return '😊';
-      case EmojiFeedback.Neutral:
-        return '😐';
-      case EmojiFeedback.Sad:
-        return '😢';
-      case EmojiFeedback.Angry:
-        return '😠';
-      case EmojiFeedback.Fire:
-        return '🔥';
-      case EmojiFeedback.ThumbsUp:
-        return '👍';
-      case EmojiFeedback.ThumbsDown:
-        return '👎';
-      default:
-        return '';
-    }
-  };
 
   if (isLoading) {
     return (
@@ -85,27 +55,12 @@ export default function RitualHistoryScreen() {
         }
         renderItem={({ item }) => {
           const ritual = item.ritualId ? ritualsById.get(item.ritualId) : undefined;
-          const emoji = feedbackToEmoji(item.feedback);
           return (
-            <View className="bg-white rounded-xl p-4 mb-3 flex-row items-center justify-between">
-              <View className="flex-1">
-                <ThemedText className="font-medium text-gray-900">
-                  {ritual?.title || 'Unknown Ritual'}
-                </ThemedText>
-                {!!item.createdAt && (
-                  <ThemedText className="text-xs text-gray-500 mt-1">
-                    {formatDate(item.createdAt)}
-                  </ThemedText>
-                )}
-              </View>
-              {!!emoji && (
-                <View className="ml-4">
-                  <ThemedText className="text-2xl">
-                    {emoji}
-                  </ThemedText>
-                </View>
-              )}
-            </View>
+            <RitualHistoryCard
+              title={ritual?.title || 'Unknown Ritual'}
+              date={item.createdAt}
+              feedback={item.feedback}
+            />
           );
         }}
         showsVerticalScrollIndicator={false}

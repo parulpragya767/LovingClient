@@ -1,6 +1,7 @@
 import { ChatInput } from '@/components/ai-chat/ChatInput';
 import { ChatMessage } from '@/components/ai-chat/ChatMessage';
 import { RitualRecommendationConsentCard } from '@/components/ai-chat/RitualRecommendationConsentCard';
+import RitualRecommendationModal from '@/components/rituals/RitualRecommendationModal';
 import { ThemedText } from '@/components/themes/themed-text';
 import { ThemedView } from '@/components/themes/themed-view';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
@@ -8,7 +9,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Alert, FlatList, TouchableOpacity, View } from 'react-native';
-import RitualRecommendationModal from '../rituals/RitualRecommendationModal';
 
 export default function AIChatScreen() {
   const router = useRouter();

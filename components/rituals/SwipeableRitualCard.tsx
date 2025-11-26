@@ -1,8 +1,7 @@
 import { ThemedText } from '@/components/themes/themed-text';
-import { useRitualHistory } from '@/src/hooks/rituals/useRitualHistory';
+import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { EmojiFeedback, RitualHistoryStatus } from '@/src/models/enums';
 import { Ritual } from '@/src/models/rituals';
-import { ritualHistoryService } from '@/src/services/ritualHistoryService';
 import React, { useRef, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
@@ -42,7 +41,7 @@ function mapUnicodeToEmojiFeedback(emoji: string): EmojiFeedback | undefined {
   }
 }
 
-export default function SwipeableRitualCard({ ritual, ritualHistoryId, onRitualPress, onChanged }: Props) {
+export default function SwipeableRitualCard({ ritual, ritualHistoryId, onChanged }: Props) {
   const swipeableRef = useRef<Swipeable>(null);
   const [showInlineActions, setShowInlineActions] = useState(false);
   const [emojiVisible, setEmojiVisible] = useState(false);
@@ -59,18 +58,16 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId, onRitualP
     setEmojiVisible(true);
   };
 
-  const { invalidateQueries } = useRitualHistory();
+  const { markRitualAsCompleted, deleteRitualFromCurrent } = useRitualActions();
 
   const handleEmojiSelect = async (emoji: string) => {
     if (!ritualHistoryId) return;
     try {
       const feedback = mapUnicodeToEmojiFeedback(emoji);
-      await ritualHistoryService.complete(ritualHistoryId, {
+      await markRitualAsCompleted(ritualHistoryId, {
         status: RitualHistoryStatus.Completed,
         feedback,
       });
-      // Invalidate both current rituals and history queries
-      await invalidateQueries();
       onChanged?.();
     } finally {
       setEmojiVisible(false);
@@ -82,7 +79,7 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId, onRitualP
   const handleDelete = async () => {
     if (!ritualHistoryId) return;
     try {
-      await ritualHistoryService.delete(ritualHistoryId);
+      await deleteRitualFromCurrent(ritualHistoryId);
       onChanged?.();
     } finally {
       close();
@@ -115,7 +112,7 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId, onRitualP
         overshootFriction={8}
       >
         <AnimatedView>
-          <RitualCard ritual={ritual} onPress={onRitualPress} onLongPress={handleLongPress} />
+          <RitualCard ritual={ritual} onLongPress={handleLongPress} />
           {showInlineActions && (
             <View className="flex-row justify-end gap-2 px-6 -mt-2 mb-2">
               <Pressable onPress={handleCompletePress} className="bg-green-100 border border-green-200 rounded-lg px-3 py-1.5">

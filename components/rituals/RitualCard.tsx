@@ -2,26 +2,26 @@ import { ThemedText } from '@/components/themes/themed-text';
 import { ThemedView } from '@/components/themes/themed-view';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
 import { Ritual } from '@/src/models/rituals';
+import { useRouter } from 'expo-router';
 import { TouchableOpacity, View } from 'react-native';
 import RitualTag from './RitualTags';
 
 interface RitualCardProps {
   ritual: Ritual;
-  onPress?: (id: string) => void;
   onLongPress?: () => void;
 }
 
-export default function RitualCard({ ritual, onPress, onLongPress }: RitualCardProps) {
+export default function RitualCard({ ritual, onLongPress }: RitualCardProps) {
+  const router = useRouter();
   const { getRitualTagDisplayNames } = useRitualTags();
-  const handlePress = () => {
-    if (onPress) {
-      onPress(ritual.id);
-    }
+
+  const handleRitualPress = () => {
+    router.push(`/rituals/${ritual.id}`);
   };
 
   return (
     <TouchableOpacity 
-      onPress={handlePress} 
+      onPress={handleRitualPress} 
       onLongPress={onLongPress} 
       delayLongPress={300} 
       activeOpacity={0.8}
@@ -45,7 +45,7 @@ export default function RitualCard({ ritual, onPress, onLongPress }: RitualCardP
         
         <ThemedText 
           className="text-blue-500 text-sm mt-3" 
-          onPress={handlePress}
+          onPress={handleRitualPress}
         >
           View details →
         </ThemedText>
