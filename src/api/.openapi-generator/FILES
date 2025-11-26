@@ -1,6 +1,5 @@
 .gitignore
 .npmignore
-.openapi-generator-ignore
 api.ts
 apis/ai-chat-controller-api.ts
 apis/auth-controller-api.ts
@@ -22,6 +21,8 @@ docs/ChatMessageDTO.md
 docs/ChatMessageRole.md
 docs/ChatMetadata.md
 docs/ChatSessionDTO.md
+docs/CurrentRitualDTO.md
+docs/CurrentRitualPackDTO.md
 docs/CurrentRitualsDTO.md
 docs/EmojiFeedback.md
 docs/InfoBullet.md
@@ -77,6 +78,8 @@ models/chat-message-dto.ts
 models/chat-message-role.ts
 models/chat-metadata.ts
 models/chat-session-dto.ts
+models/current-ritual-dto.ts
+models/current-ritual-pack-dto.ts
 models/current-rituals-dto.ts
 models/emoji-feedback.ts
 models/index.ts

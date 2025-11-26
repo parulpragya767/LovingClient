@@ -2,9 +2,7 @@ import RitualPackCard from '@/components/rituals/RitualPackCard';
 import SwipeableRitualCard from '@/components/rituals/SwipeableRitualCard';
 import { ThemedText } from '@/components/themes/themed-text';
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
-import { RitualHistory } from '@/src/models/ritualHistory';
-import { RitualPack } from '@/src/models/ritualPacks';
-import { Ritual } from '@/src/models/rituals';
+import { CurrentRitual, CurrentRitualPack } from '@/src/models/ritualHistory';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useMemo } from 'react';
 import { FlatList, View } from 'react-native';
@@ -13,28 +11,13 @@ export default function CurrentRitualsScreen() {
   const { data: currentData, isLoading, refetch } = useCurrentRituals();
   const router = useRouter();
 
-  const rituals: Ritual[] = useMemo(() => currentData?.rituals ?? [], [currentData]);
-  const packs: RitualPack[] = useMemo(() => currentData?.ritualPacks ?? [], [currentData]);
-
-  const ritualHistoryByRitualId: Map<string, RitualHistory[]> = useMemo(
-    () => currentData?.ritualHistoryMap ?? new Map<string, RitualHistory[]>(),
-    [currentData]
-  );
+  const rituals: CurrentRitual[] = useMemo(() => currentData?.rituals ?? [], [currentData]);
+  const packs: CurrentRitualPack[] = useMemo(() => currentData?.ritualPacks ?? [], [currentData]);
 
   useFocusEffect(
     useCallback(() => {
       refetch();
     }, [refetch])
-  );
-
-  const packRitualIds = useMemo(
-    () => new Set(packs.flatMap(p => p.rituals.map(r => r.id))), 
-    [packs]
-  );
-
-  const individualRituals = useMemo(
-    () => rituals.filter(r => !packRitualIds.has(r.id)),
-    [rituals, packRitualIds]
   );
 
   const handleRitualPress = (id: string) => {
@@ -54,14 +37,14 @@ export default function CurrentRitualsScreen() {
       <View className="flex-1">
         <FlatList
           style={{ flex: 1 }}
-          data={individualRituals}
-          keyExtractor={(item) => item.id}
+          data={rituals}
+          keyExtractor={(item) => item.ritual.id}
           renderItem={({ item }) => (
             <View className="px-4">
               <SwipeableRitualCard
-                ritual={item}
-                ritualHistoryId={ritualHistoryByRitualId.get(item.id)?.[0].id}
-                onRitualPress={() => handleRitualPress(item.id)}
+                ritual={item.ritual}
+                ritualHistoryId={item.ritualHistoryId}
+                onRitualPress={() => handleRitualPress(item.ritual.id)}
                 onChanged={() => { refetch(); }}
               />
             </View>
@@ -78,10 +61,10 @@ export default function CurrentRitualsScreen() {
                 <View className="mb-4">
                   {packs.map(pack => (
                     <RitualPackCard
-                      key={pack.id}
-                      pack={pack}
+                      key={pack.ritualPack.id}
+                      pack={pack.ritualPack}
+                      rituals={pack.rituals}
                       onRitualPress={handleRitualPress}
-                      ritualHistoryIdByRitualId={ritualHistoryByRitualId}
                       onChanged={() => { refetch(); }}
                       onPressPack={(id) => router.push(`/(tabs)/rituals/pack/${id}`)}
                     />

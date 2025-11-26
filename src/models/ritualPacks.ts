@@ -3,7 +3,7 @@ import type { RitualPackDTO } from '@/src/api/models/ritual-pack-dto';
 import type { Ritual } from '@/src/models/rituals';
 import { toRitual } from '@/src/models/rituals';
 
-export interface RitualPack {
+export interface RitualPack extends Omit<RitualPackDTO, 'id' | 'title' | 'description' | 'rituals'>{
   id: string;
   title: string;
   description: string;

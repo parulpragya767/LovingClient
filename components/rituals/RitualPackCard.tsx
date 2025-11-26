@@ -1,5 +1,5 @@
 import { ThemedText } from '@/components/themes/themed-text';
-import { RitualHistory } from '@/src/models/ritualHistory';
+import { CurrentRitual } from '@/src/models/ritualHistory';
 import { RitualPack } from '@/src/models/ritualPacks';
 import React from 'react';
 import { Pressable, View } from 'react-native';
@@ -7,13 +7,13 @@ import SwipeableRitualCard from './SwipeableRitualCard';
 
 type Props = {
   pack: RitualPack;
+  rituals: CurrentRitual[];
   onRitualPress?: (id: string) => void;
   onPressPack?: (id: string) => void;
-  ritualHistoryIdByRitualId?: Map<string, RitualHistory[]>;
   onChanged?: () => void;
 };
 
-export default function RitualPackCard({ pack, onRitualPress, onPressPack, ritualHistoryIdByRitualId, onChanged }: Props) {
+export default function RitualPackCard({ pack, rituals, onRitualPress, onPressPack, onChanged }: Props) {
   return (
     <View className="mb-4 rounded-2xl border border-gray-200 bg-white overflow-hidden">
       <Pressable onPress={() => onPressPack?.(pack.id)} className="px-4 pt-4 pb-2">
@@ -24,12 +24,12 @@ export default function RitualPackCard({ pack, onRitualPress, onPressPack, ritua
       </Pressable>
 
       <View className="px-4 pb-4">
-        {pack.rituals.map(ritual => (
-          <View key={ritual.id} className="mb-3">
+        {rituals.map(packRitual => (
+          <View key={packRitual.ritual.id} className="mb-3">
             <SwipeableRitualCard
-              ritual={ritual}
-              ritualHistoryId={ritualHistoryIdByRitualId?.get(ritual.id)?.[0]?.id}
-              onRitualPress={() => onRitualPress?.(ritual.id)}
+              ritual={packRitual.ritual}
+              ritualHistoryId={packRitual.ritualHistoryId}
+              onRitualPress={() => onRitualPress?.(packRitual.ritual.id)}
               onChanged={onChanged}
             />
           </View>

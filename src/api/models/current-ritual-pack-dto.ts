@@ -18,25 +18,37 @@
 import type { CurrentRitualDTO } from './current-ritual-dto';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { CurrentRitualPackDTO } from './current-ritual-pack-dto';
+import type { RitualPackDTO } from './ritual-pack-dto';
 
 /**
  * 
  * @export
- * @interface CurrentRitualsDTO
+ * @interface CurrentRitualPackDTO
  */
-export interface CurrentRitualsDTO {
+export interface CurrentRitualPackDTO {
     /**
      * 
-     * @type {Array<CurrentRitualPackDTO>}
-     * @memberof CurrentRitualsDTO
+     * @type {string}
+     * @memberof CurrentRitualPackDTO
      */
-    'ritualPacks'?: Array<CurrentRitualPackDTO>;
+    'ritualPackId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CurrentRitualPackDTO
+     */
+    'recommendationId': string;
+    /**
+     * 
+     * @type {RitualPackDTO}
+     * @memberof CurrentRitualPackDTO
+     */
+    'ritualPack': RitualPackDTO;
     /**
      * 
      * @type {Array<CurrentRitualDTO>}
-     * @memberof CurrentRitualsDTO
+     * @memberof CurrentRitualPackDTO
      */
-    'individualRituals'?: Array<CurrentRitualDTO>;
+    'rituals': Array<CurrentRitualDTO>;
 }
 

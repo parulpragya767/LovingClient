@@ -3,6 +3,8 @@ export * from './chat-message-dto';
 export * from './chat-message-role';
 export * from './chat-metadata';
 export * from './chat-session-dto';
+export * from './current-ritual-dto';
+export * from './current-ritual-pack-dto';
 export * from './current-rituals-dto';
 export * from './emoji-feedback';
 export * from './info-bullet';
