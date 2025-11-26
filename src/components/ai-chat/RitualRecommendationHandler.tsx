@@ -1,5 +1,5 @@
-import { ThemedText } from '@/components/themes/themed-text';
 import { RecommendationStatus } from '@/src/api/models/recommendation-status';
+import { ThemedText } from '@/src/components/themes/themed-text';
 import { useRitualPack } from '@/src/hooks/rituals/useRitualPack';
 import { useRitualRecommendation } from '@/src/hooks/rituals/useRitualRecommendation';
 import { useChatStore } from '@/src/store/useChatStore';

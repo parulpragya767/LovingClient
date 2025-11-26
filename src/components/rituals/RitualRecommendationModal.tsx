@@ -1,5 +1,5 @@
-import RecommendedRitualCard from '@/components/rituals/RecommendedRitualCard';
-import { ThemedText } from '@/components/themes/themed-text';
+import RecommendedRitualCard from '@/src/components/rituals/RecommendedRitualCard';
+import { ThemedText } from '@/src/components/themes/themed-text';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useRitualPack } from '@/src/hooks/rituals/useRitualPack';

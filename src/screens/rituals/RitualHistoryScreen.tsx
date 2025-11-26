@@ -1,5 +1,5 @@
-import { RitualHistoryCard } from '@/components/rituals/RitualHistoryCard';
-import { ThemedText } from '@/components/themes/themed-text';
+import { RitualHistoryCard } from '@/src/components/rituals/RitualHistoryCard';
+import { ThemedText } from '@/src/components/themes/themed-text';
 import { useRitualHistory } from '@/src/hooks/rituals/useRitualHistory';
 import { useRituals } from '@/src/hooks/rituals/useRituals';
 import { RitualHistoryStatus } from '@/src/models/enums';

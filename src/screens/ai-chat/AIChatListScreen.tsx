@@ -1,5 +1,5 @@
-import { ChatSession } from '@/components/ai-chat/ChatSession';
-import { ThemedText } from '@/components/themes/themed-text';
+import { ChatSession } from '@/src/components/ai-chat/ChatSession';
+import { ThemedText } from '@/src/components/themes/themed-text';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useChatSessions } from '@/src/hooks/ai-chat/useChatSessions';
 import { useChatStore } from "@/src/store/useChatStore";

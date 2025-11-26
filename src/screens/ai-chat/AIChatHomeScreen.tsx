@@ -1,6 +1,6 @@
-import { ChatInput, ChatInputHandle } from '@/components/ai-chat/ChatInput';
-import { StarterPrompt } from '@/components/ai-chat/StarterPrompt';
-import { ThemedText } from '@/components/themes/themed-text';
+import { ChatInput, ChatInputHandle } from '@/src/components/ai-chat/ChatInput';
+import { StarterPrompt } from '@/src/components/ai-chat/StarterPrompt';
+import { ThemedText } from '@/src/components/themes/themed-text';
 import { useSamplePrompts } from '@/src/hooks/ai-chat/useSamplePrompts';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';

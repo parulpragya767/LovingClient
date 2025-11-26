@@ -1,4 +1,4 @@
-import { ThemedView } from '@/components/themes/themed-view';
+import { ThemedView } from '@/src/components/themes/themed-view';
 import { Link, Stack } from 'expo-router';
 import { StyleSheet } from 'react-native';
 

@@ -1,9 +1,9 @@
-import AICompanionCard from '@/components/home/AICompanionCard';
-import CurrentRitualsHome from '@/components/home/CurrentRitualsHome';
-import LoveTypesHome from '@/components/home/LoveTypesHome';
-import WeeklySuggestionCard from '@/components/home/WeeklySuggestionCard';
-import { ThemedText } from '@/components/themes/themed-text';
-import { ThemedView } from '@/components/themes/themed-view';
+import AICompanionCard from '@/src/components/home/AICompanionCard';
+import CurrentRitualsHome from '@/src/components/home/CurrentRitualsHome';
+import LoveTypesHome from '@/src/components/home/LoveTypesHome';
+import WeeklySuggestionCard from '@/src/components/home/WeeklySuggestionCard';
+import { ThemedText } from '@/src/components/themes/themed-text';
+import { ThemedView } from '@/src/components/themes/themed-view';
 import { useLoveTypes } from '@/src/hooks/love-lens/useLoveTypes';
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { Ritual } from '@/src/models/rituals';

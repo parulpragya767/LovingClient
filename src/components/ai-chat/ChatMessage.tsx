@@ -1,4 +1,4 @@
-import { ThemedText } from '@/components/themes/themed-text';
+import { ThemedText } from '@/src/components/themes/themed-text';
 import type { ChatMessage as ChatMessageType } from '@/src/models/chat';
 import { ChatMessageRole } from '@/src/models/enums';
 import { View } from 'react-native';

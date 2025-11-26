@@ -1,5 +1,5 @@
-import { ThemedText } from '@/components/themes/themed-text';
-import { ThemedView } from '@/components/themes/themed-view';
+import { ThemedText } from '@/src/components/themes/themed-text';
+import { ThemedView } from '@/src/components/themes/themed-view';
 import { useLoveType } from '@/src/hooks/love-lens/useLoveType';
 import type { LoveLensInfoSection } from '@/src/models/loveLens';
 import { useLocalSearchParams, useRouter } from 'expo-router';

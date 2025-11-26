@@ -1,5 +1,5 @@
-import { ThemedText } from '@/components/themes/themed-text';
-import { ThemedView } from '@/components/themes/themed-view';
+import { ThemedText } from '@/src/components/themes/themed-text';
+import { ThemedView } from '@/src/components/themes/themed-view';
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { useRitual } from '@/src/hooks/rituals/useRitual';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';

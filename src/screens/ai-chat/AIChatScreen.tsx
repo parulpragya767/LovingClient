@@ -1,9 +1,9 @@
-import { ChatInput } from '@/components/ai-chat/ChatInput';
-import { ChatMessage } from '@/components/ai-chat/ChatMessage';
-import { RitualRecommendationConsentCard } from '@/components/ai-chat/RitualRecommendationConsentCard';
-import RitualRecommendationModal from '@/components/rituals/RitualRecommendationModal';
-import { ThemedText } from '@/components/themes/themed-text';
-import { ThemedView } from '@/components/themes/themed-view';
+import { ChatInput } from '@/src/components/ai-chat/ChatInput';
+import { ChatMessage } from '@/src/components/ai-chat/ChatMessage';
+import { RitualRecommendationConsentCard } from '@/src/components/ai-chat/RitualRecommendationConsentCard';
+import RitualRecommendationModal from '@/src/components/rituals/RitualRecommendationModal';
+import { ThemedText } from '@/src/components/themes/themed-text';
+import { ThemedView } from '@/src/components/themes/themed-view';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';

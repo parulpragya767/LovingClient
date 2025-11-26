@@ -1,6 +1,6 @@
-import RitualPackCard from '@/components/rituals/RitualPackCard';
-import SwipeableRitualCard from '@/components/rituals/SwipeableRitualCard';
-import { ThemedText } from '@/components/themes/themed-text';
+import RitualPackCard from '@/src/components/rituals/RitualPackCard';
+import SwipeableRitualCard from '@/src/components/rituals/SwipeableRitualCard';
+import { ThemedText } from '@/src/components/themes/themed-text';
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { CurrentRitual, CurrentRitualPack } from '@/src/models/ritualHistory';
 import { useFocusEffect, useRouter } from 'expo-router';

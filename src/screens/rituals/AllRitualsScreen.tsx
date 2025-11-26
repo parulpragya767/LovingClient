@@ -1,6 +1,6 @@
-import RitualCard from '@/components/rituals/RitualCard';
-import RitualTags from '@/components/rituals/RitualTags';
-import { ThemedText } from '@/components/themes/themed-text';
+import RitualCard from '@/src/components/rituals/RitualCard';
+import RitualTags from '@/src/components/rituals/RitualTags';
+import { ThemedText } from '@/src/components/themes/themed-text';
 import { useRitualSearch } from '@/src/hooks/rituals/useRitualSearch';
 import { useTagSelection } from '@/src/hooks/rituals/useTagSelection';
 import { useRef } from 'react';

@@ -1,6 +1,6 @@
-import TagCategory from '@/components/rituals/TagCategory';
-import { ThemedText } from '@/components/themes/themed-text';
-import { ThemedView } from '@/components/themes/themed-view';
+import TagCategory from '@/src/components/rituals/TagCategory';
+import { ThemedText } from '@/src/components/themes/themed-text';
+import { ThemedView } from '@/src/components/themes/themed-view';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
 import { useTagSelection } from '@/src/hooks/rituals/useTagSelection';
 import { TagValue } from '@/src/models/ritualTags';

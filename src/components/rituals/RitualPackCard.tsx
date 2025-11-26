@@ -1,4 +1,4 @@
-import { ThemedText } from '@/components/themes/themed-text';
+import { ThemedText } from '@/src/components/themes/themed-text';
 import { CurrentRitual } from '@/src/models/ritualHistory';
 import { RitualPack } from '@/src/models/ritualPacks';
 import React from 'react';

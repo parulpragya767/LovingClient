@@ -1,4 +1,4 @@
-import { ThemedText } from '@/components/themes/themed-text';
+import { ThemedText } from '@/src/components/themes/themed-text';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
 import { Ritual } from '@/src/models/rituals';
 import { useRouter } from 'expo-router';

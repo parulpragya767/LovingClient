@@ -1,4 +1,4 @@
-import { ThemedText } from '@/components/themes/themed-text';
+import { ThemedText } from '@/src/components/themes/themed-text';
 import { EmojiFeedback } from '@/src/models/enums';
 import { View } from 'react-native';
 
