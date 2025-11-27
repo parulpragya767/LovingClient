@@ -1,4 +1,5 @@
 import { ThemedText } from '@/src/components/themes/themed-text';
+import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { EmojiFeedback } from '@/src/models/enums';
 import { View } from 'react-native';
 
@@ -9,28 +10,7 @@ interface RitualHistoryCardProps {
 }
 
 export function RitualHistoryCard({ title, date, feedback }: RitualHistoryCardProps) {
-  const feedbackToEmoji = (fb?: EmojiFeedback) => {
-    switch (fb) {
-      case EmojiFeedback.Heart:
-        return '❤️';
-      case EmojiFeedback.Smile:
-        return '😊';
-      case EmojiFeedback.Neutral:
-        return '😐';
-      case EmojiFeedback.Sad:
-        return '😢';
-      case EmojiFeedback.Angry:
-        return '😠';
-      case EmojiFeedback.Fire:
-        return '🔥';
-      case EmojiFeedback.ThumbsUp:
-        return '👍';
-      case EmojiFeedback.ThumbsDown:
-        return '👎';
-      default:
-        return '';
-    }
-  };
+  const { mapFeedbackToEmoji } = useRitualActions();
   
   const formatDate = (iso?: string) => {
     if (!iso) return '';
@@ -41,10 +21,10 @@ export function RitualHistoryCard({ title, date, feedback }: RitualHistoryCardPr
     });
   };
 
-  const emoji = feedback ? feedbackToEmoji(feedback) : undefined;
+  const emoji = feedback ? mapFeedbackToEmoji(feedback) : undefined;
 
   return (
-    <View className="bg-white rounded-xl p-4 mb-3 flex-row items-center justify-between">
+    <View className="bg-white p-4 border-b border-gray-200 flex-row items-center justify-between">
       <View className="flex-1">
         <ThemedText className="font-medium text-gray-900">
           {title}

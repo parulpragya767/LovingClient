@@ -1,69 +1,60 @@
 import { RitualHistoryCard } from '@/src/components/rituals/RitualHistoryCard';
-import { ThemedText } from '@/src/components/themes/themed-text';
+import { EmptyState } from '@/src/components/states/EmptyState';
+import ErrorState from '@/src/components/states/ErrorState';
+import LoadingState from '@/src/components/states/LoadingState';
 import { useRitualHistory } from '@/src/hooks/rituals/useRitualHistory';
 import { useRituals } from '@/src/hooks/rituals/useRituals';
 import { RitualHistoryStatus } from '@/src/models/enums';
 import { Ritual } from '@/src/models/rituals';
-import { ActivityIndicator, FlatList, View } from 'react-native';
+import { FlatList, View } from 'react-native';
+
+const getTimestamp = (dateString?: string): number => 
+  dateString ? new Date(dateString).getTime() : 0;
 
 export default function RitualHistoryScreen() {
-  const { data: history = [], isLoading, error } = useRitualHistory();
+  const { data: history = [], isLoading, error, refetch } = useRitualHistory();
   const { data: rituals = [] } = useRituals();
+
+  if (isLoading) return <LoadingState text="Loading your ritual history..." />;
+  if (error) return <ErrorState message="Failed to load your ritual history." onButtonPress={() => refetch()} />;
+    
+  // const ritualsById = useMemo(() => 
+  //   new Map<string, Ritual>(rituals.map(r => [r.id, r])),
+  //   [rituals]
+  // );
+
+  // const sortedHistory = useMemo(() => 
+  //   history
+  //     .filter(ritual => ritual.status === RitualHistoryStatus.Completed)
+  //     .sort((a, b) => getTimestamp(b.updatedAt) - getTimestamp(a.updatedAt)),
+  //   [history]
+  // );
 
   const ritualsById = new Map<string, Ritual>(rituals.map(r => [r.id, r]));
 
-  const sortedHistory = [...history]
-    .filter(ritual => ritual.status === RitualHistoryStatus.Completed)
-    .sort((a, b) => {
-      const ad = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-      const bd = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-      return bd - ad;
-    });
+  const sortedHistory = 
+    history
+      .filter(ritual => ritual.status === RitualHistoryStatus.Completed)
+      .sort((a, b) => getTimestamp(b.updatedAt) - getTimestamp(a.updatedAt));
 
-
-  if (isLoading) {
-    return (
-      <View className="flex-1 justify-center items-center bg-white">
-        <ActivityIndicator size="large" />
-        <ThemedText className="mt-2">Loading history...</ThemedText>
-      </View>
-    );
-  }
-
-  if (error) {
-    return (
-      <View className="flex-1 justify-center items-center bg-white p-4">
-        <ThemedText className="text-red-500 text-center">
-          Error loading history: {error.message}
-        </ThemedText>
-      </View>
-    );
-  }
 
   return (
     <View className="flex-1 bg-white">
       <FlatList
         data={sortedHistory}
-        keyExtractor={(item) => item.id || `${item.ritualId}-${item.createdAt}`}
-        contentContainerStyle={{ padding: 16 }}
-        ListEmptyComponent={
-          <View className="items-center justify-center py-10">
-            <ThemedText className="text-gray-500">
-              No history yet
-            </ThemedText>
-          </View>
-        }
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => {
           const ritual = item.ritualId ? ritualsById.get(item.ritualId) : undefined;
           return (
             <RitualHistoryCard
-              title={ritual?.title || 'Unknown Ritual'}
-              date={item.createdAt}
+              title={ritual?.title || 'Ritual'}
+              date={item.updatedAt}
               feedback={item.feedback}
             />
           );
         }}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={<EmptyState message="No history yet." />}
       />
     </View>
   );

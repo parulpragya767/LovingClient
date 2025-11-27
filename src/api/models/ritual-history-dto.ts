@@ -31,7 +31,7 @@ export interface RitualHistoryDTO {
      * @type {string}
      * @memberof RitualHistoryDTO
      */
-    'id'?: string;
+    'id': string;
     /**
      * 
      * @type {string}
@@ -43,7 +43,7 @@ export interface RitualHistoryDTO {
      * @type {string}
      * @memberof RitualHistoryDTO
      */
-    'ritualId'?: string;
+    'ritualId': string;
     /**
      * 
      * @type {string}
@@ -61,7 +61,7 @@ export interface RitualHistoryDTO {
      * @type {RitualHistoryStatus}
      * @memberof RitualHistoryDTO
      */
-    'status'?: RitualHistoryStatus;
+    'status': RitualHistoryStatus;
     /**
      * 
      * @type {EmojiFeedback}

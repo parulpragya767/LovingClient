@@ -10,6 +10,29 @@ export const EMOJIS = ['❤️', '😊', '😐', '😢', '😠', '🔥', '👍',
 
 export const useRitualActions = () => {
   const { invalidateQueries: invalidateHistory } = useRitualHistory();
+
+  const mapFeedbackToEmoji = (fb?: EmojiFeedback) => {
+    switch (fb) {
+      case EmojiFeedback.Heart:
+        return '❤️';
+      case EmojiFeedback.Smile:
+        return '😊';
+      case EmojiFeedback.Neutral:
+        return '😐';
+      case EmojiFeedback.Sad:
+        return '😢';
+      case EmojiFeedback.Angry:
+        return '😠';
+      case EmojiFeedback.Fire:
+        return '🔥';
+      case EmojiFeedback.ThumbsUp:
+        return '👍';
+      case EmojiFeedback.ThumbsDown:
+        return '👎';
+      default:
+        return undefined;
+    }
+  };
   const { data: currentRituals, invalidateQueries: invalidateCurrentRituals } = useCurrentRituals();
 
   const isCurrentRitual = (id: string): boolean => {
@@ -91,6 +114,7 @@ export const useRitualActions = () => {
   return {
     EMOJIS,
     mapUnicodeToEmojiFeedback,
+    mapFeedbackToEmoji,
     isCurrentRitual,
     addRitualToCurrent,
     deleteRitualFromCurrent,
