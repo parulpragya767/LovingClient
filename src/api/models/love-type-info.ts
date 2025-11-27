@@ -31,19 +31,19 @@ export interface LoveTypeInfo {
      * @type {number}
      * @memberof LoveTypeInfo
      */
-    'id'?: number;
+    'id': number;
     /**
      * 
      * @type {LoveType}
      * @memberof LoveTypeInfo
      */
-    'loveType'?: LoveType;
+    'loveType': LoveType;
     /**
      * 
      * @type {string}
      * @memberof LoveTypeInfo
      */
-    'title'?: string;
+    'title': string;
     /**
      * 
      * @type {string}

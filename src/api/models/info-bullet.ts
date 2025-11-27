@@ -31,6 +31,6 @@ export interface InfoBullet {
      * @type {string}
      * @memberof InfoBullet
      */
-    'text'?: string;
+    'text': string;
 }
 

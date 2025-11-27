@@ -23,13 +23,13 @@ export default function HomeScreen() {
     
     // Add rituals from currentData.rituals
     currentData.rituals?.forEach(ritual => {
-      ritualMap.set(ritual.id, ritual);
+      ritualMap.set(ritual.ritualId, ritual.ritual);
     });
     
     // Add rituals from each ritual pack
     currentData.ritualPacks?.forEach(pack => {
       pack.rituals?.forEach(ritual => {
-        ritualMap.set(ritual.id, ritual);
+        ritualMap.set(ritual.ritualId, ritual.ritual);
       });
     });
     

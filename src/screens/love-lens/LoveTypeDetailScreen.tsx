@@ -1,113 +1,104 @@
+import ErrorState from '@/src/components/states/ErrorState';
+import LoadingState from '@/src/components/states/LoadingState';
 import { ThemedText } from '@/src/components/themes/themed-text';
-import { ThemedView } from '@/src/components/themes/themed-view';
-import { useLoveType } from '@/src/hooks/love-lens/useLoveType';
+import { useLoveTypes } from '@/src/hooks/love-lens/useLoveTypes';
 import type { LoveLensInfoSection } from '@/src/models/loveLens';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Pressable, RefreshControl, ScrollView, View } from 'react-native';
+import { ChevronDown, ChevronUp } from 'lucide-react-native';
+import { useState } from 'react';
+import { Pressable, ScrollView, View } from 'react-native';
+import Markdown from 'react-native-markdown-display';
 
 export default function LoveTypeDetailScreen() {
   const router = useRouter();
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const loveType = useLoveType(parseInt(id)).data;
+  const { loveType: loveTypeParam } = useLocalSearchParams<{ loveType: string }>();
+  const { data: loveTypes, isLoading, error, refetch } = useLoveTypes();
+  const [expanded, setExpanded] = useState<Record<number, boolean>>({});
 
-  if (!loveType) {
-    return (
-      <ThemedView className="flex-1 items-center justify-center p-4">
-        <ThemedText className="text-lg text-red-500 mb-4">
-          Love type details not available. Please open from the list.
-        </ThemedText>
-        <Pressable
-          onPress={() => router.back()}
-          className="bg-blue-500 px-4 py-2 rounded-lg"
-        >
-          <ThemedText className="text-white">Go Back</ThemedText>
-        </Pressable>
-      </ThemedView>
-    );
-  }
+  if (isLoading) return <LoadingState text="Loading love type details..." />;
+  if (error) return <ErrorState message="Failed to load love type details." onButtonPress={() => refetch()} />;
+
+  const loveTypeInfo = loveTypes?.find(type => type.loveType === loveTypeParam?.toUpperCase());
+  if (!loveTypeInfo) return <ErrorState 
+    message="Love type details not available. Please open from the list." 
+    onButtonPress={() => router.back()} 
+    buttonMessage="Go Back"
+  />;
 
   return (
-    <ScrollView 
-      className="flex-1 bg-gray-50"
-      refreshControl={
-        <RefreshControl 
-          refreshing={false}
-          onRefresh={() => {}}
-          colors={['#3b82f6']}
-          tintColor="#3b82f6"
-        />
-      }>
+    <ScrollView className="flex-1 bg-gray-50">
       <View className="p-5">
         {/* Header Section */}
-        <View className="items-center mb-8">
-          <View className="bg-white p-6 rounded-2xl shadow-sm mb-4 w-full max-w-md">
-            <View className="flex-row items-center justify-center mb-4">
-              <View className="bg-blue-50 p-3 rounded-full mr-3">
-                <ThemedText className="text-3xl">{loveType.loveType || '❤️'}</ThemedText>
-              </View>
-              <ThemedText className="text-2xl font-bold text-gray-800">
-                {loveType.title || 'Love Type'}
-              </ThemedText>
-            </View>
-            <ThemedText className="text-center text-gray-600 text-base">
-              {loveType.description}
-            </ThemedText>
-          </View>
+        <View className="flex-column items-left justify-centre mb-6 gap-4">
+          <ThemedText className="text-2xl font-bold text-gray-800">
+            {loveTypeInfo.title || 'Love Type'}
+          </ThemedText>
+          <Markdown
+            style={{
+              body: { color: '#4B5563', fontSize: 16, lineHeight: 24 },
+              strong: { fontWeight: '600' }
+            }}
+          >
+            {loveTypeInfo.description}
+          </Markdown>
         </View>
 
         {/* Main Content */}
         <View className="space-y-6">
-          {/* What It Means Section */}
-          <View className="bg-white rounded-xl p-6 shadow-sm">
-            <ThemedText className="text-xl font-bold text-gray-800 mb-4 pb-2 border-b border-gray-100">
-              What It Means
-            </ThemedText>
-            <ThemedText className="text-gray-700 leading-relaxed">
-              {loveType.description || 'No detailed description available.'}
-            </ThemedText>
-          </View>
-
+          
           {/* Sections */}
-          {loveType.sections?.map((section: LoveLensInfoSection, index: number) => (
-            <View key={index} className="bg-white rounded-xl shadow-sm overflow-hidden">
-              {section.title && (
-                <View className="bg-gray-50 px-6 py-3 border-b border-gray-100">
-                  <ThemedText className="text-lg font-semibold text-gray-800">
-                    {section.title}
-                  </ThemedText>
+          {loveTypeInfo.sections?.slice()
+            .sort((a, b) => (a.order || 0) - (b.order || 0))
+            .map((section: LoveLensInfoSection, index: number) => {
+              const isExpanded = expanded[index] ?? true;
+              return (
+                <View key={index} className="bg-white rounded-xl shadow-sm overflow-hidden">
+                  <Pressable
+                    onPress={() => setExpanded(prev => ({ ...prev, [index]: !isExpanded }))}
+                    className="bg-gray-50 px-6 py-3 border-b border-gray-100 flex-row items-center justify-between"
+                  >
+                    <ThemedText className="text-lg font-semibold text-gray-800">
+                      {section.title}
+                    </ThemedText>
+                    {isExpanded ? (
+                      <ChevronUp color="#1f2937" size={20} />
+                    ) : (
+                      <ChevronDown color="#1f2937" size={20} />
+                    )}
+                  </Pressable>
+                  {isExpanded && (
+                    <View className="px-6 py-3">
+                      <ThemedText className="text-gray-700 mb-3 leading-relaxed">
+                        {section.summary}
+                      </ThemedText>
+                      {(section.bullets?.length ?? 0) > 0 && (
+                          <View className="space-y-1">
+                          {section.bullets?.map((bullet, bulletIndex) => (
+                            <View key={bulletIndex} className="flex-row items-start text-gray-700 gap-1">
+                              <ThemedText className="text-lg">•</ThemedText>
+                              {bullet.title && (
+                                <>
+                                  <ThemedText className="font-semibold">{bullet.title}</ThemedText>
+                                  <ThemedText>-</ThemedText>
+                                </>
+                              )}
+                              <Markdown
+                                style={{
+                                  body: { color: '#374151', fontSize: 14, lineHeight: 20 },
+                                  strong: { fontWeight: '600' }
+                                }}
+                              >
+                                {bullet.text}
+                              </Markdown>
+                            </View>
+                          ))}
+                        </View>
+                      )}
+                    </View>
+                  )}
                 </View>
-              )}
-              <View className="p-6">
-                {section.summary && (
-                  <ThemedText className="text-gray-700 mb-4 leading-relaxed">
-                    {section.summary}
-                  </ThemedText>
-                )}
-                {(section.bullets?.length ?? 0) > 0 && (
-                  <View className="space-y-2">
-                    {section.bullets?.map((bullet, bulletIndex) => (
-                      <View key={bulletIndex} className="flex-row items-start">
-                        <ThemedText className="text-blue-500 mr-2 mt-1">•</ThemedText>
-                        <ThemedText className="text-gray-700 flex-1">
-                          {bullet.text}
-                        </ThemedText>
-                      </View>
-                    ))}
-                  </View>
-                )}
-              </View>
-            </View>
-          ))}
-
-          {/* Why It's Important Section */}
-          <View className="bg-white rounded-xl p-6 shadow-sm">
-            <ThemedText className="text-xl font-bold text-gray-800 mb-4 pb-2 border-b border-gray-100">
-              Why It's Important
-            </ThemedText>
-            <ThemedText className="text-gray-700 leading-relaxed">
-              {loveType.description || 'This love type plays a crucial role in building strong relationships.'}
-            </ThemedText>
-          </View>
+              );
+            })}
         </View>
 
         {/* Bottom Spacer */}

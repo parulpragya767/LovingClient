@@ -11,7 +11,7 @@ export default function LoveLensLayout() {
         }}
       />
       <Stack.Screen 
-        name="[id]" 
+        name="[loveType]" 
         options={{
           title: 'Love Type Details',
           headerBackTitle: 'Back',

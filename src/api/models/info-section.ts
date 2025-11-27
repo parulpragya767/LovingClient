@@ -28,19 +28,19 @@ export interface InfoSection {
      * @type {number}
      * @memberof InfoSection
      */
-    'order'?: number;
+    'order': number;
     /**
      * 
      * @type {string}
      * @memberof InfoSection
      */
-    'title'?: string;
+    'title': string;
     /**
      * 
      * @type {string}
      * @memberof InfoSection
      */
-    'summary'?: string;
+    'summary': string;
     /**
      * 
      * @type {Array<InfoBullet>}
