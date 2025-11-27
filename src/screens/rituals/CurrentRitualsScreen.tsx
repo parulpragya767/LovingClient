@@ -6,11 +6,18 @@ import LoadingState from '@/src/components/states/LoadingState';
 import { ThemedText } from '@/src/components/themes/themed-text';
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { CurrentRitual, CurrentRitualPack } from '@/src/models/ritualHistory';
-import { useMemo } from 'react';
+import { useFocusEffect } from 'expo-router';
+import { useCallback, useMemo } from 'react';
 import { SectionList, View } from 'react-native';
 
 export default function CurrentRitualsScreen() {
   const { data: currentData, isLoading, refetch, error } = useCurrentRituals();
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [])
+  );
 
   if (isLoading) return <LoadingState text="Loading your active rituals..." />;
   if (error) return <ErrorState message="Failed to load your active rituals." onButtonPress={() => refetch()} />;
@@ -30,7 +37,7 @@ export default function CurrentRitualsScreen() {
   }, [currentRitualPacks, currentRituals]);
 
   return (
-    <View className="flex-1 bg-white px-4">
+    <View className="flex-1 bg-white">
       <SectionList
         sections={sections}
         keyExtractor={(item: any, index: number) =>
@@ -38,21 +45,23 @@ export default function CurrentRitualsScreen() {
             ? `pack-${item.ritualPackId}`
             : `ritual-${item.ritualId}`
         }
-        renderItem={({ item, section }: any) =>
-          section.key === 'packs' ? (
-            <RitualPackCard 
-              ritualPack={item.ritualPack} 
-              rituals={item.rituals} 
-            />
-          ) : (
-            <SwipeableRitualCard 
-              ritual={item.ritual} 
-              ritualHistoryId={item.ritualHistoryId} 
-            />
-          )
-        }
+        renderItem={({ item, section }: any) => (
+          <View className="mb-4 px-4"> 
+            {section.key === 'packs' ? (
+              <RitualPackCard 
+                ritualPack={item.ritualPack} 
+                rituals={item.rituals} 
+              />
+            ) : (
+              <SwipeableRitualCard 
+                ritual={item.ritual} 
+                ritualHistoryId={item.ritualHistoryId} 
+              />
+            )}
+          </View>
+        )}
         ListHeaderComponent={
-          <View className="py-4">
+          <View className="px-3 py-4">
             <ThemedText className="text-2xl font-bold mb-1 text-gray-900">Your Active Rituals</ThemedText>
             <ThemedText className="text-sm text-gray-500">Keep track of your daily practices</ThemedText>
           </View>

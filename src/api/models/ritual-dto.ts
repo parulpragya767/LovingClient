@@ -52,7 +52,7 @@ export interface RitualDTO {
      * @type {string}
      * @memberof RitualDTO
      */
-    'title'?: string;
+    'title': string;
     /**
      * 
      * @type {string}

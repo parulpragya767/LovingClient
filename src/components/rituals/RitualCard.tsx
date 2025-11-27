@@ -1,10 +1,10 @@
+import RitualTags from '@/src/components/rituals/RitualTags';
 import { ThemedText } from '@/src/components/themes/themed-text';
 import { ThemedView } from '@/src/components/themes/themed-view';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
 import { Ritual } from '@/src/models/rituals';
 import { useRouter } from 'expo-router';
 import { TouchableOpacity, View } from 'react-native';
-import RitualTag from './RitualTags';
 
 interface RitualCardProps {
   ritual: Ritual;
@@ -26,20 +26,16 @@ export default function RitualCard({ ritual, onLongPress }: RitualCardProps) {
       delayLongPress={300} 
       activeOpacity={0.8}
     >
-      <ThemedView className="bg-white rounded-xl p-4 mx-4 my-2 border border-gray-200 shadow-md">
-        <ThemedText className="text-gray-800 text-lg font-semibold mb-2">
+      <ThemedView className="bg-white rounded-2xl p-4 border border-gray-200 shadow-md">
+        <ThemedText className="text-gray-800 text-lg font-semibold mb-1">
           {ritual.title}
         </ThemedText>
-        <ThemedText 
-          className="text-gray-600 mb-3" 
-          numberOfLines={2} 
-          ellipsizeMode="tail"
-        >
+        <ThemedText className="text-gray-600 mb-3" numberOfLines={2} ellipsizeMode="tail">
           {ritual.description}
         </ThemedText>
         <View className="flex-row flex-wrap gap-2">
           {getRitualTagDisplayNames(ritual).slice(0, 3).map((label: string, idx: number) => (
-            <RitualTag key={idx} label={label} />
+            <RitualTags key={idx} label={label} />
           ))}
         </View>
         
