@@ -1,6 +1,5 @@
 import { ThemedText } from '@/src/components/themes/themed-text';
 import { ThemedView } from '@/src/components/themes/themed-view';
-import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { useRitual } from '@/src/hooks/rituals/useRitual';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
@@ -16,8 +15,7 @@ export default function RitualDetailScreen() {
   const [isHowItHelpsExpanded, setIsHowItHelpsExpanded] = useState(true);
   const { data: ritual, isLoading, error } = useRitual(id);
   const { getTagDisplayName } = useRitualTags();
-  const { addRitualToCurrent } = useRitualActions();
-  const { isCurrentRitual } = useCurrentRituals();
+  const { isCurrentRitual, addRitualToCurrent } = useRitualActions();
   
   const isCurrent = ritual ? isCurrentRitual(ritual.id) : false;
   

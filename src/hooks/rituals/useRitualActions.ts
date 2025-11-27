@@ -8,7 +8,20 @@ import { ritualRecommendationService } from '@/src/services/ritualRecommendation
 
 export const useRitualActions = () => {
   const { invalidateQueries: invalidateHistory } = useRitualHistory();
-  const { invalidateQueries: invalidateCurrentRituals } = useCurrentRituals();
+  const { data: currentRituals, invalidateQueries: invalidateCurrentRituals } = useCurrentRituals();
+
+  const isCurrentRitual = (id: string): boolean => {
+    if (!currentRituals) return false;
+    
+    // Check in individual rituals
+    const isInIndividualRituals = currentRituals.rituals.some(ritual => ritual.ritualId === id);
+    if (isInIndividualRituals) return true;
+    
+    // Check in ritual packs
+    return currentRituals.ritualPacks.some(pack => 
+      pack.rituals.some(ritual => ritual.ritualId === id)
+    );
+  };
 
   const addRitualToCurrent = async (payload: RitualHistory) => {
     await ritualHistoryService.create(payload);
@@ -51,6 +64,7 @@ export const useRitualActions = () => {
   };
 
   return {
+    isCurrentRitual,
     addRitualToCurrent,
     deleteRitualFromCurrent,
     markRitualAsCompleted,

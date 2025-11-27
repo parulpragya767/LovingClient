@@ -1,4 +1,5 @@
 import { ThemedText } from '@/src/components/themes/themed-text';
+import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { EmojiFeedback, RitualHistoryStatus } from '@/src/models/enums';
 import { Ritual } from '@/src/models/rituals';
@@ -14,8 +15,6 @@ const AnimatedView = Animated.createAnimatedComponent(View);
 type Props = {
   ritual: Ritual;
   ritualHistoryId?: string;
-  onRitualPress?: (id: string) => void;
-  onChanged?: () => void;
 };
 
 function mapUnicodeToEmojiFeedback(emoji: string): EmojiFeedback | undefined {
@@ -41,11 +40,12 @@ function mapUnicodeToEmojiFeedback(emoji: string): EmojiFeedback | undefined {
   }
 }
 
-export default function SwipeableRitualCard({ ritual, ritualHistoryId, onChanged }: Props) {
+export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Props) {
   const swipeableRef = useRef<Swipeable>(null);
   const [showInlineActions, setShowInlineActions] = useState(false);
   const [emojiVisible, setEmojiVisible] = useState(false);
   const canAct = !!ritualHistoryId;
+  const { refetch } = useCurrentRituals();
 
   const close = () => swipeableRef.current?.close();
 
@@ -68,7 +68,7 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId, onChanged
         status: RitualHistoryStatus.Completed,
         feedback,
       });
-      onChanged?.();
+      refetch();
     } finally {
       setEmojiVisible(false);
       close();
@@ -80,7 +80,7 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId, onChanged
     if (!ritualHistoryId) return;
     try {
       await deleteRitualFromCurrent(ritualHistoryId);
-      onChanged?.();
+      refetch();
     } finally {
       close();
       setShowInlineActions(false);

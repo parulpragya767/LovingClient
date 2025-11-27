@@ -31,7 +31,7 @@ export default function RitualsTabsLayout() {
         </Pressable>
 
         <Tabs screenOptions={screenOptions}>
-          <Tabs.Screen name="current" options={{ title: 'Current' }} />
+          <Tabs.Screen name="current" options={{ title: 'My Rituals' }} />
           <Tabs.Screen name="all-rituals" options={{ title: 'All Rituals' }} />
           <Tabs.Screen name="history" options={{ title: 'History' }} />
         </Tabs>

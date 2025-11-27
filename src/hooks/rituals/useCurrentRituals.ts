@@ -6,7 +6,7 @@ export const useCurrentRituals = () => {
     const queryClient = useQueryClient();
 
     const query =  useQuery<CurrentRituals, Error>({
-    queryKey: ['ritual-history', 'current'],
+    queryKey: ['current-rituals'],
     queryFn: async () => {
       const response = await ritualHistoryService.listCurrent();
       return response;
@@ -20,18 +20,12 @@ export const useCurrentRituals = () => {
 
   const invalidateQueries = () => {
     return Promise.all([
-      queryClient.invalidateQueries({ queryKey: ['ritual-history', 'current'] })
+      queryClient.invalidateQueries({ queryKey: ['current-rituals'] })
     ]);
-  };
-
-  const isCurrentRitual = (ritualId: string): boolean => {
-    if (!query.data) return false;
-    return query.data.ritualHistoryMap.has(ritualId);
   };
 
   return {
     ...query,
     invalidateQueries,
-    isCurrentRitual
   };
 };

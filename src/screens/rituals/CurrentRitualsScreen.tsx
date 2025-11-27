@@ -1,88 +1,66 @@
 import RitualPackCard from '@/src/components/rituals/RitualPackCard';
 import SwipeableRitualCard from '@/src/components/rituals/SwipeableRitualCard';
+import { EmptyState } from '@/src/components/states/EmptyState';
+import ErrorState from '@/src/components/states/ErrorState';
+import LoadingState from '@/src/components/states/LoadingState';
 import { ThemedText } from '@/src/components/themes/themed-text';
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { CurrentRitual, CurrentRitualPack } from '@/src/models/ritualHistory';
-import { useFocusEffect, useRouter } from 'expo-router';
-import { useCallback, useMemo } from 'react';
-import { FlatList, View } from 'react-native';
+import { useMemo } from 'react';
+import { SectionList, View } from 'react-native';
 
 export default function CurrentRitualsScreen() {
-  const { data: currentData, isLoading, refetch } = useCurrentRituals();
-  const router = useRouter();
+  const { data: currentData, isLoading, refetch, error } = useCurrentRituals();
 
-  const rituals: CurrentRitual[] = useMemo(() => currentData?.rituals ?? [], [currentData]);
-  const packs: CurrentRitualPack[] = useMemo(() => currentData?.ritualPacks ?? [], [currentData]);
+  if (isLoading) return <LoadingState text="Loading your active rituals..." />;
+  if (error) return <ErrorState message="Failed to load your active rituals." onButtonPress={() => refetch()} />;
 
-  useFocusEffect(
-    useCallback(() => {
-      refetch();
-    }, [refetch])
-  );
+  const currentRituals: CurrentRitual[] = useMemo(() => currentData?.rituals ?? [], [currentData]);
+  const currentRitualPacks: CurrentRitualPack[] = useMemo(() => currentData?.ritualPacks ?? [], [currentData]);
 
-  const handleRitualPress = (id: string) => {
-    router.push(`/rituals/${id}`);
-  };
-
-  if (isLoading) {
-    return (
-      <View className="flex-1 justify-center items-center bg-white">
-        <ThemedText>Loading your rituals...</ThemedText>
-      </View>
-    );
+  if (!currentData || currentData.rituals.length === 0 && currentData.ritualPacks.length === 0) {
+    return <EmptyState message="You do not have any active rituals. Feel free to browse and add some rituals." />;
   }
+  
+  const sections = useMemo(() => {
+    const s: Array<{ key: 'packs' | 'rituals'; data: any[] }> = [];
+    if (currentRitualPacks.length > 0) s.push({ key: 'packs', data: currentRitualPacks });
+    if (currentRituals.length > 0) s.push({ key: 'rituals', data: currentRituals });
+    return s;
+  }, [currentRitualPacks, currentRituals]);
 
   return (
-    <View className="flex-1 bg-white">
-      <View className="flex-1">
-        <View className="px-4 pt-4">
-          <View className="mb-4">
-            <ThemedText className="text-2xl font-bold mb-1 text-gray-900">Your Current Rituals</ThemedText>
+    <View className="flex-1 bg-white px-4">
+      <SectionList
+        sections={sections}
+        keyExtractor={(item: any, index: number) =>
+          'ritualPackId' in item
+            ? `pack-${item.ritualPackId}`
+            : `ritual-${item.ritualId}`
+        }
+        renderItem={({ item, section }: any) =>
+          section.key === 'packs' ? (
+            <RitualPackCard 
+              ritualPack={item.ritualPack} 
+              rituals={item.rituals} 
+            />
+          ) : (
+            <SwipeableRitualCard 
+              ritual={item.ritual} 
+              ritualHistoryId={item.ritualHistoryId} 
+            />
+          )
+        }
+        ListHeaderComponent={
+          <View className="py-4">
+            <ThemedText className="text-2xl font-bold mb-1 text-gray-900">Your Active Rituals</ThemedText>
             <ThemedText className="text-sm text-gray-500">Keep track of your daily practices</ThemedText>
           </View>
-        </View>
-        
-        {packs.length > 0 && (
-          <FlatList
-            style={{ flex: 1 }}
-            data={packs}
-            keyExtractor={(item) => `pack-${item.ritualPack.id}`}
-            renderItem={({ item: pack }) => (
-              <View className="px-4">
-                <RitualPackCard
-                  pack={pack.ritualPack}
-                  rituals={pack.rituals}
-                  onRitualPress={handleRitualPress}
-                  onChanged={() => { refetch(); }}
-                  onPressPack={(id) => router.push(`/rituals/pack/${id}`)}
-                />
-              </View>
-            )}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingVertical: 8 }}
-          />
-        )}
-
-        {rituals.length > 0 && (
-          <FlatList
-            style={{ flex: 1 }}
-            data={rituals}
-            keyExtractor={(item) => item.ritual.id}
-            renderItem={({ item }) => (
-              <View className="px-4">
-                <SwipeableRitualCard
-                  ritual={item.ritual}
-                  ritualHistoryId={item.ritualHistoryId}
-                  onRitualPress={() => handleRitualPress(item.ritual.id)}
-                  onChanged={() => { refetch(); }}
-                />
-              </View>
-            )}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: 16 }}
-          />
-        )}
-      </View>
+        }
+        ListFooterComponent={<View className="h-20" />}
+        showsVerticalScrollIndicator={false}
+        stickySectionHeadersEnabled={false}
+      />
     </View>
   );
 }
