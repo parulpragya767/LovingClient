@@ -6,18 +6,11 @@ import LoadingState from '@/src/components/states/LoadingState';
 import { ThemedText } from '@/src/components/themes/themed-text';
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { CurrentRitual, CurrentRitualPack } from '@/src/models/ritualHistory';
-import { useFocusEffect } from 'expo-router';
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { SectionList, View } from 'react-native';
 
 export default function CurrentRitualsScreen() {
   const { data: currentData, isLoading, refetch, error } = useCurrentRituals();
-
-  useFocusEffect(
-    useCallback(() => {
-      refetch();
-    }, [])
-  );
 
   if (isLoading) return <LoadingState text="Loading your active rituals..." />;
   if (error) return <ErrorState message="Failed to load your active rituals." onButtonPress={() => refetch()} />;

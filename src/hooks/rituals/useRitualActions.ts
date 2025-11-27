@@ -1,10 +1,12 @@
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { useRitualHistory } from '@/src/hooks/rituals/useRitualHistory';
-import { RecommendationStatus, RitualHistoryStatus } from '@/src/models/enums';
+import { EmojiFeedback, RecommendationStatus, RitualHistoryStatus } from '@/src/models/enums';
 import type { RitualHistory, RitualHistoryUpdate } from '@/src/models/ritualHistory';
 import type { RitualRecommendationUpdate, RitualStatusUpdate } from '@/src/models/ritualRecommendation';
 import { ritualHistoryService } from '@/src/services/ritualHistoryService';
 import { ritualRecommendationService } from '@/src/services/ritualRecommendationService';
+
+export const EMOJIS = ['❤️', '😊', '😐', '😢', '😠', '🔥', '👍', '👎'] as const;
 
 export const useRitualActions = () => {
   const { invalidateQueries: invalidateHistory } = useRitualHistory();
@@ -25,12 +27,12 @@ export const useRitualActions = () => {
 
   const addRitualToCurrent = async (payload: RitualHistory) => {
     await ritualHistoryService.create(payload);
-    await Promise.all([invalidateHistory(), invalidateCurrentRituals()]);
+    await Promise.all([invalidateCurrentRituals()]);
   };
 
   const deleteRitualFromCurrent = async (id: string) => {
     await ritualHistoryService.delete(id);
-    await Promise.all([invalidateHistory(), invalidateCurrentRituals()]);
+    await Promise.all([invalidateCurrentRituals()]);
   };
 
   const markRitualAsCompleted = async (id: string, payload: RitualHistoryUpdate) => {
@@ -60,10 +62,35 @@ export const useRitualActions = () => {
     };
 
     await ritualRecommendationService.update(recommendationId, recommendationUpdate);
-    await Promise.all([invalidateHistory(), invalidateCurrentRituals()]);
+    await Promise.all([invalidateCurrentRituals()]);
+  };
+
+  const mapUnicodeToEmojiFeedback = (emoji: string): EmojiFeedback | undefined => {
+    switch (emoji) {
+      case '❤️':
+        return EmojiFeedback.Heart;
+      case '😊':
+        return EmojiFeedback.Smile;
+      case '😐':
+        return EmojiFeedback.Neutral;
+      case '😢':
+        return EmojiFeedback.Sad;
+      case '😠':
+        return EmojiFeedback.Angry;
+      case '🔥':
+        return EmojiFeedback.Fire;
+      case '👍':
+        return EmojiFeedback.ThumbsUp;
+      case '👎':
+        return EmojiFeedback.ThumbsDown;
+      default:
+        return undefined;
+    }
   };
 
   return {
+    EMOJIS,
+    mapUnicodeToEmojiFeedback,
     isCurrentRitual,
     addRitualToCurrent,
     deleteRitualFromCurrent,

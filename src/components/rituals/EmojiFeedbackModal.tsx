@@ -1,8 +1,9 @@
 import { ThemedText } from '@/src/components/themes/themed-text';
 import { ThemedView } from '@/src/components/themes/themed-view';
+import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Modal, Pressable, Text, View } from 'react-native';
 
 type EmojiFeedbackModalProps = {
   visible: boolean;
@@ -10,14 +11,12 @@ type EmojiFeedbackModalProps = {
   onSelectEmoji: (emoji: string) => void;
 };
 
-const EMOJIS = ['❤️', '😊', '😐', '😢', '😠', '🔥', '👍', '👎'];
-
 export default function EmojiFeedbackModal({ visible, onClose, onSelectEmoji }: EmojiFeedbackModalProps) {
+  const { EMOJIS } = useRitualActions();
   const [selectedEmoji, setSelectedEmoji] = useState<string | null>(null);
 
   const handleEmojiPress = (emoji: string) => {
     setSelectedEmoji(emoji);
-    // Small delay to show selection before closing
     setTimeout(() => {
       onSelectEmoji(emoji);
       onClose();
@@ -32,7 +31,7 @@ export default function EmojiFeedbackModal({ visible, onClose, onSelectEmoji }: 
       onRequestClose={onClose}
     >
       <Pressable 
-        style={styles.overlay} 
+        className="flex-1 bg-black/50 justify-center items-center"
         onPress={onClose}
       >
         <ThemedView className="bg-white rounded-2xl p-6 mx-4 w-5/6">
@@ -44,12 +43,12 @@ export default function EmojiFeedbackModal({ visible, onClose, onSelectEmoji }: 
               <MaterialIcons name="close" size={24} color="#6B7280" />
             </Pressable>
           </View>
-          <View className="flex-row justify-between px-2 mb-6">
+          <View className="flex-row flex-wrap justify-start mb-10">
             {EMOJIS.map((emoji) => (
               <Pressable
                 key={emoji}
                 onPress={() => handleEmojiPress(emoji)}
-                className={`p-3 rounded-full ${selectedEmoji === emoji ? 'bg-gray-100' : ''}`}
+                className={`p-3 rounded-lg ${selectedEmoji === emoji ? 'bg-gray-100' : ''}`}
               >
                 <Text className="text-3xl">{emoji}</Text>
               </Pressable>
@@ -57,7 +56,7 @@ export default function EmojiFeedbackModal({ visible, onClose, onSelectEmoji }: 
           </View>
           <Pressable
             onPress={onClose}
-            className="mt-4 py-3 px-6 bg-gray-100 rounded-lg items-center"
+            className="py-3 px-6 bg-gray-100 rounded-xl items-center"
           >
             <ThemedText className="text-gray-700 font-medium">Cancel</ThemedText>
           </Pressable>
@@ -67,11 +66,3 @@ export default function EmojiFeedbackModal({ visible, onClose, onSelectEmoji }: 
   );
 }
 
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  } as const,
-});

@@ -1,56 +1,31 @@
-import { ThemedText } from '@/src/components/themes/themed-text';
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
-import { EmojiFeedback, RitualHistoryStatus } from '@/src/models/enums';
+import { RitualHistoryStatus } from '@/src/models/enums';
 import { Ritual } from '@/src/models/rituals';
+import { MaterialIcons } from '@expo/vector-icons';
 import React, { useRef, useState } from 'react';
 import { Pressable, View } from 'react-native';
-import { Swipeable } from 'react-native-gesture-handler';
-import Animated from 'react-native-reanimated';
+import ReanimatedSwipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
+import Animated, { FadeInRight } from 'react-native-reanimated';
 import EmojiFeedbackModal from './EmojiFeedbackModal';
 import RitualCard from './RitualCard';
 
-const AnimatedView = Animated.createAnimatedComponent(View);
-
-type Props = {
+type SwipeableRitualCardProps = {
   ritual: Ritual;
   ritualHistoryId?: string;
 };
 
-function mapUnicodeToEmojiFeedback(emoji: string): EmojiFeedback | undefined {
-  switch (emoji) {
-    case '❤️':
-      return EmojiFeedback.Heart;
-    case '😊':
-      return EmojiFeedback.Smile;
-    case '😐':
-      return EmojiFeedback.Neutral;
-    case '😢':
-      return EmojiFeedback.Sad;
-    case '😠':
-      return EmojiFeedback.Angry;
-    case '🔥':
-      return EmojiFeedback.Fire;
-    case '👍':
-      return EmojiFeedback.ThumbsUp;
-    case '👎':
-      return EmojiFeedback.ThumbsDown;
-    default:
-      return undefined;
-  }
-}
-
-export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Props) {
-  const swipeableRef = useRef<Swipeable>(null);
-  const [showInlineActions, setShowInlineActions] = useState(false);
-  const [emojiVisible, setEmojiVisible] = useState(false);
+export default function SwipeableRitualCard({ ritual, ritualHistoryId}: SwipeableRitualCardProps) {
+  const swipeableRef = useRef<any>(null);
   const canAct = !!ritualHistoryId;
-  const { refetch } = useCurrentRituals();
+  const [emojiVisible, setEmojiVisible] = useState(false);
+  const { invalidateQueries: invalidateCurrentRituals } = useCurrentRituals();
+  const { markRitualAsCompleted, deleteRitualFromCurrent, mapUnicodeToEmojiFeedback } = useRitualActions();
 
-  const close = () => swipeableRef.current?.close();
+  const close = () => swipeableRef.current?.close?.();
 
   const handleLongPress = () => {
-    setShowInlineActions(v => !v);
+    swipeableRef.current?.openRight?.();
   };
 
   const handleCompletePress = () => {
@@ -58,7 +33,10 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Props) {
     setEmojiVisible(true);
   };
 
-  const { markRitualAsCompleted, deleteRitualFromCurrent } = useRitualActions();
+  const handleEmojiModalDismiss = () => {
+    setEmojiVisible(false);
+    close();
+  };
 
   const handleEmojiSelect = async (emoji: string) => {
     if (!ritualHistoryId) return;
@@ -68,67 +46,59 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Props) {
         status: RitualHistoryStatus.Completed,
         feedback,
       });
-      refetch();
+      invalidateCurrentRituals();
     } finally {
       setEmojiVisible(false);
       close();
-      setShowInlineActions(false);
     }
   };
 
-  const handleDelete = async () => {
+  const handleDeletePress = async () => {
     if (!ritualHistoryId) return;
     try {
       await deleteRitualFromCurrent(ritualHistoryId);
-      refetch();
+      invalidateCurrentRituals();
     } finally {
       close();
-      setShowInlineActions(false);
     }
   };
 
   const renderRightActions = (_: any, __: any) => (
-    <View className="flex-row items-stretch my-2 mr-4">
-      <Pressable onPress={handleCompletePress} className="bg-green-500 justify-center px-4 rounded-l-xl">
-        <ThemedText className="text-white font-semibold">Complete</ThemedText>
+    <Animated.View 
+      entering={FadeInRight.duration(150)}
+      className="flex-row items-center my-2 mx-2"
+    >
+      <Pressable 
+        onPress={handleCompletePress}
+        className="bg-green-100 border border-green-200 rounded-lg p-2 mr-1"
+        style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
+      >
+        <MaterialIcons name="check" size={24} color="#15803d" />
       </Pressable>
-      <Pressable onPress={handleDelete} className="bg-red-500 justify-center px-4 rounded-r-xl ml-px">
-        <ThemedText className="text-white font-semibold">Delete</ThemedText>
-      </Pressable>
-    </View>
-  );
 
+      <Pressable 
+        onPress={handleDeletePress}
+        className="bg-red-100 border border-red-200 rounded-lg p-2"
+        style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
+      >
+        <MaterialIcons name="delete-outline" size={24} color="#b91c1c" />
+      </Pressable>
+    </Animated.View>
+  );
+  
   return (
     <View>
-      <Swipeable
+      <ReanimatedSwipeable
         ref={swipeableRef}
-        friction={2}
+        friction={1}
         rightThreshold={40}
-        renderRightActions={renderRightActions}
-        onSwipeableOpen={() => setShowInlineActions(false)}
-        containerStyle={{
-          backgroundColor: 'transparent',
-        }}
-        overshootFriction={8}
-      >
-        <AnimatedView>
-          <RitualCard ritual={ritual} onLongPress={handleLongPress} />
-          {showInlineActions && (
-            <View className="flex-row justify-end gap-2 px-6 -mt-2 mb-2">
-              <Pressable onPress={handleCompletePress} className="bg-green-100 border border-green-200 rounded-lg px-3 py-1.5">
-                <ThemedText className="text-green-700 text-sm font-medium">Mark completed</ThemedText>
-              </Pressable>
-              <Pressable onPress={handleDelete} className="bg-red-100 border border-red-200 rounded-lg px-3 py-1.5">
-                <ThemedText className="text-red-700 text-sm font-medium">Delete</ThemedText>
-              </Pressable>
-            </View>
-          )}
-        </AnimatedView>
-      </Swipeable>
+        renderRightActions={renderRightActions}>
+        <RitualCard ritual={ritual} onLongPress={handleLongPress} />
+      </ReanimatedSwipeable>
 
       <EmojiFeedbackModal
         visible={emojiVisible}
-        onClose={() => setEmojiVisible(false)}
+        onClose={handleEmojiModalDismiss}
         onSelectEmoji={handleEmojiSelect}
       />
     </View>
