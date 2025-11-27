@@ -1,10 +1,10 @@
 import { ThemedText } from '@/src/components/themes/themed-text';
-import { LoveLensInfo } from '@/src/models/loveLens';
+import { LoveTypeDetail } from '@/src/models/loveLens';
 import { useRouter } from 'expo-router';
 import { FlatList, Pressable, View } from 'react-native';
 
 interface LoveTypesHomeProps {
-  loveTypes: LoveLensInfo[];
+  loveTypes: LoveTypeDetail[];
 }
 
 export default function LoveTypesHome({ loveTypes }: LoveTypesHomeProps) {
@@ -14,7 +14,7 @@ export default function LoveTypesHome({ loveTypes }: LoveTypesHomeProps) {
     router.push(`/love-lens/${id}`);
   };
 
-  const renderLoveTypeCard = ({ item }: { item: LoveLensInfo }) => (
+  const renderLoveTypeCard = ({ item }: { item: LoveTypeDetail }) => (
     <Pressable onPress={() => handlePress(item.id)} className="mr-3 w-64">
       <View className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
         <ThemedText className="text-gray-900 text-base font-semibold mb-1" numberOfLines={1}>

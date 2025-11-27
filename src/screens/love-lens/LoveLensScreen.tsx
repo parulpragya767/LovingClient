@@ -28,7 +28,7 @@ export default function LoveLensScreen() {
           data={loveTypes}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <LoveTypeCard loveType={item} />
+            <LoveTypeCard loveTypeDetail={item} />
           )}
           showsVerticalScrollIndicator={false}
           ListFooterComponent={<View className="h-20" />}

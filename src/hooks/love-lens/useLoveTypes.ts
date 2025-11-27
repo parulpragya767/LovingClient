@@ -1,9 +1,9 @@
-import { LoveLensInfo } from '@/src/models/loveLens';
+import { LoveTypeDetail } from '@/src/models/loveLens';
 import { loveLensService } from '@/src/services/loveLensService';
 import { useQuery } from '@tanstack/react-query';
 
 export const useLoveTypes = () => {
-  return useQuery<LoveLensInfo[], Error>({
+  return useQuery<LoveTypeDetail[], Error>({
     queryKey: ['loveTypes'],
     queryFn: async () => {
       const response = await loveLensService.getAll();

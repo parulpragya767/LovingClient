@@ -2,7 +2,7 @@ import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
 import { ThemedText } from '@/src/components/themes/themed-text';
 import { useLoveTypes } from '@/src/hooks/love-lens/useLoveTypes';
-import type { LoveLensInfoSection } from '@/src/models/loveLens';
+import type { LoveTypeInfoSection } from '@/src/models/loveLens';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ChevronDown, ChevronUp } from 'lucide-react-native';
 import { useState } from 'react';
@@ -13,13 +13,13 @@ export default function LoveTypeDetailScreen() {
   const router = useRouter();
   const { loveType: loveTypeParam } = useLocalSearchParams<{ loveType: string }>();
   const { data: loveTypes, isLoading, error, refetch } = useLoveTypes();
-  const [expanded, setExpanded] = useState<Record<number, boolean>>({});
+  const [sectionExpanded, setSectionExpanded] = useState<Record<number, boolean>>({});
 
   if (isLoading) return <LoadingState text="Loading love type details..." />;
   if (error) return <ErrorState message="Failed to load love type details." onButtonPress={() => refetch()} />;
 
-  const loveTypeInfo = loveTypes?.find(type => type.loveType === loveTypeParam?.toUpperCase());
-  if (!loveTypeInfo) return <ErrorState 
+  const loveTypeDetail = loveTypes?.find(type => type.loveType === loveTypeParam?.toUpperCase());
+  if (!loveTypeDetail) return <ErrorState 
     message="Love type details not available. Please open from the list." 
     onButtonPress={() => router.back()} 
     buttonMessage="Go Back"
@@ -31,7 +31,7 @@ export default function LoveTypeDetailScreen() {
         {/* Header Section */}
         <View className="flex-column items-left justify-centre mb-6 gap-4">
           <ThemedText className="text-2xl font-bold text-gray-800">
-            {loveTypeInfo.title || 'Love Type'}
+            {loveTypeDetail.title || 'Love Type'}
           </ThemedText>
           <Markdown
             style={{
@@ -39,7 +39,7 @@ export default function LoveTypeDetailScreen() {
               strong: { fontWeight: '600' }
             }}
           >
-            {loveTypeInfo.description}
+            {loveTypeDetail.description}
           </Markdown>
         </View>
 
@@ -47,14 +47,14 @@ export default function LoveTypeDetailScreen() {
         <View className="space-y-6">
           
           {/* Sections */}
-          {loveTypeInfo.sections?.slice()
+          {loveTypeDetail.sections?.slice()
             .sort((a, b) => (a.order || 0) - (b.order || 0))
-            .map((section: LoveLensInfoSection, index: number) => {
-              const isExpanded = expanded[index] ?? true;
+            .map((section: LoveTypeInfoSection, index: number) => {
+              const isExpanded = sectionExpanded[index] ?? true;
               return (
                 <View key={index} className="bg-white rounded-xl shadow-sm overflow-hidden">
                   <Pressable
-                    onPress={() => setExpanded(prev => ({ ...prev, [index]: !isExpanded }))}
+                    onPress={() => setSectionExpanded(prev => ({ ...prev, [index]: !isExpanded }))}
                     className="bg-gray-50 px-6 py-3 border-b border-gray-100 flex-row items-center justify-between"
                   >
                     <ThemedText className="text-lg font-semibold text-gray-800">

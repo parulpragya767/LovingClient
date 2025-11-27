@@ -1,17 +1,17 @@
 import { ThemedText } from '@/src/components/themes/themed-text';
-import { LoveLensInfo } from '@/src/models/loveLens';
+import { LoveTypeDetail } from '@/src/models/loveLens';
 import { useRouter } from 'expo-router';
 import { Pressable, View } from 'react-native';
 
 interface LoveTypeCardProps {
-  loveType: LoveLensInfo;
+  loveTypeDetail: LoveTypeDetail;
 }
 
-export default function LoveTypeCard({ loveType }: LoveTypeCardProps) {
+export default function LoveTypeCard({ loveTypeDetail }: LoveTypeCardProps) {
   const router = useRouter();
 
   const handleLoveTypePress = () => {
-    router.push(`/love-lens/${loveType.loveType}`);
+    router.push(`/love-lens/${loveTypeDetail.loveType}`);
   };
 
   return (
@@ -21,10 +21,10 @@ export default function LoveTypeCard({ loveType }: LoveTypeCardProps) {
     >
       <View className="flex-column items-left">
         <ThemedText className="text-blue-600 text-lg font-bold">
-          {loveType.title || 'Love Type'}
+          {loveTypeDetail.title || 'Love Type'}
         </ThemedText>   
         <ThemedText className="text-gray-800 text-base" numberOfLines={2} ellipsizeMode="tail">
-          {loveType.description}
+          {loveTypeDetail.description}
         </ThemedText>
       <ThemedText className="text-blue-500 text-sm mt-2">
         Learn more →
