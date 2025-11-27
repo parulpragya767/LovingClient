@@ -72,24 +72,28 @@ export default function LoveTypeDetailScreen() {
                         {section.summary}
                       </ThemedText>
                       {(section.bullets?.length ?? 0) > 0 && (
-                          <View className="space-y-1">
+                          <View>
                           {section.bullets?.map((bullet, bulletIndex) => (
-                            <View key={bulletIndex} className="flex-row items-start text-gray-700 gap-1">
-                              <ThemedText className="text-lg">•</ThemedText>
-                              {bullet.title && (
-                                <>
-                                  <ThemedText className="font-semibold">{bullet.title}</ThemedText>
-                                  <ThemedText>-</ThemedText>
-                                </>
-                              )}
-                              <Markdown
+                            <View key={bulletIndex} className="flex-row items-center">
+                              <View className="p-2">
+                                <ThemedText className="text-lg leading-5">•</ThemedText>
+                              </View>
+                              <View className="flex-1 flex-row flex-wrap items-baseline">
+                                {bullet.title && (
+                                  <>
+                                    <ThemedText className="font-semibold text-gray-800">{bullet.title}</ThemedText>
+                                    <ThemedText className="mx-1 text-gray-700">-</ThemedText>
+                                  </>
+                                )}
+                                <Markdown
                                 style={{
                                   body: { color: '#374151', fontSize: 14, lineHeight: 20 },
                                   strong: { fontWeight: '600' }
                                 }}
-                              >
-                                {bullet.text}
-                              </Markdown>
+                                >
+                                  {bullet.text}
+                                </Markdown>
+                              </View>
                             </View>
                           ))}
                         </View>
