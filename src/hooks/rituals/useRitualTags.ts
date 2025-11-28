@@ -19,7 +19,7 @@ export function useRitualTags() {
       const displayNames: string[] = [];
 
       // Add love types
-      if (ritual.loveTypes && loveTypes?.values?.length) {
+      if (ritual.loveTypes) {
         const tags = loveTypes.values;
         ritual.loveTypes.forEach(lt => {
           const found = tags.find(tv => tv.key === lt);
@@ -28,13 +28,13 @@ export function useRitualTags() {
       }
 
       // Add ritual mode
-      if (ritual.ritualMode && ritualModes?.values?.length) {
+      if (ritual.ritualMode) {
         const found = ritualModes.values.find(rm => rm.key === ritual.ritualMode);
         if (found) displayNames.push(found.displayName);
       }
 
       // Add time taken
-      if (ritual.timeTaken && timeTaken?.values?.length) {
+      if (ritual.timeTaken) {
         const found = timeTaken.values.find(tt => tt.key === ritual.timeTaken);
         if (found) displayNames.push(found.displayName);
       }
@@ -49,8 +49,6 @@ export function useRitualTags() {
       if (!query.data) return undefined;
       
       const tagGroup = query.data[tagType];
-      if (!tagGroup?.values?.length) return undefined;
-      
       const found = tagGroup.values.find(tag => tag.key === tagKey);
       return found?.displayName;
     };

@@ -28,30 +28,30 @@ export interface RitualTags {
      * @type {RitualTag}
      * @memberof RitualTags
      */
-    'loveTypes'?: RitualTag;
+    'loveTypes': RitualTag;
     /**
      * 
      * @type {RitualTag}
      * @memberof RitualTags
      */
-    'ritualModes'?: RitualTag;
+    'ritualModes': RitualTag;
     /**
      * 
      * @type {RitualTag}
      * @memberof RitualTags
      */
-    'timeTaken'?: RitualTag;
+    'timeTaken': RitualTag;
     /**
      * 
      * @type {RitualTag}
      * @memberof RitualTags
      */
-    'relationalNeeds'?: RitualTag;
+    'relationalNeeds': RitualTag;
     /**
      * 
      * @type {RitualTag}
      * @memberof RitualTags
      */
-    'ritualTones'?: RitualTag;
+    'ritualTones': RitualTag;
 }
 

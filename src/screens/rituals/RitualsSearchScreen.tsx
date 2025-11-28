@@ -1,108 +1,107 @@
+import { SelectedTags } from '@/src/components/rituals/SelectedTags';
 import TagCategory from '@/src/components/rituals/TagCategory';
+import ErrorState from '@/src/components/states/ErrorState';
+import LoadingState from '@/src/components/states/LoadingState';
 import { ThemedText } from '@/src/components/themes/themed-text';
 import { ThemedView } from '@/src/components/themes/themed-view';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
 import { useTagSelection } from '@/src/hooks/rituals/useTagSelection';
-import { TagValue } from '@/src/models/ritualTags';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { ActivityIndicator, Pressable, ScrollView, View } from 'react-native';
-
+import { Pressable, ScrollView, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function RitualsSearchScreen() {
   const router = useRouter();
-  const { data: tagData, isLoading: tagsLoading } = useRitualTags();
+  const { data: tagData, isLoading: isTagsLoading, refetch: refetchTags, error } = useRitualTags();
   const { selected, toggle, clearAll } = useTagSelection();
   
   const navigateToResults = async () => {
-    router.replace('/(tabs)/rituals/(top-nav)/all-rituals');
+    router.replace('/rituals/all-rituals');
   };
 
-  
+  if (isTagsLoading) return <LoadingState text="Loading search tags..." />;
+  if (error) return <ErrorState message="Failed to load search tags." onButtonPress={() => refetchTags()} />;
+
   return (
-    <ThemedView className="flex-1">
-      {tagsLoading ? (
-        <View className="flex-1 justify-center items-center">
-          <ActivityIndicator size="large" color="#8B5CF6" />
+    <SafeAreaView style={{ flex: 1 }} edges={["top", "left", "right"]}>
+      <ThemedView className="flex-1">
+        <View className="flex-row items-center justify-between p-2 border-b border-gray-200 bg-white">
+          <Pressable 
+            onPress={() => router.back()}
+            className="p-2 ml-2"
+          >
+            <MaterialIcons name="arrow-back" size={24} color="#4B5563" />
+          </Pressable>
+          <ThemedText className="font-semibold text-base">Filter rituals</ThemedText>
+          <Pressable 
+            onPress={navigateToResults}
+            className="p-2 mr-2"
+          >
+            <MaterialIcons name="check" size={24} color="#4B5563" />
+          </Pressable>
         </View>
-      ) : (
-        <>
-          <View className="flex-row items-center p-4 border-b border-gray-200 bg-white">
-            <Pressable 
-              onPress={() => router.back()}
-              className="p-2 mr-2"
-            >
-              <MaterialIcons name="arrow-back" size={24} color="#4B5563" />
-            </Pressable>
-            <ThemedText className="font-semibold text-base">Filter rituals</ThemedText>
-            <View className="flex-1" />
-            <Pressable onPress={clearAll} className="px-3 py-1 rounded bg-gray-100">
-              <ThemedText className="text-gray-600">Clear</ThemedText>
-            </Pressable>
-          </View>
-          {/* Tag Categories */}
-          <ScrollView className="px-4" showsVerticalScrollIndicator={false}>
+
+        <SelectedTags />
+        
+        {/* Tag Categories */}
+        {tagData && (
+          <ScrollView className="mb-4" showsVerticalScrollIndicator={false}>
             <TagCategory
-              title={tagData?.loveTypes?.displayName || ''}
-              values={tagData?.loveTypes?.values}
+              title={tagData.loveTypes.displayName}
+              tagValues={tagData.loveTypes.values}
               keyPrefix="lt"
-              isSelected={(k) => selected.loveTypes.some(v => v.key === k)}
-              onToggle={(k) => {
-                const v = (tagData?.loveTypes?.values || []).find(tv => tv.key === k) as TagValue | undefined;
-                if (v) toggle('loveTypes', v);
-              }}
+              isSelected={(key) => selected.loveTypes.some(v => v.key === key)}
+              onToggle={(tag) => toggle('loveTypes', tag)}
             />
 
             <TagCategory
-              title={tagData?.ritualModes?.displayName || ''}
-              values={tagData?.ritualModes?.values}
+              title={tagData.ritualModes.displayName}
+              tagValues={tagData.ritualModes.values}
               keyPrefix="rm"
-              isSelected={(k) => selected.ritualModes.some(v => v.key === k)}
-              onToggle={(k) => {
-                const v = (tagData?.ritualModes?.values || []).find(tv => tv.key === k) as TagValue | undefined;
-                if (v) toggle('ritualModes', v);
-              }}
+              isSelected={(key) => selected.ritualModes.some(v => v.key === key)}
+              onToggle={(tag) => toggle('ritualModes', tag)}
             />
 
             <TagCategory
-              title={tagData?.timeTaken?.displayName || ''}
-              values={tagData?.timeTaken?.values}
+              title={tagData.timeTaken.displayName}
+              tagValues={tagData.timeTaken.values}
               keyPrefix="tt"
-              isSelected={(k) => selected.timeTaken.some(v => v.key === k)}
-              onToggle={(k) => {
-                const v = (tagData?.timeTaken?.values || []).find(tv => tv.key === k) as TagValue | undefined;
-                if (v) toggle('timeTaken', v);
-              }}
+              isSelected={(key) => selected.timeTaken.some(v => v.key === key)}
+              onToggle={(tag) => toggle('timeTaken', tag)}
             />
 
             <TagCategory
-              title={tagData?.ritualTones?.displayName || ''}
-              values={tagData?.ritualTones?.values}
+              title={tagData.ritualTones.displayName}
+              tagValues={tagData.ritualTones.values}
               keyPrefix="rt"
-              isSelected={(k) => selected.ritualTones.some(v => v.key === k)}
-              onToggle={(k) => {
-                const v = (tagData?.ritualTones?.values || []).find(tv => tv.key === k) as TagValue | undefined;
-                if (v) toggle('ritualTones', v);
-              }}
+              isSelected={(key) => selected.ritualTones.some(v => v.key === key)}
+              onToggle={(tag) => toggle('ritualTones', tag)}
             />
 
             <TagCategory
-              title={tagData?.relationalNeeds?.displayName || ''}
-              values={tagData?.relationalNeeds?.values}
+              title={tagData.relationalNeeds.displayName}
+              tagValues={tagData.relationalNeeds.values}
               keyPrefix="rn"
-              isSelected={(k) => selected.relationalNeeds.some(v => v.key === k)}
-              onToggle={(k) => {
-                const v = (tagData?.relationalNeeds?.values || []).find(tv => tv.key === k) as TagValue | undefined;
-                if (v) toggle('relationalNeeds', v);
-              }}
+              isSelected={(key) => selected.relationalNeeds.some(v => v.key === key)}
+              onToggle={(tag) => toggle('relationalNeeds', tag)}
             />
 
-            <Pressable onPress={navigateToResults} className="bg-gray-700 hover:bg-gray-800 active:bg-gray-900 rounded-lg py-3 items-center my-4">
-              <ThemedText className="text-black font-semibold">Show Results</ThemedText>
+            <Pressable
+              onPress={navigateToResults}
+              className="bg-gray-800 rounded-full py-3 items-center mt-4 mb-6 mx-4
+                        active:bg-gray-900"
+              style={({ pressed }) => [
+                pressed && { opacity: 0.7 },
+              ]}
+            >
+              <ThemedText className="text-white font-semibold text-base">
+                Show Rituals
+              </ThemedText>
             </Pressable>
           </ScrollView>
-        </>
-      )}
+        )}
     </ThemedView>
+    </SafeAreaView>
   );
 }

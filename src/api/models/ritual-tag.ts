@@ -28,12 +28,12 @@ export interface RitualTag {
      * @type {string}
      * @memberof RitualTag
      */
-    'displayName'?: string;
+    'displayName': string;
     /**
      * 
      * @type {Array<TagValue>}
      * @memberof RitualTag
      */
-    'values'?: Array<TagValue>;
+    'values': Array<TagValue>;
 }
 

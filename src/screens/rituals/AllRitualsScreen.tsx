@@ -1,17 +1,16 @@
 import RitualCard from '@/src/components/rituals/RitualCard';
-import RitualTags from '@/src/components/rituals/RitualTags';
-import { ThemedText } from '@/src/components/themes/themed-text';
+import { SelectedTags } from '@/src/components/rituals/SelectedTags';
+import { EmptyState } from '@/src/components/states/EmptyState';
 import { useRitualSearch } from '@/src/hooks/rituals/useRitualSearch';
 import { useTagSelection } from '@/src/hooks/rituals/useTagSelection';
 import { useRef } from 'react';
-import { ActivityIndicator, FlatList, Pressable, ScrollView, View } from 'react-native';
+import { ActivityIndicator, FlatList, View } from 'react-native';
 
 export default function AllRitualsScreen() {
   const listRef = useRef(null);
   const onEndReachedCalledDuringMomentum = useRef(false);
 
-  const { filter, chips, removeChip, clearAll } = useTagSelection();
-
+  const { filter } = useTagSelection();
   const {
     rituals,
     loading: { isLoading, isFetchingNextPage },
@@ -37,50 +36,21 @@ export default function AllRitualsScreen() {
   }
 
   return (
-    <View className="bg-white">
-        {chips.length > 0 && (
-          <ScrollView 
-            horizontal 
-            className="px-4 pt-3" 
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ gap: 8 }}
-          >
-            {chips.map((c) => (
-              <RitualTags 
-                key={c.key}
-                tag={{ displayName: c.displayName }}
-                bgClassName="bg-violet-100"
-                borderClassName="border-violet-200"
-                colorClassName="text-violet-700"
-                closable
-                onClose={() => removeChip(c)}
-              />
-            ))}
-            {chips.length > 0 && (
-              <Pressable onPress={clearAll}>
-                <RitualTags 
-                  key="clear-all"
-                  tag={{ displayName: 'Clear All' }}
-                  bgClassName="bg-gray-100"
-                  borderClassName="border-gray-200"
-                  colorClassName="text-gray-600"
-                />
-              </Pressable>
-            )}
-          </ScrollView>
-        )}
+    <View className="flex-1 bg-white mt-3 mb-6">
+        <SelectedTags />
         <FlatList
           ref={listRef}
           data={rituals}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <RitualCard 
-              key={item.id}
-              ritual={item}
-            />
+          renderItem={({ item: ritual }) => (
+            <View className="mb-4 px-4">
+              <RitualCard 
+                key={ritual.id}
+                ritual={ritual}
+              />
+            </View>
           )}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 16 }}
           onEndReached={handleEndReached}
           onEndReachedThreshold={0.6}
           onMomentumScrollBegin={() => {
@@ -91,13 +61,7 @@ export default function AllRitualsScreen() {
               <ActivityIndicator style={{ marginVertical: 20 }} />
             ) : null
           }
-          ListEmptyComponent={
-            <View className="flex-1 justify-center items-center py-10">
-              <ThemedText className="text-gray-500">
-                No rituals found
-              </ThemedText>
-            </View>
-          }
+          ListEmptyComponent={<EmptyState message="No rituals found." />}
           refreshing={isLoading}
           onRefresh={refresh}
         />

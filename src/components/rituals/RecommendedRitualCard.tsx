@@ -2,7 +2,7 @@ import { ThemedText } from '@/src/components/themes/themed-text';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
 import { Ritual } from '@/src/models/rituals';
 import { Pressable, View } from 'react-native';
-import RitualTag from './RitualTags';
+import RitualTag from './Tag';
 
 interface RecommendedRitualProps {
   ritual: Ritual;
@@ -50,7 +50,7 @@ export default function RecommendedRitualCard({ ritual, selected = false, onPres
             </ThemedText>
             <View className="flex-row flex-wrap gap-1.5">
               {getRitualTagDisplayNames(ritual).slice(0, 3).map((label: string, idx: number) => (
-                <RitualTag key={idx} label={label} small />
+                <RitualTag key={idx} label={label} size="small" />
               ))}
             </View>
           </View>

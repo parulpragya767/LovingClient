@@ -1,4 +1,4 @@
-import RitualTags from '@/src/components/rituals/RitualTags';
+import Tag from '@/src/components/rituals/Tag';
 import { ThemedText } from '@/src/components/themes/themed-text';
 import { ThemedView } from '@/src/components/themes/themed-view';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
@@ -35,7 +35,7 @@ export default function RitualCard({ ritual, onLongPress }: RitualCardProps) {
         </ThemedText>
         <View className="flex-row flex-wrap gap-2">
           {getRitualTagDisplayNames(ritual).slice(0, 3).map((label: string, idx: number) => (
-            <RitualTags key={idx} label={label} />
+            <Tag key={idx} label={label} />
           ))}
         </View>
         

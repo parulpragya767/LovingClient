@@ -67,10 +67,10 @@ export const useTagSelection = () => {
 
   return {
     selected,
+    chips,
+    filter,
     toggle,
     removeChip,
     clearAll,
-    chips,
-    filter
   };
 };
