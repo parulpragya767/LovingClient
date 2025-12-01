@@ -1,39 +1,41 @@
 import RitualCard from '@/src/components/rituals/RitualCard';
 import { SelectedTags } from '@/src/components/rituals/SelectedTags';
 import { EmptyState } from '@/src/components/states/EmptyState';
+import ErrorState from '@/src/components/states/ErrorState';
+import LoadingState from '@/src/components/states/LoadingState';
 import { useRitualSearch } from '@/src/hooks/rituals/useRitualSearch';
 import { useTagSelection } from '@/src/hooks/rituals/useTagSelection';
-import { useRef } from 'react';
-import { ActivityIndicator, FlatList, View } from 'react-native';
+import { useEffect, useRef } from 'react';
+import { FlatList, Platform, View } from 'react-native';
 
 export default function AllRitualsScreen() {
   const listRef = useRef(null);
   const onEndReachedCalledDuringMomentum = useRef(false);
+  const isWeb = Platform.OS === "web";
 
   const { filter } = useTagSelection();
   const {
     rituals,
     loading: { isLoading, isFetchingNextPage },
-    meta: { hasNextPage },
-    actions: { loadMore, refresh },
+    meta: { hasNextPage, error },
+    actions: { loadMore, refetch, refresh },
   } = useRitualSearch(filter);
 
+  useEffect(() => {
+    onEndReachedCalledDuringMomentum.current = false;
+  }, [filter]);
+
   const handleEndReached = () => {
-    if (
-      !hasNextPage ||
-      isFetchingNextPage ||
-      onEndReachedCalledDuringMomentum.current
-    ) {
-      return;
-    }
+    if (!hasNextPage || isFetchingNextPage) return;
+
+    if (!isWeb && onEndReachedCalledDuringMomentum.current) return;
 
     onEndReachedCalledDuringMomentum.current = true;
     loadMore();
   };
 
-  if (isLoading) {
-    return <ActivityIndicator style={{ marginTop: 50 }} />;
-  }
+  if (isLoading) return <LoadingState text="Loading rituals..." />;
+  if (error) return <ErrorState message="Failed to load rituals." onButtonPress={() => refetch()} />;
 
   return (
     <View className="flex-1 bg-white mt-3 mb-6">
@@ -52,13 +54,16 @@ export default function AllRitualsScreen() {
           )}
           showsVerticalScrollIndicator={false}
           onEndReached={handleEndReached}
-          onEndReachedThreshold={0.6}
+          onEndReachedThreshold={0.1}
+          onScrollBeginDrag={() => {
+            onEndReachedCalledDuringMomentum.current = false;
+          }}
           onMomentumScrollBegin={() => {
             onEndReachedCalledDuringMomentum.current = false;
           }}
           ListFooterComponent={
             isFetchingNextPage ? (
-              <ActivityIndicator style={{ marginVertical: 20 }} />
+              <LoadingState text="" fullScreen={false} />
             ) : null
           }
           ListEmptyComponent={<EmptyState message="No rituals found." />}
