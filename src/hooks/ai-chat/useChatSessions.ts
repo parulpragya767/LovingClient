@@ -7,6 +7,11 @@ export const useChatSessions = () => {
   const query = useQuery<ChatSession[], Error>({
     queryKey: ["chat", "sessions"],
     queryFn: () => chatService.listSessions(),
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+    retry: 1,
   });
 
   const invalidateQueries = () => {

@@ -9,6 +9,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Alert, FlatList, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function AIChatScreen() {
   const router = useRouter();
@@ -40,40 +41,42 @@ export default function AIChatScreen() {
   };
 
   return (
-    <ThemedView className="flex-1">
-      {/* Header */}
-      <View className="flex-row items-center p-4 border-b border-gray-200 bg-white">
-        <TouchableOpacity onPress={() => router.back()} className="p-2 mr-2">
-          <MaterialIcons name="arrow-back" size={24} color="#4B5563" />
-        </TouchableOpacity>
-        <View>
-          <ThemedText className="text-lg font-semibold">AI Chat</ThemedText>
-        </View>
-      </View>
-
-      {/* Messages and ritual recommendation cards */}
-      <FlatList
-        data={currentConversation}
-        keyExtractor={(item, index) => item.id || `${index}-${item.createdAt}`}
-        contentContainerStyle={{ padding: 16, paddingBottom: 24 }}
-        renderItem={({ item }) => <ChatMessage message={item}/>}
-        ListFooterComponent={
-          <View className="w-full">
-            {isRecommendationConsentCardVisible && (
-              <RitualRecommendationConsentCard onPress={handleRitualRecommendation} />
-            )}
+    <SafeAreaView className="flex-1 bg-white" edges={['top','left', 'right']}>
+      <ThemedView className="flex-1">
+        {/* Header */}
+        <View className="flex-row items-center p-4 border-b border-gray-200 bg-white">
+          <TouchableOpacity onPress={() => router.back()} className="p-2 mr-2">
+            <MaterialIcons name="arrow-back" size={24} color="#4B5563" />
+          </TouchableOpacity>
+          <View>
+            <ThemedText className="text-lg font-semibold">AI Chat</ThemedText>
           </View>
-        }
-      />
+        </View>
 
-      {/* Chat input area */}
-      <ChatInput 
-        placeholder="Type your message..." 
-        onSubmit={handleSendMessage}
-      />
+        {/* Messages and ritual recommendation cards */}
+        <FlatList
+          data={currentConversation}
+          keyExtractor={(item, index) => item.id || `${index}-${item.createdAt}`}
+          contentContainerStyle={{ padding: 16, paddingBottom: 24 }}
+          renderItem={({ item }) => <ChatMessage message={item}/>}
+          ListFooterComponent={
+            <View className="w-full">
+              {isRecommendationConsentCardVisible && (
+                <RitualRecommendationConsentCard onPress={handleRitualRecommendation} />
+              )}
+            </View>
+          }
+        />
 
-      {/* Ritual Recommendation Modal */}
-      <RitualRecommendationModal />
-    </ThemedView>
+        {/* Chat input area */}
+        <ChatInput 
+          placeholder="Type your message..." 
+          onSubmit={handleSendMessage}
+        />
+
+        {/* Ritual Recommendation Modal */}
+        <RitualRecommendationModal />
+      </ThemedView>
+    </SafeAreaView>
   );
 }

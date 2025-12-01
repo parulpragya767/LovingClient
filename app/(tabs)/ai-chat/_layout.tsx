@@ -1,3 +1,4 @@
+import { ChatListHeader } from '@/src/components/ai-chat/AIChatListHeader';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Stack, useRouter } from 'expo-router';
 import { TouchableOpacity } from 'react-native';
@@ -29,8 +30,10 @@ export default function AIChatLayout() {
       <Stack.Screen 
         name="list" 
         options={{
-          title: 'List',
-          headerShown: false,
+          headerShown: true,
+          header: () => (
+            <ChatListHeader />
+          ),
         }}
       />
       <Stack.Screen 

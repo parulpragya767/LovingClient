@@ -7,6 +7,7 @@ import React from 'react';
 import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Toast from "react-native-toast-message";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -39,6 +40,7 @@ export default function RootLayout() {
           <SafeAreaProvider>
             <RootLayoutNav />
             <StatusBar style="auto" />
+            <Toast />
           </SafeAreaProvider>
         </GestureHandlerRootView>
       </AuthProvider>

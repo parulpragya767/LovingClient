@@ -29,7 +29,6 @@ export function toChatSession(dto: ChatSessionDTO): ChatSession {
   const messages = (dto.messages || []) as ChatMessageDTO[];
   return {
     ...dto,
-    id: dto.id || '',
     title: dto.title || 'New Chat',
     createdAt: dto.createdAt || '',
     updatedAt: dto.updatedAt || '',

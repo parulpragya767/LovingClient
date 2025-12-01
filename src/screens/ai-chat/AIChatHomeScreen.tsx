@@ -16,7 +16,7 @@ export const AIChatHomeScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={['top', "left", "right"]}>
+    <SafeAreaView style={{ flex: 1 }} edges={["left", "right"]}>
       <KeyboardAvoidingView
         className="flex-1 bg-white"
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
