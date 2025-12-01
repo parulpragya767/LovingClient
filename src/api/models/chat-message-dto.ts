@@ -31,19 +31,19 @@ export interface ChatMessageDTO {
      * @type {string}
      * @memberof ChatMessageDTO
      */
-    'id'?: string;
+    'id': string;
     /**
      * 
      * @type {string}
      * @memberof ChatMessageDTO
      */
-    'sessionId'?: string;
+    'sessionId': string;
     /**
      * 
      * @type {ChatMessageRole}
      * @memberof ChatMessageDTO
      */
-    'role'?: ChatMessageRole;
+    'role': ChatMessageRole;
     /**
      * 
      * @type {string}

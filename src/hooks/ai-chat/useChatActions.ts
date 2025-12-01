@@ -13,8 +13,13 @@ import { useChatSessions } from "./useChatSessions";
 export const useChatActions = () => {
   const currentSessionId = useChatStore((s) => s.currentSessionId);
   const { setCurrentSession } = useChatStore();
-  const { invalidateQueries: invalidateSessions } = useChatSessions();
+  const { data: sessions, invalidateQueries: invalidateSessions } = useChatSessions();
   const { data: messages, sendMessage: sendMessageToStore, invalidateQueries: invalidateMessages } = useChatMessages(currentSessionId ?? '');
+
+  const currentSession = useMemo(() => {
+    if (!sessions || !currentSessionId) return null;
+    return sessions.find(session => session.id === currentSessionId) || null;
+  }, [sessions, currentSessionId]);
 
   const currentConversation = useMemo(
     () =>
@@ -92,6 +97,7 @@ export const useChatActions = () => {
   };
 
   return { 
+    currentSession,
     currentConversation,
     startNewConversation,
     selectConversation,
