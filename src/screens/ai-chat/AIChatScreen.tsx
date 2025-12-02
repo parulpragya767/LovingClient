@@ -5,12 +5,13 @@ import RitualRecommendationModal from '@/src/components/rituals/RitualRecommenda
 import { EmptyState } from '@/src/components/states/EmptyState';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useState } from 'react';
-import { Alert, FlatList, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Toast from "react-native-toast-message";
 
 export default function AIChatScreen() {
   const { currentConversation, sendMessage, recommendRitualPack, refreshConversation } = useChatActions();
-  const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(false);
+  const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(true);
 
   const handleSendMessage = async (message: string) => {
     const isReadyForRitualPack = await sendMessage(message);
@@ -25,11 +26,16 @@ export default function AIChatScreen() {
       if (ritualPack) {
         refreshConversation();
       } else {
-        Alert.alert('No Recommendations', 'No ritual pack recommendations available at this time.');
-      }
+        Toast.show({
+          type: "info", 
+          text1: "No recommendation available at this time.",
+        });
+      } 
     } catch (error) {
-      console.error('Error getting ritual pack:', error);
-      Alert.alert('Error', 'Failed to get ritual pack recommendations. Please try again.');
+      Toast.show({
+        type: "error", 
+        text1: "Failed to get your recommendation",
+      });
     }
     finally {
       setIsRecommendationConsentCardVisible(false);
@@ -37,15 +43,16 @@ export default function AIChatScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={['top','left', 'right']}>
+    <SafeAreaView className="flex-1 bg-white" edges={['left', 'right']}>
       {/* Messages and ritual recommendation cards */}
-      <View className="flex-1 px-4 py-12">
+      <View className="flex-1 px-2 py-4">
         <FlatList
           data={currentConversation}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => <ChatMessage message={item}/>}
+          showsVerticalScrollIndicator={false}
           ListFooterComponent={
-            <View className="w-full">
+            <View className="mt-2 mb-4">
               {isRecommendationConsentCardVisible && (
                 <RitualRecommendationConsentCard onPress={handleRitualRecommendation} />
               )}

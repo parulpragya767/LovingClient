@@ -1,5 +1,4 @@
 import { RecommendationStatus } from '@/src/api/models/recommendation-status';
-import { ThemedText } from '@/src/components/themes/themed-text';
 import { useRitualPack } from '@/src/hooks/rituals/useRitualPack';
 import { useRitualRecommendation } from '@/src/hooks/rituals/useRitualRecommendation';
 import { useChatStore } from '@/src/store/useChatStore';
@@ -14,10 +13,10 @@ type RitualRecommendationHandlerProps = {
 export function RitualRecommendationHandler({ 
   recommendationId, 
 }: RitualRecommendationHandlerProps) {
-  const { data: recommendation, isLoading: isLoadingRecommendation } = 
+  const { data: recommendation } = 
     useRitualRecommendation(recommendationId);
   
-  const { data: ritualPack, isLoading: isLoadingRitualPack } = useRitualPack(
+  const { data: ritualPack } = useRitualPack(
     recommendation?.ritualPackId || ''
   );
 
@@ -28,20 +27,8 @@ export function RitualRecommendationHandler({
     setRitualRecommendationId(recommendationId);
   };
 
-  if (isLoadingRecommendation || isLoadingRitualPack) {
-    return (
-      <View className="my-1 w-full self-start p-4">
-        <ThemedText>Loading recommendation...</ThemedText>
-      </View>
-    );
-  }
-
   if (!recommendation || !ritualPack) {
-    return (
-      <View className="my-1 w-full self-start p-4">
-        <ThemedText>Recommendation not found</ThemedText>
-      </View>
-    );
+    return null;
   }
 
   const isSuggestedOrViewed = [
@@ -55,7 +42,7 @@ export function RitualRecommendationHandler({
   ].includes(recommendation.status as any);
 
   return (
-    <View className="my-1 w-full self-start">
+    <View className="my-2 w-full self-start">
       {isSuggestedOrViewed && (
         <RitualRecommendationSelectionCard 
           ritualPack={ritualPack} 
@@ -63,7 +50,7 @@ export function RitualRecommendationHandler({
         />
       )}
       {isAddedOrSkipped && (
-        <RitualRecommendationViewCard ritualPackId={ritualPack.id} />
+        <RitualRecommendationViewCard ritualPack={ritualPack} />
       )}
     </View>
   );

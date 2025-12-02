@@ -19,26 +19,18 @@ export function ChatMessage({ message }: ChatMessageProps) {
   
   if (hasRecommendation) {
     const recommendationId = message.metadata!.recommendationId!;
-    return (
-      <RitualRecommendationHandler 
-        recommendationId={recommendationId}
-      />
-    );
+    return <RitualRecommendationHandler recommendationId={recommendationId}/>
   }
 
   return (
-    <View className={`my-1 max-w-[80%] ${isUser ? 'self-end ml-[20%]' : 'self-start mr-[20%]'}`}>
-      <View 
-        className={`rounded-2xl p-3 ${isUser 
-          ? 'bg-purple-700 rounded-br-sm' 
-          : 'bg-gray-100 rounded-bl-sm'}`}
+    <View className={`my-1 p-2.5 rounded-2xl max-w-[80%] 
+      ${isUser 
+        ? 'self-end ml-[20%] bg-purple-700 rounded-br-sm' 
+        : 'self-start mr-[20%] bg-gray-100 rounded-bl-sm'}`}
       >
-        <ThemedText 
-          className={`text-base leading-[22px] ${isUser ? 'text-white' : 'text-gray-800'}`}
-        >
-          {message.content}
-        </ThemedText>
-      </View>
+      <ThemedText className={`text-base leading-relaxed ${isUser ? 'text-white' : 'text-gray-800'}`}>
+        {message.content}
+      </ThemedText>
     </View>
   );
 }

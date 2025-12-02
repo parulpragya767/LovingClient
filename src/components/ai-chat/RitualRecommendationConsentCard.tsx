@@ -8,11 +8,8 @@ type RitualRecommendationConsentCardProps = {
 
 export function RitualRecommendationConsentCard({ onPress }: RitualRecommendationConsentCardProps) {
   return (
-    <TouchableOpacity 
-      className="bg-blue-50 p-4 rounded-lg self-start max-w-[80%] mb-4 border border-blue-100"
-      onPress={onPress}
-    >
-      <View className="flex-row items-start">
+    <TouchableOpacity className="w-full" onPress={onPress}>
+      <View className="flex-row items-start rounded-xl p-4 bg-blue-50 border border-blue-100">
         <View className="bg-blue-100 rounded-full w-6 h-6 items-center justify-center mr-2">
           <MaterialIcons name="check" size={16} color="#3b82f6" />
         </View>
