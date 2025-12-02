@@ -1,5 +1,5 @@
 import { ThemedText } from '@/src/components/themes/themed-text';
-import { Pressable, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 
 type StarterPromptProps = {
   prompt: string;
@@ -8,15 +8,15 @@ type StarterPromptProps = {
 
 export function StarterPrompt({ prompt, onPress }: StarterPromptProps) {
   return (
-    <Pressable 
+    <TouchableOpacity 
       onPress={() => onPress(prompt)} 
-      className="w-full mb-3 rounded-xl bg-gray-100 p-4 active:opacity-80 active:bg-gray-200"
+      className="w-full mb-3 p-4 rounded-xl bg-gray-100"
     >
       <View className="flex-row items-center p-4 border border-gray-300 rounded-xl">
-        <ThemedText className="text-base leading-[22px] text-gray-800">
+        <ThemedText className="text-base leading text-gray-800">
           {prompt}
         </ThemedText>
       </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 }

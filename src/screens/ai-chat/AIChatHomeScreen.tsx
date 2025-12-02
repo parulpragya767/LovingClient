@@ -1,19 +1,28 @@
 import { ChatInput, ChatInputHandle } from '@/src/components/ai-chat/ChatInput';
 import { StarterPrompt } from '@/src/components/ai-chat/StarterPrompt';
 import { ThemedText } from '@/src/components/themes/themed-text';
+import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useSamplePrompts } from '@/src/hooks/ai-chat/useSamplePrompts';
+import { useRouter } from 'expo-router';
 import { useCallback, useRef } from 'react';
 import { FlatList, Keyboard, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const AIChatHomeScreen = () => {
+  const router = useRouter();
   const chatInputRef = useRef<ChatInputHandle>(null);
-
+  const { sendMessage, startNewConversation } = useChatActions();
   const { data: samplePrompts } = useSamplePrompts();
 
   const handleStarterPromptPress = useCallback((prompt: string) => {
     chatInputRef.current?.setText(prompt);
   }, []);
+
+  const handleSendMessage = useCallback(async (message: string) => {
+    await startNewConversation();
+    await sendMessage(message);
+    router.push('/ai-chat/chat');
+  }, [startNewConversation, sendMessage, router]);
 
   return (
     <SafeAreaView style={{ flex: 1 }} edges={["left", "right"]}>
@@ -60,7 +69,7 @@ export const AIChatHomeScreen = () => {
             <ChatInput
               ref={chatInputRef}
               placeholder="Message your AI companion..."
-              navigateToChatOnSend
+              onSend={handleSendMessage}
             />
           </View>
         </TouchableWithoutFeedback>

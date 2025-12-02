@@ -4,7 +4,7 @@ import { RitualRecommendationConsentCard } from '@/src/components/ai-chat/Ritual
 import RitualRecommendationModal from '@/src/components/rituals/RitualRecommendationModal';
 import { EmptyState } from '@/src/components/states/EmptyState';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from "react-native-toast-message";
@@ -13,12 +13,12 @@ export default function AIChatScreen() {
   const { currentConversation, sendMessage, recommendRitualPack, refreshConversation } = useChatActions();
   const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(true);
 
-  const handleSendMessage = async (message: string) => {
+  const handleSendMessage = useCallback(async (message: string) => {
     const isReadyForRitualPack = await sendMessage(message);
     if (isReadyForRitualPack) {
       setIsRecommendationConsentCardVisible(true);
     }
-  };
+  }, [sendMessage]);
 
   const handleRitualRecommendation = async () => {
     try {
@@ -65,7 +65,7 @@ export default function AIChatScreen() {
       {/* Chat input area */}
       <ChatInput 
         placeholder="Type your message..." 
-        onSubmit={handleSendMessage}
+        onSend={handleSendMessage}
       />
 
       {/* Ritual Recommendation Modal */}
