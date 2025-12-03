@@ -19,8 +19,6 @@ export interface ChatSession extends Omit<ChatSessionDTO, 'messages' | 'title' >
 export function toChatMessage(dto: ChatMessageDTO): ChatMessage {
   return {
     ...dto,
-    id: dto.id || '',
-    sessionId: dto.sessionId || '',
     content: dto.content || '',
   };
 }

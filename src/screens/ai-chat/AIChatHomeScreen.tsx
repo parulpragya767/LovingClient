@@ -2,7 +2,9 @@ import { ChatInput, ChatInputHandle } from '@/src/components/ai-chat/ChatInput';
 import { StarterPrompt } from '@/src/components/ai-chat/StarterPrompt';
 import { ThemedText } from '@/src/components/themes/themed-text';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
+import { useChatMessages } from '@/src/hooks/ai-chat/useChatMessages';
 import { useSamplePrompts } from '@/src/hooks/ai-chat/useSamplePrompts';
+import { useChatStore } from '@/src/store/useChatStore';
 import { useRouter } from 'expo-router';
 import { useCallback, useRef } from 'react';
 import { FlatList, Keyboard, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, View } from 'react-native';
@@ -11,7 +13,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export const AIChatHomeScreen = () => {
   const router = useRouter();
   const chatInputRef = useRef<ChatInputHandle>(null);
-  const { sendMessage, startNewConversation } = useChatActions();
+  const currentSessionId = useChatStore((s) => s.currentSessionId);
+  const { startNewConversation } = useChatActions();
+  const { sendMessage } = useChatMessages(currentSessionId ?? '');
   const { data: samplePrompts } = useSamplePrompts();
 
   const handleStarterPromptPress = useCallback((prompt: string) => {
@@ -22,7 +26,7 @@ export const AIChatHomeScreen = () => {
     await startNewConversation();
     await sendMessage(message);
     router.push('/ai-chat/chat');
-  }, [startNewConversation, sendMessage, router]);
+  }, [startNewConversation, sendMessage, currentSessionId]);
 
   return (
     <SafeAreaView style={{ flex: 1 }} edges={["left", "right"]}>

@@ -1,6 +1,8 @@
 import { ChatMessage } from "@/src/models/chat";
+import { ChatMessageRole } from '@/src/models/enums';
+import type { RitualPack } from '@/src/models/ritualPacks';
 import { chatService } from "@/src/services/chatService";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useChatMessages = (sessionId: string) => {
   const queryClient = useQueryClient();
@@ -12,52 +14,57 @@ export const useChatMessages = (sessionId: string) => {
       return response.messages ?? [];
     },
     enabled: !!sessionId,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+    retry: 1,
   });
 
-  // Mutation for sending messages
-  const mutation = useMutation<
-    ChatMessage[],
-    Error,
-    { message: ChatMessage; sessionId: string },
-    { previousMessages?: ChatMessage[] }
-  >({
-    mutationFn: async ({ message, sessionId }) => {
-      const currentMessages =
-        queryClient.getQueryData<ChatMessage[]>(["chat", "messages", sessionId]) ?? [];
-      return [...currentMessages, message];
-    },
-    onMutate: async ({ message, sessionId }) => {
-      await queryClient.cancelQueries({ queryKey: ["chat", "messages", sessionId] });
+  const appendMessage = (message: ChatMessage) => {
+    queryClient.setQueryData<ChatMessage[]>(
+      ["chat", "messages", sessionId],
+      (old = []) => [...old, message]
+    );
+  };
 
-      const previousMessages = queryClient.getQueryData<ChatMessage[]>([
-        "chat",
-        "messages",
-        sessionId,
-      ]);
+  const sendMessage = async (content: string): Promise<boolean> => {
+    console.log("currentSessionId : content - ", sessionId, content);
+    if (!sessionId) return false;
 
-      queryClient.setQueryData<ChatMessage[]>(["chat", "messages", sessionId], (old) => {
-        const current = old ?? [];
-        return [...current, message];
-      });
+    const userMsg: ChatMessage = {
+      id: 'id',
+      sessionId: sessionId,
+      role: ChatMessageRole.User,
+      content,
+      createdAt: new Date().toISOString(),
+    };
 
-      return { previousMessages };
-    },
-    onError: (_error, { sessionId }, context) => {
-      if (context?.previousMessages !== undefined) {
-        queryClient.setQueryData<ChatMessage[]>(
-          ["chat", "messages", sessionId],
-          context.previousMessages,
-        );
+    appendMessage(userMsg);
+
+    const resp = await chatService.sendMessage(sessionId, {
+      content,
+    });
+
+    if (resp.assistantResponse) {
+      appendMessage(resp.assistantResponse);
+    }
+
+    return resp.readyForRitualPackRecommendation ?? false;
+  };
+
+  const recommendRitualPack = async (): Promise<RitualPack | null> => {
+    if (!sessionId) return null;
+    const response = await chatService.recommendRitualPack(sessionId);
+      
+      // Send the wrap-up response to the chat if it exists
+      if (response.wrapUpResponse) {
+        appendMessage(response.wrapUpResponse);
       }
-    },
-    onSettled: (_data, _error, { sessionId }) => {
-      queryClient.invalidateQueries({ queryKey: ["chat", "messages", sessionId] });
-    },
-  });
-
-  const sendMessage = (message: ChatMessage, sessionId: string) =>
-    mutation.mutateAsync({ message, sessionId });
-
+      
+      return response.ritualPack || null;
+  };
+  
   const invalidateQueries = () => {
     return Promise.all([
       queryClient.invalidateQueries({ queryKey: ['chat', 'messages', sessionId] })
@@ -67,6 +74,7 @@ export const useChatMessages = (sessionId: string) => {
   return {
     ...query,
     sendMessage,
-    invalidateQueries
+    recommendRitualPack,
+    invalidateQueries,
   };
 };

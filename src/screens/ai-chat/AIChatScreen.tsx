@@ -3,15 +3,17 @@ import { ChatMessage } from '@/src/components/ai-chat/ChatMessage';
 import { RitualRecommendationConsentCard } from '@/src/components/ai-chat/RitualRecommendationConsentCard';
 import RitualRecommendationModal from '@/src/components/rituals/RitualRecommendationModal';
 import { EmptyState } from '@/src/components/states/EmptyState';
-import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
+import { useChatMessages } from '@/src/hooks/ai-chat/useChatMessages';
+import { useChatStore } from '@/src/store/useChatStore';
 import { useCallback, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from "react-native-toast-message";
 
 export default function AIChatScreen() {
-  const { currentConversation, sendMessage, recommendRitualPack, refreshConversation } = useChatActions();
-  const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(true);
+  const currentSessionId = useChatStore((s) => s.currentSessionId);
+  const { data: messages, sendMessage, recommendRitualPack, invalidateQueries: invalidateMessages } = useChatMessages(currentSessionId ?? '');
+  const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(false);
 
   const handleSendMessage = useCallback(async (message: string) => {
     const isReadyForRitualPack = await sendMessage(message);
@@ -24,7 +26,7 @@ export default function AIChatScreen() {
     try {
       const ritualPack = await recommendRitualPack();
       if (ritualPack) {
-        refreshConversation();
+        invalidateMessages();
       } else {
         Toast.show({
           type: "info", 
@@ -47,8 +49,8 @@ export default function AIChatScreen() {
       {/* Messages and ritual recommendation cards */}
       <View className="flex-1 px-2 py-4">
         <FlatList
-          data={currentConversation}
-          keyExtractor={(item) => item.id.toString()}
+          data={messages}
+          keyExtractor={(item, index) => item.id || `${index}-${item.createdAt}`}
           renderItem={({ item }) => <ChatMessage message={item}/>}
           showsVerticalScrollIndicator={false}
           ListFooterComponent={
