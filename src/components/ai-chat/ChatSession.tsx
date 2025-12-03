@@ -18,7 +18,7 @@ export function ChatSession({ session }: ChatSessionProps) {
 
   const handleSelect = async () => {
     await selectConversation(session.id);
-    router.push('/ai-chat/chat');
+    router.push(`/ai-chat/chat?sessionId=${session.id}`);
   };
 
   const handleDelete = async (e: any) => {

@@ -4,16 +4,22 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Toast from "react-native-toast-message";
 
 export function ChatListHeader() {
   const router = useRouter();
-  const {
-    startNewConversation,
-  } = useChatActions();
+  const { startNewConversation } = useChatActions();
 
   const handleNewChat = async () => {
-    await startNewConversation();
-    router.push('/ai-chat/chat');
+    try {
+      const sessionId = await startNewConversation();
+      router.push(`/ai-chat/chat?sessionId=${sessionId}`);
+    } catch (error) {
+      Toast.show({
+        type: "error", 
+        text1: "Failed to start conversation",
+      });
+    }
   };
 
   const navigateToChatHome = () => {

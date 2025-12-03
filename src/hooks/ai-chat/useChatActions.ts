@@ -1,24 +1,27 @@
 import { chatService } from '@/src/services/chatService';
-import { useMemo } from 'react';
 
+import { ChatMessage, ChatSession } from '@/src/models/chat';
+import { ChatMessageRole } from '@/src/models/enums';
+import type { RitualPack } from '@/src/models/ritualPacks';
 import { useChatStore } from "@/src/store/useChatStore";
+import { useQueryClient } from "@tanstack/react-query";
 import { useChatSessions } from "./useChatSessions";
 
 export const useChatActions = () => {
-  const currentSessionId = useChatStore((s) => s.currentSessionId);
+  const queryClient = useQueryClient();
   const { setCurrentSession } = useChatStore();
   const { data: sessions, invalidateQueries: invalidateSessions } = useChatSessions();
+  
+  const getSessionDetails = async (sessionId: string): Promise<ChatSession | null> => {
+    if (!sessions || !sessionId) return null;
+    return sessions.find(session => session.id === sessionId) || null;
+  };
 
-  const currentSession = useMemo(() => {
-    if (!sessions || !currentSessionId) return null;
-    return sessions.find(session => session.id === currentSessionId) || null;
-  }, [sessions, currentSessionId]);
-
-  const startNewConversation = async () => {
+  const startNewConversation = async (): Promise<string> => {
     const session = await chatService.startSession();
-    console.log("session created - ", session);
     setCurrentSession(session.id);
     await invalidateSessions();
+    return session.id;
   };
 
   const selectConversation = async (id: string) => {
@@ -30,10 +33,62 @@ export const useChatActions = () => {
     await invalidateSessions();
   };
 
+  const appendMessageToStore = (sessionId: string, msg: ChatMessage) => {
+    queryClient.setQueryData<ChatMessage[]>(
+      ["chat", "messages", sessionId],
+      (old = []) => [...old, msg]
+    );
+  };
+
+  const sendMessageToSession = async (sessionId: string, content: string): Promise<boolean>=> {
+    if (!sessionId || !content) return false;
+
+    const userMsg: ChatMessage = {
+      id: "id",
+      sessionId,
+      role: ChatMessageRole.User,
+      content,
+      createdAt: new Date().toISOString(),
+    };
+
+    appendMessageToStore(sessionId, userMsg);
+
+    try {
+      const resp = await chatService.sendMessage(sessionId, { content });
+
+      if (resp.assistantResponse) {
+        appendMessageToStore(sessionId, resp.assistantResponse);
+      }
+
+      return resp.readyForRitualPackRecommendation ?? false;
+    } catch (err) {
+      queryClient.invalidateQueries({ queryKey: ["chat", "messages", sessionId] });
+      throw err;
+    }
+  };
+
+  const recommendRitualPack = async (sessionId: string): Promise<RitualPack | null> => {
+    if (!sessionId) return null;
+    try {
+      const response = await chatService.recommendRitualPack(sessionId);
+
+      if (response.wrapUpResponse) {
+        appendMessageToStore(sessionId, response.wrapUpResponse);
+      }
+
+      return response.ritualPack || null;
+    } catch (err) {
+      queryClient.invalidateQueries({ queryKey: ["chat", "messages", sessionId] });
+      throw err;
+    }
+  };
+  
   return { 
-    currentSession,
+    getSessionDetails,
     startNewConversation,
     selectConversation,
-    deleteConversation
+    deleteConversation,
+    sendMessageToSession,
+    recommendRitualPack
   };
 };

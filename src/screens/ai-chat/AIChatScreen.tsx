@@ -3,28 +3,37 @@ import { ChatMessage } from '@/src/components/ai-chat/ChatMessage';
 import { RitualRecommendationConsentCard } from '@/src/components/ai-chat/RitualRecommendationConsentCard';
 import RitualRecommendationModal from '@/src/components/rituals/RitualRecommendationModal';
 import { EmptyState } from '@/src/components/states/EmptyState';
+import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useChatMessages } from '@/src/hooks/ai-chat/useChatMessages';
-import { useChatStore } from '@/src/store/useChatStore';
+import { useLocalSearchParams } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from "react-native-toast-message";
 
 export default function AIChatScreen() {
-  const currentSessionId = useChatStore((s) => s.currentSessionId);
-  const { data: messages, sendMessage, recommendRitualPack, invalidateQueries: invalidateMessages } = useChatMessages(currentSessionId ?? '');
+  const { sessionId } = useLocalSearchParams<{ sessionId: string }>();
+  const { sendMessageToSession, recommendRitualPack } = useChatActions();
+  const { data: messages, invalidateQueries: invalidateMessages } = useChatMessages(sessionId);
   const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(false);
 
   const handleSendMessage = useCallback(async (message: string) => {
-    const isReadyForRitualPack = await sendMessage(message);
-    if (isReadyForRitualPack) {
-      setIsRecommendationConsentCardVisible(true);
+    try {
+      const isReadyForRitualPack = await sendMessageToSession(sessionId, message);
+      if (isReadyForRitualPack) {
+        setIsRecommendationConsentCardVisible(true);
+      }
+    } catch (error) {
+      Toast.show({
+        type: "error", 
+        text1: "Failed to send your message",
+      });
     }
-  }, [sendMessage]);
+  }, [sessionId, sendMessageToSession]);
 
   const handleRitualRecommendation = async () => {
     try {
-      const ritualPack = await recommendRitualPack();
+      const ritualPack = await recommendRitualPack(sessionId);
       if (ritualPack) {
         invalidateMessages();
       } else {
