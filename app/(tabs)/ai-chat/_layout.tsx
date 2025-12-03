@@ -1,12 +1,10 @@
 import { ChatListHeader } from '@/src/components/ai-chat/AIChatListHeader';
-import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Stack, useRouter } from 'expo-router';
 import { TouchableOpacity } from 'react-native';
 
 export default function AIChatLayout() {
   const router = useRouter();
-  const { currentSession } = useChatActions();
 
   const handleChatListPress = () => {
     router.push('/ai-chat/list');
@@ -41,7 +39,6 @@ export default function AIChatLayout() {
       <Stack.Screen 
         name="chat" 
         options={{
-          title: currentSession?.title || 'AI Chat',
           headerShown: true,
         }}
       />

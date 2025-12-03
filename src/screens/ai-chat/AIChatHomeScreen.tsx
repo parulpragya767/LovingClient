@@ -7,7 +7,6 @@ import { useRouter } from 'expo-router';
 import { useCallback, useRef } from 'react';
 import { FlatList, Keyboard, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Toast from "react-native-toast-message";
 
 export const AIChatHomeScreen = () => {
   const router = useRouter();
@@ -20,16 +19,9 @@ export const AIChatHomeScreen = () => {
   }, []);
 
   const handleSendMessage = useCallback(async (message: string) => {
-    try {
-      const sessionId = await startNewConversation();
-      await sendMessageToSession(sessionId, message);
-      router.push(`/ai-chat/chat?sessionId=${sessionId}`);
-    } catch (error) {
-      Toast.show({
-        type: "error", 
-        text1: "Failed to start conversation",
-      });
-    }
+    const sessionId = await startNewConversation();
+    await sendMessageToSession(sessionId, message);
+    router.push(`/ai-chat/chat?sessionId=${sessionId}`);
   }, [startNewConversation, sendMessageToSession]);
 
   return (

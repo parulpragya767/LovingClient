@@ -5,29 +5,24 @@ import RitualRecommendationModal from '@/src/components/rituals/RitualRecommenda
 import { EmptyState } from '@/src/components/states/EmptyState';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useChatMessages } from '@/src/hooks/ai-chat/useChatMessages';
-import { useLocalSearchParams } from 'expo-router';
-import { useCallback, useState } from 'react';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from "react-native-toast-message";
 
 export default function AIChatScreen() {
+  const navigation = useNavigation();
   const { sessionId } = useLocalSearchParams<{ sessionId: string }>();
-  const { sendMessageToSession, recommendRitualPack } = useChatActions();
+  const { getSessionDetails, sendMessageToSession, recommendRitualPack } = useChatActions();
   const { data: messages, invalidateQueries: invalidateMessages } = useChatMessages(sessionId);
   const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(false);
-
+  
   const handleSendMessage = useCallback(async (message: string) => {
-    try {
-      const isReadyForRitualPack = await sendMessageToSession(sessionId, message);
-      if (isReadyForRitualPack) {
-        setIsRecommendationConsentCardVisible(true);
-      }
-    } catch (error) {
-      Toast.show({
-        type: "error", 
-        text1: "Failed to send your message",
-      });
+    const isReadyForRitualPack = await sendMessageToSession(sessionId, message);
+    
+    if (isReadyForRitualPack) {
+      setIsRecommendationConsentCardVisible(true);
     }
   }, [sessionId, sendMessageToSession]);
 
@@ -53,6 +48,17 @@ export default function AIChatScreen() {
     }
   };
 
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      const session = await getSessionDetails(sessionId);
+      if (!mounted) return;
+
+      navigation.setOptions({ title: session?.title || "AI Chat" });
+    })();
+    return () => { mounted = false };
+  }, [sessionId]);
+  
   return (
     <SafeAreaView className="flex-1 bg-white" edges={['left', 'right']}>
       {/* Messages and ritual recommendation cards */}
