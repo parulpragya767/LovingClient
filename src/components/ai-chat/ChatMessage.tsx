@@ -1,7 +1,9 @@
-import { ThemedText } from '@/src/components/themes/themed-text';
+import { createMarkdownParser } from "@/src/lib/markdown/createMarkdownParser";
+import { markdownRules } from "@/src/lib/markdown/markdownRules";
 import type { ChatMessage as ChatMessageType } from '@/src/models/chat';
 import { ChatMessageRole } from '@/src/models/enums';
 import { View } from 'react-native';
+import Markdown from 'react-native-markdown-display';
 import { RitualRecommendationHandler } from './RitualRecommendationHandler';
 
 type ChatMessageProps = {
@@ -12,6 +14,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
   const isUser = message.role === ChatMessageRole.User;
   const isSystem = message.role === ChatMessageRole.System;
   const hasRecommendation = isSystem && message.metadata?.recommendationId;
+  const mdParser = createMarkdownParser();
   
   if (isSystem && !hasRecommendation) {
     return null; // Don't render system messages without recommendations
@@ -28,9 +31,16 @@ export function ChatMessage({ message }: ChatMessageProps) {
         ? 'self-end ml-[20%] bg-purple-700 rounded-br-sm' 
         : 'self-start mr-[20%] bg-gray-100 rounded-bl-sm'}`}
       >
-      <ThemedText className={`text-base leading-relaxed ${isUser ? 'text-white' : 'text-gray-800'}`}>
-        {message.content}
-      </ThemedText>
+        <Markdown
+          markdownit={mdParser}
+          rules={markdownRules}
+          style={{
+            body: { color: isUser ? '#ffffff' : '#374151', fontSize: 15, lineHeight: 24, },
+            strong: { fontWeight: '600' }
+          }}
+          >
+          {message.content}
+        </Markdown>
     </View>
   );
 }

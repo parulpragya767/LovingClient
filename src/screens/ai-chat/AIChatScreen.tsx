@@ -3,6 +3,8 @@ import { ChatMessage } from '@/src/components/ai-chat/ChatMessage';
 import { RitualRecommendationConsentCard } from '@/src/components/ai-chat/RitualRecommendationConsentCard';
 import RitualRecommendationModal from '@/src/components/rituals/RitualRecommendationModal';
 import { EmptyState } from '@/src/components/states/EmptyState';
+import ErrorState from '@/src/components/states/ErrorState';
+import LoadingState from '@/src/components/states/LoadingState';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useChatMessages } from '@/src/hooks/ai-chat/useChatMessages';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
@@ -15,7 +17,7 @@ export default function AIChatScreen() {
   const navigation = useNavigation();
   const { sessionId } = useLocalSearchParams<{ sessionId: string }>();
   const { getSessionDetails, sendMessageToSession, recommendRitualPack } = useChatActions();
-  const { data: messages, invalidateQueries: invalidateMessages } = useChatMessages(sessionId);
+  const { data: messages, invalidateQueries: invalidateMessages, isLoading, error, refetch } = useChatMessages(sessionId);
   const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(false);
   
   const handleSendMessage = useCallback(async (message: string) => {
@@ -59,6 +61,9 @@ export default function AIChatScreen() {
     return () => { mounted = false };
   }, [sessionId]);
   
+  if (isLoading) return <LoadingState text="Loading your conversation..." />;
+  if (error) return <ErrorState message="Failed to load your conversation." onButtonPress={() => refetch()} />;
+
   return (
     <SafeAreaView className="flex-1 bg-white" edges={['left', 'right']}>
       {/* Messages and ritual recommendation cards */}
