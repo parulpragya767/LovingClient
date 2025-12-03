@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**order** | **number** |  | [optional] [default to undefined]
-**title** | **string** |  | [optional] [default to undefined]
-**summary** | **string** |  | [optional] [default to undefined]
+**order** | **number** |  | [default to undefined]
+**title** | **string** |  | [default to undefined]
+**summary** | **string** |  | [default to undefined]
 **bullets** | [**Array&lt;InfoBullet&gt;**](InfoBullet.md) |  | [optional] [default to undefined]
 
 ## Example

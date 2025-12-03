@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **string** |  | [optional] [default to undefined]
-**sessionId** | **string** |  | [optional] [default to undefined]
-**role** | [**ChatMessageRole**](ChatMessageRole.md) |  | [optional] [default to undefined]
+**id** | **string** |  | [default to undefined]
+**sessionId** | **string** |  | [default to undefined]
+**role** | [**ChatMessageRole**](ChatMessageRole.md) |  | [default to undefined]
 **content** | **string** |  | [optional] [default to undefined]
 **metadata** | [**ChatMetadata**](ChatMetadata.md) |  | [optional] [default to undefined]
 **createdAt** | **string** |  | [optional] [default to undefined]

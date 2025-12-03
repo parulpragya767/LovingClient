@@ -26,6 +26,7 @@ export * from './relational-need';
 export * from './relationship-status';
 export * from './ritual-dto';
 export * from './ritual-filter-dto';
+export * from './ritual-history-create-request';
 export * from './ritual-history-dto';
 export * from './ritual-history-status';
 export * from './ritual-history-update-request';

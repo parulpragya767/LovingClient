@@ -8,7 +8,7 @@ All URIs are relative to *http://localhost:8080*
 |[**bulkCreate**](#bulkcreate) | **POST** /api/ritual-history/bulk | |
 |[**bulkUpdateStatus**](#bulkupdatestatus) | **PUT** /api/ritual-history/bulk/status | |
 |[**complete**](#complete) | **POST** /api/ritual-history/{id}/complete | |
-|[**create**](#create) | **POST** /api/ritual-history | |
+|[**create1**](#create1) | **POST** /api/ritual-history | |
 |[**list**](#list) | **GET** /api/ritual-history | |
 |[**listCurrent**](#listcurrent) | **GET** /api/ritual-history/current | |
 |[**updateStatus**](#updatestatus) | **PUT** /api/ritual-history/{id}/status | |
@@ -64,7 +64,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **bulkCreate**
-> Array<RitualHistoryDTO> bulkCreate(ritualHistoryDTO)
+> Array<RitualHistoryDTO> bulkCreate(ritualHistoryCreateRequest)
 
 
 ### Example
@@ -78,10 +78,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualHistoryControllerApi(configuration);
 
-let ritualHistoryDTO: Array<RitualHistoryDTO>; //
+let ritualHistoryCreateRequest: Array<RitualHistoryCreateRequest>; //
 
 const { status, data } = await apiInstance.bulkCreate(
-    ritualHistoryDTO
+    ritualHistoryCreateRequest
 );
 ```
 
@@ -89,7 +89,7 @@ const { status, data } = await apiInstance.bulkCreate(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **ritualHistoryDTO** | **Array<RitualHistoryDTO>**|  | |
+| **ritualHistoryCreateRequest** | **Array<RitualHistoryCreateRequest>**|  | |
 
 
 ### Return type
@@ -218,8 +218,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **create**
-> RitualHistoryDTO create(ritualHistoryDTO)
+# **create1**
+> RitualHistoryDTO create1(ritualHistoryCreateRequest)
 
 
 ### Example
@@ -228,16 +228,16 @@ No authorization required
 import {
     RitualHistoryControllerApi,
     Configuration,
-    RitualHistoryDTO
+    RitualHistoryCreateRequest
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new RitualHistoryControllerApi(configuration);
 
-let ritualHistoryDTO: RitualHistoryDTO; //
+let ritualHistoryCreateRequest: RitualHistoryCreateRequest; //
 
-const { status, data } = await apiInstance.create(
-    ritualHistoryDTO
+const { status, data } = await apiInstance.create1(
+    ritualHistoryCreateRequest
 );
 ```
 
@@ -245,7 +245,7 @@ const { status, data } = await apiInstance.create(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **ritualHistoryDTO** | **RitualHistoryDTO**|  | |
+| **ritualHistoryCreateRequest** | **RitualHistoryCreateRequest**|  | |
 
 
 ### Return type

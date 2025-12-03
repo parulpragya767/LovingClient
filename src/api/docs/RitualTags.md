@@ -5,11 +5,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**loveTypes** | [**RitualTag**](RitualTag.md) |  | [optional] [default to undefined]
-**ritualModes** | [**RitualTag**](RitualTag.md) |  | [optional] [default to undefined]
-**timeTaken** | [**RitualTag**](RitualTag.md) |  | [optional] [default to undefined]
-**relationalNeeds** | [**RitualTag**](RitualTag.md) |  | [optional] [default to undefined]
-**ritualTones** | [**RitualTag**](RitualTag.md) |  | [optional] [default to undefined]
+**loveTypes** | [**RitualTag**](RitualTag.md) |  | [default to undefined]
+**ritualModes** | [**RitualTag**](RitualTag.md) |  | [default to undefined]
+**timeTaken** | [**RitualTag**](RitualTag.md) |  | [default to undefined]
+**relationalNeeds** | [**RitualTag**](RitualTag.md) |  | [default to undefined]
+**ritualTones** | [**RitualTag**](RitualTag.md) |  | [default to undefined]
 
 ## Example
 

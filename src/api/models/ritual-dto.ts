@@ -46,7 +46,7 @@ export interface RitualDTO {
      * @type {string}
      * @memberof RitualDTO
      */
-    'id'?: string;
+    'id': string;
     /**
      * 
      * @type {string}

@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **string** |  | [optional] [default to undefined]
-**title** | **string** |  | [optional] [default to undefined]
+**id** | **string** |  | [default to undefined]
+**title** | **string** |  | [default to undefined]
 **tagLine** | **string** |  | [optional] [default to undefined]
 **description** | **string** |  | [optional] [default to undefined]
 **howItHelps** | **string** |  | [optional] [default to undefined]

@@ -43,16 +43,16 @@ export interface PageRitualDTO {
     'totalPages'?: number;
     /**
      * 
-     * @type {PageableObject}
-     * @memberof PageRitualDTO
-     */
-    'pageable'?: PageableObject;
-    /**
-     * 
      * @type {number}
      * @memberof PageRitualDTO
      */
     'numberOfElements'?: number;
+    /**
+     * 
+     * @type {PageableObject}
+     * @memberof PageRitualDTO
+     */
+    'pageable'?: PageableObject;
     /**
      * 
      * @type {boolean}

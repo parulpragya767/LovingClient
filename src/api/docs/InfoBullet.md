@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **title** | **string** |  | [optional] [default to undefined]
-**text** | **string** |  | [optional] [default to undefined]
+**text** | **string** |  | [default to undefined]
 
 ## Example
 

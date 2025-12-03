@@ -1,7 +1,7 @@
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { useRitualHistory } from '@/src/hooks/rituals/useRitualHistory';
 import { EmojiFeedback, RecommendationStatus, RitualHistoryStatus } from '@/src/models/enums';
-import type { RitualHistory, RitualHistoryUpdate } from '@/src/models/ritualHistory';
+import type { RitualHistoryCreateRequest, RitualHistoryUpdate } from '@/src/models/ritualHistory';
 import type { RitualRecommendationUpdate, RitualStatusUpdate } from '@/src/models/ritualRecommendation';
 import { ritualHistoryService } from '@/src/services/ritualHistoryService';
 import { ritualRecommendationService } from '@/src/services/ritualRecommendationService';
@@ -49,8 +49,7 @@ export const useRitualActions = () => {
   };
 
   const addRitualToCurrent = async (ritualId: string) => {
-    const ritualHistory: RitualHistory = {
-      id: '',
+    const ritualHistory: RitualHistoryCreateRequest = {
       ritualId,
       status: RitualHistoryStatus.Active
     }

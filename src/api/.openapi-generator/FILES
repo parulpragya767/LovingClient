@@ -1,5 +1,6 @@
 .gitignore
 .npmignore
+.openapi-generator-ignore
 api.ts
 apis/ai-chat-controller-api.ts
 apis/auth-controller-api.ts
@@ -48,6 +49,7 @@ docs/RitualControllerApi.md
 docs/RitualDTO.md
 docs/RitualFilterDTO.md
 docs/RitualHistoryControllerApi.md
+docs/RitualHistoryCreateRequest.md
 docs/RitualHistoryDTO.md
 docs/RitualHistoryStatus.md
 docs/RitualHistoryUpdateRequest.md
@@ -102,6 +104,7 @@ models/relational-need.ts
 models/relationship-status.ts
 models/ritual-dto.ts
 models/ritual-filter-dto.ts
+models/ritual-history-create-request.ts
 models/ritual-history-dto.ts
 models/ritual-history-status.ts
 models/ritual-history-update-request.ts

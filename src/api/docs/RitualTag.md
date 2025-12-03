@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**displayName** | **string** |  | [optional] [default to undefined]
-**values** | [**Array&lt;TagValue&gt;**](TagValue.md) |  | [optional] [default to undefined]
+**displayName** | **string** |  | [default to undefined]
+**values** | [**Array&lt;TagValue&gt;**](TagValue.md) |  | [default to undefined]
 
 ## Example
 

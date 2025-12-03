@@ -1,35 +1,25 @@
-# RitualHistoryDTO
+# RitualHistoryCreateRequest
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **string** |  | [default to undefined]
-**userId** | **string** |  | [optional] [default to undefined]
 **ritualId** | **string** |  | [default to undefined]
 **ritualPackId** | **string** |  | [optional] [default to undefined]
 **recommendationId** | **string** |  | [optional] [default to undefined]
 **status** | [**RitualHistoryStatus**](RitualHistoryStatus.md) |  | [default to undefined]
-**feedback** | [**EmojiFeedback**](EmojiFeedback.md) |  | [optional] [default to undefined]
-**createdAt** | **string** |  | [optional] [default to undefined]
-**updatedAt** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { RitualHistoryDTO } from './api';
+import { RitualHistoryCreateRequest } from './api';
 
-const instance: RitualHistoryDTO = {
-    id,
-    userId,
+const instance: RitualHistoryCreateRequest = {
     ritualId,
     ritualPackId,
     recommendationId,
     status,
-    feedback,
-    createdAt,
-    updatedAt,
 };
 ```
 

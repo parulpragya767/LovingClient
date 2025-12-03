@@ -1,5 +1,5 @@
 import { RitualHistoryControllerApi } from '@/src/api/apis/ritual-history-controller-api';
-import type { BulkRitualHistoryStatusUpdate, CurrentRituals, RitualHistory, RitualHistoryUpdate } from '@/src/models/ritualHistory';
+import type { BulkRitualHistoryStatusUpdate, CurrentRituals, RitualHistory, RitualHistoryCreateRequest, RitualHistoryUpdate } from '@/src/models/ritualHistory';
 import { toCurrentRituals } from '@/src/models/ritualHistory';
 import apiClient from './apiClient';
 
@@ -17,8 +17,8 @@ export const ritualHistoryService = {
     return toCurrentRituals(res.data);
   },
 
-  async create(payload: RitualHistory): Promise<RitualHistory> {
-    const res = await api.create({ ritualHistoryDTO: payload });
+  async create(payload: RitualHistoryCreateRequest): Promise<RitualHistory> {
+    const res = await api.create1({ ritualHistoryCreateRequest: payload });
     return res.data as RitualHistory;
   },
 
@@ -36,8 +36,8 @@ export const ritualHistoryService = {
     await api._delete({ id });
   },
 
-  async bulkCreate(items: RitualHistory[]): Promise<RitualHistory[]> {
-    const res = await api.bulkCreate({ ritualHistoryDTO: items });
+  async bulkCreate(items: RitualHistoryCreateRequest[]): Promise<RitualHistory[]> {
+    const res = await api.bulkCreate({ ritualHistoryCreateRequest: items });
     return res.data as RitualHistory[];
   },
 

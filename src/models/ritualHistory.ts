@@ -2,6 +2,7 @@ import type { BulkRitualHistoryStatusUpdateRequest } from '@/src/api/models/bulk
 import type { CurrentRitualDTO } from '@/src/api/models/current-ritual-dto';
 import type { CurrentRitualPackDTO } from '@/src/api/models/current-ritual-pack-dto';
 import type { CurrentRitualsDTO } from '@/src/api/models/current-rituals-dto';
+import type { RitualHistoryCreateRequest as ApiRitualHistoryCreateRequest } from '@/src/api/models/ritual-history-create-request';
 import type { RitualHistoryDTO } from '@/src/api/models/ritual-history-dto';
 import type { RitualHistoryUpdateRequest } from '@/src/api/models/ritual-history-update-request';
 import type { StatusUpdateEntry as ApiStatusUpdateEntry } from '@/src/api/models/status-update-entry';
@@ -14,6 +15,7 @@ export interface RitualHistory extends RitualHistoryDTO {}
 export interface RitualHistoryUpdate extends RitualHistoryUpdateRequest {}
 export interface BulkRitualHistoryStatusUpdate extends BulkRitualHistoryStatusUpdateRequest {}
 export interface StatusUpdateEntry extends ApiStatusUpdateEntry {}
+export interface RitualHistoryCreateRequest extends ApiRitualHistoryCreateRequest {}
 
 export interface CurrentRitual extends Omit<CurrentRitualDTO, 'ritual'> {
   ritual: Ritual;

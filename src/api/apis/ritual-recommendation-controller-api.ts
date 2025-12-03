@@ -33,6 +33,41 @@ export const RitualRecommendationControllerApiAxiosParamCreator = function (conf
     return {
         /**
          * 
+         * @param {RitualRecommendationDTO} ritualRecommendationDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        create: async (ritualRecommendationDTO: RitualRecommendationDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'ritualRecommendationDTO' is not null or undefined
+            assertParamExists('create', 'ritualRecommendationDTO', ritualRecommendationDTO)
+            const localVarPath = `/api/ritual-recommendation`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(ritualRecommendationDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -144,6 +179,18 @@ export const RitualRecommendationControllerApiFp = function(configuration?: Conf
     return {
         /**
          * 
+         * @param {RitualRecommendationDTO} ritualRecommendationDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async create(ritualRecommendationDTO: RitualRecommendationDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualRecommendationDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.create(ritualRecommendationDTO, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RitualRecommendationControllerApi.create']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -190,6 +237,15 @@ export const RitualRecommendationControllerApiFactory = function (configuration?
     return {
         /**
          * 
+         * @param {RitualRecommendationControllerApiCreateRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        create(requestParameters: RitualRecommendationControllerApiCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<RitualRecommendationDTO> {
+            return localVarFp.create(requestParameters.ritualRecommendationDTO, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -225,6 +281,15 @@ export const RitualRecommendationControllerApiFactory = function (configuration?
 export interface RitualRecommendationControllerApiInterface {
     /**
      * 
+     * @param {RitualRecommendationControllerApiCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RitualRecommendationControllerApiInterface
+     */
+    create(requestParameters: RitualRecommendationControllerApiCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<RitualRecommendationDTO>;
+
+    /**
+     * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RitualRecommendationControllerApiInterface
@@ -249,6 +314,20 @@ export interface RitualRecommendationControllerApiInterface {
      */
     updateRecommendationAndRitualHistoryStatus(requestParameters: RitualRecommendationControllerApiUpdateRecommendationAndRitualHistoryStatusRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
+}
+
+/**
+ * Request parameters for create operation in RitualRecommendationControllerApi.
+ * @export
+ * @interface RitualRecommendationControllerApiCreateRequest
+ */
+export interface RitualRecommendationControllerApiCreateRequest {
+    /**
+     * 
+     * @type {RitualRecommendationDTO}
+     * @memberof RitualRecommendationControllerApiCreate
+     */
+    readonly ritualRecommendationDTO: RitualRecommendationDTO
 }
 
 /**
@@ -293,6 +372,17 @@ export interface RitualRecommendationControllerApiUpdateRecommendationAndRitualH
  * @extends {BaseAPI}
  */
 export class RitualRecommendationControllerApi extends BaseAPI implements RitualRecommendationControllerApiInterface {
+    /**
+     * 
+     * @param {RitualRecommendationControllerApiCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RitualRecommendationControllerApi
+     */
+    public create(requestParameters: RitualRecommendationControllerApiCreateRequest, options?: RawAxiosRequestConfig) {
+        return RitualRecommendationControllerApiFp(this.configuration).create(requestParameters.ritualRecommendationDTO, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {*} [options] Override http request option.
