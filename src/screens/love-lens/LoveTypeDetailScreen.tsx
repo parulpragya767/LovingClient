@@ -1,19 +1,17 @@
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
 import { ThemedText } from '@/src/components/themes/themed-text';
+import CollapsibleSection from '@/src/components/ui/CollapsibleSection';
 import { useLoveTypes } from '@/src/hooks/love-lens/useLoveTypes';
 import type { LoveTypeInfoSection } from '@/src/models/loveLens';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { ChevronDown, ChevronUp } from 'lucide-react-native';
-import { useState } from 'react';
-import { Pressable, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 
 export default function LoveTypeDetailScreen() {
   const router = useRouter();
   const { loveType: loveTypeParam } = useLocalSearchParams<{ loveType: string }>();
   const { data: loveTypes, isLoading, error, refetch } = useLoveTypes();
-  const [sectionExpanded, setSectionExpanded] = useState<Record<number, boolean>>({});
 
   if (isLoading) return <LoadingState text="Loading love type details..." />;
   if (error) return <ErrorState message="Failed to load love type details." onButtonPress={() => refetch()} />;
@@ -50,57 +48,47 @@ export default function LoveTypeDetailScreen() {
           {loveTypeDetail.sections?.slice()
             .sort((a, b) => (a.order || 0) - (b.order || 0))
             .map((section: LoveTypeInfoSection, index: number) => {
-              const isExpanded = sectionExpanded[index] ?? true;
               return (
-                <View key={index} className="bg-white rounded-xl shadow-sm overflow-hidden">
-                  <Pressable
-                    onPress={() => setSectionExpanded(prev => ({ ...prev, [index]: !isExpanded }))}
-                    className="bg-gray-50 px-6 py-3 border-b border-gray-100 flex-row items-center justify-between"
-                  >
-                    <ThemedText className="text-lg font-semibold text-gray-800">
-                      {section.title}
+                <CollapsibleSection
+                  key={index}
+                  title={section.title}
+                  initiallyExpanded
+                  containerClassName="bg-white rounded-xl shadow-sm overflow-hidden"
+                  headerClassName="bg-gray-50 px-3 py-2 border-b border-gray-100 flex-row items-center justify-between"
+                >
+                  <View>
+                    <ThemedText className="text-gray-700 mb-3 leading-relaxed">
+                      {section.summary}
                     </ThemedText>
-                    {isExpanded ? (
-                      <ChevronUp color="#1f2937" size={20} />
-                    ) : (
-                      <ChevronDown color="#1f2937" size={20} />
-                    )}
-                  </Pressable>
-                  {isExpanded && (
-                    <View className="px-6 py-3">
-                      <ThemedText className="text-gray-700 mb-3 leading-relaxed">
-                        {section.summary}
-                      </ThemedText>
-                      {(section.bullets?.length ?? 0) > 0 && (
-                          <View>
-                          {section.bullets?.map((bullet, bulletIndex) => (
-                            <View key={bulletIndex} className="flex-row items-center">
-                              <View className="p-2">
-                                <ThemedText className="text-lg leading-5">•</ThemedText>
-                              </View>
-                              <View className="flex-1 flex-row flex-wrap items-baseline">
-                                {bullet.title && (
-                                  <>
-                                    <ThemedText className="font-semibold text-gray-800">{bullet.title}</ThemedText>
-                                    <ThemedText className="mx-1 text-gray-700">-</ThemedText>
-                                  </>
-                                )}
-                                <Markdown
+                    {(section.bullets?.length ?? 0) > 0 && (
+                      <View>
+                        {section.bullets?.map((bullet, bulletIndex) => (
+                          <View key={bulletIndex} className="flex-row items-center">
+                            <View className="p-2">
+                              <ThemedText className="text-lg leading-5">•</ThemedText>
+                            </View>
+                            <View className="flex-1 flex-row flex-wrap items-baseline">
+                              {bullet.title && (
+                                <>
+                                  <ThemedText className="font-semibold text-gray-800">{bullet.title}</ThemedText>
+                                  <ThemedText className="mx-1 text-gray-700">-</ThemedText>
+                                </>
+                              )}
+                              <Markdown
                                 style={{
                                   body: { color: '#374151', fontSize: 14, lineHeight: 20 },
                                   strong: { fontWeight: '600' }
                                 }}
-                                >
-                                  {bullet.text}
-                                </Markdown>
-                              </View>
+                              >
+                                {bullet.text}
+                              </Markdown>
                             </View>
-                          ))}
-                        </View>
-                      )}
-                    </View>
-                  )}
-                </View>
+                          </View>
+                        ))}
+                      </View>
+                    )}
+                  </View>
+                </CollapsibleSection>
               );
             })}
         </View>
@@ -111,3 +99,4 @@ export default function LoveTypeDetailScreen() {
     </ScrollView>
   );
 }
+

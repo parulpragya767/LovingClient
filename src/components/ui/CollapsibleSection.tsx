@@ -7,6 +7,7 @@ export type CollapsibleSectionProps = {
   title: string;
   children: React.ReactNode;
   initiallyExpanded?: boolean;
+  headerClassName?: string;
   containerClassName?: string;
 };
 
@@ -14,6 +15,7 @@ export default function CollapsibleSection({
   title,
   children,
   initiallyExpanded = false,
+  headerClassName,
   containerClassName,
 }: CollapsibleSectionProps) {
   const [isExpanded, setIsExpanded] = useState(initiallyExpanded);
@@ -25,7 +27,7 @@ export default function CollapsibleSection({
   return (
     <View className={containerClassName}>
       <TouchableOpacity
-        className="flex-row items-center justify-between"
+        className={`flex-row items-center justify-between ${headerClassName}`}
         onPress={toggle}
         activeOpacity={0.7}
       >
