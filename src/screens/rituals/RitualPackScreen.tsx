@@ -1,68 +1,63 @@
 import RitualCard from '@/src/components/rituals/RitualCard';
+import { EmptyState } from '@/src/components/states/EmptyState';
+import ErrorState from '@/src/components/states/ErrorState';
+import LoadingState from '@/src/components/states/LoadingState';
 import { ThemedText } from '@/src/components/themes/themed-text';
 import { ThemedView } from '@/src/components/themes/themed-view';
 import { useRitualPack } from '@/src/hooks/rituals/useRitualPack';
 import { Ritual } from '@/src/models/rituals';
-import { useLocalSearchParams } from 'expo-router';
-import { useMemo } from 'react';
-import { ActivityIndicator, FlatList, View } from 'react-native';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { useEffect, useMemo } from 'react';
+import { FlatList, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function RitualPackScreen() {
+  const navigation = useNavigation();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { data: pack, isLoading, error, refetch, isRefetching } = useRitualPack(id);
+  const { data: pack, isLoading, error, refetch } = useRitualPack(id);
   const rituals: Ritual[] = useMemo(() => pack?.rituals ?? [], [pack]);
 
-  if (isLoading) {
-    return (
-      <ThemedView className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#8B5CF6" />
-      </ThemedView>
-    );
-  }
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      if (!mounted) return;
 
-  if (error || !pack) {
-    return (
-      <ThemedView className="flex-1 items-center justify-center p-4">
-        <ThemedText>{error?.message || 'Failed to load ritual pack'}</ThemedText>
-      </ThemedView>
-    );
-  }
+      navigation.setOptions({ title: pack?.title || "Ritual Pack Details" });
+    })();
+    return () => { mounted = false };
+  }, [pack]);
+
+  if (isLoading) return <LoadingState text="Loading ritual pack..." />;
+  if (error || !pack) return <ErrorState message="Failed to load ritual pack." onButtonPress={() => refetch()} />;
 
   return (
-    <ThemedView className="flex-1">
-      <View className="p-4">
-        <ThemedText className="text-2xl font-bold mb-2">
-          {pack.title}
+    <SafeAreaView style={{ flex: 1 }} edges={["left", "right"]}>
+      <ThemedView className="flex-1 p-4">
+        <ThemedText className="text-gray-600 mb-4">
+          {pack.description}
         </ThemedText>
-        {pack.description && (
-          <ThemedText className="text-gray-600 mb-4">
-            {pack.description}
-          </ThemedText>
-        )}
-        <ThemedText className="text-lg font-semibold mb-2">
-          Rituals in this pack ({rituals.length})
-        </ThemedText>
-      </View>
 
-      <FlatList
-        data={rituals}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View className="px-4 mb-4">
-            <RitualCard 
-              ritual={item}
-            />
-          </View>
-        )}
-        contentContainerStyle={{ paddingBottom: 16 }}
-        ListEmptyComponent={
-          <View className="flex-1 items-center justify-center py-10">
-            <ThemedText className="text-gray-500">No rituals in this pack.</ThemedText>
-          </View>
-        }
-        refreshing={isRefetching}
-        onRefresh={refetch}
-      />
-    </ThemedView>
+        <FlatList
+          data={rituals}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View className="mb-4">
+              <RitualCard ritual={item}/>
+            </View>
+          )}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={
+            <View className="px-1 py-2">
+              <ThemedText className="text-lg font-semibold mb-1 text-gray-900">
+                Rituals in this pack ({rituals.length})
+              </ThemedText>
+            </View>
+          }
+          ListFooterComponent={<View className="h-20" />}
+          ListEmptyComponent={<EmptyState message="No rituals in this pack." />}
+        />
+      </ThemedView>
+    </SafeAreaView>
+    
   );
 }

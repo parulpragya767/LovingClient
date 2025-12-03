@@ -29,7 +29,7 @@ export default function RitualsLayout() {
       <Stack.Screen 
         name="pack/[id]" 
         options={{
-          title: 'Ritual Pack Details',
+          headerShown: true,
         }}
       />
       <Stack.Screen 

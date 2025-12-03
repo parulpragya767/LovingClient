@@ -13,6 +13,7 @@ export interface RitualPack extends Omit<RitualPackDTO, 'id' | 'title' | 'descri
 export function toRitualPack(dto: RitualPackDTO): RitualPack {
   const rituals = (dto.rituals || []) as RitualDTO[];
   return {
+    ...dto,
     id: dto.id || '',
     title: dto.title || 'Unnamed Pack',
     description: dto.description || '',
