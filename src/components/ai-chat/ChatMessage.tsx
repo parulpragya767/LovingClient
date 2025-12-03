@@ -1,4 +1,3 @@
-import { createMarkdownParser } from "@/src/lib/markdown/createMarkdownParser";
 import { markdownRules } from "@/src/lib/markdown/markdownRules";
 import type { ChatMessage as ChatMessageType } from '@/src/models/chat';
 import { ChatMessageRole } from '@/src/models/enums';
@@ -14,7 +13,6 @@ export function ChatMessage({ message }: ChatMessageProps) {
   const isUser = message.role === ChatMessageRole.User;
   const isSystem = message.role === ChatMessageRole.System;
   const hasRecommendation = isSystem && message.metadata?.recommendationId;
-  const mdParser = createMarkdownParser();
   
   if (isSystem && !hasRecommendation) {
     return null; // Don't render system messages without recommendations
@@ -32,10 +30,10 @@ export function ChatMessage({ message }: ChatMessageProps) {
         : 'self-start mr-[20%] bg-gray-100 rounded-bl-sm'}`}
       >
         <Markdown
-          markdownit={mdParser}
           rules={markdownRules}
           style={{
-            body: { color: isUser ? '#ffffff' : '#374151', fontSize: 15, lineHeight: 24, },
+            body: { color: isUser ? '#ffffff' : '#374151', fontSize: 15, lineHeight: 24 },
+            text: { color: isUser ? '#ffffff' : '#374151', fontSize: 15, lineHeight: 24 },
             strong: { fontWeight: '600' }
           }}
           >
