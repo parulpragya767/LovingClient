@@ -4,6 +4,7 @@ import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
 import { ThemedText } from '@/src/components/themes/themed-text';
 import { ThemedView } from '@/src/components/themes/themed-view';
+import CollapsibleSection from '@/src/components/ui/CollapsibleSection';
 import { useRitualPack } from '@/src/hooks/rituals/useRitualPack';
 import { Ritual } from '@/src/models/rituals';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
@@ -37,6 +38,15 @@ export default function RitualPackScreen() {
           {pack.description}
         </ThemedText>
 
+        {/* How it helps */}
+        <CollapsibleSection
+          title="How It Helps"
+          initiallyExpanded
+          containerClassName="mb-4"
+        >
+          <ThemedText className="text-green-600 mr-2">{pack.howItHelps}</ThemedText>
+        </CollapsibleSection>
+        
         <FlatList
           data={rituals}
           keyExtractor={(item) => item.id}

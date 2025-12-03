@@ -1,18 +1,17 @@
 import { ThemedText } from '@/src/components/themes/themed-text';
 import { ThemedView } from '@/src/components/themes/themed-view';
+import CollapsibleSection from '@/src/components/ui/CollapsibleSection';
 import { useRitual } from '@/src/hooks/rituals/useRitual';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
 import { RitualHistoryStatus } from '@/src/models/enums';
 import { router, useLocalSearchParams } from 'expo-router';
-import { ChevronDown, ChevronUp } from 'lucide-react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import { ActivityIndicator, Alert, ScrollView, TouchableOpacity, View } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 
 export default function RitualDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const [isHowItHelpsExpanded, setIsHowItHelpsExpanded] = useState(true);
   const { data: ritual, isLoading, error } = useRitual(id);
   const { getTagDisplayName } = useRitualTags();
   const { isCurrentRitual, addRitualToCurrent } = useRitualActions();
@@ -128,24 +127,13 @@ export default function RitualDetailScreen() {
         </View>
 
         {/* How it helps */}
-        <View className="mb-8">
-          <TouchableOpacity 
-            className="flex-row items-center justify-between mb-2"
-            onPress={() => setIsHowItHelpsExpanded(!isHowItHelpsExpanded)}
-            activeOpacity={0.7}
-          >
-            <ThemedText className="text-lg font-semibold">How It Helps</ThemedText>
-            {isHowItHelpsExpanded ? 
-              <ChevronUp size={20} color="#4B5563" /> : 
-              <ChevronDown size={20} color="#4B5563" />
-            }
-          </TouchableOpacity>
-          {isHowItHelpsExpanded && (
-            <View className="bg-white rounded-xl p-4 shadow-sm">
-              <ThemedText className="text-green-600 mr-2">{ritual.howItHelps}</ThemedText>
-            </View>
-          )}
-        </View>
+        <CollapsibleSection
+          title="How It Helps"
+          initiallyExpanded
+          containerClassName="mb-8"
+        >
+          <ThemedText className="text-green-600 mr-2">{ritual.howItHelps}</ThemedText>
+        </CollapsibleSection>
 
         {/* Steps */}
         <View className="mb-8">
