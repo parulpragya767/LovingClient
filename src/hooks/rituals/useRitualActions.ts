@@ -48,8 +48,13 @@ export const useRitualActions = () => {
     );
   };
 
-  const addRitualToCurrent = async (payload: RitualHistory) => {
-    await ritualHistoryService.create(payload);
+  const addRitualToCurrent = async (ritualId: string) => {
+    const ritualHistory: RitualHistory = {
+      id: '',
+      ritualId,
+      status: RitualHistoryStatus.Active
+    }
+    await ritualHistoryService.create(ritualHistory);
     await Promise.all([invalidateCurrentRituals()]);
   };
 

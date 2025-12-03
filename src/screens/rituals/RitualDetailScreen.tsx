@@ -1,18 +1,21 @@
+import ErrorState from '@/src/components/states/ErrorState';
+import LoadingState from '@/src/components/states/LoadingState';
 import { ThemedText } from '@/src/components/themes/themed-text';
-import { ThemedView } from '@/src/components/themes/themed-view';
 import CollapsibleSection from '@/src/components/ui/CollapsibleSection';
 import { useRitual } from '@/src/hooks/rituals/useRitual';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
-import { RitualHistoryStatus } from '@/src/models/enums';
-import { router, useLocalSearchParams } from 'expo-router';
-import React from 'react';
-import { ActivityIndicator, Alert, ScrollView, TouchableOpacity, View } from 'react-native';
+import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
+import React, { useEffect } from 'react';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 import Markdown from 'react-native-markdown-display';
+import Toast from 'react-native-toast-message';
 
 export default function RitualDetailScreen() {
+  const router = useRouter();
+  const navigation = useNavigation();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { data: ritual, isLoading, error } = useRitual(id);
+  const { data: ritual, isLoading, error, refetch } = useRitual(id);
   const { getTagDisplayName } = useRitualTags();
   const { isCurrentRitual, addRitualToCurrent } = useRitualActions();
   
@@ -20,41 +23,37 @@ export default function RitualDetailScreen() {
   
   const handleAddToCurrent = async () => {
     if (!ritual) return;
-    
     try {
-      await addRitualToCurrent({
-        ritualId: ritual.id,
-        status: RitualHistoryStatus.Active
-      });
-      Alert.alert('Success', 'Ritual added to your current rituals!');
+      await addRitualToCurrent(ritual.id);
+       Toast.show({
+          type: "info", 
+          text1: "Ritual added successfully!",
+        });
     } catch (error) {
-      console.error('Error adding ritual to current:', error);
-      Alert.alert('Error', 'Failed to add ritual to current. Please try again.');
+      Toast.show({
+        type: "error", 
+        text1: "Failed to add ritual.",
+      });
     }
   };
 
   const handleGoToCurrentRituals = () => {
-    router.push('/(tabs)/rituals/current');
+    router.push('/rituals/current');
   };
-  
-  if (isLoading) {
-    return (
-      <ThemedView className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" />
-      </ThemedView>
-    );
-  }
-  
-  if (error || !ritual) {
-    return (
-      <ThemedView className="flex-1 items-center justify-center p-4">
-        <ThemedText className="text-center">
-          {error?.message || 'Failed to load ritual details'}
-        </ThemedText>
-      </ThemedView>
-    );
-  }
 
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      if (!mounted) return;
+
+      navigation.setOptions({ title: ritual?.title || "Ritual Details" });
+    })();
+    return () => { mounted = false };
+  }, [ritual]);
+
+  if (isLoading) return <LoadingState text="Loading ritual..." />;
+  if (error || !ritual) return <ErrorState message="Failed to load ritual." onButtonPress={() => refetch()} />;
+    
   const timeTakenDisplayName = ritual.timeTaken ? getTagDisplayName(ritual.timeTaken.toString(), 'timeTaken') : null;
   const ritualModeDisplayName = ritual.ritualMode ? getTagDisplayName(ritual.ritualMode, 'ritualModes') : null;
   const loveTypesDisplayName = ritual.loveTypes?.length 
@@ -62,18 +61,15 @@ export default function RitualDetailScreen() {
     : null;
 
   return (
-    <ScrollView className="flex-1 bg-gray-50">
-      <View className="p-6">
+    <ScrollView className="flex-1 bg-gray-50" showsVerticalScrollIndicator={false}>
+      <View className="p-4">
         {/* Title */}
         <View className="flex-row justify-between items-start mb-4">
-          <View className="flex-1">
-            <ThemedText className="text-2xl font-bold mb-1">
-              {ritual.title}
-            </ThemedText>
-            <ThemedText className="text-gray-600">
-              {ritual.tagLine}
-            </ThemedText>
-          </View>
+          <ThemedText className="text-gray-600 text-md">
+            {ritual.tagLine}
+          </ThemedText>
+          
+          {/* Add to current rituals */}
           {isCurrent ? (
             <View className="items-end">
               <View className="flex-row items-center mb-1">
@@ -82,7 +78,7 @@ export default function RitualDetailScreen() {
               </View>
               <TouchableOpacity
                 onPress={handleGoToCurrentRituals}
-                className="bg-gray-100 px-3 py-1.5 rounded-lg"
+                className="bg-gray-200 px-3 py-1.5 rounded-lg"
                 activeOpacity={0.8}
               >
                 <ThemedText className="text-gray-900 font-medium text-sm">Go to My Rituals</ThemedText>
@@ -91,10 +87,10 @@ export default function RitualDetailScreen() {
           ) : (
             <TouchableOpacity
               onPress={handleAddToCurrent}
-              className="bg-white-900 px-4 py-2.5 rounded-lg"
+              className="bg-gray-200 px-3 py-1.5 rounded-lg"
               activeOpacity={0.8}
             >
-              <ThemedText className="text-gray-900 font-medium">Add to My Rituals</ThemedText>
+              <ThemedText className="text-gray-900 font-medium text-sm">Add to My Rituals</ThemedText>
             </TouchableOpacity>
           )}
         </View>
@@ -102,9 +98,9 @@ export default function RitualDetailScreen() {
         {/* Quick Info */}
         <View className="flex-row justify-between mb-6">
           {[
-            { label: 'Duration', value: timeTakenDisplayName },
+            { label: 'Love Types', value: loveTypesDisplayName },
             { label: 'Mode', value: ritualModeDisplayName },
-            { label: 'Love Types', value: loveTypesDisplayName }
+            { label: 'Duration', value: timeTakenDisplayName },
           ]
             .filter(item => item.value)
             .map((item, index, array) => (
@@ -122,44 +118,49 @@ export default function RitualDetailScreen() {
         </View>
 
         {/* Description */}
-        <View className="bg-white rounded-xl p-4 shadow-sm">
+        <CollapsibleSection
+          title="Description"
+          initiallyExpanded
+          containerClassName="mb-6"
+        >
           <ThemedText className="text-green-600 mr-2">{ritual.description}</ThemedText>
-        </View>
+        </CollapsibleSection>
 
         {/* How it helps */}
         <CollapsibleSection
           title="How It Helps"
           initiallyExpanded
-          containerClassName="mb-8"
+          containerClassName="mb-6"
         >
           <ThemedText className="text-green-600 mr-2">{ritual.howItHelps}</ThemedText>
         </CollapsibleSection>
 
         {/* Steps */}
-        <View className="mb-8">
-          <ThemedText className="text-lg font-semibold mb-3">How to Do It</ThemedText>
-          <View className="bg-white rounded-xl p-4 shadow-sm">
-            {ritual.steps?.map((step, index) => (
-              <View key={index} className="flex-row mb-3 last:mb-0">
-                <View className="bg-blue-100 w-6 h-6 rounded-full items-center justify-center mr-3 mt-0.5">
-                  <ThemedText className="text-blue-700 font-bold text-xs">
-                    {index + 1}
-                  </ThemedText>
-                </View>
-                <View className="flex-1">
-                  <Markdown
-                    style={{
-                      body: { color: '#374151' }, // text-gray-700
-                      strong: { fontWeight: '600' } // font-semibold
-                    }}
-                  >
-                    {step}
-                  </Markdown>
-                </View>
+        <CollapsibleSection
+          title="How to Do It"
+          initiallyExpanded
+          containerClassName="mb-6"
+        >
+          {ritual.steps?.map((step, index) => (
+            <View key={index} className="flex-row mb-3 last:mb-0">
+              <View className="bg-blue-100 w-6 h-6 rounded-full items-center justify-center mr-3 mt-0.5">
+                <ThemedText className="text-blue-700 font-bold text-xs">
+                  {index + 1}
+                </ThemedText>
               </View>
-            ))}
-          </View>
-        </View>
+              <View className="flex-1">
+                <Markdown
+                  style={{
+                    body: { color: '#374151' }, // text-gray-700
+                    strong: { fontWeight: '600' } // font-semibold
+                  }}
+                >
+                  {step}
+                </Markdown>
+              </View>
+            </View>
+          ))}
+        </CollapsibleSection>
       </View>
     </ScrollView>
   );

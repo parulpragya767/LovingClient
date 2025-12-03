@@ -23,7 +23,7 @@ export default function RitualsLayout() {
       <Stack.Screen 
         name="[id]" 
         options={{
-          title: 'Ritual Details',
+          headerShown: true,
         }}
       />
       <Stack.Screen 
