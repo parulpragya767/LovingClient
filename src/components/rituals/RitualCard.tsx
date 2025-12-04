@@ -8,15 +8,18 @@ import { TouchableOpacity, View } from 'react-native';
 
 interface RitualCardProps {
   ritual: Ritual;
+  isPressable?: boolean;
   onLongPress?: () => void;
 }
 
-export default function RitualCard({ ritual, onLongPress }: RitualCardProps) {
+export default function RitualCard({ ritual, isPressable = true, onLongPress }: RitualCardProps) {
   const router = useRouter();
   const { getRitualTagDisplayNames } = useRitualTags();
 
   const handleRitualPress = () => {
-    router.push(`/rituals/${ritual.id}`);
+    if(isPressable){
+      router.push(`/rituals/${ritual.id}`);
+    }
   };
 
   return (
@@ -39,12 +42,12 @@ export default function RitualCard({ ritual, onLongPress }: RitualCardProps) {
           ))}
         </View>
         
-        <ThemedText 
+        {isPressable && <ThemedText 
           className="text-blue-500 text-sm mt-3" 
           onPress={handleRitualPress}
         >
           View details →
-        </ThemedText>
+        </ThemedText>}
       </ThemedView>
     </TouchableOpacity>
   );
