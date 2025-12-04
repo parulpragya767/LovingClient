@@ -1,7 +1,7 @@
 import { ChatInput } from '@/src/components/ai-chat/ChatInput';
 import { ChatMessage } from '@/src/components/ai-chat/ChatMessage';
 import { RitualRecommendationConsentCard } from '@/src/components/ai-chat/RitualRecommendationConsentCard';
-import RitualRecommendationModal from '@/src/components/rituals/RitualRecommendationModal';
+import RitualRecommendationModalHandler from '@/src/components/rituals/RitualRecommendationModalHandler';
 import { EmptyState } from '@/src/components/states/EmptyState';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
@@ -19,7 +19,7 @@ export default function AIChatScreen() {
   const { getSessionDetails, sendMessageToSession, recommendRitualPack } = useChatActions();
   const { data: messages, invalidateQueries: invalidateMessages, isLoading, error, refetch } = useChatMessages(sessionId);
   const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(false);
-  
+
   const handleSendMessage = useCallback(async (message: string) => {
     const isReadyForRitualPack = await sendMessageToSession(sessionId, message);
     
@@ -90,8 +90,8 @@ export default function AIChatScreen() {
         onSend={handleSendMessage}
       />
 
-      {/* Ritual Recommendation Modal */}
-      <RitualRecommendationModal />
+      {/* Ritual Recommendation Flow */}
+      <RitualRecommendationModalHandler />
     </SafeAreaView>
   );
 }

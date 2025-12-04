@@ -1,11 +1,8 @@
 import RecommendedRitualCard from '@/src/components/rituals/RecommendedRitualCard';
-import ErrorState from '@/src/components/states/ErrorState';
-import LoadingState from '@/src/components/states/LoadingState';
 import { ThemedText } from '@/src/components/themes/themed-text';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
-import { useRitualPack } from '@/src/hooks/rituals/useRitualPack';
-import { useRitualRecommendation } from '@/src/hooks/rituals/useRitualRecommendation';
 import { RecommendationStatus } from '@/src/models/enums';
+import type { RitualPack } from '@/src/models/ritualPacks';
 import { useChatStore } from "@/src/store/useChatStore";
 import { MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useMemo, useState } from 'react';
@@ -13,15 +10,17 @@ import { FlatList, Modal, Pressable, TouchableOpacity, View } from 'react-native
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from "react-native-toast-message";
 
-export default function RitualRecommendationModal() {
+type Props = {
+  visible: boolean;
+  ritualRecommendationId: string;
+  ritualPack: RitualPack;
+  closeRecommendationFlow: () => void;
+};
+
+export default function RitualRecommendationModal({ visible, ritualRecommendationId, ritualPack, closeRecommendationFlow }: Props) {
   const [selected, setSelected] = useState<Record<string, boolean>>({});
 
-  const ritualRecommendationId = useChatStore((s) => s.ritualRecommendationId);
-  const isModalVisible = useChatStore((s) => s.isRitualRecommendationModalVisible);
   const { setIsRitualRecommendationModalVisible, setRitualRecommendationId } = useChatStore();
-
-  const { data: recommendation, isLoading: isLoadingRecommendation, error: recommendationError } = useRitualRecommendation(ritualRecommendationId ?? '');
-  const { data: ritualPack, isLoading: isLoadingRitualPack, error: ritualPackError } = useRitualPack(recommendation?.ritualPackId);
   const { updateRecommendationAndHistoryStatus } = useRitualActions();
 
   const rituals = useMemo(() => {
@@ -41,11 +40,6 @@ export default function RitualRecommendationModal() {
   );
 
   const canAdd = selectedIds.length > 0;
-
-  const refreshRecommendationModalStates = () => {
-    setIsRitualRecommendationModalVisible(false);
-    setRitualRecommendationId(null);
-  };
 
   const handleAdd = useCallback(async () => {
     if (!canAdd || !ritualRecommendationId) return;
@@ -72,7 +66,7 @@ export default function RitualRecommendationModal() {
         text1: "Failed to add rituals to current",
       });
     }
-    refreshRecommendationModalStates();
+    closeRecommendationFlow();
   }, [ritualRecommendationId, selected, rituals, updateRecommendationAndHistoryStatus]);
 
   const handleCloseModal = useCallback(async () => {
@@ -88,7 +82,7 @@ export default function RitualRecommendationModal() {
         console.error('Failed to update recommendation statuses on close:', error);
       }
     }
-    refreshRecommendationModalStates();
+    closeRecommendationFlow();
   }, [ritualRecommendationId, updateRecommendationAndHistoryStatus]);
 
   const handleDismiss = useCallback(async () => {
@@ -106,25 +100,20 @@ export default function RitualRecommendationModal() {
         console.error('Failed to update recommendation and ritual statuses on dismiss:', error);
       }
     }
-    refreshRecommendationModalStates();
+    closeRecommendationFlow();
   }, [ritualRecommendationId, rituals, updateRecommendationAndHistoryStatus]);
 
-  if (!isModalVisible) {
+  if (!visible) {
     return null;
   }
 
   return (
     <Modal
-      visible={isModalVisible}
+      visible={visible}
       animationType="slide"
       onRequestClose={handleCloseModal}
       presentationStyle="pageSheet"
     >
-      {(isLoadingRecommendation || isLoadingRitualPack) ? (
-        <LoadingState text="Loading recommendation..." />
-      ) : (recommendationError || ritualPackError ||!recommendation || !ritualPack) ? (
-        <ErrorState message="Recommendation not found." />
-      ) : (
       <SafeAreaView className="flex-1 bg-white" edges={['top', 'bottom', 'left', 'right']}>
         {/* Modal Header */}
         <View className="flex-row items-center px-4 pt-3 pb-2 border-b border-gray-200">
@@ -185,7 +174,6 @@ export default function RitualRecommendationModal() {
           </View>
         </SafeAreaView>
       </SafeAreaView>
-      )}
     </Modal>
   );
 }
