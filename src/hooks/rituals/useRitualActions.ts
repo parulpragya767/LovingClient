@@ -115,6 +115,11 @@ export const useRitualActions = () => {
     }
   };
 
+  const getCurrentRitualPackById = (packId: string) => {
+    if (!currentRituals) return undefined;
+    return currentRituals.ritualPacks.find(pack => pack.ritualPackId === packId);
+  };
+
   return {
     EMOJIS,
     mapUnicodeToEmojiFeedback,
@@ -124,5 +129,6 @@ export const useRitualActions = () => {
     deleteRitualFromCurrent,
     markRitualAsCompleted,
     updateRecommendationAndHistoryStatus,
+    getCurrentRitualPackById,
   };
 };

@@ -5,6 +5,7 @@ import LoadingState from '@/src/components/states/LoadingState';
 import { ThemedText } from '@/src/components/themes/themed-text';
 import { ThemedView } from '@/src/components/themes/themed-view';
 import CollapsibleSection from '@/src/components/ui/CollapsibleSection';
+import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useRitualPack } from '@/src/hooks/rituals/useRitualPack';
 import { Ritual } from '@/src/models/rituals';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
@@ -16,7 +17,12 @@ export default function RitualPackScreen() {
   const navigation = useNavigation();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { data: pack, isLoading, error, refetch } = useRitualPack(id);
-  const rituals: Ritual[] = useMemo(() => pack?.rituals ?? [], [pack]);
+  const { getCurrentRitualPackById } = useRitualActions();
+  const currentPack = useMemo(() => id ? getCurrentRitualPackById(id) : null, [id, getCurrentRitualPackById]);
+  const rituals: Ritual[] = useMemo(
+    () => currentPack?.rituals?.map(r => r.ritual) ?? pack?.rituals ?? [], 
+    [currentPack, pack]
+  );
 
   useEffect(() => {
     let mounted = true;
