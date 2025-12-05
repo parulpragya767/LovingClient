@@ -5,16 +5,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **string** |  | [optional] [default to undefined]
+**id** | **string** |  | [default to undefined]
+**authUserId** | **string** |  | [default to undefined]
 **email** | **string** |  | [optional] [default to undefined]
-**firstName** | **string** |  | [optional] [default to undefined]
-**lastName** | **string** |  | [optional] [default to undefined]
 **displayName** | **string** |  | [optional] [default to undefined]
-**phoneNumber** | **string** |  | [optional] [default to undefined]
-**dateOfBirth** | **string** |  | [optional] [default to undefined]
-**gender** | **string** |  | [optional] [default to undefined]
-**isEmailVerified** | **boolean** |  | [optional] [default to undefined]
-**isActive** | **boolean** |  | [optional] [default to undefined]
+**onboardingCompleted** | **boolean** |  | [optional] [default to undefined]
 **lastLoginAt** | **string** |  | [optional] [default to undefined]
 **createdAt** | **string** |  | [optional] [default to undefined]
 **updatedAt** | **string** |  | [optional] [default to undefined]
@@ -26,15 +21,10 @@ import { UserDTO } from './api';
 
 const instance: UserDTO = {
     id,
+    authUserId,
     email,
-    firstName,
-    lastName,
     displayName,
-    phoneNumber,
-    dateOfBirth,
-    gender,
-    isEmailVerified,
-    isActive,
+    onboardingCompleted,
     lastLoginAt,
     createdAt,
     updatedAt,

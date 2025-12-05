@@ -31,50 +31,11 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
     return {
         /**
          * 
-         * @param {string} email 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        checkEmailExists: async (email: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'email' is not null or undefined
-            assertParamExists('checkEmailExists', 'email', email)
-            const localVarPath = `/api/users/exists`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (email !== undefined) {
-                localVarQueryParameter['email'] = email;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {UserDTO} userDTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createUser: async (userDTO: UserDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userDTO' is not null or undefined
-            assertParamExists('createUser', 'userDTO', userDTO)
-            const localVarPath = `/api/users`;
+        syncUser: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/users/sync`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -88,42 +49,6 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
 
 
     
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(userDTO, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteUser: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('deleteUser', 'id', id)
-            const localVarPath = `/api/users/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -135,80 +60,14 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getAllUsers: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/users`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getUserById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('getUserById', 'id', id)
-            const localVarPath = `/api/users/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
          * @param {UserDTO} userDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser: async (id: string, userDTO: UserDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateUser', 'id', id)
+        updateUser: async (userDTO: UserDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'userDTO' is not null or undefined
             assertParamExists('updateUser', 'userDTO', userDTO)
-            const localVarPath = `/api/users/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/api/users`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -246,14 +105,13 @@ export const UserControllerApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {string} email 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async checkEmailExists(email: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.checkEmailExists(email, options);
+        async syncUser(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.syncUser(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserControllerApi.checkEmailExists']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['UserControllerApi.syncUser']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -262,56 +120,8 @@ export const UserControllerApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createUser(userDTO: UserDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createUser(userDTO, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserControllerApi.createUser']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteUser(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteUser(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserControllerApi.deleteUser']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getAllUsers(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<UserDTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllUsers(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserControllerApi.getAllUsers']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getUserById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserById(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserControllerApi.getUserById']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {UserDTO} userDTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async updateUser(id: string, userDTO: UserDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUser(id, userDTO, options);
+        async updateUser(userDTO: UserDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUser(userDTO, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserControllerApi.updateUser']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -328,47 +138,11 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
     return {
         /**
          * 
-         * @param {UserControllerApiCheckEmailExistsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        checkEmailExists(requestParameters: UserControllerApiCheckEmailExistsRequest, options?: RawAxiosRequestConfig): AxiosPromise<boolean> {
-            return localVarFp.checkEmailExists(requestParameters.email, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {UserControllerApiCreateUserRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createUser(requestParameters: UserControllerApiCreateUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserDTO> {
-            return localVarFp.createUser(requestParameters.userDTO, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {UserControllerApiDeleteUserRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteUser(requestParameters: UserControllerApiDeleteUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.deleteUser(requestParameters.id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getAllUsers(options?: RawAxiosRequestConfig): AxiosPromise<Array<UserDTO>> {
-            return localVarFp.getAllUsers(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {UserControllerApiGetUserByIdRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getUserById(requestParameters: UserControllerApiGetUserByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserDTO> {
-            return localVarFp.getUserById(requestParameters.id, options).then((request) => request(axios, basePath));
+        syncUser(options?: RawAxiosRequestConfig): AxiosPromise<UserDTO> {
+            return localVarFp.syncUser(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -377,7 +151,7 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
          * @throws {RequiredError}
          */
         updateUser(requestParameters: UserControllerApiUpdateUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserDTO> {
-            return localVarFp.updateUser(requestParameters.id, requestParameters.userDTO, options).then((request) => request(axios, basePath));
+            return localVarFp.updateUser(requestParameters.userDTO, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -390,47 +164,11 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
 export interface UserControllerApiInterface {
     /**
      * 
-     * @param {UserControllerApiCheckEmailExistsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserControllerApiInterface
      */
-    checkEmailExists(requestParameters: UserControllerApiCheckEmailExistsRequest, options?: RawAxiosRequestConfig): AxiosPromise<boolean>;
-
-    /**
-     * 
-     * @param {UserControllerApiCreateUserRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserControllerApiInterface
-     */
-    createUser(requestParameters: UserControllerApiCreateUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserDTO>;
-
-    /**
-     * 
-     * @param {UserControllerApiDeleteUserRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserControllerApiInterface
-     */
-    deleteUser(requestParameters: UserControllerApiDeleteUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
-
-    /**
-     * 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserControllerApiInterface
-     */
-    getAllUsers(options?: RawAxiosRequestConfig): AxiosPromise<Array<UserDTO>>;
-
-    /**
-     * 
-     * @param {UserControllerApiGetUserByIdRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserControllerApiInterface
-     */
-    getUserById(requestParameters: UserControllerApiGetUserByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserDTO>;
+    syncUser(options?: RawAxiosRequestConfig): AxiosPromise<UserDTO>;
 
     /**
      * 
@@ -444,74 +182,11 @@ export interface UserControllerApiInterface {
 }
 
 /**
- * Request parameters for checkEmailExists operation in UserControllerApi.
- * @export
- * @interface UserControllerApiCheckEmailExistsRequest
- */
-export interface UserControllerApiCheckEmailExistsRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserControllerApiCheckEmailExists
-     */
-    readonly email: string
-}
-
-/**
- * Request parameters for createUser operation in UserControllerApi.
- * @export
- * @interface UserControllerApiCreateUserRequest
- */
-export interface UserControllerApiCreateUserRequest {
-    /**
-     * 
-     * @type {UserDTO}
-     * @memberof UserControllerApiCreateUser
-     */
-    readonly userDTO: UserDTO
-}
-
-/**
- * Request parameters for deleteUser operation in UserControllerApi.
- * @export
- * @interface UserControllerApiDeleteUserRequest
- */
-export interface UserControllerApiDeleteUserRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserControllerApiDeleteUser
-     */
-    readonly id: string
-}
-
-/**
- * Request parameters for getUserById operation in UserControllerApi.
- * @export
- * @interface UserControllerApiGetUserByIdRequest
- */
-export interface UserControllerApiGetUserByIdRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserControllerApiGetUserById
-     */
-    readonly id: string
-}
-
-/**
  * Request parameters for updateUser operation in UserControllerApi.
  * @export
  * @interface UserControllerApiUpdateUserRequest
  */
 export interface UserControllerApiUpdateUserRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserControllerApiUpdateUser
-     */
-    readonly id: string
-
     /**
      * 
      * @type {UserDTO}
@@ -529,56 +204,12 @@ export interface UserControllerApiUpdateUserRequest {
 export class UserControllerApi extends BaseAPI implements UserControllerApiInterface {
     /**
      * 
-     * @param {UserControllerApiCheckEmailExistsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserControllerApi
      */
-    public checkEmailExists(requestParameters: UserControllerApiCheckEmailExistsRequest, options?: RawAxiosRequestConfig) {
-        return UserControllerApiFp(this.configuration).checkEmailExists(requestParameters.email, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {UserControllerApiCreateUserRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserControllerApi
-     */
-    public createUser(requestParameters: UserControllerApiCreateUserRequest, options?: RawAxiosRequestConfig) {
-        return UserControllerApiFp(this.configuration).createUser(requestParameters.userDTO, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {UserControllerApiDeleteUserRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserControllerApi
-     */
-    public deleteUser(requestParameters: UserControllerApiDeleteUserRequest, options?: RawAxiosRequestConfig) {
-        return UserControllerApiFp(this.configuration).deleteUser(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserControllerApi
-     */
-    public getAllUsers(options?: RawAxiosRequestConfig) {
-        return UserControllerApiFp(this.configuration).getAllUsers(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {UserControllerApiGetUserByIdRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserControllerApi
-     */
-    public getUserById(requestParameters: UserControllerApiGetUserByIdRequest, options?: RawAxiosRequestConfig) {
-        return UserControllerApiFp(this.configuration).getUserById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public syncUser(options?: RawAxiosRequestConfig) {
+        return UserControllerApiFp(this.configuration).syncUser(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -589,7 +220,7 @@ export class UserControllerApi extends BaseAPI implements UserControllerApiInter
      * @memberof UserControllerApi
      */
     public updateUser(requestParameters: UserControllerApiUpdateUserRequest, options?: RawAxiosRequestConfig) {
-        return UserControllerApiFp(this.configuration).updateUser(requestParameters.id, requestParameters.userDTO, options).then((request) => request(this.axios, this.basePath));
+        return UserControllerApiFp(this.configuration).updateUser(requestParameters.userDTO, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

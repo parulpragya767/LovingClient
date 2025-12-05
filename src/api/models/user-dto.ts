@@ -25,7 +25,13 @@ export interface UserDTO {
      * @type {string}
      * @memberof UserDTO
      */
-    'id'?: string;
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserDTO
+     */
+    'authUserId': string;
     /**
      * 
      * @type {string}
@@ -37,49 +43,13 @@ export interface UserDTO {
      * @type {string}
      * @memberof UserDTO
      */
-    'firstName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserDTO
-     */
-    'lastName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserDTO
-     */
     'displayName'?: string;
     /**
      * 
-     * @type {string}
-     * @memberof UserDTO
-     */
-    'phoneNumber'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserDTO
-     */
-    'dateOfBirth'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserDTO
-     */
-    'gender'?: string;
-    /**
-     * 
      * @type {boolean}
      * @memberof UserDTO
      */
-    'isEmailVerified'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UserDTO
-     */
-    'isActive'?: boolean;
+    'onboardingCompleted'?: boolean;
     /**
      * 
      * @type {string}
