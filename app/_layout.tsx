@@ -1,11 +1,12 @@
 import '@/global.css';
 import { AuthProvider, useAuth } from '@/src/context/AuthContext';
-import { getHasOnboarded } from '@/src/lib/onboarding';
+import { useUserStore } from '@/src/store/useUserStore';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import LoadingState from '@/src/components/states/LoadingState';
 import { Redirect, Stack, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -21,49 +22,40 @@ export const unstable_settings = {
 function RootLayoutNav() {
   const { loading, user } = useAuth();
   const pathname = usePathname();
-  const [hasOnboarded, setHasOnboarded] = useState<boolean | null>(null);
-  const [isReady, setIsReady] = useState(false);
+  const { onboardingCompleted } = useUserStore();
 
-  useEffect(() => {
-    let active = true;
-    (async () => {
-      const v = await getHasOnboarded();
-      if (active) {
-        setHasOnboarded(v);
-        setIsReady(true);
-      }
-    })();
-    return () => {
-      active = false;
-    };
-  }, []);
+  if (loading) return <LoadingState text="Loading your profile..." />;
 
-  const isOnOnboarding = pathname?.startsWith('/onboarding');
-  const isAuthPage = pathname?.startsWith('/auth');
-  const isTabsPage = pathname?.startsWith('/(tabs)');
+  const isOnboarding = pathname?.startsWith("/onboarding");
+  const isAuth = pathname?.startsWith("/auth");
+  const isTabs = pathname?.startsWith("/(tabs)");
 
-  // Don't render anything until we've checked the onboarding status
-  if (loading || !isReady) {
-    return null;
+  // 1. If not logged in → only allow /auth
+  if (!user) {
+    if (!isAuth) return <Redirect href="/auth/login" />;
+    return renderScreens();
   }
 
-  // Handle redirects
-  if (!user && !isAuthPage && !isOnOnboarding) {
-    return <Redirect href="/auth/login" />;
+  // 2. Logged in but onboarding not done → force onboarding
+  if (!onboardingCompleted) {
+    if (!isOnboarding) return <Redirect href="/onboarding" />;
+    return renderScreens();
   }
 
-  if (user && !hasOnboarded && !isOnOnboarding) {
-    return <Redirect href="/onboarding" />;
+  // 3. Logged in AND onboarding done → force into tabs
+  if (onboardingCompleted) {
+    if (!isTabs) return <Redirect href="/(tabs)" />;
+    return renderScreens();
   }
 
-  if (user && hasOnboarded && !isTabsPage && !isOnOnboarding) {
-    return <Redirect href="/(tabs)" />;
-  }
+  return renderScreens();
+}
 
+function renderScreens() {
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="(modals)" options={{ presentation: 'modal', headerShown: false }} />
+      <Stack.Screen name="(modals)" options={{ presentation: "modal", headerShown: false }} />
       <Stack.Screen name="auth/login" options={{ headerShown: false }} />
       <Stack.Screen name="onboarding" options={{ headerShown: false }} />
     </Stack>
