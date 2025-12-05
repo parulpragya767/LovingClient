@@ -5,7 +5,7 @@ import LoadingState from '@/src/components/states/LoadingState';
 import { ThemedText } from '@/src/components/themes/themed-text';
 import { ThemedView } from '@/src/components/themes/themed-view';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
-import { useTagSelection } from '@/src/hooks/rituals/useTagSelection';
+import { useTagSelectionDraft } from '@/src/hooks/rituals/useTagSelectionDraft';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Pressable, ScrollView, View } from 'react-native';
@@ -14,9 +14,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function RitualsSearchScreen() {
   const router = useRouter();
   const { data: tagData, isLoading: isTagsLoading, refetch: refetchTags, error } = useRitualTags();
-  const { selected, toggle, clearAll } = useTagSelection();
+  const { selectedDraft, chipsDraft, removeChipDraft, clearAllDraft, toggleDraft, applyDraft } = useTagSelectionDraft();
   
   const navigateToResults = async () => {
+    applyDraft();
     router.replace('/rituals/all-rituals');
   };
 
@@ -42,7 +43,7 @@ export default function RitualsSearchScreen() {
           </Pressable>
         </View>
 
-        <SelectedTags />
+        <SelectedTags chips={chipsDraft} removeChip={removeChipDraft} clearAll={clearAllDraft} />
         
         {/* Tag Categories */}
         {tagData && (
@@ -51,40 +52,40 @@ export default function RitualsSearchScreen() {
               title={tagData.loveTypes.displayName}
               tagValues={tagData.loveTypes.values}
               keyPrefix="lt"
-              isSelected={(key) => selected.loveTypes.some(v => v.key === key)}
-              onToggle={(tag) => toggle('loveTypes', tag)}
+              isSelected={(key) => selectedDraft.loveTypes.some(v => v.key === key)}
+              onToggle={(tag) => toggleDraft('loveTypes', tag)}
             />
 
             <TagCategory
               title={tagData.ritualModes.displayName}
               tagValues={tagData.ritualModes.values}
               keyPrefix="rm"
-              isSelected={(key) => selected.ritualModes.some(v => v.key === key)}
-              onToggle={(tag) => toggle('ritualModes', tag)}
+              isSelected={(key) => selectedDraft.ritualModes.some(v => v.key === key)}
+              onToggle={(tag) => toggleDraft('ritualModes', tag)}
             />
 
             <TagCategory
               title={tagData.timeTaken.displayName}
               tagValues={tagData.timeTaken.values}
               keyPrefix="tt"
-              isSelected={(key) => selected.timeTaken.some(v => v.key === key)}
-              onToggle={(tag) => toggle('timeTaken', tag)}
+              isSelected={(key) => selectedDraft.timeTaken.some(v => v.key === key)}
+              onToggle={(tag) => toggleDraft('timeTaken', tag)}
             />
 
             <TagCategory
               title={tagData.ritualTones.displayName}
               tagValues={tagData.ritualTones.values}
               keyPrefix="rt"
-              isSelected={(key) => selected.ritualTones.some(v => v.key === key)}
-              onToggle={(tag) => toggle('ritualTones', tag)}
+              isSelected={(key) => selectedDraft.ritualTones.some(v => v.key === key)}
+              onToggle={(tag) => toggleDraft('ritualTones', tag)}
             />
 
             <TagCategory
               title={tagData.relationalNeeds.displayName}
               tagValues={tagData.relationalNeeds.values}
               keyPrefix="rn"
-              isSelected={(key) => selected.relationalNeeds.some(v => v.key === key)}
-              onToggle={(tag) => toggle('relationalNeeds', tag)}
+              isSelected={(key) => selectedDraft.relationalNeeds.some(v => v.key === key)}
+              onToggle={(tag) => toggleDraft('relationalNeeds', tag)}
             />
 
             <Pressable

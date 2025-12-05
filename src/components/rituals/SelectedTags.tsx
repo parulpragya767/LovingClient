@@ -1,11 +1,16 @@
-import { useTagSelection } from '@/src/hooks/rituals/useTagSelection';
+import { Chip } from '@/src/models/ritualTags';
 import { Pressable, View } from 'react-native';
 import Tag from './Tag';
 
-export function SelectedTags() {
-	const { chips, removeChip, clearAll } = useTagSelection();
+type SelectedTagsProps = {
+  chips: Chip[];
+  removeChip: (chip: Chip) => void;
+  clearAll: () => void;
+};
+
+export function SelectedTags({ chips, removeChip, clearAll }: SelectedTagsProps) {
   if (chips.length === 0) {
-      return null;
+    return null;
   }
 
   return (

@@ -13,7 +13,7 @@ export default function AllRitualsScreen() {
   const onEndReachedCalledDuringMomentum = useRef(false);
   const isWeb = Platform.OS === "web";
 
-  const { filter } = useTagSelection();
+  const { filter, chips, removeChip, clearAll } = useTagSelection();
   const {
     rituals,
     loading: { isLoading, isFetchingNextPage },
@@ -39,7 +39,7 @@ export default function AllRitualsScreen() {
 
   return (
     <View className="flex-1 bg-white mt-3 mb-6">
-        <SelectedTags />
+        <SelectedTags chips={chips} removeChip={removeChip} clearAll={clearAll} />
         <FlatList
           ref={listRef}
           data={rituals}
