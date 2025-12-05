@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import { setHasOnboarded } from '@/src/lib/onboarding';
 const hero = require('../../../assets/images/favicon.png');
 
 function ProgressDots({ current, total }: { current: number; total: number }) {
@@ -46,7 +47,7 @@ export default function StartingPathScreen() {
 
           <TouchableOpacity
             accessibilityRole="button"
-            onPress={() => router.replace('/(tabs)')}
+            onPress={async () => { await setHasOnboarded(true); router.replace('/(tabs)'); }}
             style={[styles.button, styles.buttonPrimary]}
           >
             <Text style={styles.buttonPrimaryText}>Finish</Text>
@@ -64,12 +65,12 @@ const styles = StyleSheet.create({
   content: { flex: 1, marginTop: 24 },
   heading: { fontSize: 26, fontWeight: '700', color: '#111', textAlign: 'center' },
   subtext: { marginTop: 12, fontSize: 16, color: '#444', textAlign: 'center', lineHeight: 22 },
-  dotsRow: { marginTop: 20, flexDirection: 'row', justifyContent: 'center', gap: 8 },
-  dot: { width: 8, height: 8, borderRadius: 4 },
+  dotsRow: { marginTop: 20, flexDirection: 'row', justifyContent: 'center' },
+  dot: { width: 8, height: 8, borderRadius: 4, marginHorizontal: 4 },
   dotActive: { backgroundColor: '#111' },
   dotInactive: { backgroundColor: '#ddd' },
-  actions: { marginTop: 'auto', gap: 12 },
-  button: { paddingVertical: 14, borderRadius: 10, alignItems: 'center' },
+  actions: { marginTop: 'auto' },
+  button: { paddingVertical: 14, borderRadius: 10, alignItems: 'center', marginTop: 12 },
   buttonPrimary: { backgroundColor: '#111' },
   buttonPrimaryText: { color: 'white', fontWeight: '600', fontSize: 16 },
   buttonGhost: { backgroundColor: 'transparent', borderWidth: 1, borderColor: '#ddd' },

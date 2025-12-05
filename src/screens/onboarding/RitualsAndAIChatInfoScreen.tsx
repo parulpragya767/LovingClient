@@ -1,3 +1,4 @@
+import { setHasOnboarded } from '@/src/lib/onboarding';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -54,7 +55,7 @@ export default function RitualsAndAIChatInfoScreen() {
 
           <TouchableOpacity
             accessibilityRole="button"
-            onPress={() => router.replace('/(tabs)')}
+            onPress={async () => { await setHasOnboarded(true); router.replace('/(tabs)'); }}
             style={[styles.button, styles.buttonGhost]}
           >
             <Text style={styles.buttonGhostText}>Skip</Text>
