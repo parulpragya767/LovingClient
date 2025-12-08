@@ -27,12 +27,6 @@ export default function RitualsLayout() {
         }}
       />
       <Stack.Screen 
-        name="pack/[id]" 
-        options={{
-          headerShown: true,
-        }}
-      />
-      <Stack.Screen 
         name="search"
         options={{
           headerShown: false,
