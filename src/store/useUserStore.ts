@@ -13,11 +13,11 @@ type UserStore = {
 
 export const useUserStore = create<UserStore>((set) => ({
   displayName: '',
-  onboardingCompleted: false,
+  onboardingCompleted: true,
 
   setUser: (user) => set({ 
     displayName: user.displayName, 
-    onboardingCompleted: user.onboardingCompleted 
+    onboardingCompleted: user.onboardingCompleted ?? true 
   }),
 
   setDisplayName: (name) => set({ displayName: name }),
@@ -27,6 +27,6 @@ export const useUserStore = create<UserStore>((set) => ({
   clearUser: () => 
     set({ 
         displayName: '', 
-        onboardingCompleted: false 
+        onboardingCompleted: true 
     })
 }));

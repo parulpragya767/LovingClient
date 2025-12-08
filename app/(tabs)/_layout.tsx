@@ -1,9 +1,21 @@
+import LoadingState from '@/src/components/states/LoadingState';
+import { useAuth } from '@/src/context/AuthContext';
+import { useUserStore } from '@/src/store/useUserStore';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Link, Tabs } from 'expo-router';
+import { Link, Redirect, Tabs } from 'expo-router';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 
 export default function TabLayout() {
+  const { loading, user } = useAuth();
+  const { onboardingCompleted } = useUserStore();
+
+  if (loading) return <LoadingState text="Loading your profile..." />;
+
+  if (!user) return <Redirect href="/auth/login" />;
+
+  if (!onboardingCompleted) return <Redirect href="/onboarding" />;
+
   return (
     <Tabs
       screenOptions={{

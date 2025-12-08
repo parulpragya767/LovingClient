@@ -46,8 +46,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           console.warn('Error getting session', error.message);
         }
         if (!isMounted) return;
-        setSession(data.session ?? null);
-        // await syncUserToBackend(sbSession?.user ?? null);
+
+        const sbSession = data.session ?? null;
+        setSession(sbSession);
+        await syncUserToBackend(sbSession?.user ?? null);
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -58,7 +60,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Listen for login/logout/session refresh
     const { data: sub } = supabase.auth.onAuthStateChange((_event, newSession) => {
       setSession(newSession ?? null);
-      syncUserToBackend(newSession?.user ?? null);
     });
     
     return () => {
