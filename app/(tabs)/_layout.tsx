@@ -39,6 +39,7 @@ export default function TabLayout() {
               </TouchableOpacity>
             </Link>
           ),
+          popToTopOnBlur: true,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />
           ),
@@ -48,6 +49,7 @@ export default function TabLayout() {
         name="love-lens"
         options={{
           title: 'Love Lens',
+          popToTopOnBlur: true,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'heart' : 'heart-outline'} color={color} size={24} />
           ),
@@ -57,6 +59,7 @@ export default function TabLayout() {
         name="rituals"
         options={{
           title: 'Rituals',
+          popToTopOnBlur: true,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'moon' : 'moon-outline'} color={color} size={24}/>
           ),
@@ -66,6 +69,7 @@ export default function TabLayout() {
         name="ai-chat"
         options={{
           title: 'AI Chat',
+          popToTopOnBlur: true,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'chatbubble-ellipses' : 'chatbubble-ellipses-outline'} color={color} size={24} />
           ),
