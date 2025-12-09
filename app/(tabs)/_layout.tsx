@@ -1,4 +1,7 @@
 import LoadingState from '@/src/components/states/LoadingState';
+import { AppTheme } from '@/src/components/themes/AppTheme';
+import { defaultHeaderOptions } from '@/src/components/ui/navigation/headerOptions';
+import { tabScreenOptions } from '@/src/components/ui/navigation/tabOptions';
 import { useAuth } from '@/src/context/AuthContext';
 import { useUserStore } from '@/src/store/useUserStore';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -17,28 +20,20 @@ export default function TabLayout() {
   if (!onboardingCompleted) return <Redirect href="/onboarding" />;
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: '#ffd33d',
-        headerShown: false,
-        tabBarStyle: {
-          backgroundColor: '#25292e',
-        },
-      }}>
+    <Tabs screenOptions={tabScreenOptions}>
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
           headerShown: true,
-          headerStyle: { backgroundColor: '#25292e' },
-          headerTintColor: '#ffd33d',
           headerLeft: () => (
             <Link href="/(modals)/user" asChild>
               <TouchableOpacity style={{ paddingHorizontal: 12 }}>
-                <Ionicons name="person-circle-outline" size={26} color="#ffd33d" />
+                <Ionicons name="person-circle-outline" size={26} color={AppTheme.colors.text.primary} />
               </TouchableOpacity>
             </Link>
           ),
+          ...defaultHeaderOptions,
           popToTopOnBlur: true,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />
@@ -49,6 +44,8 @@ export default function TabLayout() {
         name="love-lens"
         options={{
           title: 'Love Lens',
+          headerShown: true,
+          ...defaultHeaderOptions,
           popToTopOnBlur: true,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'heart' : 'heart-outline'} color={color} size={24} />
@@ -59,6 +56,8 @@ export default function TabLayout() {
         name="rituals"
         options={{
           title: 'Rituals',
+          headerShown: true,
+          ...defaultHeaderOptions,
           popToTopOnBlur: true,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'moon' : 'moon-outline'} color={color} size={24}/>
@@ -69,6 +68,8 @@ export default function TabLayout() {
         name="ai-chat"
         options={{
           title: 'AI Chat',
+          headerShown: true,
+          ...defaultHeaderOptions,
           popToTopOnBlur: true,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'chatbubble-ellipses' : 'chatbubble-ellipses-outline'} color={color} size={24} />
