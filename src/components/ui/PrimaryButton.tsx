@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 import React from 'react';
-import { Pressable, PressableProps } from 'react-native';
+import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import { AppText } from './AppText';
 
-export type PrimaryButtonProps = PressableProps & {
+export type PrimaryButtonProps = TouchableOpacityProps & {
   children: React.ReactNode;
   className?: string;
 };
@@ -17,7 +17,7 @@ export function PrimaryButton({
   ...rest 
 }: PrimaryButtonProps) {
   return (
-    <Pressable 
+    <TouchableOpacity 
       onPress={onPress} 
       className={clsx(baseClasses, className)} 
       {...rest}
@@ -25,6 +25,6 @@ export function PrimaryButton({
       <AppText variant="body" className="text-white font-medium">
         {children}
       </AppText>
-    </Pressable>
+    </TouchableOpacity>
   );
 }

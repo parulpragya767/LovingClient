@@ -1,7 +1,10 @@
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
 import { ThemedText } from '@/src/components/themes/themed-text';
+import { AppText } from '@/src/components/ui/AppText';
 import CollapsibleSection from '@/src/components/ui/CollapsibleSection';
+import { PrimaryButton } from '@/src/components/ui/PrimaryButton';
+import { Screen } from '@/src/components/ui/Screen';
 import { useRitual } from '@/src/hooks/rituals/useRitual';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
@@ -61,28 +64,24 @@ export default function RitualDetailScreen() {
     : null;
 
   return (
-    <ScrollView className="flex-1 bg-gray-50" showsVerticalScrollIndicator={false}>
-      <View className="p-4">
+    <Screen>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {/* Title */}
         <View className="flex-row justify-between items-start mb-4">
-          <ThemedText className="text-gray-600 text-md">
+          <AppText variant="subtitle">
             {ritual.tagLine}
-          </ThemedText>
+          </AppText>
           
           {/* Add to current rituals */}
           {isCurrent ? (
             <View className="items-end">
               <View className="flex-row items-center mb-1">
-                <ThemedText className="text-green-500 font-medium mr-2">✓</ThemedText>
-                <ThemedText className="text-gray-600">Added to Your Rituals</ThemedText>
+                <AppText variant="small" className="text-green-800 mr-2">✓</AppText>
+                <AppText variant="small">Added to Your Rituals</AppText>
               </View>
-              <TouchableOpacity
-                onPress={handleGoToCurrentRituals}
-                className="bg-gray-200 px-3 py-1.5 rounded-lg"
-                activeOpacity={0.8}
-              >
-                <ThemedText className="text-gray-900 font-medium text-sm">Go to My Rituals</ThemedText>
-              </TouchableOpacity>
+              <PrimaryButton onPress={handleGoToCurrentRituals} activeOpacity={0.8}>
+                <AppText>Go to My Rituals</AppText>
+              </PrimaryButton>
             </View>
           ) : (
             <TouchableOpacity
@@ -109,10 +108,8 @@ export default function RitualDetailScreen() {
                 className="items-center"
                 style={{ width: `${100 / array.length}%` }}
               >
-                <ThemedText className="text-gray-500 text-xs">{item.label}</ThemedText>
-                <ThemedText className="font-medium text-center">
-                  {item.value}
-                </ThemedText>
+                <AppText variant="caption">{item.label}</AppText>
+                <AppText variant="small" className="font-semibold">{item.value}</AppText>
               </View>
             ))}
         </View>
@@ -123,7 +120,7 @@ export default function RitualDetailScreen() {
           initiallyExpanded
           containerClassName="mb-6"
         >
-          <ThemedText className="text-green-600 mr-2">{ritual.description}</ThemedText>
+          <AppText variant="body">{ritual.description}</AppText>
         </CollapsibleSection>
 
         {/* How it helps */}
@@ -132,7 +129,7 @@ export default function RitualDetailScreen() {
           initiallyExpanded
           containerClassName="mb-6"
         >
-          <ThemedText className="text-green-600 mr-2">{ritual.howItHelps}</ThemedText>
+          <AppText variant="body">{ritual.howItHelps}</AppText>
         </CollapsibleSection>
 
         {/* Steps */}
@@ -143,15 +140,15 @@ export default function RitualDetailScreen() {
         >
           {ritual.steps?.map((step, index) => (
             <View key={index} className="flex-row mb-3 last:mb-0">
-              <View className="bg-blue-100 w-6 h-6 rounded-full items-center justify-center mr-3 mt-0.5">
-                <ThemedText className="text-blue-700 font-bold text-xs">
+              <View className="bg-brand-primary w-6 h-6 rounded-full items-center justify-center mr-3 mt-0.5">
+                <AppText variant="caption" className="text-white">
                   {index + 1}
-                </ThemedText>
+                </AppText>
               </View>
               <View className="flex-1">
                 <Markdown
                   style={{
-                    body: { color: '#374151' }, // text-gray-700
+                    body: { color: '#1F2937' }, // text-gray-700
                     strong: { fontWeight: '600' } // font-semibold
                   }}
                 >
@@ -161,7 +158,7 @@ export default function RitualDetailScreen() {
             </View>
           ))}
         </CollapsibleSection>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </Screen>
   );
 }
