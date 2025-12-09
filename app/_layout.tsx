@@ -3,6 +3,7 @@ import { AuthProvider } from '@/src/context/AuthContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { createHeaderOptions } from '@/src/components/ui/headerPresets';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import 'react-native-gesture-handler';
@@ -33,9 +34,9 @@ export default function RootLayout() {
               />
               <Stack.Screen 
                 name="rituals/[id]" 
-                options={{
-                  headerShown: true,
-                }}
+                options={createHeaderOptions({
+                  title: "Ritual Details",
+                })}
               />
               <Stack.Screen 
                 name="rituals/pack/[id]" 
