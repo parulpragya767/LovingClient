@@ -1,6 +1,7 @@
-import { AppTheme } from "../../themes/AppTheme";
+import { AppTheme } from "@/src/components/themes/AppTheme";
+import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 
-export const defaultHeaderOptions = {
+export const defaultHeaderOptions: NativeStackNavigationOptions ={
   headerTitleStyle: {
     fontFamily: AppTheme.typography.fontFamily.sans,
     fontSize: 16,
@@ -11,6 +12,5 @@ export const defaultHeaderOptions = {
     backgroundColor: AppTheme.colors.brand.primary,
   },
   headerTintColor: AppTheme.colors.accent.soft,
-  headerBackTitleVisible: false,
   headerShadowVisible: false,
 };

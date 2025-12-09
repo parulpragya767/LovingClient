@@ -68,8 +68,7 @@ export default function TabLayout() {
         name="ai-chat"
         options={{
           title: 'AI Chat',
-          headerShown: true,
-          ...defaultHeaderOptions,
+          headerShown: false,
           popToTopOnBlur: true,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'chatbubble-ellipses' : 'chatbubble-ellipses-outline'} color={color} size={24} />

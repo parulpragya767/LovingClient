@@ -30,13 +30,14 @@ export default function RootLayout() {
                 options={{
                   title: 'Love Type Details',
                   headerBackTitle: 'Back',
+                  ...defaultHeaderOptions,
                 }}
               />
               <Stack.Screen 
                 name="rituals/[id]" 
                 options={{
                   title: "Ritual Details",
-                  headerBackVisible: true,
+                  headerBackTitle: 'Back',
                   ...defaultHeaderOptions,
                 }}
               />
@@ -44,6 +45,8 @@ export default function RootLayout() {
                 name="rituals/pack/[id]" 
                 options={{
                   headerShown: true,
+                  headerBackTitle: 'Back',
+                  ...defaultHeaderOptions,
                 }}
               />
             </Stack>
