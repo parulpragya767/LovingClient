@@ -7,7 +7,7 @@ export type ScreenProps = {
   className?: string;
 };
 
-const baseClasses = 'flex-1 bg-bg-screen px-6 py-4';
+const baseClasses = 'flex-1 bg-surface-screen px-6 py-4';
 
 export function Screen({ 
   children,

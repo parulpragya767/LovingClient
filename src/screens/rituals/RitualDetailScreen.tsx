@@ -1,16 +1,15 @@
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
-import { ThemedText } from '@/src/components/themes/themed-text';
 import { AppText } from '@/src/components/ui/AppText';
+import { Button } from '@/src/components/ui/Button';
 import CollapsibleSection from '@/src/components/ui/CollapsibleSection';
-import { PrimaryButton } from '@/src/components/ui/PrimaryButton';
 import { Screen } from '@/src/components/ui/Screen';
 import { useRitual } from '@/src/hooks/rituals/useRitual';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
-import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 import Toast from 'react-native-toast-message';
 
@@ -76,21 +75,21 @@ export default function RitualDetailScreen() {
           {isCurrent ? (
             <View className="items-end">
               <View className="flex-row items-center mb-1">
-                <AppText variant="small" className="text-green-800 mr-2">✓</AppText>
+                <AppText variant="small" className="text-brand-primary mr-2">✓</AppText>
                 <AppText variant="small">Added to Your Rituals</AppText>
               </View>
-              <PrimaryButton onPress={handleGoToCurrentRituals} activeOpacity={0.8}>
+              <Button variant="secondary" onPress={handleGoToCurrentRituals} activeOpacity={0.8}>
                 <AppText>Go to My Rituals</AppText>
-              </PrimaryButton>
+              </Button>
             </View>
           ) : (
-            <TouchableOpacity
+            <Button
+              variant="primary"
               onPress={handleAddToCurrent}
-              className="bg-gray-200 px-3 py-1.5 rounded-lg"
               activeOpacity={0.8}
             >
-              <ThemedText className="text-gray-900 font-medium text-sm">Add to My Rituals</ThemedText>
-            </TouchableOpacity>
+              <AppText>Add to My Rituals</AppText>
+            </Button>
           )}
         </View>
 
@@ -120,7 +119,7 @@ export default function RitualDetailScreen() {
           initiallyExpanded
           containerClassName="mb-6"
         >
-          <AppText variant="body">{ritual.description}</AppText>
+          <AppText>{ritual.description}</AppText>
         </CollapsibleSection>
 
         {/* How it helps */}
@@ -129,7 +128,7 @@ export default function RitualDetailScreen() {
           initiallyExpanded
           containerClassName="mb-6"
         >
-          <AppText variant="body">{ritual.howItHelps}</AppText>
+          <AppText>{ritual.howItHelps}</AppText>
         </CollapsibleSection>
 
         {/* Steps */}
@@ -140,8 +139,8 @@ export default function RitualDetailScreen() {
         >
           {ritual.steps?.map((step, index) => (
             <View key={index} className="flex-row mb-3 last:mb-0">
-              <View className="bg-brand-primary w-6 h-6 rounded-full items-center justify-center mr-3 mt-0.5">
-                <AppText variant="caption" className="text-white">
+              <View className="bg-brand-subtle w-6 h-6 rounded-full items-center justify-center mr-3 mt-0.5">
+                <AppText variant="caption" className="text-text-inverse">
                   {index + 1}
                 </AppText>
               </View>

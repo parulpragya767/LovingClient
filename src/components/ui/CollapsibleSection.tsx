@@ -1,7 +1,8 @@
-import { ThemedText } from '@/src/components/themes/themed-text';
+import clsx from 'clsx';
 import { ChevronDown, ChevronUp } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
+import { AppText } from './AppText';
 
 export type CollapsibleSectionProps = {
   title: string;
@@ -10,6 +11,9 @@ export type CollapsibleSectionProps = {
   headerClassName?: string;
   containerClassName?: string;
 };
+
+const baseContainerClasses = 'rounded-card shadow-card bg-surface-elevated';
+const baseHeaderClasses = 'flex-row items-center justify-between bg-brand-subtle rounded-t-card px-4 py-2';
 
 export default function CollapsibleSection({
   title,
@@ -25,23 +29,25 @@ export default function CollapsibleSection({
   };
 
   return (
-    <View className={containerClassName}>
+    <View className={clsx(baseContainerClasses, containerClassName)}>
       <TouchableOpacity
-        className={`flex-row items-center justify-between ${headerClassName}`}
+        className={clsx(baseHeaderClasses, headerClassName)}
         onPress={toggle}
         activeOpacity={0.7}
       >
-        <ThemedText className="text-lg font-semibold">{title}</ThemedText>
+        <AppText variant="subtitle">{title}</AppText>
         {isExpanded ? (
-          <ChevronUp size={20} color="#4B5563" />
+          <ChevronUp size={24} color="#6B7C6E" />
         ) : (
-          <ChevronDown size={20} color="#4B5563" />
+          <ChevronDown size={24} color="#6B7C6E" />
         )}
       </TouchableOpacity>
 
       {isExpanded && (
-        <View className="bg-white rounded-xl p-4 shadow-sm">
-          {children}
+        <View className="px-4 pt-2 pb-4">
+          <AppText variant="body">
+            {children}
+          </AppText>
         </View>
       )}
     </View>
