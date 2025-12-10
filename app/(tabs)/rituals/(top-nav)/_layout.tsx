@@ -1,33 +1,30 @@
+import { AppTheme } from "@/src/components/themes/AppTheme";
 import { ThemedText } from '@/src/components/themes/themed-text';
+import { createTopTabScreenOptions } from '@/src/components/ui/navigation/tabOptions';
+import { Screen } from '@/src/components/ui/Screen';
 import { MaterialIcons } from '@expo/vector-icons';
-import { createMaterialTopTabNavigator, MaterialTopTabNavigationOptions } from '@react-navigation/material-top-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { router, withLayoutContext } from 'expo-router';
-import { Pressable, View } from 'react-native';
+import { Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { Navigator } = createMaterialTopTabNavigator();
 
 const Tabs = withLayoutContext(Navigator);
 
-const screenOptions: MaterialTopTabNavigationOptions = {
-  tabBarActiveTintColor: '#000',
-  tabBarInactiveTintColor: '#6B7280',
-  tabBarIndicatorStyle: { backgroundColor: '#8B5CF6' },
-  tabBarLabelStyle: { textTransform: 'none', fontSize: 14, fontWeight: '500' },
-  tabBarStyle: { backgroundColor: '#fff' },
-};
+const screenOptions = createTopTabScreenOptions();
 
 export default function RitualsTabsLayout() {
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={["top", "left", "right"]}>
-      <View className="flex-1 bg-white w-full px-4 pt-3">
+    <SafeAreaView style={{ flex: 1 }} edges={["left", "right"]}>
+      <Screen className="px-0 pt-4">
         {/* Search Bar */}
         <Pressable 
-          className="flex-row items-center bg-gray-100 rounded-lg px-3 h-10 w-full"
+          className="flex-row items-center bg-surface-sunken rounded-compactCard px-3 mx-2 h-10"
           onPress={() => router.push('/rituals/search')}
         >
-          <MaterialIcons name="search" size={20} color="#6B7280" />
-          <ThemedText className="text-gray-500 ml-2">Search rituals...</ThemedText>
+          <MaterialIcons name="search" size={20} color={AppTheme.colors.action.ghost.text} />
+          <ThemedText className="text-text-muted ml-2">Search rituals...</ThemedText>
         </Pressable>
 
         <Tabs screenOptions={screenOptions}>
@@ -35,7 +32,7 @@ export default function RitualsTabsLayout() {
           <Tabs.Screen name="all-rituals" options={{ title: 'All Rituals' }} />
           <Tabs.Screen name="history" options={{ title: 'History' }} />
         </Tabs>
-      </View>
+      </Screen>
     </SafeAreaView>
   );
 }

@@ -1,4 +1,5 @@
-import { ThemedText } from '@/src/components/themes/themed-text';
+import { AppText } from '@/src/components/ui/AppText';
+import { Card } from '@/src/components/ui/Card';
 import { CurrentRitual } from '@/src/models/ritualHistory';
 import { RitualPack } from '@/src/models/ritualPacks';
 import { useRouter } from 'expo-router';
@@ -19,11 +20,11 @@ export default function RitualPackCard({ ritualPack, rituals }: RitualPackCardPr
   };
 
   return (
-    <View className="rounded-2xl px-4 pt-4 pb-3 border border-gray-200 bg-white overflow-hidden">
+    <Card className="border border-border overflow-hidden">
       <Pressable onPress={handleRitualPackPress} className="pb-2">
-        <ThemedText className="text-base font-semibold text-gray-900">{ritualPack.title}</ThemedText>
+        <AppText variant="subtitle">{ritualPack.title}</AppText>
         {ritualPack.description ? (
-          <ThemedText className="text-sm text-gray-500 mt-1">{ritualPack.description}</ThemedText>
+          <AppText variant="small" className="mt-1">{ritualPack.description}</AppText>
         ) : null}
       </Pressable>
 
@@ -35,6 +36,6 @@ export default function RitualPackCard({ ritualPack, rituals }: RitualPackCardPr
           />
         </View>
       ))}
-    </View>
+    </Card>
   );
 }

@@ -3,7 +3,8 @@ import SwipeableRitualCard from '@/src/components/rituals/SwipeableRitualCard';
 import { EmptyState } from '@/src/components/states/EmptyState';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
-import { ThemedText } from '@/src/components/themes/themed-text';
+import { AppText } from '@/src/components/ui/AppText';
+import { Screen } from '@/src/components/ui/Screen';
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { CurrentRitual, CurrentRitualPack } from '@/src/models/ritualHistory';
 import { useMemo } from 'react';
@@ -30,7 +31,7 @@ export default function CurrentRitualsScreen() {
   }, [currentRitualPacks, currentRituals]);
 
   return (
-    <View className="flex-1 bg-white">
+    <Screen>
       <SectionList
         sections={sections}
         keyExtractor={(item: any, index: number) =>
@@ -39,7 +40,7 @@ export default function CurrentRitualsScreen() {
             : `ritual-${item.ritualId}`
         }
         renderItem={({ item, section }: any) => (
-          <View className="mb-4 px-4"> 
+          <View className="mb-4"> 
             {section.key === 'packs' ? (
               <RitualPackCard 
                 ritualPack={item.ritualPack} 
@@ -54,15 +55,15 @@ export default function CurrentRitualsScreen() {
           </View>
         )}
         ListHeaderComponent={
-          <View className="px-3 py-4">
-            <ThemedText className="text-2xl font-bold mb-1 text-gray-900">Your Active Rituals</ThemedText>
-            <ThemedText className="text-sm text-gray-500">Keep track of your daily practices</ThemedText>
+          <View className="pb-6">
+            <AppText variant="title">Your Active Rituals</AppText>
+            <AppText variant="small">Keep track of your daily practices</AppText>
           </View>
         }
         ListFooterComponent={<View className="h-20" />}
         showsVerticalScrollIndicator={false}
         stickySectionHeadersEnabled={false}
       />
-    </View>
+    </Screen>
   );
 }

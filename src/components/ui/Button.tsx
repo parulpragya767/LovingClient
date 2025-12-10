@@ -16,7 +16,7 @@ const baseClasses = 'rounded-button py-3 px-4 items-center justify-center';
 const variantClasses: Record<ButtonVariant, string> = {
   primary: 'bg-action-primary-bg',
   secondary: 'bg-action-secondary-bg',
-  ghost: 'bg-transparent',
+  ghost: 'bg-transparent py-0 px-0',
 };
 
 const textClasses: Record<ButtonVariant, string> = {

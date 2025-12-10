@@ -1,10 +1,11 @@
 import Tag from '@/src/components/rituals/Tag';
-import { ThemedText } from '@/src/components/themes/themed-text';
-import { ThemedView } from '@/src/components/themes/themed-view';
+import { AppText } from '@/src/components/ui/AppText';
+import { Card } from '@/src/components/ui/Card';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
 import { Ritual } from '@/src/models/rituals';
 import { useRouter } from 'expo-router';
 import { TouchableOpacity, View } from 'react-native';
+import { Button } from '../ui/Button';
 
 interface RitualCardProps {
   ritual: Ritual;
@@ -29,26 +30,31 @@ export default function RitualCard({ ritual, isPressable = true, onLongPress }: 
       delayLongPress={300} 
       activeOpacity={0.8}
     >
-      <ThemedView className="bg-white rounded-2xl p-4 border border-gray-200 shadow-md">
-        <ThemedText className="text-gray-800 text-lg font-semibold mb-1">
+      <Card className="bg-surface-elevated border border-border">
+        <AppText variant="subtitle" className="mb-1">
           {ritual.title}
-        </ThemedText>
-        <ThemedText className="text-gray-600 mb-3" numberOfLines={2} ellipsizeMode="tail">
+        </AppText>
+        <AppText variant="small" className="mb-3" numberOfLines={2} ellipsizeMode="tail">
           {ritual.description}
-        </ThemedText>
+        </AppText>
         <View className="flex-row flex-wrap gap-2">
           {getRitualTagDisplayNames(ritual).slice(0, 3).map((label: string, idx: number) => (
             <Tag key={idx} label={label} />
           ))}
         </View>
         
-        {isPressable && <ThemedText 
-          className="text-blue-500 text-sm mt-3" 
-          onPress={handleRitualPress}
-        >
-          View details →
-        </ThemedText>}
-      </ThemedView>
+        {isPressable && 
+        <View className="flex-row">
+          <Button 
+            variant="ghost"
+            // className="" 
+            onPress={handleRitualPress}
+          >
+            View details →
+          </Button>
+        </View>
+        }
+      </Card>
     </TouchableOpacity>
   );
 }
