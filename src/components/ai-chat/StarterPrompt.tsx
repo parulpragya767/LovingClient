@@ -1,4 +1,4 @@
-import { ThemedText } from '@/src/components/themes/themed-text';
+import { AppText } from '@/src/components/ui/AppText';
 import { TouchableOpacity, View } from 'react-native';
 
 type StarterPromptProps = {
@@ -10,12 +10,12 @@ export function StarterPrompt({ prompt, onPress }: StarterPromptProps) {
   return (
     <TouchableOpacity 
       onPress={() => onPress(prompt)} 
-      className="w-full mb-3 p-4 rounded-xl bg-gray-100"
+      className="w-full mb-3 p-4 rounded-card bg-action-secondary-bg"
     >
-      <View className="flex-row items-center p-4 border border-gray-300 rounded-xl">
-        <ThemedText className="text-base leading text-gray-800">
+      <View className="flex-row items-center p-4 border border-border-focus rounded-card">
+        <AppText variant="body">
           {prompt}
-        </ThemedText>
+        </AppText>
       </View>
     </TouchableOpacity>
   );
