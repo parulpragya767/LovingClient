@@ -34,7 +34,7 @@ export const AppTheme = {
       muted: colors.text.muted,
       disabled: colors.text.disabled,
       inverse: colors.text.inverse,
-      'inverse-muted': colors.text['inverse-muted'],
+      inverseSubtle: colors.text.inverseSubtle,
     },
     
     // Border colors
@@ -61,8 +61,8 @@ export const AppTheme = {
     
     // Accent colors
     accent: {
-      warm: colors.accent.warm,
-      soft: colors.accent.soft,
+      primary: colors.accent.primary,
+      subtle: colors.accent.subtle,
     },
     
     // State colors
@@ -102,6 +102,7 @@ export const AppTheme = {
   
   // Border radius
   borderRadius: {
+    compactCard: borderRadius.compactCard,
     card: borderRadius.card,
     button: borderRadius.button,
     pill: borderRadius.pill,
@@ -110,5 +111,6 @@ export const AppTheme = {
   // Shadows
   shadow: {
     card: boxShadow.card,
+    elevated: boxShadow.elevated,
   },
 } as const;

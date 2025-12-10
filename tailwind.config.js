@@ -45,7 +45,7 @@ module.exports = {
           muted: '#6F5F5B',
           disabled: '#9C8F8C',
           inverse: '#FFFFFF',
-          'inverse-muted': '#F3E9E6',
+          inverseSubtle: '#F3E9E6',
         },
 
         /**
@@ -55,7 +55,7 @@ module.exports = {
         border: {
           DEFAULT: '#E7DCD6',
           strong: '#D3C6BF',
-          focus: '#8C3A32',
+          focus: '#8C3A32', // brand.primary
         },
 
         /**
@@ -63,25 +63,24 @@ module.exports = {
          */
         action: {
           primary: {
-            bg: '#8C3A32',
-            text: '#FFFFFF',
+            bg: '#8C3A32', // brand.primary
+            text: '#FFFFFF', // text.inverse
           },
           secondary: {
-            bg: '#F2EAE6',
-            text: '#2A1F1D',
+            bg: '#F2EAE6', // surface.sunken
+            text: '#2A1F1D', // text.primary
           },
           ghost: {
-            text: '#8C3A32',
+            text: '#8C3A32', // brand.primary
           },
         },
-
         /**
          * Accent colors
          * Emotional highlights, rituals, warmth
          */
         accent: {
-          warm: '#D6A15C',
-          soft: '#E7C9A3',
+          primary: '#D6A15C',
+          subtle: '#E7C9A3',
         },
 
         /**
@@ -99,23 +98,25 @@ module.exports = {
          */
         tag: {
           neutral: {
-            bg: '#F2EAE6',
-            text: '#4A3A37',
+            bg: '#F2EAE6', // surface.sunken
+            text: '#4A3A37', // text.secondary
           },
           highlight: {
-            bg: '#D6A15C',
-            text: '#2A1F1D',
+            bg: '#D6A15C', // accent.primary
+            text: '#2A1F1D', // text.primary
           },
         },
       },
 
       borderRadius: {
-        card: '16px',
+        compactCard: '12px', // rounded-xl
+        card: '16px', // rounded-2xl
         button: '14px',
-        pill: '9999px',
+        pill: '9999px', // rounded-full
       },
       boxShadow: {
         card: '0 6px 18px rgba(31,41,55,0.06)',
+        elevated: '0 10px 28px rgba(31,41,55,0.08)',
       },
     },
   },
