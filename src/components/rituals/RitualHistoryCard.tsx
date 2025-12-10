@@ -1,7 +1,7 @@
-import { ThemedText } from '@/src/components/themes/themed-text';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { EmojiFeedback } from '@/src/models/enums';
 import { View } from 'react-native';
+import { AppText } from '../ui/AppText';
 
 interface RitualHistoryCardProps {
   title: string;
@@ -24,22 +24,22 @@ export function RitualHistoryCard({ title, date, feedback }: RitualHistoryCardPr
   const emoji = feedback ? mapFeedbackToEmoji(feedback) : undefined;
 
   return (
-    <View className="bg-white p-4 border-b border-gray-200 flex-row items-center justify-between">
+    <View className="bg-surface-elevated p-4 border-b border-border flex-row items-center justify-between">
       <View className="flex-1">
-        <ThemedText className="font-medium text-gray-900">
+        <AppText variant="body" className="font-medium">
           {title}
-        </ThemedText>
+        </AppText>
         {date && (
-          <ThemedText className="text-xs text-gray-500 mt-1">
+          <AppText variant="caption" className="mt-1">
             {formatDate(date)}
-          </ThemedText>
+          </AppText>
         )}
       </View>
       {!!emoji && (
         <View className="ml-4">
-          <ThemedText className="text-2xl">
+          <AppText variant="title">
             {emoji}
-          </ThemedText>
+          </AppText>
         </View>
       )}
     </View>

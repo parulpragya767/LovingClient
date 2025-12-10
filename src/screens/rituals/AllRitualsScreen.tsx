@@ -3,6 +3,7 @@ import { SelectedTags } from '@/src/components/rituals/SelectedTags';
 import { EmptyState } from '@/src/components/states/EmptyState';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
+import { Screen } from '@/src/components/ui/Screen';
 import { useRitualSearch } from '@/src/hooks/rituals/useRitualSearch';
 import { useTagSelection } from '@/src/hooks/rituals/useTagSelection';
 import { useEffect, useRef } from 'react';
@@ -38,14 +39,14 @@ export default function AllRitualsScreen() {
   if (error) return <ErrorState message="Failed to load rituals." onButtonPress={() => refetch()} />;
 
   return (
-    <View className="flex-1 bg-white mt-3 mb-6">
+    <Screen>
         <SelectedTags chips={chips} removeChip={removeChip} clearAll={clearAll} />
         <FlatList
           ref={listRef}
           data={rituals}
           keyExtractor={(item) => item.id}
           renderItem={({ item: ritual }) => (
-            <View className="mb-4 px-4">
+            <View className="mb-4">
               <RitualCard 
                 key={ritual.id}
                 ritual={ritual}
@@ -70,6 +71,6 @@ export default function AllRitualsScreen() {
           refreshing={isLoading}
           onRefresh={refresh}
         />
-    </View>
+    </Screen>
   );
 }
