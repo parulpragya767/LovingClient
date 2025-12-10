@@ -1,8 +1,8 @@
-import { markdownRules } from "@/src/lib/markdown/markdownRules";
+import { Card } from '@/src/components/ui/Card';
+import { MarkdownText } from "@/src/components/ui/MarkdownText";
+import { createMarkdownRules } from '@/src/lib/markdown/markdownRules';
 import type { ChatMessage as ChatMessageType } from '@/src/models/chat';
 import { ChatMessageRole } from '@/src/models/enums';
-import { View } from 'react-native';
-import Markdown from 'react-native-markdown-display';
 import { RitualRecommendationHandler } from './RitualRecommendationHandler';
 
 type ChatMessageProps = {
@@ -24,21 +24,15 @@ export function ChatMessage({ message }: ChatMessageProps) {
   }
 
   return (
-    <View className={`my-1 p-2.5 rounded-2xl max-w-[80%] 
+    <Card className={`max-w-[80%]
       ${isUser 
-        ? 'self-end ml-[20%] bg-purple-700 rounded-br-sm' 
-        : 'self-start mr-[20%] bg-gray-100 rounded-bl-sm'}`}
+        ? 'self-end ml-[20%] bg-surface-sunken rounded-br-sm' 
+        : 'self-start mr-[20%] bg-surface-base rounded-bl-sm'}`}
       >
-        <Markdown
-          rules={markdownRules}
-          style={{
-            body: { color: isUser ? '#ffffff' : '#374151', fontSize: 15, lineHeight: 24 },
-            text: { color: isUser ? '#ffffff' : '#374151', fontSize: 15, lineHeight: 24 },
-            strong: { fontWeight: '600' }
-          }}
-          >
-          {message.content}
-        </Markdown>
-    </View>
+        <MarkdownText 
+          rules={createMarkdownRules({ variant: 'body'})}>
+          {message.content ?? ''}
+        </MarkdownText>
+    </Card>
   );
 }

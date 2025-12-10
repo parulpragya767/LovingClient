@@ -7,7 +7,7 @@ export type CardProps = {
   className?: string;
 };
 
-const baseClasses = 'bg-bg-card rounded-card p-4 shadow-card';
+const baseClasses = 'bg-surface-elevated rounded-card p-4 shadow-card';
 
 export function Card({ 
   children,

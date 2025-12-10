@@ -5,6 +5,7 @@ import RitualRecommendationModalHandler from '@/src/components/rituals/RitualRec
 import { EmptyState } from '@/src/components/states/EmptyState';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
+import { Screen } from '@/src/components/ui/Screen';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useChatMessages } from '@/src/hooks/ai-chat/useChatMessages';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
@@ -66,32 +67,38 @@ export default function AIChatScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-white" edges={['left', 'right']}>
-      {/* Messages and ritual recommendation cards */}
-      <View className="flex-1 px-2 py-4">
-        <FlatList
-          data={messages}
-          keyExtractor={(item, index) => item.id || `${index}-${item.createdAt}`}
-          renderItem={({ item }) => <ChatMessage message={item}/>}
-          showsVerticalScrollIndicator={false}
-          ListFooterComponent={
-            <View className="mt-2 mb-4">
-              {isRecommendationConsentCardVisible && (
-                <RitualRecommendationConsentCard onPress={handleRitualRecommendation} />
-              )}
-            </View>
-          }
-          ListEmptyComponent={<EmptyState message="No messages yet." />}
+      <Screen>
+        {/* Messages and ritual recommendation cards */}
+        <View className="flex-1 px-2 py-4">
+          <FlatList
+            data={messages}
+            keyExtractor={(item, index) => item.id || `${index}-${item.createdAt}`}
+            renderItem={({ item }) => (
+              <View className="mb-4">
+                <ChatMessage message={item}/>
+              </View>
+            )}
+            showsVerticalScrollIndicator={false}
+            ListFooterComponent={
+              <View className="mt-2 mb-4">
+                {isRecommendationConsentCardVisible && (
+                  <RitualRecommendationConsentCard onPress={handleRitualRecommendation} />
+                )}
+              </View>
+            }
+            ListEmptyComponent={<EmptyState message="No messages yet." />}
+          />
+        </View>
+
+        {/* Chat input area */}
+        <ChatInput 
+          placeholder="Type your message..." 
+          onSend={handleSendMessage}
         />
-      </View>
 
-      {/* Chat input area */}
-      <ChatInput 
-        placeholder="Type your message..." 
-        onSend={handleSendMessage}
-      />
-
-      {/* Ritual Recommendation Flow */}
-      <RitualRecommendationModalHandler />
+        {/* Ritual Recommendation Flow */}
+        <RitualRecommendationModalHandler />
+      </Screen>
     </SafeAreaView>
   );
 }
