@@ -23,13 +23,7 @@ export function MarkdownText({
       }}
       rules={{
         paragraph: (_, nodeChildren) => (
-          <AppText variant={variant} className={clsx('text-text-primary', className)}>
-            {nodeChildren}
-          </AppText>
-        ),
-
-        text: (_, nodeChildren) => (
-          <AppText variant={variant} className={clsx('text-text-primary', className)}>
+          <AppText variant={variant} className={className}>
             {nodeChildren}
           </AppText>
         ),

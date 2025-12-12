@@ -75,20 +75,16 @@ export default function RitualDetailScreen() {
           {isCurrent ? (
             <View className="items-end">
               <View className="flex-row items-center mb-1">
-                <AppText variant="small" className="text-brand-primary mr-2">✓</AppText>
+                <AppText variant="small" color="text-brand-primary" className="mr-2 font-semibold">✓</AppText>
                 <AppText variant="small">Added to Your Rituals</AppText>
               </View>
               <Button variant="secondary" onPress={handleGoToCurrentRituals} activeOpacity={0.8}>
-                <AppText>Go to My Rituals</AppText>
+                Go to My Rituals
               </Button>
             </View>
           ) : (
-            <Button
-              variant="primary"
-              onPress={handleAddToCurrent}
-              activeOpacity={0.8}
-            >
-              <AppText>Add to My Rituals</AppText>
+            <Button variant="primary" onPress={handleAddToCurrent} activeOpacity={0.8}>
+              Add to My Rituals
             </Button>
           )}
         </View>
@@ -141,7 +137,7 @@ export default function RitualDetailScreen() {
             {ritual.steps?.map((step, index) => (
               <View key={index} className="flex-row items-start justify-start">
                 <View className="bg-brand-subtle w-6 h-6 rounded-full items-center justify-center mr-3">
-                  <AppText variant="caption" className="text-text-inverse">
+                  <AppText variant="caption" color="text-text-inverseSubtle">
                     {index + 1}
                   </AppText>
                 </View>

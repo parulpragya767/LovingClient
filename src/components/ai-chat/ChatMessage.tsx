@@ -30,7 +30,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
         : 'self-start mr-[20%] bg-surface-base rounded-bl-sm'}`}
       >
         <MarkdownText 
-          rules={createMarkdownRules({ variant: 'body'})}>
+          rules={createMarkdownRules({})}>
           {message.content ?? ''}
         </MarkdownText>
     </Card>

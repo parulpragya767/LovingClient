@@ -40,9 +40,7 @@ export function createMarkdownRules({
                 key={`l-${i}`}
                 href={`/love-lens/${part}`}
               >
-                <AppText
-                    variant={variant}
-                    className={clsx('text-action-ghost-text font-semibold', className)}
+                <AppText variant={variant} color="text-action-ghost-text" className={clsx('font-semibold', className)}
                 >
                   {label}
                 </AppText>
