@@ -9,11 +9,17 @@ import { Button } from '../ui/Button';
 
 interface RitualCardProps {
   ritual: Ritual;
+  isCompact?: boolean;
   isPressable?: boolean;
   onLongPress?: () => void;
 }
 
-export default function RitualCard({ ritual, isPressable = true, onLongPress }: RitualCardProps) {
+export default function RitualCard({ 
+  ritual, 
+  isCompact = false, 
+  isPressable = true, 
+  onLongPress 
+}: RitualCardProps) {
   const router = useRouter();
   const { getRitualTagDisplayNames } = useRitualTags();
 
@@ -39,11 +45,11 @@ export default function RitualCard({ ritual, isPressable = true, onLongPress }: 
         </AppText>
         <View className="flex-row flex-wrap gap-2 mb-3">
           {getRitualTagDisplayNames(ritual).slice(0, 3).map((label: string, idx: number) => (
-            <Tag key={idx} label={label} />
+            <Tag key={idx} label={label} size={isCompact ? "small" : "regular"}/>
           ))}
         </View>
         
-        {isPressable && 
+        {isPressable && !isCompact && 
           <Button variant="ghost" onPress={handleRitualPress}>
             View details →
           </Button>

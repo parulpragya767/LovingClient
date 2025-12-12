@@ -7,9 +7,13 @@ import { Pressable, View } from 'react-native';
 
 interface LoveTypeCardProps {
   loveTypeDetail: LoveTypeDetail;
+  isCompact?: boolean;
 }
 
-export default function LoveTypeCard({ loveTypeDetail }: LoveTypeCardProps) {
+export default function LoveTypeCard({ 
+  loveTypeDetail, 
+  isCompact = false
+}: LoveTypeCardProps) {
   const router = useRouter();
 
   const handleLoveTypePress = () => {
@@ -28,9 +32,11 @@ export default function LoveTypeCard({ loveTypeDetail }: LoveTypeCardProps) {
           <AppText variant="small" className="mb-2" numberOfLines={2} ellipsizeMode="tail">
             {loveTypeDetail.description}
           </AppText>
-          <Button variant="ghost" onPress={handleLoveTypePress}>
-            Learn more →
-          </Button>
+          {!isCompact && (
+            <Button variant="ghost" onPress={handleLoveTypePress}>
+              Learn more →
+            </Button>
+          )}
         </View>
       </Card>
     </Pressable>

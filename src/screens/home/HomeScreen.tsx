@@ -1,17 +1,17 @@
 import AICompanionCard from '@/src/components/home/AICompanionCard';
 import CurrentRitualsHome from '@/src/components/home/CurrentRitualsHome';
 import LoveTypesHome from '@/src/components/home/LoveTypesHome';
-import WeeklySuggestionCard from '@/src/components/home/WeeklySuggestionCard';
-import { ThemedText } from '@/src/components/themes/themed-text';
-import { ThemedView } from '@/src/components/themes/themed-view';
+import ErrorState from '@/src/components/states/ErrorState';
+import LoadingState from '@/src/components/states/LoadingState';
+import { Screen } from '@/src/components/ui/Screen';
 import { useLoveTypes } from '@/src/hooks/love-lens/useLoveTypes';
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { Ritual } from '@/src/models/rituals';
-import { ActivityIndicator, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
-  const { data: currentData, isLoading, error } = useCurrentRituals();
+  const { data: currentData, isLoading, error, refetch } = useCurrentRituals();
   const { data: allLoveTypes = [] } = useLoveTypes();
   const loveTypes = allLoveTypes.slice(0, 3);
 
@@ -36,28 +36,20 @@ export default function HomeScreen() {
     return Array.from(ritualMap.values());
   })();
 
-  const loading = isLoading || (!currentData && !error);
-
-  if (loading) {
-    return (
-      <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" />
-        <View className="h-3" />
-        <ThemedText className="text-gray-500">Loading your home...</ThemedText>
-      </View>
-    );
-  }
+  if (isLoading) return <LoadingState text="Loading love types..." />;
+  if (error) return <ErrorState message="Failed to load love types." onButtonPress={() => refetch()} />;
 
   return (
-    <SafeAreaView className="flex-1" edges={['top']}>
-      <ThemedView className="flex-1 bg-white">
-        <ScrollView>
+    <SafeAreaView className="flex-1" edges={["left", "right"]}>
+      <Screen>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <CurrentRitualsHome rituals={mergedRituals} />
           <LoveTypesHome loveTypes={loveTypes} />
-          <AICompanionCard />
-          <WeeklySuggestionCard />
+          <View className="mt-4">
+            <AICompanionCard />
+          </View>
         </ScrollView>
-      </ThemedView>
+      </Screen>
     </SafeAreaView>
   );
 }
