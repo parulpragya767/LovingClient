@@ -13,7 +13,7 @@ export type CollapsibleSectionProps = {
   containerClassName?: string;
 };
 
-const baseContainerClasses = 'rounded-card shadow-card bg-surface-elevated overflow-hidden';
+const baseContainerClasses = 'rounded-card shadow-card bg-surface-elevated border border-border overflow-hidden';
 const baseHeaderClasses = 'flex-row items-center justify-between bg-brand-subtle rounded-t-card px-4 py-2';
 
 export default function CollapsibleSection({

@@ -38,7 +38,7 @@ export default function RitualPackScreen() {
 
   return (
     <Screen>
-      <AppText className="mb-6">
+      <AppText className="mb-6 mt-2">
         {pack.description}
       </AppText>
 
@@ -62,7 +62,7 @@ export default function RitualPackScreen() {
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
           <View className="px-1 py-2 mb-1">
-            <AppText variant="subtitle">
+            <AppText variant="title">
               Rituals in this pack ({rituals.length})
             </AppText>
           </View>

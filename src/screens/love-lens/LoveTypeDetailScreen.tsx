@@ -20,9 +20,9 @@ export default function LoveTypeDetailScreen() {
   if (error) return <ErrorState message="Failed to load love type details." onButtonPress={() => refetch()} />;
 
   const loveTypeDetail = loveTypes?.find(type => type.loveType === loveTypeParam?.toUpperCase());
-  if (!loveTypeDetail) return <ErrorState 
-    message="Love type details not available. Please open from the list." 
-    onButtonPress={() => router.back()} 
+  if (!loveTypeDetail) return <ErrorState
+    message="Love type details not available. Please open from the list."
+    onButtonPress={() => router.back()}
     buttonMessage="Go Back"
   />;
 
@@ -47,50 +47,47 @@ export default function LoveTypeDetailScreen() {
         </View>
 
         {/* Main Content */}
-        <View className="space-y-8">
-          
-          {/* Sections */}
-          {loveTypeDetail.sections?.slice()
-            .sort((a, b) => (a.order || 0) - (b.order || 0))
-            .map((section: LoveTypeInfoSection, index: number) => {
-              return (
-                <CollapsibleSection
-                  key={index}
-                  title={section.title}
-                  initiallyExpanded
-                >
-                  <View>
-                    <AppText variant="body" className="mb-3">
-                      {section.summary}
-                    </AppText>
-                    {(section.bullets?.length ?? 0) > 0 && (
-                      <View className="space-y-2">
-                        {section.bullets?.map((bullet, bulletIndex) => (
-                          <View key={bulletIndex} className="flex-row items-center gap-2">
-                            <AppText className="font-bold">•</AppText>
-                            <View className="flex-1 flex-row flex-wrap items-center">
-                              {bullet.title && (
-                                <>
-                                  <AppText className="font-semibold">{bullet.title}</AppText>
-                                  <AppText className="mx-1">-</AppText>
-                                </>
-                              )}
-                              <MarkdownText>{bullet.text}</MarkdownText>
-                            </View>
+        {/* Sections */}
+        {loveTypeDetail.sections?.slice()
+          .sort((a, b) => (a.order || 0) - (b.order || 0))
+          .map((section: LoveTypeInfoSection, index: number) => (
+            <View key={index} className="mb-8">
+              <CollapsibleSection
+                key={index}
+                title={section.title}
+                initiallyExpanded
+              >
+                <View>
+                  <AppText variant="body" className="mb-3">
+                    {section.summary}
+                  </AppText>
+                  {(section.bullets?.length ?? 0) > 0 && (
+                    <View>
+                      {section.bullets?.map((bullet, bulletIndex) => (
+                        <View key={bulletIndex} className="flex-row items-center gap-2 mb-2">
+                          <AppText className="font-bold">•</AppText>
+                          <View className="flex-1 flex-row flex-wrap items-center">
+                            {bullet.title && (
+                              <>
+                                <AppText className="font-semibold">{bullet.title}</AppText>
+                                <AppText className="mx-1">-</AppText>
+                              </>
+                            )}
+                            <MarkdownText>{bullet.text}</MarkdownText>
                           </View>
-                        ))}
-                      </View>
-                    )}
-                  </View>
-                </CollapsibleSection>
-              );
-            })}
-        </View>
+                        </View>
+                      ))}
+                    </View>
+                  )}
+                </View>
+              </CollapsibleSection>
+            </View>
+          ))}
 
         {/* Bottom Spacer */}
         <View className="h-8" />
       </ScrollView>
-    </Screen> 
+    </Screen>
   );
 }
 

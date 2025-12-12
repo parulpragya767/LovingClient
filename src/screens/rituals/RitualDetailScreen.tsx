@@ -66,7 +66,7 @@ export default function RitualDetailScreen() {
     <Screen>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Title */}
-        <View className="flex-row justify-between items-start mb-4">
+        <View className="flex-row justify-between items-start mb-4 mt-2">
           <AppText variant="subtitle">
             {ritual.tagLine}
           </AppText>

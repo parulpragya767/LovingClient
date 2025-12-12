@@ -2,12 +2,11 @@ import { RitualHistoryCard } from '@/src/components/rituals/RitualHistoryCard';
 import { EmptyState } from '@/src/components/states/EmptyState';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
-import { Screen } from '@/src/components/ui/Screen';
 import { useRitualHistory } from '@/src/hooks/rituals/useRitualHistory';
 import { useRituals } from '@/src/hooks/rituals/useRituals';
 import { RitualHistoryStatus } from '@/src/models/enums';
 import { Ritual } from '@/src/models/rituals';
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 
 const getTimestamp = (dateString?: string): number => 
   dateString ? new Date(dateString).getTime() : 0;
@@ -40,7 +39,7 @@ export default function RitualHistoryScreen() {
 
 
   return (
-    <Screen>
+    <View className="bg-surface-screen">
       <FlatList
         data={sortedHistory}
         keyExtractor={(item) => item.id.toString()}
@@ -57,6 +56,6 @@ export default function RitualHistoryScreen() {
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={<EmptyState message="No history yet." />}
       />
-    </Screen>
+    </View>
   );
 }

@@ -15,14 +15,11 @@ export default function LoveLensScreen() {
   if (error) return <ErrorState message="Failed to load love types." onButtonPress={() => refetch()} />;
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={["top", "left", "right"]}>
+    <SafeAreaView style={{ flex: 1 }} edges={["left", "right"]}>
       <Screen>
-        <View className="mb-6">
-          <AppText variant="title" className="mb-2">Love Lens</AppText>
-          <AppText variant="body">
-            Discover your love language and improve your relationship
-          </AppText>
-        </View>
+        <AppText variant="body" className="mb-6 mt-2 font-medium">
+          Discover your love language and improve your relationship
+        </AppText>
 
         <FlatList
           data={loveTypes}
