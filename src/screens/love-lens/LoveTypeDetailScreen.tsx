@@ -64,16 +64,12 @@ export default function LoveTypeDetailScreen() {
                   {(section.bullets?.length ?? 0) > 0 && (
                     <View>
                       {section.bullets?.map((bullet, bulletIndex) => (
-                        <View key={bulletIndex} className="flex-row items-center gap-2 mb-2">
+                        <View key={bulletIndex} className="flex-row items-start gap-2 mb-2">
                           <AppText className="font-bold">•</AppText>
-                          <View className="flex-1 flex-row flex-wrap items-center">
-                            {bullet.title && (
-                              <>
-                                <AppText className="font-semibold">{bullet.title}</AppText>
-                                <AppText className="mx-1">-</AppText>
-                              </>
-                            )}
-                            <MarkdownText>{bullet.text}</MarkdownText>
+                          <View className="flex-1">
+                            <MarkdownText>
+                              {bullet.title ? `**${bullet.title}** - ${bullet.text}` : bullet.text}
+                            </MarkdownText>
                           </View>
                         </View>
                       ))}
