@@ -1,6 +1,6 @@
-import Tag from '@/src/components/rituals/Tag';
 import { AppText } from '@/src/components/ui/AppText';
 import { Card } from '@/src/components/ui/Card';
+import Tag from '@/src/components/ui/Tag';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
 import { Ritual } from '@/src/models/rituals';
 import { useRouter } from 'expo-router';

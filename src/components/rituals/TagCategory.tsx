@@ -1,5 +1,5 @@
-import Tag from '@/src/components/rituals/Tag';
 import { AppText } from '@/src/components/ui/AppText';
+import Tag from '@/src/components/ui/Tag';
 import { TagValue } from '@/src/models/ritualTags';
 import { Pressable, View } from 'react-native';
 

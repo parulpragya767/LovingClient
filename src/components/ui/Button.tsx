@@ -11,12 +11,16 @@ export type ButtonProps = TouchableOpacityProps & {
   className?: string;
 };
 
-const baseClasses = 'rounded-button py-3 px-4 items-center justify-center';
+const baseClasses: Record<ButtonVariant, string> = {
+  primary: 'rounded-button py-3 px-4 items-center justify-center',
+  secondary: 'rounded-button py-3 px-4 items-center justify-center',
+  ghost: 'py-2 px-2',
+};
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary: 'bg-action-primary-bg',
   secondary: 'bg-action-secondary-bg',
-  ghost: 'bg-transparent py-0 px-0',
+  ghost: 'bg-transparent',
 };
 
 const textClasses: Record<ButtonVariant, string> = {
@@ -41,7 +45,7 @@ export function Button({
       onPress={disabled ? undefined : onPress}
       disabled={disabled}
       className={clsx(
-        baseClasses,
+        baseClasses[variant],
         variantClasses[variant],
         disabled && disabledClasses,
         className
@@ -50,7 +54,8 @@ export function Button({
     >
       <AppText
         variant="body"
-        className={clsx('font-medium', textClasses[variant])}
+        color={textClasses[variant]}
+        className="font-medium"
       >
         {children}
       </AppText>

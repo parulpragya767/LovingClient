@@ -1,6 +1,6 @@
+import Tag from '@/src/components/ui/Tag';
 import { Chip } from '@/src/models/ritualTags';
 import { Pressable, View } from 'react-native';
-import Tag from './Tag';
 
 type SelectedTagsProps = {
   chips: Chip[];
