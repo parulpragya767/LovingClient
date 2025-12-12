@@ -1,13 +1,14 @@
 import AICompanionCard from '@/src/components/home/AICompanionCard';
-import CurrentRitualsHome from '@/src/components/home/CurrentRitualsHome';
-import LoveTypesHome from '@/src/components/home/LoveTypesHome';
+import LoveTypeCard from '@/src/components/love-lens/LoveTypeCard';
+import RitualCard from '@/src/components/rituals/RitualCard';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
+import { AppText } from '@/src/components/ui/AppText';
 import { Screen } from '@/src/components/ui/Screen';
 import { useLoveTypes } from '@/src/hooks/love-lens/useLoveTypes';
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { Ritual } from '@/src/models/rituals';
-import { ScrollView, View } from 'react-native';
+import { FlatList, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
@@ -43,9 +44,37 @@ export default function HomeScreen() {
     <SafeAreaView className="flex-1" edges={["left", "right"]}>
       <Screen>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <CurrentRitualsHome rituals={mergedRituals} />
-          <LoveTypesHome loveTypes={loveTypes} />
-          <View className="mt-4">
+          {/* Current Rituals */}
+          <AppText variant="subtitle" className="mt-2">Current Rituals</AppText>
+          <AppText variant="small" className="mb-4">Your active rituals at a glance</AppText>
+          <FlatList
+            data={mergedRituals}
+            keyExtractor={(item) => item.id.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <View className="mr-3 w-72">
+                <RitualCard ritual={item} isCompact />
+              </View>
+            )}
+          />
+
+          {/* Love Types */}
+          <AppText variant="subtitle" className="mt-6">Your Love Types</AppText>
+          <AppText variant="small" className="mb-4">Focus areas for you</AppText>
+          <FlatList
+            data={loveTypes}
+            keyExtractor={(item) => item.id.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <View className="mr-3 w-64">
+                <LoveTypeCard loveTypeDetail={item} isCompact />
+              </View>
+            )}
+          />
+                  
+          <View className="mt-6">
             <AICompanionCard />
           </View>
         </ScrollView>

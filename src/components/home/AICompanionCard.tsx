@@ -9,8 +9,8 @@ export default function AICompanionCard() {
   const router = useRouter();
 
   return (
-    <Card>
-      <Pressable onPress={() => router.push('/ai-companion')}>
+    <Card className="border border-border">
+      <Pressable onPress={() => router.push('/ai-chat')}>
         <View className="flex-row items-center">
           <View className="bg-surface-sunken rounded-full p-3 mr-4">
             <MaterialIcons name="chat-bubble-outline" size={24} color={AppTheme.colors.brand.primary} />
