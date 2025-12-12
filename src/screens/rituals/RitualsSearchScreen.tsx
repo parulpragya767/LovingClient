@@ -2,8 +2,10 @@ import { SelectedTags } from '@/src/components/rituals/SelectedTags';
 import TagCategory from '@/src/components/rituals/TagCategory';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
-import { ThemedText } from '@/src/components/themes/themed-text';
-import { ThemedView } from '@/src/components/themes/themed-view';
+import { AppTheme } from "@/src/components/themes/AppTheme";
+import { AppText } from '@/src/components/ui/AppText';
+import { Button } from '@/src/components/ui/Button';
+import { Screen } from '@/src/components/ui/Screen';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
 import { useTagSelectionDraft } from '@/src/hooks/rituals/useTagSelectionDraft';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -25,21 +27,21 @@ export default function RitualsSearchScreen() {
   if (error) return <ErrorState message="Failed to load search tags." onButtonPress={() => refetchTags()} />;
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={["top", "left", "right"]}>
-      <ThemedView className="flex-1">
-        <View className="flex-row items-center justify-between p-2 border-b border-gray-200 bg-white">
+    <SafeAreaView style={{ flex: 1 }} edges={["left", "right"]}>
+      <Screen>
+        <View className="flex-row items-center justify-between border-b border-border">
           <Pressable 
             onPress={() => router.back()}
             className="p-2 ml-2"
           >
-            <MaterialIcons name="arrow-back" size={24} color="#4B5563" />
+            <MaterialIcons name="arrow-back" size={24} color={AppTheme.colors.brand.primary} />
           </Pressable>
-          <ThemedText className="font-semibold text-base">Filter rituals</ThemedText>
+          <AppText variant="subtitle">Filter rituals</AppText>
           <Pressable 
             onPress={navigateToResults}
             className="p-2 mr-2"
           >
-            <MaterialIcons name="check" size={24} color="#4B5563" />
+            <MaterialIcons name="check" size={24} color={AppTheme.colors.brand.primary} />
           </Pressable>
         </View>
 
@@ -88,21 +90,16 @@ export default function RitualsSearchScreen() {
               onToggle={(tag) => toggleDraft('relationalNeeds', tag)}
             />
 
-            <Pressable
+            <Button
+              className="mt-4"
               onPress={navigateToResults}
-              className="bg-gray-800 rounded-full py-3 items-center mt-4 mb-6 mx-4
-                        active:bg-gray-900"
-              style={({ pressed }) => [
-                pressed && { opacity: 0.7 },
-              ]}
+              variant="primary"
             >
-              <ThemedText className="text-white font-semibold text-base">
-                Show Rituals
-              </ThemedText>
-            </Pressable>
+              Show Rituals
+            </Button>
           </ScrollView>
         )}
-    </ThemedView>
+    </Screen>
     </SafeAreaView>
   );
 }

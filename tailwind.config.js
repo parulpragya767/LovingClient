@@ -13,6 +13,7 @@ module.exports = {
         body: ['16px', { lineHeight: '24px' }],
         small: ['14px', { lineHeight: '20px' }],
         caption: ['12px', { lineHeight: '16px' }],
+        extraSmall: ['10px', { lineHeight: '14px' }],
       },
       colors: {
         /**

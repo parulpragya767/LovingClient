@@ -97,6 +97,7 @@ export const AppTheme = {
       body: fontSize.body as FontSizeValue,
       small: fontSize.small as FontSizeValue,
       caption: fontSize.caption as FontSizeValue,
+      extraSmall: fontSize.extraSmall as FontSizeValue,
     },
   },
   
