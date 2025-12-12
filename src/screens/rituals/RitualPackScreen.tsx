@@ -2,16 +2,15 @@ import RitualCard from '@/src/components/rituals/RitualCard';
 import { EmptyState } from '@/src/components/states/EmptyState';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
-import { ThemedText } from '@/src/components/themes/themed-text';
-import { ThemedView } from '@/src/components/themes/themed-view';
+import { AppText } from '@/src/components/ui/AppText';
 import CollapsibleSection from '@/src/components/ui/CollapsibleSection';
+import { Screen } from '@/src/components/ui/Screen';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useRitualPack } from '@/src/hooks/rituals/useRitualPack';
 import { Ritual } from '@/src/models/rituals';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useMemo } from 'react';
 import { FlatList, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function RitualPackScreen() {
   const navigation = useNavigation();
@@ -38,42 +37,39 @@ export default function RitualPackScreen() {
   if (error || !pack) return <ErrorState message="Failed to load ritual pack." onButtonPress={() => refetch()} />;
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={["left", "right"]}>
-      <ThemedView className="flex-1 p-4">
-        <ThemedText className="text-gray-600 mb-4">
-          {pack.description}
-        </ThemedText>
+    <Screen>
+      <AppText className="mb-6">
+        {pack.description}
+      </AppText>
 
-        {/* How it helps */}
-        <CollapsibleSection
-          title="How It Helps"
-          initiallyExpanded
-          containerClassName="mb-4"
-        >
-          <ThemedText className="text-green-600 mr-2">{pack.howItHelps}</ThemedText>
-        </CollapsibleSection>
-        
-        <FlatList
-          data={rituals}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View className="mb-4">
-              <RitualCard ritual={item}/>
-            </View>
-          )}
-          showsVerticalScrollIndicator={false}
-          ListHeaderComponent={
-            <View className="px-1 py-2">
-              <ThemedText className="text-lg font-semibold mb-1 text-gray-900">
-                Rituals in this pack ({rituals.length})
-              </ThemedText>
-            </View>
-          }
-          ListFooterComponent={<View className="h-20" />}
-          ListEmptyComponent={<EmptyState message="No rituals in this pack." />}
-        />
-      </ThemedView>
-    </SafeAreaView>
-    
+      {/* How it helps */}
+      <CollapsibleSection
+        title="How It Helps"
+        initiallyExpanded={false}
+        containerClassName="mb-4"
+      >
+        {pack.howItHelps}
+      </CollapsibleSection>
+      
+      <FlatList
+        data={rituals}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View className="mb-4">
+            <RitualCard ritual={item}/>
+          </View>
+        )}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          <View className="px-1 py-2 mb-1">
+            <AppText variant="subtitle">
+              Rituals in this pack ({rituals.length})
+            </AppText>
+          </View>
+        }
+        ListFooterComponent={<View className="h-20" />}
+        ListEmptyComponent={<EmptyState message="No rituals in this pack." />}
+      />
+    </Screen>
   );
 }

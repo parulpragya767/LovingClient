@@ -37,22 +37,16 @@ export default function RitualCard({ ritual, isPressable = true, onLongPress }: 
         <AppText variant="small" className="mb-3" numberOfLines={2} ellipsizeMode="tail">
           {ritual.description}
         </AppText>
-        <View className="flex-row flex-wrap gap-2">
+        <View className="flex-row flex-wrap gap-2 mb-3">
           {getRitualTagDisplayNames(ritual).slice(0, 3).map((label: string, idx: number) => (
             <Tag key={idx} label={label} />
           ))}
         </View>
         
         {isPressable && 
-        <View className="flex-row">
-          <Button 
-            variant="ghost"
-            // className="" 
-            onPress={handleRitualPress}
-          >
+          <Button variant="ghost" onPress={handleRitualPress}>
             View details →
           </Button>
-        </View>
         }
       </Card>
     </TouchableOpacity>

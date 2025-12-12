@@ -3,16 +3,16 @@ import Markdown, { MarkdownProps } from 'react-native-markdown-display';
 import { AppText, AppTextVariant } from './AppText';
 
 export type MarkdownTextProps = MarkdownProps & {
-  children: string;
   variant?: AppTextVariant;
   className?: string;
+  children?: React.ReactNode; 
   rules?: MarkdownProps['rules'];
 };
 
 export function MarkdownText({   
-  children,
   variant = "body",
   className, 
+  children,
   rules,
   ...rest }: MarkdownTextProps) {
   return (

@@ -14,7 +14,7 @@ export type ButtonProps = TouchableOpacityProps & {
 const baseClasses: Record<ButtonVariant, string> = {
   primary: 'rounded-button py-3 px-4 items-center justify-center',
   secondary: 'rounded-button py-3 px-4 items-center justify-center',
-  ghost: 'py-2 px-2',
+  ghost: '',
 };
 
 const variantClasses: Record<ButtonVariant, string> = {

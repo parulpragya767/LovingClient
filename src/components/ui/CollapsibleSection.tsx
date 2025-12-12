@@ -1,8 +1,9 @@
+import { AppTheme } from "@/src/components/themes/AppTheme";
+import { AppText } from '@/src/components/ui/AppText';
 import clsx from 'clsx';
 import { ChevronDown, ChevronUp } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { AppText } from './AppText';
 
 export type CollapsibleSectionProps = {
   title: string;
@@ -35,17 +36,17 @@ export default function CollapsibleSection({
         onPress={toggle}
         activeOpacity={0.7}
       >
-        <AppText variant="subtitle">{title}</AppText>
+        <AppText variant="subtitle" color="text-text-secondary">{title}</AppText>
         {isExpanded ? (
-          <ChevronUp size={24} color="#6B7C6E" />
+          <ChevronUp size={24} color={AppTheme.colors.text.secondary} />
         ) : (
-          <ChevronDown size={24} color="#6B7C6E" />
+          <ChevronDown size={24} color={AppTheme.colors.text.secondary} />
         )}
       </TouchableOpacity>
 
       {isExpanded && (
         <View className="px-4 pt-2 pb-4">
-          <AppText>{children}</AppText>
+          {children}
         </View>
       )}
     </View>
