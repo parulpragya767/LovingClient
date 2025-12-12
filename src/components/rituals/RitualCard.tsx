@@ -30,7 +30,7 @@ export default function RitualCard({ ritual, isPressable = true, onLongPress }: 
       delayLongPress={300} 
       activeOpacity={0.8}
     >
-      <Card className="bg-surface-elevated border border-border">
+      <Card className="border border-border">
         <AppText variant="subtitle" className="mb-1">
           {ritual.title}
         </AppText>

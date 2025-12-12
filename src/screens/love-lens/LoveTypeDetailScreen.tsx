@@ -2,6 +2,7 @@ import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
 import { ThemedText } from '@/src/components/themes/themed-text';
 import CollapsibleSection from '@/src/components/ui/CollapsibleSection';
+import { Screen } from '@/src/components/ui/Screen';
 import { useLoveTypes } from '@/src/hooks/love-lens/useLoveTypes';
 import type { LoveTypeInfoSection } from '@/src/models/loveLens';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -24,8 +25,8 @@ export default function LoveTypeDetailScreen() {
   />;
 
   return (
-    <ScrollView className="flex-1 bg-gray-50">
-      <View className="p-5">
+    <Screen>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header Section */}
         <View className="flex-column items-left justify-centre mb-6 gap-4">
           <ThemedText className="text-2xl font-bold text-gray-800">
@@ -42,7 +43,7 @@ export default function LoveTypeDetailScreen() {
         </View>
 
         {/* Main Content */}
-        <View className="space-y-6">
+        <View className="space-y-8">
           
           {/* Sections */}
           {loveTypeDetail.sections?.slice()
@@ -53,8 +54,6 @@ export default function LoveTypeDetailScreen() {
                   key={index}
                   title={section.title}
                   initiallyExpanded
-                  containerClassName="bg-white rounded-xl shadow-sm overflow-hidden"
-                  headerClassName="bg-gray-50 px-3 py-2 border-b border-gray-100 flex-row items-center justify-between"
                 >
                   <View>
                     <ThemedText className="text-gray-700 mb-3 leading-relaxed">
@@ -95,8 +94,8 @@ export default function LoveTypeDetailScreen() {
 
         {/* Bottom Spacer */}
         <View className="h-8" />
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </Screen> 
   );
 }
 

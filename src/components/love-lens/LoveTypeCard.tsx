@@ -1,7 +1,8 @@
-import { ThemedText } from '@/src/components/themes/themed-text';
+import { Card } from '@/src/components/ui/Card';
 import { LoveTypeDetail } from '@/src/models/loveLens';
 import { useRouter } from 'expo-router';
 import { Pressable, View } from 'react-native';
+import { AppText } from '../ui/AppText';
 
 interface LoveTypeCardProps {
   loveTypeDetail: LoveTypeDetail;
@@ -17,19 +18,20 @@ export default function LoveTypeCard({ loveTypeDetail }: LoveTypeCardProps) {
   return (
     <Pressable 
       onPress={handleLoveTypePress}
-      className="bg-white rounded-xl px-4 py-3 mb-3 shadow-sm"
     >
-      <View className="flex-column items-left">
-        <ThemedText className="text-blue-600 text-lg font-bold">
-          {loveTypeDetail.title || 'Love Type'}
-        </ThemedText>   
-        <ThemedText className="text-gray-800 text-base" numberOfLines={2} ellipsizeMode="tail">
-          {loveTypeDetail.description}
-        </ThemedText>
-      <ThemedText className="text-blue-500 text-sm mt-2">
-        Learn more →
-      </ThemedText>
-      </View>
+      <Card className="border border-border">
+        <View className="flex-column items-left">
+          <AppText variant="subtitle" className="mb-1">
+            {loveTypeDetail.title || 'Love Type'}
+          </AppText>   
+          <AppText variant="small" className="mb-2" numberOfLines={2} ellipsizeMode="tail">
+            {loveTypeDetail.description}
+          </AppText>
+          <AppText variant="small" className="text-action-ghost-text">
+            Learn more →
+          </AppText>
+        </View>
+      </Card>
     </Pressable>
   );
 }

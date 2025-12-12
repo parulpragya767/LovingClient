@@ -2,8 +2,8 @@ import LoveTypeCard from '@/src/components/love-lens/LoveTypeCard';
 import { EmptyState } from '@/src/components/states/EmptyState';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
-import { ThemedText } from '@/src/components/themes/themed-text';
-import { ThemedView } from '@/src/components/themes/themed-view';
+import { AppText } from '@/src/components/ui/AppText';
+import { Screen } from '@/src/components/ui/Screen';
 import { useLoveTypes } from '@/src/hooks/love-lens/useLoveTypes';
 import { FlatList, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -16,25 +16,27 @@ export default function LoveLensScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1 }} edges={["top", "left", "right"]}>
-      <ThemedView className="flex-1 p-4">
+      <Screen>
         <View className="mb-6">
-          <ThemedText className="text-2xl font-bold mb-2">Love Lens</ThemedText>
-          <ThemedText className="text-gray-800">
+          <AppText variant="title" className="mb-2">Love Lens</AppText>
+          <AppText variant="body">
             Discover your love language and improve your relationship
-          </ThemedText>
+          </AppText>
         </View>
 
         <FlatList
           data={loveTypes}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <LoveTypeCard loveTypeDetail={item} />
+            <View className="mb-4">
+              <LoveTypeCard loveTypeDetail={item} />
+            </View>
           )}
           showsVerticalScrollIndicator={false}
           ListFooterComponent={<View className="h-20" />}
           ListEmptyComponent={<EmptyState message="No love types found." />}
         />
-      </ThemedView>
+      </Screen>
     </SafeAreaView>
   );
 }
