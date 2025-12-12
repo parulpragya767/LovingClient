@@ -2,16 +2,14 @@ import { SelectedTags } from '@/src/components/rituals/SelectedTags';
 import TagCategory from '@/src/components/rituals/TagCategory';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
-import { AppTheme } from "@/src/components/themes/AppTheme";
-import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
 import { Screen } from '@/src/components/ui/Screen';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
 import { useTagSelectionDraft } from '@/src/hooks/rituals/useTagSelectionDraft';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import { Pressable, ScrollView, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Stack, useRouter } from 'expo-router';
+import React from 'react';
+import { Pressable, ScrollView } from 'react-native';
 
 export default function RitualsSearchScreen() {
   const router = useRouter();
@@ -27,24 +25,20 @@ export default function RitualsSearchScreen() {
   if (error) return <ErrorState message="Failed to load search tags." onButtonPress={() => refetchTags()} />;
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={["left", "right"]}>
-      <Screen>
-        <View className="flex-row items-center justify-between border-b border-border">
-          <Pressable 
-            onPress={() => router.back()}
-            className="p-2 ml-2"
-          >
-            <MaterialIcons name="arrow-back" size={24} color={AppTheme.colors.brand.primary} />
-          </Pressable>
-          <AppText variant="subtitle">Filter rituals</AppText>
-          <Pressable 
+    <>
+      <Stack.Screen
+        options={{
+          headerRight: () => (
+            <Pressable 
             onPress={navigateToResults}
             className="p-2 mr-2"
           >
-            <MaterialIcons name="check" size={24} color={AppTheme.colors.brand.primary} />
+            <MaterialIcons name="check" size={24} />
           </Pressable>
-        </View>
-
+          ),
+        }}
+      />
+      <Screen>
         <SelectedTags chips={chipsDraft} removeChip={removeChipDraft} clearAll={clearAllDraft} />
         
         {/* Tag Categories */}
@@ -99,7 +93,7 @@ export default function RitualsSearchScreen() {
             </Button>
           </ScrollView>
         )}
-    </Screen>
-    </SafeAreaView>
+      </Screen>
+    </>
   );
 }

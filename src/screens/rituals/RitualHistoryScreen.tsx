@@ -39,7 +39,7 @@ export default function RitualHistoryScreen() {
 
 
   return (
-    <View className="bg-surface-screen">
+    <View className="flex-1 bg-surface-screen">
       <FlatList
         data={sortedHistory}
         keyExtractor={(item) => item.id.toString()}
