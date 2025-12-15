@@ -17,9 +17,9 @@ export default function RecommendedRitualCard({ ritual, selected = false, onPres
 
   return (
     <View className="flex-row items-center">
-      <Pressable onPress={handlePress} className={`mr-3 w-5 h-5 rounded-full border-2 ${selected ? 'border-purple-500' : 'border-gray-300'}`}>
+      <Pressable onPress={handlePress} className={`mr-3 w-5 h-5 rounded-full border-2 ${selected ? 'border-brand-primary' : 'border-text-disabled'}`}>
         {selected && (
-          <View className="flex-1 m-0.5 rounded-full bg-purple-500" />
+          <View className="flex-1 m-0.5 rounded-full bg-brand-primary" />
         )}
       </Pressable>
       <View className="flex-1">

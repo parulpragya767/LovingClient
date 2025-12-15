@@ -1,12 +1,15 @@
 import RecommendedRitualCard from '@/src/components/rituals/RecommendedRitualCard';
-import { ThemedText } from '@/src/components/themes/themed-text';
+import { AppTheme } from "@/src/components/themes/AppTheme";
+import { AppText } from '@/src/components/ui/AppText';
+import { Button } from '@/src/components/ui/Button';
+import { ModalContainer } from '@/src/components/ui/ModalContainer';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { RecommendationStatus } from '@/src/models/enums';
 import type { RitualPack } from '@/src/models/ritualPacks';
 import { useChatStore } from "@/src/store/useChatStore";
 import { MaterialIcons } from '@expo/vector-icons';
-import { useCallback, useMemo, useState } from 'react';
-import { FlatList, Modal, Pressable, TouchableOpacity, View } from 'react-native';
+import React, { useCallback, useMemo, useState } from 'react';
+import { FlatList, Modal, Pressable, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from "react-native-toast-message";
 
@@ -113,16 +116,17 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
       animationType="slide"
       onRequestClose={handleCloseModal}
       presentationStyle="pageSheet"
+      transparent
     >
-      <SafeAreaView className="flex-1 bg-white" edges={['top', 'bottom', 'left', 'right']}>
+      <ModalContainer>
         {/* Modal Header */}
-        <View className="flex-row items-center px-4 pt-3 pb-2 border-b border-gray-200">
+        <View className="flex-row items-center px-4 pt-3 pb-2 border-b border-border">
           <Pressable onPress={handleCloseModal} className="py-2 mr-4">
-            <MaterialIcons name="close" size={24} color="#4B5563" />
+            <MaterialIcons name="close" size={24} color={AppTheme.colors.text.primary} />
           </Pressable>
-          <ThemedText className="text-base font-semibold text-gray-900">
+          <AppText variant="subtitle">
             {ritualPack.title || 'Ritual Pack'}
-          </ThemedText>
+          </AppText>
         </View>
 
         <FlatList
@@ -139,12 +143,12 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
           )}
           ListHeaderComponent={
             <View className="px-4 pt-4 pb-2">
-              <ThemedText className="text-md text-gray-900 mb-2">
+              <AppText variant="body" className="mb-2">
                 {ritualPack.description}
-              </ThemedText>
-              <ThemedText className="text-sm text-gray-600 font-semibold">
+              </AppText>
+              <AppText variant="small" className="font-semibold">
                 Pick {ritualPack.rituals?.length > 1 ? '1–' + ritualPack.rituals.length : '1'} ritual{ritualPack.rituals?.length !== 1 ? 's' : ''} to add to your current focus.
-              </ThemedText>
+              </AppText>
             </View>
           }
           contentContainerStyle={{ paddingBottom: 120 }}
@@ -152,28 +156,26 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
         />
 
         {/* Bottom bar */}
-        <SafeAreaView edges={['bottom']} className="absolute left-0 right-0 bottom-0 bg-gray-100 shadow-md shadow-black/5 border-t border-gray-200">
+        <SafeAreaView edges={['bottom']} className="absolute left-0 right-0 bottom-0 bg-surface-screen border-t border-border-strong">
           <View className="flex-row gap-4 px-4 pb-4 pt-4">
-            <TouchableOpacity
+            <Button
+              variant="secondary"
               onPress={handleDismiss}
-              className="flex-1 rounded-xl py-3 items-center border border-gray-300"
+              className="flex-1"
             >
-              <ThemedText className="text-gray-900 font-semibold">
-                Dismiss
-              </ThemedText>
-            </TouchableOpacity>
-            <TouchableOpacity
+              Dismiss
+            </Button>
+            <Button
+              variant="primary"
               onPress={handleAdd}
-              className={`flex-1 items-center rounded-xl py-3 border ${!canAdd ? 'bg-gray-300 border-gray-400' : 'bg-purple-600 border-purple-700'}`}
               disabled={!canAdd}
+              className="flex-1"
             >
-              <ThemedText className={`font-semibold ${!canAdd ? 'text-gray-900' : 'text-white'}`}>
-                Add {selectedIds.length} ritual{selectedIds.length === 1 ? '' : 's'} to Current
-              </ThemedText>
-            </TouchableOpacity>
+              Add {selectedIds.length} ritual{selectedIds.length === 1 ? '' : 's'} to Current
+            </Button>
           </View>
         </SafeAreaView>
-      </SafeAreaView>
+      </ModalContainer>
     </Modal>
   );
 }
