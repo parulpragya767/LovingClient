@@ -27,14 +27,22 @@ export default function AIChatLayout() {
       <Stack.Screen 
         name="list" 
         options={{
-          title: 'Conversations',
-          headerTitleAlign: 'left',
+          headerShown: false,
+          presentation: 'transparentModal',
+          animation: 'slide_from_left',
         }}
       />
       <Stack.Screen 
         name="chat" 
         options={{
           title: 'AI Chat',
+          headerLeft: ({ tintColor }) => (
+            <HeaderIconButton
+              name="menu"
+              color={tintColor}
+              onPress={handleChatListPress}
+            />
+          ),
         }}
       />
     </Stack>

@@ -2,12 +2,15 @@ import { ChatSession } from '@/src/components/ai-chat/ChatSession';
 import { EmptyState } from '@/src/components/states/EmptyState';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
-import { HeaderActionButton } from '@/src/components/ui/navigation/HeaderActionButton';
+import { AppTheme } from '@/src/components/themes/AppTheme';
+import { AppText } from '@/src/components/ui/AppText';
+import { Button } from '@/src/components/ui/Button';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useChatSessions } from '@/src/hooks/ai-chat/useChatSessions';
-import { Stack, useRouter } from 'expo-router';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import React from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, TouchableWithoutFeedback, View } from 'react-native';
 import Toast from "react-native-toast-message";
 
 export default function AIChatListScreen() {
@@ -31,21 +34,21 @@ export default function AIChatListScreen() {
   if (error) return <ErrorState message="Failed to load conversations." onButtonPress={() => refetch()} />;
 
   return (
-    <>  
-      <Stack.Screen
-        options={{
-          headerRight: ({ tintColor }) => (
-            <View className="mr-4">
-              <HeaderActionButton
-                label="New Chat"
-                icon="add"
-                onPress={handleNewChat}
-              />
-            </View>
-          ),
-        }}
-      />
-      <View className="flex-1 bg-surface-screen">
+    <View className="flex-1 flex-row bg-black/40">
+      <View className="w-[85%] max-w-[320px] bg-surface-screen h-full">
+        {/* Drawer Header */}
+        <View className="flex-row items-center justify-between px-4 py-3 border-b border-border">
+          <AppText variant="subtitle">Conversations</AppText>
+
+          <Button
+            variant="secondary"
+            icon={<MaterialIcons name="add" size={24} color={AppTheme.colors.action.secondary.text} />}
+            onPress={handleNewChat}
+          >
+            New Chat
+          </Button>
+        </View>
+
         <FlatList
           data={sessions}
           keyExtractor={(item) => item.id}
@@ -53,10 +56,15 @@ export default function AIChatListScreen() {
             <ChatSession session={session}/>
           )}
           showsVerticalScrollIndicator={false}
-          ListFooterComponent={<View className="h-20" />}
           ListEmptyComponent={<EmptyState message="No conversations yet." />}
+          contentContainerStyle={{ paddingBottom: 24 }}
         />
       </View>
-    </>
+
+      {/* Backdrop */}
+      <TouchableWithoutFeedback onPress={() => router.back()}>
+        <View className="flex-1" />
+      </TouchableWithoutFeedback>
+    </View>
   );
 }

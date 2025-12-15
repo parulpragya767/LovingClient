@@ -7,13 +7,16 @@ export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 
 export type ButtonProps = TouchableOpacityProps & {
   children: React.ReactNode;
+  icon?: React.ReactNode;
   variant?: ButtonVariant;
   className?: string;
 };
 
-const baseClasses: Record<ButtonVariant, string> = {
-  primary: 'rounded-button py-3 px-4 items-center justify-center',
-  secondary: 'rounded-button py-3 px-4 items-center justify-center',
+const baseClasses = 'flex-row items-center justify-center gap-2';
+
+const extraBaseClasses: Record<ButtonVariant, string> = {
+  primary: 'rounded-button py-3 px-4',
+  secondary: 'rounded-button py-3 px-4',
   ghost: '',
 };
 
@@ -34,6 +37,7 @@ const disabledClasses =
 
 export function Button({
   children,
+  icon,
   variant = 'primary',
   disabled,
   className,
@@ -45,13 +49,15 @@ export function Button({
       onPress={disabled ? undefined : onPress}
       disabled={disabled}
       className={clsx(
-        baseClasses[variant],
+        baseClasses,
+        extraBaseClasses[variant],
         variantClasses[variant],
         disabled && disabledClasses,
         className
       )}
       {...rest}
     >
+      {icon}
       <AppText
         variant="body"
         color={textClasses[variant]}
