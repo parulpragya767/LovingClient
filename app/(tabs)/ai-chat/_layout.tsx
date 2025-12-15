@@ -1,4 +1,3 @@
-import { ChatListHeader } from '@/src/components/ai-chat/AIChatListHeader';
 import { AppTheme } from '@/src/components/themes/AppTheme';
 import { defaultHeaderOptions } from '@/src/components/ui/navigation/headerOptions';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -34,10 +33,10 @@ export default function AIChatLayout() {
         name="list" 
         options={{
           headerShown: true,
+          headerBackVisible: false,
+          title: 'Conversations',
+          headerTitleAlign: 'left',
           ...defaultHeaderOptions,
-          header: () => (
-            <ChatListHeader />
-          ),
         }}
       />
       <Stack.Screen 
