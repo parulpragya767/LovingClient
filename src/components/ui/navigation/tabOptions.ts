@@ -1,6 +1,6 @@
 import { AppTheme } from '@/src/components/themes/AppTheme';
 
-export const tabScreenOptions = {
+export const TabScreenOptions = {
   headerShown: false,
   tabBarShowLabel: true,
   tabBarHideOnKeyboard: true,
@@ -19,7 +19,7 @@ export const tabScreenOptions = {
   },
 };
 
-export const topNavigationTabScreenOptions = {
+export const TopNavigationTabScreenOptions = {
   tabBarActiveTintColor: AppTheme.colors.brand.primary,
   tabBarInactiveTintColor: AppTheme.colors.text.primary,
 

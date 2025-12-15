@@ -1,9 +1,9 @@
-import { defaultHeaderOptions } from '@/src/components/ui/navigation/headerOptions';
+import { DefaultHeaderOptions } from '@/src/components/ui/navigation/HeaderOptions';
 import { Stack } from 'expo-router';
 
 export default function RitualsLayout() {
   return (
-    <Stack screenOptions={defaultHeaderOptions}>
+    <Stack screenOptions={DefaultHeaderOptions}>
       <Stack.Screen 
         name="(top-nav)" 
         options={{ 

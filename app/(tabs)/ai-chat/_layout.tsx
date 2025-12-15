@@ -1,5 +1,5 @@
 import { AppTheme } from '@/src/components/themes/AppTheme';
-import { defaultHeaderOptions } from '@/src/components/ui/navigation/headerOptions';
+import { DefaultHeaderOptions } from '@/src/components/ui/navigation/HeaderOptions';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Stack, useRouter } from 'expo-router';
 import { TouchableOpacity } from 'react-native';
@@ -12,7 +12,7 @@ export default function AIChatLayout() {
   };
 
   return (
-    <Stack screenOptions={defaultHeaderOptions}>
+    <Stack screenOptions={DefaultHeaderOptions}>
       <Stack.Screen 
         name="index" 
         options={{

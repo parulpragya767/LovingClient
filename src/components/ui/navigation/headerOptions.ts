@@ -1,6 +1,6 @@
 import { AppTheme } from "@/src/components/themes/AppTheme";
 
-export const defaultHeaderOptions = {
+export const DefaultHeaderOptions = {
   headerStyle: {
     backgroundColor: AppTheme.colors.brand.primary,
   },

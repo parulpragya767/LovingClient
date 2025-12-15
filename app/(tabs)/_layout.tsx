@@ -1,7 +1,7 @@
 import LoadingState from '@/src/components/states/LoadingState';
 import { AppTheme } from '@/src/components/themes/AppTheme';
-import { defaultHeaderOptions } from '@/src/components/ui/navigation/headerOptions';
-import { tabScreenOptions } from '@/src/components/ui/navigation/tabOptions';
+import { DefaultHeaderOptions } from '@/src/components/ui/navigation/HeaderOptions';
+import { TabScreenOptions } from '@/src/components/ui/navigation/TabOptions';
 import { useAuth } from '@/src/context/AuthContext';
 import { useUserStore } from '@/src/store/useUserStore';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -20,7 +20,7 @@ export default function TabLayout() {
   if (!onboardingCompleted) return <Redirect href="/onboarding" />;
 
   return (
-    <Tabs screenOptions={tabScreenOptions}>
+    <Tabs screenOptions={TabScreenOptions}>
       <Tabs.Screen
         name="index"
         options={{
@@ -33,7 +33,7 @@ export default function TabLayout() {
               </TouchableOpacity>
             </Link>
           ),
-          ...defaultHeaderOptions,
+          ...DefaultHeaderOptions,
           popToTopOnBlur: true,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />

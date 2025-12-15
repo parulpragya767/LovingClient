@@ -1,6 +1,6 @@
 import { AppTheme } from "@/src/components/themes/AppTheme";
 import { ThemedText } from '@/src/components/themes/themed-text';
-import { topNavigationTabScreenOptions } from '@/src/components/ui/navigation/tabOptions';
+import { TopNavigationTabScreenOptions } from '@/src/components/ui/navigation/TabOptions';
 import { MaterialIcons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { router, withLayoutContext } from 'expo-router';
@@ -26,7 +26,7 @@ export default function RitualsTabsLayout() {
         </Pressable>
       </View>
       
-      <Tabs screenOptions={topNavigationTabScreenOptions}>
+      <Tabs screenOptions={TopNavigationTabScreenOptions}>
         <Tabs.Screen name="current" options={{ title: 'My Rituals' }} />
         <Tabs.Screen name="all-rituals" options={{ title: 'All Rituals' }} />
         <Tabs.Screen name="history" options={{ title: 'History' }} />
