@@ -1,10 +1,11 @@
 import { RecommendationStatus } from '@/src/api/models/recommendation-status';
+import { ActionTile } from '@/src/components/ui/ActionTile';
 import { useRitualPack } from '@/src/hooks/rituals/useRitualPack';
 import { useRitualRecommendation } from '@/src/hooks/rituals/useRitualRecommendation';
+import { RitualPack } from '@/src/models/ritualPacks';
 import { useChatStore } from '@/src/store/useChatStore';
+import { useRouter } from 'expo-router';
 import { View } from 'react-native';
-import { RitualRecommendationSelectionCard } from './RitualRecommendationSelectionCard';
-import { RitualRecommendationViewCard } from './RitualRecommendationViewCard';
 
 type RitualRecommendationHandlerProps = {
   recommendationId: string;
@@ -13,6 +14,7 @@ type RitualRecommendationHandlerProps = {
 export function RitualRecommendationHandler({ 
   recommendationId, 
 }: RitualRecommendationHandlerProps) {
+  const router = useRouter();
   const { data: recommendation } = 
     useRitualRecommendation(recommendationId);
   
@@ -27,6 +29,10 @@ export function RitualRecommendationHandler({
     setRitualRecommendationId(recommendationId);
   };
 
+  const navigateToRitualPackPage = (ritualPack: RitualPack) => {
+    router.push(`/rituals/pack/${ritualPack.id}`);
+  }
+  
   if (!recommendation || !ritualPack) {
     return null;
   }
@@ -44,13 +50,18 @@ export function RitualRecommendationHandler({
   return (
     <View className="my-2 w-full self-start">
       {isSuggestedOrViewed && (
-        <RitualRecommendationSelectionCard 
-          ritualPack={ritualPack} 
-          onPress={setRitualRecommendationModalStates} 
+        <ActionTile
+          title={ritualPack.title || 'Suggested Ritual Pack'}
+          subtitle={`${ritualPack.rituals?.length ?? 0} rituals to strengthen your connection`}
+          onPress={setRitualRecommendationModalStates}
         />
       )}
       {isAddedOrSkipped && (
-        <RitualRecommendationViewCard ritualPack={ritualPack} />
+        <ActionTile
+          title='Suggested Ritual Pack'
+          subtitle={ritualPack.title}
+          onPress={() => navigateToRitualPackPage(ritualPack)}
+        />
       )}
     </View>
   );
