@@ -12,10 +12,12 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { FlatList, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Toast from "react-native-toast-message";
 
 export default function AIChatListScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const { data: sessions, isLoading, error, refetch } = useChatSessions();
   const { startNewConversation } = useChatActions();
 
@@ -57,7 +59,7 @@ export default function AIChatListScreen() {
         )}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={<EmptyState message="No conversations yet." />}
-        contentContainerStyle={{ paddingBottom: 24 }}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 16 }}
       />
     </SideDrawer>
   );
