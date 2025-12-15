@@ -6,7 +6,7 @@ export default function AIChatLayout() {
   const router = useRouter();
 
   const handleChatListPress = () => {
-    router.push('/ai-chat/list');
+    router.push('/ai-chat/(modals)/list');
   };
 
   return (
@@ -22,14 +22,6 @@ export default function AIChatLayout() {
               onPress={handleChatListPress}
             />
           ),
-        }}
-      />
-      <Stack.Screen 
-        name="list" 
-        options={{
-          headerShown: false,
-          presentation: 'transparentModal',
-          animation: 'slide_from_left',
         }}
       />
       <Stack.Screen 

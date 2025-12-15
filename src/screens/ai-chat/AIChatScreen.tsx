@@ -66,7 +66,7 @@ export default function AIChatScreen() {
   if (error) return <ErrorState message="Failed to load your conversation." onButtonPress={() => refetch()} />;
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={['left', 'right']}>
+    <SafeAreaView className="flex-1" edges={['left', 'right']}>
       <Screen>
         {/* Messages and ritual recommendation cards */}
         <View className="flex-1 px-2 py-4">
