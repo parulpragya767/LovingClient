@@ -12,19 +12,17 @@ export default function AIChatLayout() {
   };
 
   return (
-    <Stack>
+    <Stack screenOptions={defaultHeaderOptions}>
       <Stack.Screen 
         name="index" 
         options={{
           title: 'AI Companion',
-          headerShown: true,
-          ...defaultHeaderOptions,
           headerLeft: () => (
             <TouchableOpacity 
               onPress={handleChatListPress}
               className="p-2 mr-2 ml-2"
             >
-              <MaterialIcons name="menu" size={24} color={AppTheme.colors.text.primary} />
+              <MaterialIcons name="menu" size={24} color={AppTheme.colors.text.inverseSubtle} />
             </TouchableOpacity>
           ),
         }}
@@ -32,18 +30,15 @@ export default function AIChatLayout() {
       <Stack.Screen 
         name="list" 
         options={{
-          headerShown: true,
           headerBackVisible: false,
           title: 'Conversations',
           headerTitleAlign: 'left',
-          ...defaultHeaderOptions,
         }}
       />
       <Stack.Screen 
         name="chat" 
         options={{
-          headerShown: true,
-          ...defaultHeaderOptions,
+          title: 'AI Chat',
         }}
       />
     </Stack>

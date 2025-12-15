@@ -29,7 +29,7 @@ export default function TabLayout() {
           headerLeft: () => (
             <Link href="/(modals)/user" asChild>
               <TouchableOpacity style={{ paddingHorizontal: 12 }}>
-                <Ionicons name="person-circle-outline" size={26} color={AppTheme.colors.text.primary} />
+                <Ionicons name="person-circle-outline" size={26} color={AppTheme.colors.text.inverseSubtle} />
               </TouchableOpacity>
             </Link>
           ),

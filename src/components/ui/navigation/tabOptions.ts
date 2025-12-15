@@ -1,5 +1,4 @@
 import { AppTheme } from '@/src/components/themes/AppTheme';
-import { MaterialTopTabNavigationOptions } from '@react-navigation/material-top-tabs';
 
 export const tabScreenOptions = {
   headerShown: false,
@@ -15,26 +14,34 @@ export const tabScreenOptions = {
   },
 
   tabBarLabelStyle: {
-    fontSize: AppTheme.typography.fontSize.small[0],
+    fontSize: parseFloat(AppTheme.typography.fontSize.small[0]),
     fontFamily: AppTheme.typography.fontFamily.sans,
   },
 };
 
-export const createTopTabScreenOptions = (): MaterialTopTabNavigationOptions => ({
+export const topNavigationTabScreenOptions = {
   tabBarActiveTintColor: AppTheme.colors.brand.primary,
   tabBarInactiveTintColor: AppTheme.colors.text.primary,
-  
-  tabBarIndicatorStyle: { 
+
+  tabBarLabelStyle: {
+    fontSize: parseFloat(AppTheme.typography.fontSize.small[0]),
+    fontFamily: AppTheme.typography.fontFamily.sans,
+    fontWeight: '500' as const,
+    textTransform: 'none' as const,
+  },
+
+  tabBarIndicatorStyle: {
     backgroundColor: AppTheme.colors.brand.primary,
     height: 2,
   },
 
-  tabBarLabelStyle: { 
-    fontSize: 14, 
-    fontFamily: 'DMSans', 
+  tabBarStyle: {
+    backgroundColor: AppTheme.colors.surface.screen,
   },
 
-  tabBarStyle: { 
-    backgroundColor: AppTheme.colors.surface.screen 
+  tabBarItemStyle: {
+    paddingVertical: 8,
   },
-});
+
+  tabBarScrollEnabled: false,
+};

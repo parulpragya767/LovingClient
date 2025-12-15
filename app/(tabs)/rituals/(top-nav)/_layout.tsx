@@ -1,6 +1,6 @@
 import { AppTheme } from "@/src/components/themes/AppTheme";
 import { ThemedText } from '@/src/components/themes/themed-text';
-import { createTopTabScreenOptions } from '@/src/components/ui/navigation/tabOptions';
+import { topNavigationTabScreenOptions } from '@/src/components/ui/navigation/tabOptions';
 import { MaterialIcons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { router, withLayoutContext } from 'expo-router';
@@ -10,8 +10,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const { Navigator } = createMaterialTopTabNavigator();
 
 const Tabs = withLayoutContext(Navigator);
-
-const screenOptions = createTopTabScreenOptions();
 
 export default function RitualsTabsLayout() {
   return (
@@ -28,7 +26,7 @@ export default function RitualsTabsLayout() {
         </Pressable>
       </View>
       
-      <Tabs screenOptions={screenOptions}>
+      <Tabs screenOptions={topNavigationTabScreenOptions}>
         <Tabs.Screen name="current" options={{ title: 'My Rituals' }} />
         <Tabs.Screen name="all-rituals" options={{ title: 'All Rituals' }} />
         <Tabs.Screen name="history" options={{ title: 'History' }} />
