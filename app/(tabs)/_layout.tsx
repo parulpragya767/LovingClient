@@ -24,7 +24,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: 'Loving',
           headerShown: true,
           headerLeft: () => (
             <Link href="/(modals)/user" asChild>
@@ -44,8 +44,6 @@ export default function TabLayout() {
         name="love-lens"
         options={{
           title: 'Love Lens',
-          headerShown: true,
-          ...defaultHeaderOptions,
           popToTopOnBlur: true,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'heart' : 'heart-outline'} color={color} size={24} />
@@ -56,8 +54,6 @@ export default function TabLayout() {
         name="rituals"
         options={{
           title: 'Rituals',
-          headerShown: true,
-          ...defaultHeaderOptions,
           popToTopOnBlur: true,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'moon' : 'moon-outline'} color={color} size={24}/>
@@ -68,7 +64,6 @@ export default function TabLayout() {
         name="ai-chat"
         options={{
           title: 'AI Chat',
-          headerShown: false,
           popToTopOnBlur: true,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'chatbubble-ellipses' : 'chatbubble-ellipses-outline'} color={color} size={24} />

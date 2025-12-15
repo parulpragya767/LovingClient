@@ -6,7 +6,11 @@ export default function RitualsLayout() {
     <Stack screenOptions={defaultStackOptions}>
       <Stack.Screen 
         name="(top-nav)" 
-        options={{ headerShown: false }} 
+        options={{ 
+          headerShown: true,
+          title: 'Rituals',
+          ...defaultHeaderOptions 
+        }} 
       />
       <Stack.Screen 
         name="search"

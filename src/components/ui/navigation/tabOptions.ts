@@ -3,6 +3,8 @@ import { MaterialTopTabNavigationOptions } from '@react-navigation/material-top-
 
 export const tabScreenOptions = {
   headerShown: false,
+  tabBarShowLabel: true,
+  tabBarHideOnKeyboard: true,
 
   tabBarActiveTintColor: AppTheme.colors.text.primary,
   tabBarInactiveTintColor: AppTheme.colors.text.inverse,
@@ -13,8 +15,8 @@ export const tabScreenOptions = {
   },
 
   tabBarLabelStyle: {
-    fontSize: 14,
-    fontFamily: 'DMSans',
+    fontSize: AppTheme.typography.fontSize.small[0],
+    fontFamily: AppTheme.typography.fontFamily.sans,
   },
 };
 

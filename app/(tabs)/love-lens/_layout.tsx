@@ -1,3 +1,4 @@
+import { defaultHeaderOptions } from '@/src/components/ui/navigation/headerOptions';
 import { Stack } from 'expo-router';
 
 export default function LoveLensLayout() {
@@ -6,8 +7,9 @@ export default function LoveLensLayout() {
       <Stack.Screen 
         name="index" 
         options={{
-          headerShown: false,
+          headerShown: true,
           title: 'Love Lens',
+          ...defaultHeaderOptions,
         }}
       />
     </Stack>
