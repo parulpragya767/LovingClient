@@ -1,17 +1,17 @@
 import LoadingState from '@/src/components/states/LoadingState';
-import { AppTheme } from '@/src/components/themes/AppTheme';
+import { HeaderIconButton } from '@/src/components/ui/navigation/HeaderIconButton';
 import { DefaultHeaderOptions } from '@/src/components/ui/navigation/HeaderOptions';
 import { TabScreenOptions } from '@/src/components/ui/navigation/TabOptions';
 import { useAuth } from '@/src/context/AuthContext';
 import { useUserStore } from '@/src/store/useUserStore';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Link, Redirect, Tabs } from 'expo-router';
+import { Redirect, Tabs, useRouter } from 'expo-router';
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
 
 export default function TabLayout() {
   const { loading, user } = useAuth();
   const { onboardingCompleted } = useUserStore();
+  const router = useRouter();
 
   if (loading) return <LoadingState text="Loading your profile..." />;
 
@@ -26,12 +26,12 @@ export default function TabLayout() {
         options={{
           title: 'Loving',
           headerShown: true,
-          headerLeft: () => (
-            <Link href="/(modals)/user" asChild>
-              <TouchableOpacity style={{ paddingHorizontal: 12 }}>
-                <Ionicons name="person-circle-outline" size={26} color={AppTheme.colors.text.inverseSubtle} />
-              </TouchableOpacity>
-            </Link>
+          headerLeft: ({ tintColor }) => (
+            <HeaderIconButton
+              name="person-circle-outline"
+              color={tintColor}
+              onPress={() => router.push('/(modals)/user')}
+            />
           ),
           ...DefaultHeaderOptions,
           popToTopOnBlur: true,

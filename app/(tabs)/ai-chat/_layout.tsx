@@ -1,8 +1,6 @@
-import { AppTheme } from '@/src/components/themes/AppTheme';
+import { HeaderIconButton } from '@/src/components/ui/navigation/HeaderIconButton';
 import { DefaultHeaderOptions } from '@/src/components/ui/navigation/HeaderOptions';
-import { MaterialIcons } from '@expo/vector-icons';
 import { Stack, useRouter } from 'expo-router';
-import { TouchableOpacity } from 'react-native';
 
 export default function AIChatLayout() {
   const router = useRouter();
@@ -17,20 +15,18 @@ export default function AIChatLayout() {
         name="index" 
         options={{
           title: 'AI Companion',
-          headerLeft: () => (
-            <TouchableOpacity 
+          headerLeft: ({ tintColor }) => (
+            <HeaderIconButton
+              name="menu"
+              color={tintColor}
               onPress={handleChatListPress}
-              className="p-2 mr-2 ml-2"
-            >
-              <MaterialIcons name="menu" size={24} color={AppTheme.colors.text.inverseSubtle} />
-            </TouchableOpacity>
+            />
           ),
         }}
       />
       <Stack.Screen 
         name="list" 
         options={{
-          headerBackVisible: false,
           title: 'Conversations',
           headerTitleAlign: 'left',
         }}

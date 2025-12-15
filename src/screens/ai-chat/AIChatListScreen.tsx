@@ -2,13 +2,12 @@ import { ChatSession } from '@/src/components/ai-chat/ChatSession';
 import { EmptyState } from '@/src/components/states/EmptyState';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
-import { AppText } from '@/src/components/ui/AppText';
+import { HeaderActionButton } from '@/src/components/ui/navigation/HeaderActionButton';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useChatSessions } from '@/src/hooks/ai-chat/useChatSessions';
-import { MaterialIcons } from '@expo/vector-icons';
 import { Stack, useRouter } from 'expo-router';
 import React from 'react';
-import { FlatList, Pressable, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import Toast from "react-native-toast-message";
 
 export default function AIChatListScreen() {
@@ -28,10 +27,6 @@ export default function AIChatListScreen() {
     }
   };
 
-  const navigateToChatHome = () => {
-    router.push('/ai-chat');
-  };
-  
   if (isLoading) return <LoadingState text="Loading conversations..." />;
   if (error) return <ErrorState message="Failed to load conversations." onButtonPress={() => refetch()} />;
 
@@ -39,22 +34,13 @@ export default function AIChatListScreen() {
     <>  
       <Stack.Screen
         options={{
-          headerRight: () => (
-            <View className="flex-row items-center">
-              <Pressable
+          headerRight: ({ tintColor }) => (
+            <View className="mr-4">
+              <HeaderActionButton
+                label="New Chat"
+                icon="add"
                 onPress={handleNewChat}
-                className="flex-row items-center px-3 py-2 rounded-md bg-purple-50 mr-3"
-              >
-                <MaterialIcons name="add" size={20}/>
-                <AppText variant="small" className="ml-1 font-medium">New Chat</AppText>
-              </Pressable>
-    
-              <Pressable 
-                onPress={navigateToChatHome} 
-                className="p-1"
-              >
-                <MaterialIcons name="close" size={24}/>
-              </Pressable>
+              />
             </View>
           ),
         }}

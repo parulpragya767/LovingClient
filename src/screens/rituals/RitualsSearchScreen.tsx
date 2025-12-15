@@ -3,13 +3,13 @@ import TagCategory from '@/src/components/rituals/TagCategory';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
 import { Button } from '@/src/components/ui/Button';
+import { HeaderIconButton } from '@/src/components/ui/navigation/HeaderIconButton';
 import { Screen } from '@/src/components/ui/Screen';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
 import { useTagSelectionDraft } from '@/src/hooks/rituals/useTagSelectionDraft';
-import { MaterialIcons } from '@expo/vector-icons';
 import { Stack, useRouter } from 'expo-router';
 import React from 'react';
-import { Pressable, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 
 export default function RitualsSearchScreen() {
   const router = useRouter();
@@ -28,13 +28,12 @@ export default function RitualsSearchScreen() {
     <>
       <Stack.Screen
         options={{
-          headerRight: () => (
-            <Pressable 
-            onPress={navigateToResults}
-            className="p-2 mr-2"
-          >
-            <MaterialIcons name="check" size={24} />
-          </Pressable>
+          headerRight: ({ tintColor }) => (
+            <HeaderIconButton
+              name="checkmark"
+              color={tintColor}
+              onPress={navigateToResults}
+            />
           ),
         }}
       />
