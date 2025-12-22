@@ -1,9 +1,11 @@
-import { ThemedText } from '@/src/components/themes/themed-text';
-import { ThemedView } from '@/src/components/themes/themed-view';
+import { AppTheme } from "@/src/components/themes/AppTheme";
+import { AppText } from '@/src/components/ui/AppText';
+import { Button } from "@/src/components/ui/Button";
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { MaterialIcons } from '@expo/vector-icons';
+import clsx from 'clsx';
 import { useState } from 'react';
-import { Modal, Pressable, Text, View } from 'react-native';
+import { Modal, Pressable, View } from 'react-native';
 
 type EmojiFeedbackModalProps = {
   visible: boolean;
@@ -17,10 +19,13 @@ export default function EmojiFeedbackModal({ visible, onClose, onSelectEmoji }: 
 
   const handleEmojiPress = (emoji: string) => {
     setSelectedEmoji(emoji);
-    setTimeout(() => {
-      onSelectEmoji(emoji);
-      onClose();
-    }, 300);
+
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        onSelectEmoji(emoji);
+        onClose();
+      }, 250);
+    });
   };
 
   return (
@@ -31,36 +36,38 @@ export default function EmojiFeedbackModal({ visible, onClose, onSelectEmoji }: 
       onRequestClose={onClose}
     >
       <Pressable 
-        className="flex-1 bg-black/50 justify-center items-center"
+        className="flex-1 bg-black/55 justify-center items-center"
         onPress={onClose}
       >
-        <ThemedView className="bg-white rounded-2xl p-6 mx-4 w-5/6">
+        <View className="bg-surface-screen rounded-card p-6 w-5/6 border border-border shadow-card">
           <View className="flex-row justify-between items-center mb-6">
-            <ThemedText className="text-lg font-semibold">
+            <AppText variant="body" className="font-semibold">
               How did this ritual feel?
-            </ThemedText>
-            <Pressable onPress={onClose} className="p-2 -mr-2">
-              <MaterialIcons name="close" size={24} color="#6B7280" />
+            </AppText>
+            <Pressable onPress={onClose}>
+              <MaterialIcons name="close" size={24} color={AppTheme.colors.text.muted} />
             </Pressable>
           </View>
-          <View className="flex-row flex-wrap justify-start mb-10">
+          <View className="flex-row flex-wrap justify-start gap-2 mb-10">
             {EMOJIS.map((emoji) => (
               <Pressable
                 key={emoji}
                 onPress={() => handleEmojiPress(emoji)}
-                className={`p-3 rounded-lg ${selectedEmoji === emoji ? 'bg-gray-100' : ''}`}
+                className={clsx(
+                  'w-14 h-14 rounded-xl items-center justify-center',
+                  selectedEmoji === emoji
+                    ? 'bg-brand-primary/30 border border-strong'
+                    : 'bg-surface-sunken'
+                )}
               >
-                <Text className="text-3xl">{emoji}</Text>
+                <AppText variant="title">{emoji}</AppText>
               </Pressable>
             ))}
           </View>
-          <Pressable
-            onPress={onClose}
-            className="py-3 px-6 bg-gray-100 rounded-xl items-center"
-          >
-            <ThemedText className="text-gray-700 font-medium">Cancel</ThemedText>
-          </Pressable>
-        </ThemedView>
+          <Button onPress={onClose} variant="ghost">
+            Cancel
+          </Button>
+        </View>
       </Pressable>
     </Modal>
   );
