@@ -10,7 +10,6 @@ import { useChatStore } from "@/src/store/useChatStore";
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FlatList, Modal, Pressable, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from "react-native-toast-message";
 
 type Props = {
@@ -113,15 +112,14 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
   return (
     <Modal
       visible={visible}
-      animationType="slide"
+      animationType="fade"
       onRequestClose={handleCloseModal}
-      presentationStyle="pageSheet"
       transparent
     >
-      <ModalContainer>
-        {/* Modal Header */}
-        <View className="flex-row items-center px-4 pt-3 pb-2 border-b border-border">
-          <Pressable onPress={handleCloseModal} className="py-2 mr-4">
+      <ModalContainer onClose={handleCloseModal}>
+          {/* Modal Header */}
+        <View className="flex-row items-center p-4 gap-4 border-b border-border">
+          <Pressable onPress={handleCloseModal}>
             <MaterialIcons name="close" size={24} color={AppTheme.colors.text.primary} />
           </Pressable>
           <AppText variant="subtitle">
@@ -156,25 +154,23 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
         />
 
         {/* Bottom bar */}
-        <SafeAreaView edges={['bottom']} className="absolute left-0 right-0 bottom-0 bg-surface-screen border-t border-border-strong">
-          <View className="flex-row gap-4 px-4 pb-4 pt-4">
-            <Button
-              variant="secondary"
-              onPress={handleDismiss}
-              className="flex-1"
-            >
-              Dismiss
-            </Button>
-            <Button
-              variant="primary"
-              onPress={handleAdd}
-              disabled={!canAdd}
-              className="flex-1"
-            >
-              Add {selectedIds.length} ritual{selectedIds.length === 1 ? '' : 's'} to Current
-            </Button>
-          </View>
-        </SafeAreaView>
+        <View className="flex-row gap-3 p-4 border-t border-border">
+          <Button
+            variant="secondary"
+            onPress={handleDismiss}
+            className="flex-1"
+          >
+            Dismiss
+          </Button>
+          <Button
+            variant="primary"
+            onPress={handleAdd}
+            disabled={!canAdd}
+            className="flex-1"
+          >
+            Add {selectedIds.length} ritual{selectedIds.length === 1 ? '' : 's'}
+          </Button>
+        </View>
       </ModalContainer>
     </Modal>
   );

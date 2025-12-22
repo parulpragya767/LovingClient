@@ -1,42 +1,26 @@
-import clsx from "clsx";
-import { TouchableWithoutFeedback, View } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Pressable, View } from 'react-native';
 
 export type ModalContainerProps = {
   children: React.ReactNode;
   onClose?: () => void;
-  align?: 'center' | 'bottom';
 };
-
-const baseClasses = 'mx-4 bg-surface-screen rounded-card shadow-card';
 
 export function ModalContainer({
   children,
   onClose,
-  align = 'center',
 }: ModalContainerProps) {
   return (
-    <SafeAreaView
-      edges={['top', 'bottom', 'left', 'right']}
-      className="flex-1 bg-black/40 justify-center"
-    >
+    <View className="flex-1 items-center justify-center px-4">
       {/* Backdrop */}
-      {onClose && (
-        <TouchableWithoutFeedback onPress={onClose}>
-          <View className="absolute inset-0" />
-        </TouchableWithoutFeedback>
-      )}
+      <Pressable
+        className="absolute inset-0 bg-black/70"
+        onPress={onClose}
+      />
 
-      {/* Modal content */}
-      <View
-        className={clsx(
-          baseClasses,
-          align === 'center' && 'self-center',
-          align === 'bottom' && 'mt-auto rounded-b-none'
-        )}
-      >
+      {/* Card */}
+      <View className="w-full max-w-[420px] max-h-[85%] bg-surface-screen rounded-card shadow-card border border-border overflow-hidden">
         {children}
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
