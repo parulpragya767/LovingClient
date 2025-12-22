@@ -1,7 +1,7 @@
 import { AppTheme } from "@/src/components/themes/AppTheme";
 import { AppText } from '@/src/components/ui/AppText';
 import { Button } from "@/src/components/ui/Button";
-import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
+import { FEEDBACK_CONFIG } from '@/src/models/enums';
 import { MaterialIcons } from '@expo/vector-icons';
 import clsx from 'clsx';
 import { useState } from 'react';
@@ -14,7 +14,6 @@ type EmojiFeedbackModalProps = {
 };
 
 export default function EmojiFeedbackModal({ visible, onClose, onSelectEmoji }: EmojiFeedbackModalProps) {
-  const { EMOJIS } = useRitualActions();
   const [selectedEmoji, setSelectedEmoji] = useState<string | null>(null);
 
   const handleEmojiPress = (emoji: string) => {
@@ -49,7 +48,7 @@ export default function EmojiFeedbackModal({ visible, onClose, onSelectEmoji }: 
             </Pressable>
           </View>
           <View className="flex-row flex-wrap justify-start gap-2 mb-10">
-            {EMOJIS.map((emoji) => (
+            {Object.values(FEEDBACK_CONFIG).map((emoji) => (
               <Pressable
                 key={emoji}
                 onPress={() => handleEmojiPress(emoji)}

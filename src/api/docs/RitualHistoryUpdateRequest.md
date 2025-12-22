@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **status** | [**RitualHistoryStatus**](RitualHistoryStatus.md) |  | [optional] [default to undefined]
-**feedback** | [**EmojiFeedback**](EmojiFeedback.md) |  | [optional] [default to undefined]
+**feedback** | [**RitualFeedback**](RitualFeedback.md) |  | [optional] [default to undefined]
 
 ## Example
 

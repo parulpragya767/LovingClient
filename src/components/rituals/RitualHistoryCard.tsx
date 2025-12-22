@@ -1,17 +1,14 @@
-import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
-import { EmojiFeedback } from '@/src/models/enums';
+import { RitualFeedback, feedbackToEmoji } from '@/src/models/enums';
 import { View } from 'react-native';
 import { AppText } from '../ui/AppText';
 
 interface RitualHistoryCardProps {
   title: string;
   date?: string;
-  feedback?: EmojiFeedback;
+  feedback?: RitualFeedback;
 }
 
 export function RitualHistoryCard({ title, date, feedback }: RitualHistoryCardProps) {
-  const { mapFeedbackToEmoji } = useRitualActions();
-  
   const formatDate = (iso?: string) => {
     if (!iso) return '';
     return new Date(iso).toLocaleDateString('en-US', {
@@ -21,7 +18,7 @@ export function RitualHistoryCard({ title, date, feedback }: RitualHistoryCardPr
     });
   };
 
-  const emoji = feedback ? mapFeedbackToEmoji(feedback) : undefined;
+  const emoji = feedback ? feedbackToEmoji(feedback) : undefined;
 
   return (
     <View className="bg-surface-elevated p-4 border-b border-border flex-row items-center justify-between">

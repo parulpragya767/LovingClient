@@ -1,22 +1,20 @@
-# EmojiFeedback
+# RitualFeedback
 
 
 ## Enum
 
-* `Heart` (value: `'HEART'`)
+* `Warm` (value: `'WARM'`)
 
-* `Smile` (value: `'SMILE'`)
+* `Joyful` (value: `'JOYFUL'`)
+
+* `Calm` (value: `'CALM'`)
 
 * `Neutral` (value: `'NEUTRAL'`)
 
 * `Sad` (value: `'SAD'`)
 
-* `Angry` (value: `'ANGRY'`)
+* `Frustrated` (value: `'FRUSTRATED'`)
 
-* `Fire` (value: `'FIRE'`)
-
-* `ThumbsUp` (value: `'THUMBS_UP'`)
-
-* `ThumbsDown` (value: `'THUMBS_DOWN'`)
+* `Energized` (value: `'ENERGIZED'`)
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

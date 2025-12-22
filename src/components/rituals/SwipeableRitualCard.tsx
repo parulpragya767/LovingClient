@@ -1,7 +1,7 @@
 import { AppTheme } from "@/src/components/themes/AppTheme";
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
-import { RitualHistoryStatus } from '@/src/models/enums';
+import { emojiToFeedback, RitualHistoryStatus } from '@/src/models/enums';
 import { Ritual } from '@/src/models/rituals';
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useRef, useState } from 'react';
@@ -21,7 +21,7 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
   const canAct = !!ritualHistoryId;
   const [emojiVisible, setEmojiVisible] = useState(false);
   const { invalidateQueries: invalidateCurrentRituals } = useCurrentRituals();
-  const { markRitualAsCompleted, deleteRitualFromCurrent, mapUnicodeToEmojiFeedback } = useRitualActions();
+  const { markRitualAsCompleted, deleteRitualFromCurrent } = useRitualActions();
 
   const close = () => swipeableRef.current?.close?.();
 
@@ -38,7 +38,7 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
   const handleEmojiSelect = async (emoji: string) => {
     if (!ritualHistoryId) return;
     try {
-      const feedback = mapUnicodeToEmojiFeedback(emoji);
+      const feedback = emojiToFeedback(emoji);
       await markRitualAsCompleted(ritualHistoryId, {
         status: RitualHistoryStatus.Completed,
         feedback,

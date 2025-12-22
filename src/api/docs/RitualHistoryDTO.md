@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **ritualPackId** | **string** |  | [optional] [default to undefined]
 **recommendationId** | **string** |  | [optional] [default to undefined]
 **status** | [**RitualHistoryStatus**](RitualHistoryStatus.md) |  | [default to undefined]
-**feedback** | [**EmojiFeedback**](EmojiFeedback.md) |  | [optional] [default to undefined]
+**feedback** | [**RitualFeedback**](RitualFeedback.md) |  | [optional] [default to undefined]
 **createdAt** | **string** |  | [optional] [default to undefined]
 **updatedAt** | **string** |  | [optional] [default to undefined]
 

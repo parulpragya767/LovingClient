@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { EmojiFeedback } from './emoji-feedback';
+import type { RitualFeedback } from './ritual-feedback';
 // May contain unused imports in some cases
 // @ts-ignore
 import type { RitualHistoryStatus } from './ritual-history-status';
@@ -64,10 +64,10 @@ export interface RitualHistoryDTO {
     'status': RitualHistoryStatus;
     /**
      * 
-     * @type {EmojiFeedback}
+     * @type {RitualFeedback}
      * @memberof RitualHistoryDTO
      */
-    'feedback'?: EmojiFeedback;
+    'feedback'?: RitualFeedback;
     /**
      * 
      * @type {string}

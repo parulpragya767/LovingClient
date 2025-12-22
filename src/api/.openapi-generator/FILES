@@ -25,7 +25,6 @@ docs/ChatSessionDTO.md
 docs/CurrentRitualDTO.md
 docs/CurrentRitualPackDTO.md
 docs/CurrentRitualsDTO.md
-docs/EmojiFeedback.md
 docs/InfoBullet.md
 docs/InfoSection.md
 docs/Journey.md
@@ -47,6 +46,7 @@ docs/RelationalNeed.md
 docs/RelationshipStatus.md
 docs/RitualControllerApi.md
 docs/RitualDTO.md
+docs/RitualFeedback.md
 docs/RitualFilterDTO.md
 docs/RitualHistoryControllerApi.md
 docs/RitualHistoryCreateRequest.md
@@ -83,7 +83,6 @@ models/chat-session-dto.ts
 models/current-ritual-dto.ts
 models/current-ritual-pack-dto.ts
 models/current-rituals-dto.ts
-models/emoji-feedback.ts
 models/index.ts
 models/info-bullet.ts
 models/info-section.ts
@@ -103,6 +102,7 @@ models/recommendation-status.ts
 models/relational-need.ts
 models/relationship-status.ts
 models/ritual-dto.ts
+models/ritual-feedback.ts
 models/ritual-filter-dto.ts
 models/ritual-history-create-request.ts
 models/ritual-history-dto.ts

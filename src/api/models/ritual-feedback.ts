@@ -20,18 +20,17 @@
  * @enum {string}
  */
 
-export const EmojiFeedback = {
-    Heart: 'HEART',
-    Smile: 'SMILE',
+export const RitualFeedback = {
+    Warm: 'WARM',
+    Joyful: 'JOYFUL',
+    Calm: 'CALM',
     Neutral: 'NEUTRAL',
     Sad: 'SAD',
-    Angry: 'ANGRY',
-    Fire: 'FIRE',
-    ThumbsUp: 'THUMBS_UP',
-    ThumbsDown: 'THUMBS_DOWN'
+    Frustrated: 'FRUSTRATED',
+    Energized: 'ENERGIZED'
 } as const;
 
-export type EmojiFeedback = typeof EmojiFeedback[keyof typeof EmojiFeedback];
+export type RitualFeedback = typeof RitualFeedback[keyof typeof RitualFeedback];
 
 
 
