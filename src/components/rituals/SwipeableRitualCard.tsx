@@ -1,3 +1,4 @@
+import { AppTheme } from "@/src/components/themes/AppTheme";
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { RitualHistoryStatus } from '@/src/models/enums';
@@ -23,10 +24,6 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
   const { markRitualAsCompleted, deleteRitualFromCurrent, mapUnicodeToEmojiFeedback } = useRitualActions();
 
   const close = () => swipeableRef.current?.close?.();
-
-  const handleLongPress = () => {
-    swipeableRef.current?.openRight?.();
-  };
 
   const handleCompletePress = () => {
     if (!canAct) return;
@@ -65,23 +62,21 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
 
   const renderRightActions = (_: any, __: any) => (
     <Animated.View 
-      entering={FadeInRight.duration(150)}
-      className="flex-row items-center my-2 mx-2"
+      entering={FadeInRight.duration(200)}
+      className="flex-row items-center gap-2 m-2"
     >
       <Pressable 
         onPress={handleCompletePress}
-        className="bg-green-100 border border-green-200 rounded-lg p-2 mr-1"
-        style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
+        className="w-14 h-14 p-2 items-center justify-center bg-surface-sunken border border-border rounded-compactCard"
       >
-        <MaterialIcons name="check" size={24} color="#15803d" />
+        <MaterialIcons name="check" size={24} color={AppTheme.colors.state.success} />
       </Pressable>
 
       <Pressable 
         onPress={handleDeletePress}
-        className="bg-red-100 border border-red-200 rounded-lg p-2"
-        style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
+        className="w-14 h-14 p-2 items-center justify-center bg-surface-sunken border border-border rounded-compactCard"
       >
-        <MaterialIcons name="delete-outline" size={24} color="#b91c1c" />
+        <MaterialIcons name="delete-outline" size={24} color={AppTheme.colors.state.error} />
       </Pressable>
     </Animated.View>
   );
@@ -90,10 +85,10 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
     <View>
       <ReanimatedSwipeable
         ref={swipeableRef}
-        friction={1}
-        rightThreshold={40}
+        friction={2}
+        rightThreshold={72}
         renderRightActions={renderRightActions}>
-        <RitualCard ritual={ritual} onLongPress={handleLongPress} />
+        <RitualCard ritual={ritual} />
       </ReanimatedSwipeable>
 
       <EmojiFeedbackModal
