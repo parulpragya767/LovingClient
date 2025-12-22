@@ -15,6 +15,7 @@ export default function AIChatLayout() {
         name="index" 
         options={{
           title: 'AI Companion',
+          animation: 'none',
           headerLeft: ({ tintColor }) => (
             <HeaderIconButton
               name="menu"
@@ -28,6 +29,7 @@ export default function AIChatLayout() {
         name="chat" 
         options={{
           title: 'AI Chat',
+          animation: 'none',
           headerLeft: ({ tintColor }) => (
             <HeaderIconButton
               name="menu"
@@ -41,6 +43,7 @@ export default function AIChatLayout() {
         name="(modals)"
         options={{
           headerShown: false,
+          animation: 'slide_from_left',
         }}
       />
     </Stack>
