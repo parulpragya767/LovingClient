@@ -37,6 +37,12 @@ export default function AIChatLayout() {
           ),
         }}
       />
+      <Stack.Screen
+        name="(modals)"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }

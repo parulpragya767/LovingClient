@@ -1,4 +1,4 @@
-import { TouchableWithoutFeedback, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export type SideDrawerProps = {
@@ -8,18 +8,16 @@ export type SideDrawerProps = {
 
 export function SideDrawer({ children, onClose }: SideDrawerProps) {
   return (
-    <View className="flex-1 flex-row bg-black/40">
+    <View className="flex-1">
+      {/* Backdrop */}
+      <Pressable onPress={onClose} className="absolute inset-0 bg-black/40" />
+
       {/* Drawer panel */}
-      <View className="w-[85%] max-w-[320px] h-full bg-surface-screen">
-        <SafeAreaView className="flex-1" edges={['top', 'bottom', 'left', 'right']}>
+      <View className="absolute left-0 top-0 bottom-0 w-[85%] max-w-[320px] bg-surface-screen">
+        <SafeAreaView className="flex-1" edges={['top', 'bottom']}>
           {children}
         </SafeAreaView>
       </View>
-
-      {/* Backdrop */}
-      <TouchableWithoutFeedback onPress={onClose}>
-        <View className="flex-1" />
-      </TouchableWithoutFeedback>
     </View>
   );
 }
