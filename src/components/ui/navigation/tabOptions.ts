@@ -20,6 +20,8 @@ export const TabScreenOptions = {
 };
 
 export const TopNavigationTabScreenOptions = {
+  swipeEnabled: false,
+  
   tabBarActiveTintColor: AppTheme.colors.brand.primary,
   tabBarInactiveTintColor: AppTheme.colors.text.primary,
 

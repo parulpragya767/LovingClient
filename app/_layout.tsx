@@ -30,6 +30,7 @@ export default function RootLayout() {
                 options={{
                   title: 'Love Type Details',
                   headerBackTitle: 'Back',
+                  gestureEnabled: false,
                   ...DefaultHeaderOptions,
                 }}
               />
@@ -38,6 +39,7 @@ export default function RootLayout() {
                 options={{
                   title: "Ritual Details",
                   headerBackTitle: 'Back',
+                  gestureEnabled: false,
                   ...DefaultHeaderOptions,
                 }}
               />
@@ -46,6 +48,7 @@ export default function RootLayout() {
                 options={{
                   headerShown: true,
                   headerBackTitle: 'Back',
+                  gestureEnabled: false,
                   ...DefaultHeaderOptions,
                 }}
               />

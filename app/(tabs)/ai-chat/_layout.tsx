@@ -16,6 +16,7 @@ export default function AIChatLayout() {
         options={{
           title: 'AI Companion',
           animation: 'none',
+          gestureEnabled: false,
           headerLeft: ({ tintColor }) => (
             <HeaderIconButton
               name="menu"
@@ -30,6 +31,7 @@ export default function AIChatLayout() {
         options={{
           title: 'AI Chat',
           animation: 'none',
+          gestureEnabled: false,
           headerLeft: ({ tintColor }) => (
             <HeaderIconButton
               name="menu"
@@ -43,6 +45,7 @@ export default function AIChatLayout() {
         name="(modals)"
         options={{
           headerShown: false,
+          gestureEnabled: false,
           animation: 'slide_from_left',
         }}
       />

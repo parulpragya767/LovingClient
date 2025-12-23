@@ -15,6 +15,7 @@ export default function RitualsLayout() {
         options={{
           title: "Filter rituals",
           headerBackTitle: 'Back',
+          gestureEnabled: false,
         }}
       />
     </Stack>
