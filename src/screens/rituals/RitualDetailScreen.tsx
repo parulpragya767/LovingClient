@@ -26,7 +26,7 @@ export default function RitualDetailScreen() {
   const handleAddToCurrent = async () => {
     if (!ritual) return;
     try {
-      await addRitualToCurrent(ritual.id);
+       await addRitualToCurrent.mutate(ritual.id);
        Toast.show({
           type: "info", 
           text1: "Ritual added successfully!",

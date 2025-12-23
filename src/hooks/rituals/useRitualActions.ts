@@ -1,15 +1,15 @@
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
-import { useRitualHistory } from '@/src/hooks/rituals/useRitualHistory';
 import { RecommendationStatus, RitualHistoryStatus } from '@/src/models/enums';
 import type { RitualHistoryCreateRequest, RitualHistoryUpdate } from '@/src/models/ritualHistory';
 import type { RitualRecommendationUpdate, RitualStatusUpdate } from '@/src/models/ritualRecommendation';
 import { ritualHistoryService } from '@/src/services/ritualHistoryService';
 import { ritualRecommendationService } from '@/src/services/ritualRecommendationService';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useRitualActions = () => {
-  const { invalidateQueries: invalidateHistory } = useRitualHistory();
+  const queryClient = useQueryClient();
 
-  const { data: currentRituals, invalidateQueries: invalidateCurrentRituals } = useCurrentRituals();
+  const { data: currentRituals } = useCurrentRituals();
 
   const isCurrentRitual = (id: string): boolean => {
     if (!currentRituals) return false;
@@ -24,24 +24,38 @@ export const useRitualActions = () => {
     );
   };
 
-  const addRitualToCurrent = async (ritualId: string) => {
-    const ritualHistory: RitualHistoryCreateRequest = {
-      ritualId,
-      status: RitualHistoryStatus.Active
-    }
-    await ritualHistoryService.create(ritualHistory);
-    await Promise.all([invalidateCurrentRituals()]);
-  };
+  const addRitualToCurrent = useMutation({
+    mutationFn: (ritualId: string) => {
+      const ritualHistory: RitualHistoryCreateRequest = {
+        ritualId,
+        status: RitualHistoryStatus.Active
+      }
+      return ritualHistoryService.create(ritualHistory);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['current-rituals'] });
+      queryClient.refetchQueries({ queryKey: ['current-rituals'] });
+    },
+  });
 
-  const deleteRitualFromCurrent = async (id: string) => {
-    await ritualHistoryService.delete(id);
-    await Promise.all([invalidateCurrentRituals()]);
-  };
+  const deleteRitualFromCurrent = useMutation({
+    mutationFn: (id: string) => ritualHistoryService.delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['current-rituals'] });
+      queryClient.refetchQueries({ queryKey: ['current-rituals'] });
+    },
+  });
 
-  const markRitualAsCompleted = async (id: string, payload: RitualHistoryUpdate) => {
-    await ritualHistoryService.complete(id, payload);
-    await Promise.all([invalidateHistory(), invalidateCurrentRituals()]);
-  };
+  const markRitualAsCompleted = useMutation({
+    mutationFn: ({ id, payload }: { id: string; payload: RitualHistoryUpdate }) =>
+      ritualHistoryService.complete(id, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['current-rituals'] });
+      queryClient.invalidateQueries({ queryKey: ['ritual-history'] });
+      queryClient.refetchQueries({ queryKey: ['current-rituals'] });
+      queryClient.refetchQueries({ queryKey: ['ritual-history'] });
+    },
+  });
 
   const updateRecommendationAndHistoryStatus = async (
     recommendationId: string,
@@ -65,7 +79,8 @@ export const useRitualActions = () => {
     };
 
     await ritualRecommendationService.update(recommendationId, recommendationUpdate);
-    await Promise.all([invalidateCurrentRituals()]);
+    queryClient.invalidateQueries({ queryKey: ['current-rituals'] });
+    queryClient.refetchQueries({ queryKey: ['current-rituals'] });
   };
 
   const getCurrentRitualPackById = (packId: string) => {

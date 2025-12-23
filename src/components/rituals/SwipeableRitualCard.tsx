@@ -39,11 +39,13 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
     if (!ritualHistoryId) return;
     try {
       const feedback = emojiToFeedback(emoji);
-      await markRitualAsCompleted(ritualHistoryId, {
-        status: RitualHistoryStatus.Completed,
-        feedback,
+      await markRitualAsCompleted.mutate({
+        id: ritualHistoryId,
+        payload: {
+          status: RitualHistoryStatus.Completed,
+          feedback,
+        },
       });
-      invalidateCurrentRituals();
     } finally {
       setEmojiVisible(false);
       close();
@@ -53,8 +55,7 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
   const handleDeletePress = async () => {
     if (!ritualHistoryId) return;
     try {
-      await deleteRitualFromCurrent(ritualHistoryId);
-      invalidateCurrentRituals();
+      await deleteRitualFromCurrent.mutate(ritualHistoryId);
     } finally {
       close();
     }
