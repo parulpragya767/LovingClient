@@ -10,6 +10,7 @@ import { Button } from '../ui/Button';
 interface RitualCardProps {
   ritual: Ritual;
   isCompact?: boolean;
+  isNavigable?: boolean;
   isPressable?: boolean;
   onLongPress?: () => void;
 }
@@ -17,20 +18,20 @@ interface RitualCardProps {
 export default function RitualCard({ 
   ritual, 
   isCompact = false, 
-  isPressable = true, 
+  isNavigable = true, 
+  isPressable = true,
   onLongPress 
 }: RitualCardProps) {
   const router = useRouter();
   const { getRitualTagDisplayNames } = useRitualTags();
 
   const handleRitualPress = () => {
-    if(isPressable){
-      router.push(`/rituals/${ritual.id}`);
-    }
+    if (!isNavigable || !isPressable) return;
+    router.push(`/rituals/${ritual.id}`);
   };
 
   return (
-    <TouchableOpacity 
+    <TouchableOpacity
       onPress={handleRitualPress} 
       onLongPress={onLongPress} 
       delayLongPress={300} 
@@ -49,7 +50,7 @@ export default function RitualCard({
           ))}
         </View>
         
-        {isPressable && !isCompact && 
+        {isNavigable && !isCompact && 
           <View className="flex-row justify-start">
             <Button variant="ghost" onPress={handleRitualPress}>
               View details →

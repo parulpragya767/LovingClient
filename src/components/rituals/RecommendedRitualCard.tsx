@@ -23,7 +23,7 @@ export default function RecommendedRitualCard({ ritual, selected = false, onPres
         )}
       </Pressable>
       <View className="flex-1">
-        <RitualCard ritual={ritual} isPressable={false} />
+        <RitualCard ritual={ritual} isNavigable={false} />
       </View>
     </View>
   );

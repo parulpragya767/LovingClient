@@ -1,5 +1,4 @@
 import { AppTheme } from "@/src/components/themes/AppTheme";
-import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useToast } from "@/src/hooks/ui/useToast";
 import { emojiToFeedback, RitualHistoryStatus } from '@/src/models/enums';
@@ -21,7 +20,7 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
   const swipeableRef = useRef<any>(null);
   const canAct = !!ritualHistoryId;
   const [emojiVisible, setEmojiVisible] = useState(false);
-  const { invalidateQueries: invalidateCurrentRituals } = useCurrentRituals();
+  const [pressDisabled, setPressDisabled] = useState(false);
   const { markRitualAsCompleted, deleteRitualFromCurrent } = useRitualActions();
   const { showSuccess, showError } = useToast();
 
@@ -95,8 +94,11 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
         ref={swipeableRef}
         friction={2}
         rightThreshold={72}
-        renderRightActions={renderRightActions}>
-        <RitualCard ritual={ritual} />
+        renderRightActions={renderRightActions}
+        onSwipeableWillOpen={() => setPressDisabled(true)}
+        onSwipeableWillClose={() => setPressDisabled(false)}
+      >
+        <RitualCard ritual={ritual} isPressable={!pressDisabled} />
       </ReanimatedSwipeable>
 
       <EmojiFeedbackModal
