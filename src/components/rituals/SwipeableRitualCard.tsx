@@ -1,6 +1,7 @@
 import { AppTheme } from "@/src/components/themes/AppTheme";
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
+import { useToast } from "@/src/hooks/ui/useToast";
 import { emojiToFeedback, RitualHistoryStatus } from '@/src/models/enums';
 import { Ritual } from '@/src/models/rituals';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -22,6 +23,7 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
   const [emojiVisible, setEmojiVisible] = useState(false);
   const { invalidateQueries: invalidateCurrentRituals } = useCurrentRituals();
   const { markRitualAsCompleted, deleteRitualFromCurrent } = useRitualActions();
+  const { showSuccess, showError } = useToast();
 
   const close = () => swipeableRef.current?.close?.();
 
@@ -39,13 +41,16 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
     if (!ritualHistoryId) return;
     try {
       const feedback = emojiToFeedback(emoji);
-      await markRitualAsCompleted.mutate({
+      await markRitualAsCompleted.mutateAsync({
         id: ritualHistoryId,
         payload: {
           status: RitualHistoryStatus.Completed,
           feedback,
         },
       });
+      showSuccess('Ritual completed successfully!');
+    } catch (error) {
+      showError('Failed to complete ritual');
     } finally {
       setEmojiVisible(false);
       close();
@@ -55,9 +60,11 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
   const handleDeletePress = async () => {
     if (!ritualHistoryId) return;
     try {
-      await deleteRitualFromCurrent.mutate(ritualHistoryId);
-    } finally {
+      await deleteRitualFromCurrent.mutateAsync(ritualHistoryId);
+      showSuccess('Ritual deleted successfully!');
       close();
+    } catch (error) {
+      showError('Failed to delete ritual');
     }
   };
 

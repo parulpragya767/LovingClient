@@ -32,28 +32,39 @@ export const useRitualActions = () => {
       }
       return ritualHistoryService.create(ritualHistory);
     },
+
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['current-rituals'] });
-      queryClient.refetchQueries({ queryKey: ['current-rituals'] });
+    },
+
+    onError: (error) => {
+      console.error('Failed to add ritual to current', error);
     },
   });
 
   const deleteRitualFromCurrent = useMutation({
     mutationFn: (id: string) => ritualHistoryService.delete(id),
+
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['current-rituals'] });
-      queryClient.refetchQueries({ queryKey: ['current-rituals'] });
+    },
+
+    onError: (error) => {
+      console.error('Failed to delete ritual', error);
     },
   });
 
   const markRitualAsCompleted = useMutation({
     mutationFn: ({ id, payload }: { id: string; payload: RitualHistoryUpdate }) =>
       ritualHistoryService.complete(id, payload),
+
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['current-rituals'] });
       queryClient.invalidateQueries({ queryKey: ['ritual-history'] });
-      queryClient.refetchQueries({ queryKey: ['current-rituals'] });
-      queryClient.refetchQueries({ queryKey: ['ritual-history'] });
+    },
+
+    onError: (error) => {
+      console.error('Failed to complete ritual', error);
     },
   });
 
@@ -80,7 +91,6 @@ export const useRitualActions = () => {
 
     await ritualRecommendationService.update(recommendationId, recommendationUpdate);
     queryClient.invalidateQueries({ queryKey: ['current-rituals'] });
-    queryClient.refetchQueries({ queryKey: ['current-rituals'] });
   };
 
   const getCurrentRitualPackById = (packId: string) => {

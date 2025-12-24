@@ -5,10 +5,10 @@ import { Button } from '@/src/components/ui/Button';
 import CollapsibleSection from '@/src/components/ui/CollapsibleSection';
 import { MarkdownText } from '@/src/components/ui/MarkdownText';
 import { Screen } from '@/src/components/ui/Screen';
-import { useToast } from '@/src/components/ui/useToast';
 import { useRitual } from '@/src/hooks/rituals/useRitual';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
+import { useToast } from '@/src/hooks/ui/useToast';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
 import { ScrollView, View } from 'react-native';
@@ -27,7 +27,7 @@ export default function RitualDetailScreen() {
   const handleAddToCurrent = async () => {
     if (!ritual) return;
     try {
-       await addRitualToCurrent.mutate(ritual.id);
+       await addRitualToCurrent.mutateAsync(ritual.id);
        showSuccess("Ritual added successfully!");
     } catch {
       showError("Failed to add ritual.");
