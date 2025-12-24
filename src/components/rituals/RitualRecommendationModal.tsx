@@ -4,13 +4,13 @@ import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
 import { ModalContainer } from '@/src/components/ui/ModalContainer';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
+import { useToast } from '@/src/hooks/ui/useToast';
 import { RecommendationStatus } from '@/src/models/enums';
 import type { RitualPack } from '@/src/models/ritualPacks';
 import { useChatStore } from "@/src/store/useChatStore";
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FlatList, Modal, Pressable, View } from 'react-native';
-import Toast from "react-native-toast-message";
 
 type Props = {
   visible: boolean;
@@ -24,6 +24,7 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
 
   const { setIsRitualRecommendationModalVisible, setRitualRecommendationId } = useChatStore();
   const { updateRecommendationAndHistoryStatus } = useRitualActions();
+  const { showSuccess, showError } = useToast();
 
   const rituals = useMemo(() => {
     return ritualPack?.rituals || [];
@@ -51,22 +52,16 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
       .map(ritual => ritual.id);
     
     try {
-      await updateRecommendationAndHistoryStatus(
-        ritualRecommendationId,
-        RecommendationStatus.Added,
-        selectedIds,
-        skippedRitualIds
-      );
-      Toast.show({
-        type: "info", 
-        text1: "Rituals added successfully",
+      await updateRecommendationAndHistoryStatus.mutateAsync({
+        recommendationId: ritualRecommendationId,
+        status: RecommendationStatus.Added,
+        selectedRitualIds: selectedIds,
+        skippedRitualIds: skippedRitualIds,
       });
+      showSuccess("Rituals added successfully");
     } catch (error) {
       console.error('Failed to update recommendation and ritual statuses:', error);
-      Toast.show({
-        type: "error", 
-        text1: "Failed to add rituals to current",
-      });
+      showError("Failed to add rituals to current");
     }
     closeRecommendationFlow();
   }, [ritualRecommendationId, selected, rituals, updateRecommendationAndHistoryStatus]);
@@ -74,12 +69,12 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
   const handleCloseModal = useCallback(async () => {
     if (ritualRecommendationId) {
       try {
-        await updateRecommendationAndHistoryStatus(
-          ritualRecommendationId,
-          RecommendationStatus.Viewed,
-          [],
-          []
-        );
+        await updateRecommendationAndHistoryStatus.mutateAsync({
+          recommendationId: ritualRecommendationId,
+          status: RecommendationStatus.Viewed,
+          selectedRitualIds: [],
+          skippedRitualIds: [],
+        });
       } catch (error) {
         console.error('Failed to update recommendation statuses on close:', error);
       }
@@ -92,12 +87,12 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
       try {
         // Mark all rituals as skipped when modal is dismissed
         const allRitualIds = rituals.map(ritual => ritual.id);
-        await updateRecommendationAndHistoryStatus(
-          ritualRecommendationId,
-          RecommendationStatus.Skipped,
-          [],
-          allRitualIds
-        );
+        await updateRecommendationAndHistoryStatus.mutateAsync({
+          recommendationId: ritualRecommendationId,
+          status: RecommendationStatus.Skipped,
+          selectedRitualIds: [],
+          skippedRitualIds: allRitualIds,
+        });
       } catch (error) {
         console.error('Failed to update recommendation and ritual statuses on dismiss:', error);
       }

@@ -68,30 +68,44 @@ export const useRitualActions = () => {
     },
   });
 
-  const updateRecommendationAndHistoryStatus = async (
-    recommendationId: string,
-    status: RecommendationStatus,
-    selectedRitualIds: string[],
-    skippedRitualIds: string[]
-  ) => {
-    const selectedUpdates: RitualStatusUpdate[] = selectedRitualIds.map(ritualId => ({
-      ritualId,
-      status: RitualHistoryStatus.Active,
-    }));
-
-    const skippedUpdates: RitualStatusUpdate[] = skippedRitualIds.map(ritualId => ({
-      ritualId,
-      status: RitualHistoryStatus.Skipped,
-    }));
-
-    const recommendationUpdate: RitualRecommendationUpdate = {
+  const updateRecommendationAndHistoryStatus = useMutation({
+    mutationFn: async ({
+      recommendationId,
       status,
-      ritualStatusUpdates: [...selectedUpdates, ...skippedUpdates],
-    };
+      selectedRitualIds,
+      skippedRitualIds,
+    }: {
+      recommendationId: string;
+      status: RecommendationStatus;
+      selectedRitualIds: string[];
+      skippedRitualIds: string[];
+    }) => {
+      const selectedUpdates: RitualStatusUpdate[] = selectedRitualIds.map(ritualId => ({
+        ritualId,
+        status: RitualHistoryStatus.Active,
+      }));
 
-    await ritualRecommendationService.update(recommendationId, recommendationUpdate);
-    queryClient.invalidateQueries({ queryKey: ['current-rituals'] });
-  };
+      const skippedUpdates: RitualStatusUpdate[] = skippedRitualIds.map(ritualId => ({
+        ritualId,
+        status: RitualHistoryStatus.Skipped,
+      }));
+
+      const recommendationUpdate: RitualRecommendationUpdate = {
+        status,
+        ritualStatusUpdates: [...selectedUpdates, ...skippedUpdates],
+      };
+
+      return await ritualRecommendationService.update(recommendationId, recommendationUpdate);
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['current-rituals'] });
+    },
+
+    onError: (error) => {
+      console.error('Failed to update recommendation and history status', error);
+    },
+  });
 
   const getCurrentRitualPackById = (packId: string) => {
     if (!currentRituals) return undefined;
