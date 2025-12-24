@@ -1,10 +1,8 @@
 import { RitualRecommendation } from '@/src/models/ritualRecommendation';
 import { ritualRecommendationService } from '@/src/services/ritualRecommendationService';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 export const useRitualRecommendation = (id?: string) => {
-  const queryClient = useQueryClient();
-
   const query = useQuery<RitualRecommendation, Error>({
     queryKey: ['ritualRecommendation', id],
     queryFn: async () => {
@@ -20,14 +18,7 @@ export const useRitualRecommendation = (id?: string) => {
     retry: 1,
   });
 
-  const invalidateQueries = () => {
-    return Promise.all([
-      queryClient.invalidateQueries({ queryKey: ['ritualRecommendation', id] }),
-    ]);
-  };
-
   return {
     ...query,
-    invalidateQueries
   };
 };

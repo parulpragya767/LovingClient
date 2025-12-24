@@ -8,7 +8,8 @@ import { useChatStore } from '@/src/store/useChatStore';
 export default function RitualRecommendationModalHandler() {
   const ritualRecommendationId = useChatStore((s) => s.ritualRecommendationId);
   const isRitualRecommendationModalVisible = useChatStore((s) => s.isRitualRecommendationModalVisible);
-  const { setIsRitualRecommendationModalVisible, setRitualRecommendationId } = useChatStore();
+  const recommendationChatSessionId = useChatStore((s) => s.recommendationChatSessionId);
+  const { setIsRitualRecommendationModalVisible, setRitualRecommendationId, setRecommendationChatSessionId } = useChatStore();
 
   const { data: recommendation, isLoading: isLoadingRecommendation, error: recommendationError } = useRitualRecommendation(
     isRitualRecommendationModalVisible ? (ritualRecommendationId ?? undefined) : undefined
@@ -25,6 +26,7 @@ export default function RitualRecommendationModalHandler() {
   const closeRecommendationFlow = () => {
     setIsRitualRecommendationModalVisible(false);
     setRitualRecommendationId(null);
+    setRecommendationChatSessionId(null);
   };
 
   if (!isRitualRecommendationModalVisible) return null;
@@ -41,8 +43,9 @@ export default function RitualRecommendationModalHandler() {
     <RitualRecommendationModal
       visible={true}
       ritualRecommendationId={ritualRecommendationId!}
+      chatSessionId={recommendationChatSessionId}
       ritualPack={ritualPack}
-      closeRecommendationFlow={closeRecommendationFlow}
+      closeRecommendationFlow={closeRecommendationFlow} 
     />
   );
 }

@@ -17,8 +17,8 @@ export default function AIChatScreen() {
   const navigation = useNavigation();
   const { sessionId } = useLocalSearchParams<{ sessionId: string }>();
   const { getSessionDetails, sendMessageToSession, recommendRitualPack } = useChatActions();
-  const { data: messages, invalidateQueries: invalidateMessages, isLoading, error, refetch } = useChatMessages(sessionId);
-  const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(true);
+  const { data: messages, isLoading, error, refetch } = useChatMessages(sessionId);
+  const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(false);
   const keyboardOffset = useKeyboardOffset();
   const { showInfo, showError } = useToast();
 

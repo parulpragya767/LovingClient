@@ -1,10 +1,8 @@
 import { ChatMessage } from "@/src/models/chat";
 import { chatService } from "@/src/services/chatService";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 export const useChatMessages = (sessionId: string) => {
-  const queryClient = useQueryClient();
-
   const query = useQuery<ChatMessage[], Error>({
     queryKey: ["chat", "messages", sessionId],
     queryFn: async () => {
@@ -19,14 +17,7 @@ export const useChatMessages = (sessionId: string) => {
     retry: 1,
   });
 
-  const invalidateQueries = () => {
-    return Promise.all([
-      queryClient.invalidateQueries({ queryKey: ['chat', 'messages', sessionId] })
-    ]);
-  };
-
   return {
     ...query,
-    invalidateQueries,
   };
 };

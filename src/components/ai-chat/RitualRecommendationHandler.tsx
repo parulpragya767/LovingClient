@@ -15,18 +15,19 @@ export function RitualRecommendationHandler({
   recommendationId, 
 }: RitualRecommendationHandlerProps) {
   const router = useRouter();
-  const { data: recommendation } = 
-    useRitualRecommendation(recommendationId);
+  const { data: recommendation } = useRitualRecommendation(recommendationId);
   
   const { data: ritualPack } = useRitualPack(
     recommendation?.ritualPackId || ''
   );
 
-  const { setIsRitualRecommendationModalVisible, setRitualRecommendationId } = useChatStore();
+  const currentSessionId = useChatStore((s) => s.currentSessionId);
+  const { setIsRitualRecommendationModalVisible, setRitualRecommendationId, setRecommendationChatSessionId } = useChatStore();
 
   const setRitualRecommendationModalStates = () => {
     setIsRitualRecommendationModalVisible(true);
     setRitualRecommendationId(recommendationId);
+    setRecommendationChatSessionId(currentSessionId);
   };
 
   const navigateToRitualPackPage = (ritualPack: RitualPack) => {

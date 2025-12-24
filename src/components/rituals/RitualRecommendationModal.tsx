@@ -7,22 +7,21 @@ import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useToast } from '@/src/hooks/ui/useToast';
 import { RecommendationStatus } from '@/src/models/enums';
 import type { RitualPack } from '@/src/models/ritualPacks';
-import { useChatStore } from "@/src/store/useChatStore";
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FlatList, Modal, Pressable, View } from 'react-native';
 
-type Props = {
+type RitualRecommendationModalProps = {
   visible: boolean;
   ritualRecommendationId: string;
   ritualPack: RitualPack;
+  chatSessionId: string | null;
   closeRecommendationFlow: () => void;
 };
 
-export default function RitualRecommendationModal({ visible, ritualRecommendationId, ritualPack, closeRecommendationFlow }: Props) {
+export default function RitualRecommendationModal({ visible, ritualRecommendationId, ritualPack, chatSessionId, closeRecommendationFlow }: RitualRecommendationModalProps) {
   const [selected, setSelected] = useState<Record<string, boolean>>({});
 
-  const { setIsRitualRecommendationModalVisible, setRitualRecommendationId } = useChatStore();
   const { updateRecommendationAndHistoryStatus } = useRitualActions();
   const { showSuccess, showError } = useToast();
 
@@ -54,6 +53,7 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
     try {
       await updateRecommendationAndHistoryStatus.mutateAsync({
         recommendationId: ritualRecommendationId,
+        sessionId: chatSessionId,
         status: RecommendationStatus.Added,
         selectedRitualIds: selectedIds,
         skippedRitualIds: skippedRitualIds,
@@ -64,13 +64,14 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
       showError("Failed to add rituals to current");
     }
     closeRecommendationFlow();
-  }, [ritualRecommendationId, selected, rituals, updateRecommendationAndHistoryStatus]);
+  }, [ritualRecommendationId, selected, rituals, updateRecommendationAndHistoryStatus, chatSessionId]);
 
   const handleCloseModal = useCallback(async () => {
     if (ritualRecommendationId) {
       try {
         await updateRecommendationAndHistoryStatus.mutateAsync({
           recommendationId: ritualRecommendationId,
+          sessionId: chatSessionId,
           status: RecommendationStatus.Viewed,
           selectedRitualIds: [],
           skippedRitualIds: [],
@@ -80,7 +81,7 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
       }
     }
     closeRecommendationFlow();
-  }, [ritualRecommendationId, updateRecommendationAndHistoryStatus]);
+  }, [ritualRecommendationId, updateRecommendationAndHistoryStatus, chatSessionId]);
 
   const handleDismiss = useCallback(async () => {
     if (ritualRecommendationId) {
@@ -89,6 +90,7 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
         const allRitualIds = rituals.map(ritual => ritual.id);
         await updateRecommendationAndHistoryStatus.mutateAsync({
           recommendationId: ritualRecommendationId,
+          sessionId: chatSessionId,
           status: RecommendationStatus.Skipped,
           selectedRitualIds: [],
           skippedRitualIds: allRitualIds,
@@ -98,7 +100,7 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
       }
     }
     closeRecommendationFlow();
-  }, [ritualRecommendationId, rituals, updateRecommendationAndHistoryStatus]);
+  }, [ritualRecommendationId, rituals, updateRecommendationAndHistoryStatus, chatSessionId]);
 
   if (!visible) {
     return null;

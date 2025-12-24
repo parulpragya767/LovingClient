@@ -71,11 +71,13 @@ export const useRitualActions = () => {
   const updateRecommendationAndHistoryStatus = useMutation({
     mutationFn: async ({
       recommendationId,
+      sessionId,
       status,
       selectedRitualIds,
       skippedRitualIds,
     }: {
       recommendationId: string;
+      sessionId: string | null;
       status: RecommendationStatus;
       selectedRitualIds: string[];
       skippedRitualIds: string[];
@@ -98,7 +100,12 @@ export const useRitualActions = () => {
       return await ritualRecommendationService.update(recommendationId, recommendationUpdate);
     },
 
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
+      const { sessionId, recommendationId } = variables;
+      if (sessionId) {
+        queryClient.invalidateQueries({queryKey: ['chat', 'messages', sessionId]});
+      }
+      queryClient.invalidateQueries({ queryKey: ['ritualRecommendation', recommendationId] });
       queryClient.invalidateQueries({ queryKey: ['current-rituals'] });
     },
 
