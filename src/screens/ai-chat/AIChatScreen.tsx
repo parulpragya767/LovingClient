@@ -8,43 +8,40 @@ import LoadingState from '@/src/components/states/LoadingState';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useChatMessages } from '@/src/hooks/ai-chat/useChatMessages';
 import { useKeyboardOffset } from '@/src/hooks/ui/useKeyboardOffset';
+import { useToast } from '@/src/hooks/ui/useToast';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { FlatList, KeyboardAvoidingView, Platform, View } from 'react-native';
-import Toast from "react-native-toast-message";
 
 export default function AIChatScreen() {
   const navigation = useNavigation();
   const { sessionId } = useLocalSearchParams<{ sessionId: string }>();
   const { getSessionDetails, sendMessageToSession, recommendRitualPack } = useChatActions();
   const { data: messages, invalidateQueries: invalidateMessages, isLoading, error, refetch } = useChatMessages(sessionId);
-  const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(false);
+  const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(true);
   const keyboardOffset = useKeyboardOffset();
+  const { showInfo, showError } = useToast();
 
   const handleSendMessage = useCallback(async (message: string) => {
-    const isReadyForRitualPack = await sendMessageToSession(sessionId, message);
+    try{
+      const isReadyForRitualPack = await sendMessageToSession.mutateAsync({ sessionId, content: message });
     
-    if (isReadyForRitualPack) {
-      setIsRecommendationConsentCardVisible(true);
+      if (isReadyForRitualPack) {
+        setIsRecommendationConsentCardVisible(true);
+    }
+    }catch(error){
+      showError("Failed to send message");
     }
   }, [sessionId, sendMessageToSession]);
 
   const handleRitualRecommendation = async () => {
     try {
-      const ritualPack = await recommendRitualPack(sessionId);
-      if (ritualPack) {
-        invalidateMessages();
-      } else {
-        Toast.show({
-          type: "info", 
-          text1: "No recommendation available at this time.",
-        });
+      const ritualPack = await recommendRitualPack.mutateAsync(sessionId);
+      if (!ritualPack) {
+        showInfo("No recommendation available at this time.");
       } 
     } catch (error) {
-      Toast.show({
-        type: "error", 
-        text1: "Failed to get your recommendation",
-      });
+      showError("Failed to get your recommendation");
     }
     finally {
       setIsRecommendationConsentCardVisible(false);

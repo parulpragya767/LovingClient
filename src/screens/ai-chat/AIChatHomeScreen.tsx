@@ -4,6 +4,7 @@ import { AppText } from '@/src/components/ui/AppText';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useSamplePrompts } from '@/src/hooks/ai-chat/useSamplePrompts';
 import { useKeyboardOffset } from '@/src/hooks/ui/useKeyboardOffset';
+import { useToast } from '@/src/hooks/ui/useToast';
 import { useRouter } from 'expo-router';
 import { useCallback, useRef } from 'react';
 import { FlatList, Keyboard, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, View } from 'react-native';
@@ -14,15 +15,20 @@ export const AIChatHomeScreen = () => {
   const { startNewConversation, sendMessageToSession } = useChatActions();
   const { data: samplePrompts } = useSamplePrompts();
   const keyboardOffset = useKeyboardOffset();
+  const { showError } = useToast();
 
   const handleStarterPromptPress = useCallback((prompt: string) => {
     chatInputRef.current?.setText(prompt);
   }, []);
 
   const handleSendMessage = useCallback(async (message: string) => {
-    const sessionId = await startNewConversation();
-    await sendMessageToSession(sessionId, message);
-    router.push(`/ai-chat/chat?sessionId=${sessionId}`);
+    try {
+      const sessionId = await startNewConversation.mutateAsync();
+      await sendMessageToSession.mutateAsync({ sessionId, content: message });
+      router.push(`/ai-chat/chat?sessionId=${sessionId}`);
+    } catch (error) {
+      showError("Failed to send message");
+    }
   }, [startNewConversation, sendMessageToSession]);
 
   return (

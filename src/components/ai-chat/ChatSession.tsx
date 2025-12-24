@@ -1,12 +1,12 @@
 import { AppTheme } from "@/src/components/themes/AppTheme";
+import { AppText } from '@/src/components/ui/AppText';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
+import { useToast } from '@/src/hooks/ui/useToast';
 import { ChatSession as ChatSessionModel } from '@/src/models/chat';
 import { useChatStore } from '@/src/store/useChatStore';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { TouchableOpacity, View } from 'react-native';
-import Toast from "react-native-toast-message";
-import { AppText } from '../ui/AppText';
 
 type ChatSessionProps = {
   session: ChatSessionModel;
@@ -16,6 +16,7 @@ export function ChatSession({ session }: ChatSessionProps) {
   const router = useRouter();
   const currentSessionId = useChatStore((s) => s.currentSessionId);
   const { selectConversation, deleteConversation } = useChatActions();
+  const { showError } = useToast();
 
   const handleSelect = async () => {
     await selectConversation(session.id);
@@ -25,13 +26,9 @@ export function ChatSession({ session }: ChatSessionProps) {
   const handleDelete = async (e: any) => {
     e.stopPropagation();
     try {
-      await deleteConversation(session.id);
+      await deleteConversation.mutateAsync(session.id);
     } catch (error) {
-      Toast.show({
-        type: "error", 
-        text1: "Failed to delete conversation",
-        text2: "Please try again.",
-      });
+      showError("Failed to delete conversation");
     }
   };
 

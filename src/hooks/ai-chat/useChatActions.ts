@@ -4,34 +4,50 @@ import { ChatMessage, ChatSession } from '@/src/models/chat';
 import { ChatMessageRole } from '@/src/models/enums';
 import type { RitualPack } from '@/src/models/ritualPacks';
 import { useChatStore } from "@/src/store/useChatStore";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useChatSessions } from "./useChatSessions";
 
 export const useChatActions = () => {
   const queryClient = useQueryClient();
   const { setCurrentSession } = useChatStore();
-  const { data: sessions, invalidateQueries: invalidateSessions } = useChatSessions();
+  const { data: sessions } = useChatSessions();
   
   const getSessionDetails = async (sessionId: string): Promise<ChatSession | null> => {
     if (!sessions || !sessionId) return null;
     return sessions.find(session => session.id === sessionId) || null;
   };
 
-  const startNewConversation = async (): Promise<string> => {
-    const session = await chatService.startSession();
-    setCurrentSession(session.id);
-    await invalidateSessions();
-    return session.id;
-  };
+  const startNewConversation = useMutation({
+    mutationFn: async (): Promise<string> => {
+      const session = await chatService.startSession();
+      setCurrentSession(session.id);
+      return session.id;
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['chat', 'sessions'] })
+    },
+    
+    onError: (error) => {
+      console.error('Failed to start new conversation', error);
+    },
+  });
 
   const selectConversation = async (id: string) => {
     setCurrentSession(id);
   };
 
-  const deleteConversation = async (id: string) => {
-    await chatService.deleteSession(id);
-    await invalidateSessions();
-  };
+  const deleteConversation = useMutation({
+    mutationFn: async (id: string) => await chatService.deleteSession(id),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['chat', 'sessions'] })
+    },
+
+    onError: (error) => {
+      console.error('Failed to delete conversation', error);
+    },
+  });
 
   const appendMessageToStore = (sessionId: string, msg: ChatMessage) => {
     queryClient.setQueryData<ChatMessage[]>(
@@ -40,20 +56,26 @@ export const useChatActions = () => {
     );
   };
 
-  const sendMessageToSession = async (sessionId: string, content: string): Promise<boolean>=> {
-    if (!sessionId || !content) return false;
-
-    const userMsg: ChatMessage = {
-      id: "id",
+  const sendMessageToSession = useMutation({
+    mutationFn: async ({
       sessionId,
-      role: ChatMessageRole.User,
       content,
-      createdAt: new Date().toISOString(),
-    };
+    }: {
+      sessionId: string;
+      content: string;
+    }): Promise<boolean> => {
+      if (!sessionId || !content) return false;
 
-    appendMessageToStore(sessionId, userMsg);
+      const userMsg: ChatMessage = {
+        id: "id",
+        sessionId,
+        role: ChatMessageRole.User,
+        content,
+        createdAt: new Date().toISOString(),
+      };
 
-    try {
+      appendMessageToStore(sessionId, userMsg);
+
       const resp = await chatService.sendMessage(sessionId, { content });
 
       if (resp.assistantResponse) {
@@ -61,27 +83,36 @@ export const useChatActions = () => {
       }
 
       return resp.readyForRitualPackRecommendation ?? false;
-    } catch (err) {
-      queryClient.invalidateQueries({ queryKey: ["chat", "messages", sessionId] });
-      throw err;
-    }
-  };
+    },
 
-  const recommendRitualPack = async (sessionId: string): Promise<RitualPack | null> => {
-    if (!sessionId) return null;
-    try {
+    onError: (error, variables) => {
+      const { sessionId } = variables;
+      queryClient.invalidateQueries({queryKey: ['chat', 'messages', sessionId]});
+      console.error('Failed to send message', error);
+    },
+  });
+
+  const recommendRitualPack = useMutation({
+    mutationFn: async (sessionId: string): Promise<RitualPack | null> => {
+      if (!sessionId) return null;
+
       const response = await chatService.recommendRitualPack(sessionId);
-
       if (response.wrapUpResponse) {
         appendMessageToStore(sessionId, response.wrapUpResponse);
       }
 
       return response.ritualPack || null;
-    } catch (err) {
-      queryClient.invalidateQueries({ queryKey: ["chat", "messages", sessionId] });
-      throw err;
-    }
-  };
+    },
+
+    onSuccess: (_data, sessionId) => {
+      queryClient.invalidateQueries({queryKey: ['chat', 'messages', sessionId]});
+    },
+
+    onError: (error, sessionId) => {
+      queryClient.invalidateQueries({queryKey: ['chat', 'messages', sessionId]});
+      console.error('Failed to recommend ritual pack', error);
+    },
+  });
   
   return { 
     getSessionDetails,

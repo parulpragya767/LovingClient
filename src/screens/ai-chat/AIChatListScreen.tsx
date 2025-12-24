@@ -8,28 +8,26 @@ import { Button } from '@/src/components/ui/Button';
 import { SideDrawer } from '@/src/components/ui/SideDrawer';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useChatSessions } from '@/src/hooks/ai-chat/useChatSessions';
+import { useToast } from '@/src/hooks/ui/useToast';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { FlatList, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Toast from "react-native-toast-message";
 
 export default function AIChatListScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const { data: sessions, isLoading, error, refetch } = useChatSessions();
   const { startNewConversation } = useChatActions();
+  const { showError } = useToast();
 
   const handleNewChat = async () => {
     try {
-      const sessionId = await startNewConversation();
+      const sessionId = await startNewConversation.mutateAsync();
       router.push(`/ai-chat/chat?sessionId=${sessionId}`);
     } catch (error) {
-      Toast.show({
-        type: "error", 
-        text1: "Failed to start conversation",
-      });
+      showError("Failed to start conversation");
     }
   };
 
