@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { DefaultHeaderOptions } from '@/src/components/ui/navigation/HeaderOptions';
+import { toastConfig } from '@/src/components/ui/ToastConfig';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import 'react-native-gesture-handler';
@@ -54,7 +55,7 @@ export default function RootLayout() {
               />
             </Stack>
             <StatusBar style="auto" />
-            <Toast />
+            <Toast config={toastConfig} />
           </SafeAreaProvider>
         </GestureHandlerRootView>
       </AuthProvider>
