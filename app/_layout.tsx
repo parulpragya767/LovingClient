@@ -30,6 +30,7 @@ export default function RootLayout() {
               <Stack.Screen name="(modals)" options={{ presentation: "modal", headerShown: false }} />
               <Stack.Screen name="auth/login" options={{ headerShown: false }} />
               <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+              <Stack.Screen name="ai-chat/(modals)" options={{ headerShown: false }} />
               <Stack.Screen 
                 name="love-lens/[loveType]" 
                 options={{
