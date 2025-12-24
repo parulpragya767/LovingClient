@@ -55,7 +55,11 @@ export default function RootLayout() {
               />
             </Stack>
             <StatusBar style="auto" />
-            <Toast config={toastConfig} />
+            <Toast
+              config={toastConfig}
+              position="bottom"
+              bottomOffset={64}
+            />
           </SafeAreaProvider>
         </GestureHandlerRootView>
       </AuthProvider>

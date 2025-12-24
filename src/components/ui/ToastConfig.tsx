@@ -12,8 +12,7 @@ export interface ToastDefaults {
 }
 
 type ToastColorTokens = {
-  bg: string;
-  text: string;
+  bgAccent: string;
   border: string;
 };
 
@@ -23,22 +22,22 @@ type ToastRendererProps = ToastConfigParams<any> & {
 
 export const toastDefaultsByType: Record<ToastType, ToastDefaults> = {
   success: {
-    position: 'top',
+    position: 'bottom',
     visibilityTime: 3000,
     autoHide: true,
   },
   error: {
-    position: 'top',
+    position: 'bottom',
     visibilityTime: 4000,
     autoHide: true,
   },
   info: {
-    position: 'top',
+    position: 'bottom',
     visibilityTime: 3000,
     autoHide: true,
   },
   warning: {
-    position: 'top',
+    position: 'bottom',
     visibilityTime: 3500,
     autoHide: true,
   },
@@ -46,23 +45,19 @@ export const toastDefaultsByType: Record<ToastType, ToastDefaults> = {
 
 const toastColorTokens: Record<ToastType, ToastColorTokens> = {
   success: {
-    bg: 'bg-state-success',
-    text: 'text-text-inverse',
+    bgAccent: 'bg-state-success',
     border: 'border-state-success',
   },
   error: {
-    bg: 'bg-state-error',
-    text: 'text-text-inverse',
+    bgAccent: 'bg-state-error',
     border: 'border-state-error',
   },
   info: {
-    bg: 'bg-state-info',
-    text: 'text-text-inverse',
+    bgAccent: 'bg-state-info',
     border: 'border-state-info',
   },
   warning: {
-    bg: 'bg-state-warning',
-    text: 'text-text-inverse',
+    bgAccent: 'bg-state-warning',
     border: 'border-state-warning',
   },
 };
@@ -75,18 +70,24 @@ export const ToastRenderer = ({
   const colors = toastColorTokens[type];
 
   return (
-    <View className={`mx-4 px-4 py-3 rounded-compactCard shadow-md border ${colors.bg} ${colors.border}`}>
+    <View className={`flex-row mx-8 shadow-md rounded-compactCard border bg-surface-elevated overflow-hidden ${colors.border}`}>
+      {/* Accent bar */}
+      <View className={`w-4 ${colors.bgAccent}`} />
+
+      {/* Content */}
+      <View className="flex-1 px-4 py-3">
       {text1 && (
-        <AppText variant="body" color={colors.text} className="font-medium">
-          {text1}
+        <AppText variant="body" className="font-medium">
+        {text1}
         </AppText>
       )}
 
       {text2 && (
-        <AppText variant="small" color={colors.text} className="mt-1 opacity-90">
-          {text2}
+        <AppText variant="small" className="mt-1 opacity-90">
+        {text2}
         </AppText>
       )}
+      </View>
     </View>
   );
 };
