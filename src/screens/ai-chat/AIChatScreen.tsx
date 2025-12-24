@@ -5,13 +5,12 @@ import RitualRecommendationModalHandler from '@/src/components/rituals/RitualRec
 import { EmptyState } from '@/src/components/states/EmptyState';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
-import { Screen } from '@/src/components/ui/Screen';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useChatMessages } from '@/src/hooks/ai-chat/useChatMessages';
+import { useKeyboardOffset } from '@/src/hooks/ui/useKeyboardOffset';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { FlatList, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { FlatList, KeyboardAvoidingView, Platform, View } from 'react-native';
 import Toast from "react-native-toast-message";
 
 export default function AIChatScreen() {
@@ -20,6 +19,7 @@ export default function AIChatScreen() {
   const { getSessionDetails, sendMessageToSession, recommendRitualPack } = useChatActions();
   const { data: messages, invalidateQueries: invalidateMessages, isLoading, error, refetch } = useChatMessages(sessionId);
   const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(false);
+  const keyboardOffset = useKeyboardOffset();
 
   const handleSendMessage = useCallback(async (message: string) => {
     const isReadyForRitualPack = await sendMessageToSession(sessionId, message);
@@ -66,30 +66,34 @@ export default function AIChatScreen() {
   if (error) return <ErrorState message="Failed to load your conversation." onButtonPress={() => refetch()} />;
 
   return (
-    <SafeAreaView className="flex-1" edges={['left', 'right']}>
-      <Screen>
+    <View className="flex-1 bg-surface-screen">
+      <KeyboardAvoidingView
+        className="flex-1"
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={keyboardOffset}
+      >
         {/* Messages and ritual recommendation cards */}
-        <View className="flex-1 px-2 py-4">
-          <FlatList
-            data={messages}
-            keyExtractor={(item, index) => item.id || `${index}-${item.createdAt}`}
-            renderItem={({ item }) => (
-              <View className="mb-4">
-                <ChatMessage message={item}/>
-              </View>
-            )}
-            showsVerticalScrollIndicator={false}
-            ListFooterComponent={
-              <View className="mt-2 mb-4">
-                {isRecommendationConsentCardVisible && (
-                  <RitualRecommendationConsentCard onPress={handleRitualRecommendation} />
-                )}
-              </View>
-            }
-            ListEmptyComponent={<EmptyState message="No messages yet." />}
-          />
-        </View>
-
+        <FlatList
+          data={messages}
+          keyExtractor={(item, index) => item.id || `${index}-${item.createdAt}`}
+          renderItem={({ item }) => (
+            <View className="mb-4">
+              <ChatMessage message={item}/>
+            </View>
+          )}
+          ListFooterComponent={
+            <View className="mt-2 mb-4">
+              {isRecommendationConsentCardVisible && (
+                <RitualRecommendationConsentCard onPress={handleRitualRecommendation} />
+              )}
+            </View>
+          }
+          ListEmptyComponent={<EmptyState message="No messages yet." />}
+          contentContainerStyle={{ paddingHorizontal: 12, paddingVertical: 16 }}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        />
+        
         {/* Chat input area */}
         <ChatInput 
           placeholder="Type your message..." 
@@ -98,7 +102,7 @@ export default function AIChatScreen() {
 
         {/* Ritual Recommendation Flow */}
         <RitualRecommendationModalHandler />
-      </Screen>
-    </SafeAreaView>
+      </KeyboardAvoidingView> 
+    </View>
   );
 }
