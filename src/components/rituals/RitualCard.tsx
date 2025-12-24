@@ -50,9 +50,11 @@ export default function RitualCard({
         </View>
         
         {isPressable && !isCompact && 
-          <Button variant="ghost" onPress={handleRitualPress}>
-            View details →
-          </Button>
+          <View className="flex-row justify-start">
+            <Button variant="ghost" onPress={handleRitualPress}>
+              View details →
+            </Button>
+          </View>
         }
       </Card>
     </TouchableOpacity>

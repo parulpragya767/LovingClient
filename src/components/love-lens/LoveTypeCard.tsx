@@ -33,9 +33,11 @@ export default function LoveTypeCard({
             {loveTypeDetail.description}
           </AppText>
           {!isCompact && (
-            <Button variant="ghost" onPress={handleLoveTypePress}>
-              Learn more →
-            </Button>
+            <View className="flex-row justify-start">
+              <Button variant="ghost" onPress={handleLoveTypePress}>
+                Learn more →
+              </Button>
+            </View>
           )}
         </View>
       </Card>
