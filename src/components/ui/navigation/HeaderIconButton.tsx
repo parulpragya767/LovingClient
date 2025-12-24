@@ -14,7 +14,7 @@ export function HeaderIconButton({
 }: HeaderIconButtonProps) {
   return (
     <Pressable onPress={onPress} hitSlop={8} className="w-11 h-11 items-center justify-center">
-      <Ionicons name={name} size={24} color={color} />
+      <Ionicons name={name} size={22} color={color} />
     </Pressable>
   );
 }

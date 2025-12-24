@@ -1,7 +1,10 @@
+import { HeaderIconButton } from '@/src/components/ui/navigation/HeaderIconButton';
 import { DefaultHeaderOptions } from '@/src/components/ui/navigation/HeaderOptions';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 
 export default function RitualsLayout() {
+  const router = useRouter();
+  
   return (
     <Stack screenOptions={DefaultHeaderOptions}>
       <Stack.Screen 
@@ -14,8 +17,14 @@ export default function RitualsLayout() {
         name="search"
         options={{
           title: "Filter rituals",
-          headerBackTitle: 'Back',
           gestureEnabled: false,
+          headerLeft: ({ tintColor }) => (
+            <HeaderIconButton
+              name="chevron-back"
+              color={tintColor}
+              onPress={() => router.back()}
+            />
+          ),
         }}
       />
     </Stack>

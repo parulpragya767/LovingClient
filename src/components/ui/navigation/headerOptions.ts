@@ -13,7 +13,14 @@ export const DefaultHeaderOptions = {
     fontWeight: '600' as const,
   },
 
+  headerLeftContainerStyle: {
+    paddingLeft: 12,
+  },
+  headerRightContainerStyle: {
+    paddingRight: 12,
+  },
+  
   headerTitleAlign: 'center' as const,
-  headerBackTitleVisible: false,
+  headerBackVisible: false,
   headerShadowVisible: false,
 };
