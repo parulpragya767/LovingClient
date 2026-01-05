@@ -1,6 +1,6 @@
 import LoadingState from '@/src/components/states/LoadingState';
 import { useAuth } from '@/src/context/AuthContext';
-import { Redirect, Slot } from 'expo-router';
+import { Redirect, Stack } from 'expo-router';
 
 export default function AuthLayout() {
   const { sessionUser: user, loading } = useAuth();
@@ -11,5 +11,13 @@ export default function AuthLayout() {
     return <Redirect href="/" />;
   }
 
-  return <Slot />;
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="index" />
+      <Stack.Screen name="email-login" />
+      <Stack.Screen name="email-signup" />
+      <Stack.Screen name="forgot-password" />
+      <Stack.Screen name="check-your-email" />
+    </Stack>
+  );
 }

@@ -15,7 +15,7 @@ export default function TabLayout() {
 
   if (loading) return <LoadingState text="Loading your profile..." />;
 
-  if (!user) return <Redirect href="/auth/login" />;
+  if (!user) return <Redirect href="/auth" />;
 
   if (!onboardingCompleted) return <Redirect href="/onboarding" />;
 

@@ -10,7 +10,7 @@ export default function OnboardingLayout() {
 
   if (loading) return <LoadingState text="Loading your profile..." />;
 
-  if (!user) return <Redirect href="/auth/login" />;
+  if (!user) return <Redirect href="/auth" />;
 
   if (onboardingCompleted) return <Redirect href="/" />;
     

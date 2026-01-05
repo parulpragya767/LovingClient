@@ -28,7 +28,7 @@ export default function RootLayout() {
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen name="(modals)" options={{ presentation: "modal", headerShown: false }} />
-              <Stack.Screen name="auth/login" options={{ headerShown: false }} />
+              <Stack.Screen name="auth" options={{ headerShown: false }} />
               <Stack.Screen name="onboarding" options={{ headerShown: false }} />
               <Stack.Screen name="ai-chat/(modals)" options={{ headerShown: false }} />
               <Stack.Screen 
