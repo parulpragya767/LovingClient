@@ -1,31 +1,42 @@
- import { useRouter } from 'expo-router';
+ import { AppText } from '@/src/components/ui/AppText';
+import { Button } from '@/src/components/ui/Button';
+import { Screen } from '@/src/components/ui/Screen';
+import { useRouter } from 'expo-router';
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
- 
- export default function AuthEntryScreen() {
-   const router = useRouter();
- 
-   return (
-     <View className="flex-1 bg-[#25292e] px-6 justify-center">
-       <Text className="text-3xl font-bold text-center text-white mb-3">Loving</Text>
-       <Text className="text-base text-center text-white/80 mb-10">
-         Sign in to continue or create an account.
-       </Text>
- 
-       <TouchableOpacity
-         onPress={() => router.push('/auth/login')}
-         className="bg-[#ffd33d] rounded-xl py-3 items-center"
-       >
-         <Text className="text-[#25292e] font-semibold">Sign In</Text>
-       </TouchableOpacity>
- 
-       <TouchableOpacity
-         onPress={() => router.push('/auth/email-signup')}
-         className="mt-3 bg-white/10 rounded-xl py-3 items-center border border-white/15"
-       >
-         <Text className="text-white font-semibold">Create Account</Text>
-       </TouchableOpacity>
-     </View>
-   );
- }
+import { View } from 'react-native';
 
+export default function AuthEntryScreen() {
+  const router = useRouter();
+
+  return (
+    <Screen className="justify-center">
+      <AppText variant="title" className="text-center mb-3">
+        Welcome to Loving
+      </AppText>
+      <AppText variant="body" className="text-center mb-10">
+        A gentle space to build love, together.
+      </AppText>
+
+      <Button variant="secondary" onPress={() => router.push('/auth/email-signup')} className="mb-3">
+        Continue with Apple
+      </Button>
+
+      <Button variant="secondary" onPress={() => router.push('/auth/email-signup')} className="mb-3">
+        Continue with Google
+      </Button>
+
+      <Button variant="secondary" onPress={() => router.push('/auth/email-signup')} className="mb-8">
+        Continue with Email
+      </Button>
+    
+      <View className="flex-row justify-center gap-3">
+        <AppText variant="body">
+          Already have an account?
+        </AppText>
+        <Button variant="ghost" onPress={() => router.push('/auth/email-login')} className="mb-3">
+          Log in
+        </Button>
+      </View>
+    </Screen>
+  );
+}
