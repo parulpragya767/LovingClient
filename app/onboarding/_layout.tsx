@@ -5,7 +5,7 @@ import { Redirect, Stack } from 'expo-router';
 import React from 'react';
 
 export default function OnboardingLayout() {
-  const { loading, user } = useAuth();
+  const { loading, sessionUser: user } = useAuth();
   const { onboardingCompleted } = useUserStore();
 
   if (loading) return <LoadingState text="Loading your profile..." />;

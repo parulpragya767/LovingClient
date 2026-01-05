@@ -6,9 +6,10 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useS
 
 type AuthContextType = {
   session: Session | null;
-  user: User | null;
+  sessionUser: User | null;
   loading: boolean;
   signIn: (params: { email: string; password: string }) => Promise<{ error?: string }>;
+  signUp: (params: { email: string; password: string }) => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
 };
 
@@ -37,23 +38,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // INIT: Load stored session on app start
   useEffect(() => {
-    let isMounted = true;
-
     const init = async () => {
-      try {
-        const { data, error } = await supabase.auth.getSession();
-        if (error) {
-          console.warn('Error getting session', error.message);
-        }
-        if (!isMounted) return;
-
-        const sbSession = data.session ?? null;
-        setSession(sbSession);
-        await syncUserToBackend(sbSession?.user ?? null);
-      } finally {
-        if (isMounted) setLoading(false);
+    try {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) {
+        console.warn('Error getting session', error.message);
       }
-    };
+
+      const sbSession = data.session ?? null;
+      setSession(sbSession);
+      await syncUserToBackend(sbSession?.user ?? null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
     init();
 
@@ -63,7 +61,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
     
     return () => {
-      isMounted = false;
       sub.subscription.unsubscribe();
     };
   }, []);
@@ -71,6 +68,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Signin flow
   const signIn = async ({ email, password }: { email: string; password: string }) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) return { error: error.message };
+
+    await syncUserToBackend(data.user);
+    return {};
+  };
+
+  // Signup flow
+  const signUp = async ({ email, password }: { email: string; password: string }) => {
+    const { data, error } = await supabase.auth.signUp({ email, password });
     if (error) return { error: error.message };
 
     await syncUserToBackend(data.user);
@@ -85,9 +91,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo<AuthContextType>(() => ({
     session,
-    user: session?.user ?? null,
+    sessionUser: session?.user ?? null,
     loading,
     signIn,
+    signUp,
     signOut,
   }), [session, loading]);
 

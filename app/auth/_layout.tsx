@@ -3,7 +3,7 @@ import { useAuth } from '@/src/context/AuthContext';
 import { Redirect, Slot } from 'expo-router';
 
 export default function AuthLayout() {
-  const { user, loading } = useAuth();
+  const { sessionUser: user, loading } = useAuth();
 
   if (loading) return <LoadingState text="Loading your profile..." />;
 

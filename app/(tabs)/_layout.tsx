@@ -9,7 +9,7 @@ import { Redirect, Tabs, useRouter } from 'expo-router';
 import React from 'react';
 
 export default function TabLayout() {
-  const { loading, user } = useAuth();
+  const { loading, sessionUser: user } = useAuth();
   const { onboardingCompleted } = useUserStore();
   const router = useRouter();
 

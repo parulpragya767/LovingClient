@@ -5,7 +5,7 @@ import { ActivityIndicator, Alert, Text, TouchableOpacity, View } from 'react-na
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function UserModal() {
-  const { user, signOut, loading } = useAuth();
+  const { sessionUser: user, signOut, loading } = useAuth();
   const router = useRouter();
 
   const onLogout = async () => {
