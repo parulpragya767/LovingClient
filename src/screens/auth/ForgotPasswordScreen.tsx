@@ -1,28 +1,42 @@
- import { AppText } from '@/src/components/ui/AppText';
+ import { AppTheme } from '@/src/components/themes/AppTheme';
+import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
+import { FormField } from '@/src/components/ui/FormField';
+import { FormInput } from '@/src/components/ui/FormInput';
 import { Screen } from '@/src/components/ui/Screen';
-import { supabase } from '@/src/lib/supabase';
+import { useAuth } from '@/src/context/AuthContext';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { ActivityIndicator, Alert, TextInput, View } from 'react-native';
+import { ActivityIndicator, Alert } from 'react-native';
 
 export default function ForgotPasswordScreen() {
   const router = useRouter();
+  const { resetPasswordForEmail } = useAuth();
+  
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const [emailError, setEmailError] = useState<string | null>(null);
+
+  const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   const onSendResetLink = async () => {
-    if (!email) {
-      Alert.alert('Missing info', 'Please enter your email');
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail) {
+      setEmailError('Enter your email');
+      return;
+    }
+    if (!EMAIL_REGEX.test(normalizedEmail)) {
+      setEmailError('Enter a valid email address');
       return;
     }
 
     setLoading(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim());
+    const { error } = await resetPasswordForEmail({ email: normalizedEmail });
     setLoading(false);
 
     if (error) {
-      Alert.alert('Request failed', error.message);
+      Alert.alert('Request failed', error);
       return;
     }
 
@@ -30,48 +44,41 @@ export default function ForgotPasswordScreen() {
   };
 
   return (
-    <Screen>
-      <View className="flex-1 justify-center">
-        <AppText variant="title" className="text-center mb-3">
-          Reset password
-        </AppText>
-        <AppText variant="body" color="text-text-secondary" className="text-center mb-10">
-          Enter your email and we'll send you a reset link.
-        </AppText>
+    <Screen className="justify-center">
+      <AppText variant="title" className="text-center mb-3">
+        Reset password
+      </AppText>
+      <AppText variant="body" className="text-center mb-10">
+        Enter your email and we'll send you a reset link.
+      </AppText>
 
-        <View>
-          <AppText variant="small" className="mb-2">Email</AppText>
-          <TextInput
-            value={email}
-            onChangeText={setEmail}
-            placeholder="you@example.com"
-            placeholderTextColor="#9C8F8C"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            className="bg-surface-base text-text-primary rounded-button px-4 py-3 border border-border-default"
-          />
-        </View>
+      <FormField label="Email" error={emailError}>
+        <FormInput
+          value={email}
+          onChangeText={text => {
+            setEmail(text);
+            if (emailError) setEmailError(null);
+          }}
+          placeholder="you@example.com"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          autoCorrect={false}
+          textContentType="emailAddress"
+          autoComplete="email"
+          returnKeyType="done"
+          onSubmitEditing={onSendResetLink}
+          editable={!loading}
+          hasError={!!emailError}
+        />
+      </FormField>
 
-        <Button
-          onPress={onSendResetLink}
-          disabled={loading}
-          className="mt-6"
-        >
-          {loading ? (
-            <ActivityIndicator color="#FFFFFF" />
-          ) : (
-            'Send reset link'
-          )}
-        </Button>
+      <Button onPress={onSendResetLink} disabled={loading} className="mt-6">
+        {loading ? <ActivityIndicator color={AppTheme.colors.action.primary.text} /> : 'Send reset link'}
+      </Button>
 
-        <Button
-          variant="ghost"
-          onPress={() => router.back()}
-          className="mt-4"
-        >
-          Back
-        </Button>
-      </View>
+      <Button variant="ghost" onPress={() => router.back()} className="mt-4">
+        Back
+      </Button>
     </Screen>
   );
 }
