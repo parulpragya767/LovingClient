@@ -13,7 +13,6 @@ type AuthContextType = {
   signUp: (params: { email: string; password: string }) => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
   resetPasswordForEmail: (params: { email: string }) => Promise<{ error?: string }>;
-  establishSession: (params: { authCode: string }) => Promise<{ error?: string }>;
   updateUser: (params: { password: string }) => Promise<{ error?: string }>;
 };
 
@@ -121,15 +120,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return {};
   };
 
-  // Signin flow
-  const establishSession = async ({ authCode }: { authCode: string }) => {
-    const { data, error } = await supabase.auth.exchangeCodeForSession(authCode);
-    if (error) return { error: error.message };
-
-    await syncUserToBackend(data.user);
-    return {};
-  };
-
   // Update user info flow
   const updateUser = async ({ password }: { password: string }) => {
     const { error } = await supabase.auth.updateUser({ password: password });
@@ -145,7 +135,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signUp,
     signOut,
     resetPasswordForEmail,
-    establishSession,
     updateUser,
   }), [session, loading]);
 
