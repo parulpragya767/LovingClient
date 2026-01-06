@@ -136,9 +136,14 @@ export default function EmailLoginScreen() {
         {loading ? <ActivityIndicator color={AppTheme.colors.action.primary.text} /> : 'Sign In'}
       </Button>
 
-      <Button variant="ghost" onPress={() => router.push('/auth/email-signup')} className="mt-4">
-        New here? Create an account
-      </Button>
+      <View className="flex-row justify-center mt-4 gap-1">
+        <AppText variant="body">
+          New here?
+        </AppText>
+        <Button variant="ghost" onPress={() => router.push('/auth/email-signup')}>
+          Create an account
+        </Button>
+      </View>
     </Screen>
   );
 }
