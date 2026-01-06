@@ -12,7 +12,7 @@ import { ActivityIndicator, Alert } from 'react-native';
 export default function ForgotPasswordScreen() {
   const router = useRouter();
   const { resetPasswordForEmail } = useAuth();
-  
+
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -36,7 +36,7 @@ export default function ForgotPasswordScreen() {
     setLoading(false);
 
     if (error) {
-      Alert.alert('Request failed', error);
+      Alert.alert('Request failed', 'Something went wrong. Please try again.');
       return;
     }
 
