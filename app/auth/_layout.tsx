@@ -8,7 +8,7 @@ export default function AuthLayout() {
 
   if (loading) return <LoadingState text="Loading your profile..." />;
 
-  if (user && pathname !== '/auth/reset-password') {
+  if (user && pathname !== '/auth/reset-password' && pathname !== '/auth/email-verify') {
     return <Redirect href="/" />;
   }
 
@@ -20,6 +20,7 @@ export default function AuthLayout() {
       <Stack.Screen name="forgot-password" />
       <Stack.Screen name="reset-password" />
       <Stack.Screen name="check-your-email" />
+      <Stack.Screen name="email-verify" />
     </Stack>
   );
 }

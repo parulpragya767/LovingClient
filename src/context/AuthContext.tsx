@@ -3,6 +3,7 @@ import { userService } from '@/src/services/userService';
 import { useUserStore } from '@/src/store/useUserStore';
 import { Session, User } from '@supabase/supabase-js';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { Platform } from 'react-native';
 
 type AuthContextType = {
   session: Session | null;
@@ -12,10 +13,28 @@ type AuthContextType = {
   signUp: (params: { email: string; password: string }) => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
   resetPasswordForEmail: (params: { email: string }) => Promise<{ error?: string }>;
+  establishSession: (params: { authCode: string }) => Promise<{ error?: string }>;
   updateUser: (params: { password: string }) => Promise<{ error?: string }>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export function getAuthRedirect(path: string) {
+  // Web (always HTTP/HTTPS)
+  if (Platform.OS === 'web') {
+    return __DEV__
+      ? `http://localhost:8081/${path}`
+      : `https://yourdomain.com/${path}`;
+  }
+
+  // Mobile - Expo dev
+  if (__DEV__) {
+    return `exp://localhost:8081/--/${path}`;
+  }
+
+  // Mobile - Production
+  return `loving://${path}`;
+}
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
@@ -78,7 +97,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Signup flow
   const signUp = async ({ email, password }: { email: string; password: string }) => {
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signUp({ email, password, options: { 
+      emailRedirectTo: getAuthRedirect('auth/email-verify') 
+    }});
     if (error) return { error: error.message };
 
     await syncUserToBackend(data.user);
@@ -93,8 +114,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Forgot password flow
   const resetPasswordForEmail = async ({ email }: { email: string }) => {
-    const { error } = await supabase.auth.resetPasswordForEmail(email);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: getAuthRedirect('auth/reset-password'),
+    });
     if (error) return { error: error.message };
+    return {};
+  };
+
+  // Signin flow
+  const establishSession = async ({ authCode }: { authCode: string }) => {
+    const { data, error } = await supabase.auth.exchangeCodeForSession(authCode);
+    if (error) return { error: error.message };
+
+    await syncUserToBackend(data.user);
     return {};
   };
 
@@ -113,6 +145,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signUp,
     signOut,
     resetPasswordForEmail,
+    establishSession,
     updateUser,
   }), [session, loading]);
 

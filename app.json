@@ -3,6 +3,7 @@
     "name": "LovingClient",
     "slug": "loving-client",
     "version": "1.0.0",
+    "scheme": "loving",
     "android": {
       "package": "com.anonymous.lovingclient"
     },

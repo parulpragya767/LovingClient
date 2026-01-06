@@ -5,13 +5,14 @@ import { FormField } from '@/src/components/ui/FormField';
 import { PasswordInput } from '@/src/components/ui/PasswordInput';
 import { Screen } from '@/src/components/ui/Screen';
 import { useAuth } from '@/src/context/AuthContext';
-import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert } from 'react-native';
 
 export default function ResetPasswordScreen() {
   const router = useRouter();
-  const { updateUser, signOut } = useAuth();
+  const { updateUser, signOut, establishSession } = useAuth();
+  const params = useLocalSearchParams();
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -19,6 +20,23 @@ export default function ResetPasswordScreen() {
 
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!params.code) return;
+
+    const fetchSession = async () => {
+      const { error } = await establishSession({ authCode: params.code as string });
+
+      if (error) {
+        Alert.alert(
+          'Link expired',
+          'Please request a new password reset.'
+        );
+      }
+    };
+
+    fetchSession();
+  }, [params.code]);
 
   const onResetPassword = async () => {
     let hasError = false;
@@ -46,6 +64,7 @@ export default function ResetPasswordScreen() {
 
     if (error) {
       setLoading(false);
+      console.log('Error updating user', error);
       Alert.alert('Password reset failed', 'Something went wrong. Please try again.');
       return;
     }
@@ -53,6 +72,7 @@ export default function ResetPasswordScreen() {
     await signOut();
     setLoading(false);
 
+    console.log('Password updated');
     Alert.alert('Password updated', 'Please log in with your new password.');
     router.replace('/auth/email-login');
   };
