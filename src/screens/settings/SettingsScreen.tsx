@@ -53,7 +53,6 @@ export default function SettingsScreen() {
       <SettingsSection>
         <SettingsItem
           label="Log out"
-          variant="destructive"
           onPress={signOut}
         />
       </SettingsSection>

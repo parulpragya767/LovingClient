@@ -1,19 +1,19 @@
 import { AppText } from '@/src/components/ui/AppText';
 import { Pressable, View } from 'react-native';
 
+export type SettingItemProps = {
+    label: string;
+    onPress?: () => void;
+    disabled?: boolean;
+    hint?: string;
+}
+
 export default function SettingsItem({
   label,
   onPress,
   disabled,
   hint,
-  variant = 'default',
-}: {
-  label: string;
-  onPress?: () => void;
-  disabled?: boolean;
-  hint?: string;
-  variant?: 'default' | 'destructive';
-}) {
+}: SettingItemProps) {
   return (
     <Pressable
       disabled={disabled}
@@ -23,18 +23,9 @@ export default function SettingsItem({
       }`}
     >
       <View className="flex-row justify-between items-center">
-        <AppText
-          variant="body"
-          className={variant === 'destructive' ? 'text-red-500' : ''}
-        >
-          {label}
-        </AppText>
+        <AppText variant="body">{label}</AppText>
 
-        {hint && (
-          <AppText variant="caption" className="text-muted">
-            {hint}
-          </AppText>
-        )}
+        {hint && <AppText variant="caption" className="text-muted">{hint}</AppText>}
       </View>
     </Pressable>
   );
