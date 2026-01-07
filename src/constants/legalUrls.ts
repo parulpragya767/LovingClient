@@ -1,5 +1,5 @@
 export const LEGAL_URLS = {
-  TERMS: 'https://www.pickuplimes.com/terms',
-  PRIVACY: 'https://www.pickuplimes.com/privacy',
-  CONTACT: 'https://www.pickuplimes.com/contact',
+  TERMS: 'https://example.com/terms',
+  PRIVACY: 'https://example.com/privacy',
+  CONTACT: 'https://example.com/contact',
 };
