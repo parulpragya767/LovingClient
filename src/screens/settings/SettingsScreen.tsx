@@ -13,6 +13,7 @@ export default function SettingsScreen() {
       <SettingsSection title="Account">
         <SettingsItem
           label="Profile"
+          icon="person"
           onPress={() => router.push('/settings/profile')}
           disabled
           hint="Coming soon"
@@ -20,40 +21,50 @@ export default function SettingsScreen() {
 
         <SettingsItem
           label="Love Preferences"
+          icon="heart"
           disabled
           hint="Coming soon"
         />
 
         <SettingsItem
           label="Partner Information"
+          icon="heart"
           disabled
           hint="Coming soon"
+          isLast
         />
       </SettingsSection>
 
       <SettingsSection title="Privacy & Safety">
         <SettingsItem
           label="Privacy Settings"
+          icon="shield"
           disabled
           hint="Coming soon"
+          isLast
         />
       </SettingsSection>
 
       <SettingsSection title="Legal">
         <SettingsItem
           label="Terms & Conditions"
+          icon="document-text"
           onPress={() => router.push('/settings/terms')}
         />
         <SettingsItem
           label="Privacy Policy"
+          icon="document-text"
           onPress={() => router.push('/settings/privacy')}
+          isLast
         />
       </SettingsSection>
 
       <SettingsSection>
         <SettingsItem
           label="Log out"
+          icon="log-out"
           onPress={signOut}
+          isLast
         />
       </SettingsSection>
     </Screen>
