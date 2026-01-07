@@ -28,7 +28,7 @@ export default function SettingsScreen() {
 
           <SettingsItem
             label="Partner Information"
-            icon="heart"
+            icon="people"
             disabled
           />
         </SettingsSection>
@@ -36,14 +36,14 @@ export default function SettingsScreen() {
         <SettingsSection title="Subscription">
           <SettingsItem
             label="Try Loving Premium"
-            icon="person"
+            icon="star"
             onPress={() => router.push('/settings/subscription')}
             isLast
           />
 
           <SettingsItem
             label="Manage subscription"
-            icon="heart"
+            icon="card"
             disabled
             isLast
           />
@@ -54,7 +54,6 @@ export default function SettingsScreen() {
             label="Privacy Settings"
             icon="shield"
             disabled
-            hint="Coming soon"
             isLast
           />
         </SettingsSection>
@@ -67,31 +66,29 @@ export default function SettingsScreen() {
           />
           <SettingsItem
             label="About Us"
-            icon="document-text"
+            icon="information-circle"
             onPress={() => router.push('/settings/about')}
             disabled
           />
           <SettingsItem
             label="Frequently Asked Questions"
-            icon="document-text"
-            onPress={() => router.push('/settings/faqs')}
+            icon="help-circle"
             disabled
           />
           <SettingsItem
             label="Privacy Policy"
-            icon="document-text"
+            icon="shield-checkmark"
             onPress={() => router.push('/settings/privacy')}
           />
           <SettingsItem
             label="Get in touch"
-            icon="document-text"
+            icon="mail"
             onPress={() => router.push('/settings/contact-us')}
             isLast
           />
           <SettingsItem
             label="Review"
-            icon="document-text"
-            onPress={() => router.push('/settings/review')}
+            icon="star-outline"
             disabled
             isLast
           />
@@ -105,7 +102,7 @@ export default function SettingsScreen() {
           />
           <SettingsItem
             label="Delete account"
-            icon="log-out"
+            icon="trash"
             onPress={signOut}
             isLast
           />
