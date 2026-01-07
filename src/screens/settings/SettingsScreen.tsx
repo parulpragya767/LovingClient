@@ -19,18 +19,6 @@ export default function SettingsScreen() {
             onPress={() => router.push('/settings/profile')}
             isLast
           />
-
-          <SettingsItem
-            label="Love Preferences"
-            icon="heart"
-            disabled
-          />
-
-          <SettingsItem
-            label="Partner Information"
-            icon="people"
-            disabled
-          />
         </SettingsSection>
 
         <SettingsSection title="Subscription">
@@ -49,15 +37,6 @@ export default function SettingsScreen() {
           />
         </SettingsSection>
 
-        <SettingsSection title="Preferences" disabled>
-          <SettingsItem
-            label="Privacy Settings"
-            icon="shield"
-            disabled
-            isLast
-          />
-        </SettingsSection>
-
         <SettingsSection title="Support">
           <SettingsItem
             label="Terms & Conditions"
@@ -65,31 +44,19 @@ export default function SettingsScreen() {
             onPress={() => router.push('/settings/terms')}
           />
           <SettingsItem
-            label="About Us"
-            icon="information-circle"
-            onPress={() => router.push('/settings/about')}
-            disabled
-          />
-          <SettingsItem
-            label="Frequently Asked Questions"
-            icon="help-circle"
-            disabled
-          />
-          <SettingsItem
             label="Privacy Policy"
             icon="shield-checkmark"
             onPress={() => router.push('/settings/privacy')}
           />
           <SettingsItem
+            label="About Us"
+            icon="information-circle"
+            onPress={() => router.push('/settings/about')}
+          />
+          <SettingsItem
             label="Get in touch"
             icon="mail"
             onPress={() => router.push('/settings/contact-us')}
-            isLast
-          />
-          <SettingsItem
-            label="Review"
-            icon="star-outline"
-            disabled
             isLast
           />
         </SettingsSection>
