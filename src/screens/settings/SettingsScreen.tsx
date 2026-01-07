@@ -15,8 +15,6 @@ export default function SettingsScreen() {
           label="Profile"
           icon="person"
           onPress={() => router.push('/settings/profile')}
-          disabled
-          hint="Coming soon"
         />
 
         <SettingsItem
@@ -35,7 +33,22 @@ export default function SettingsScreen() {
         />
       </SettingsSection>
 
-      <SettingsSection title="Privacy & Safety">
+      <SettingsSection title="Subscription">
+        <SettingsItem
+          label="Try Loving Premium"
+          icon="person"
+          onPress={() => router.push('/settings/profile')}
+        />
+
+        <SettingsItem
+          label="Manage subscription"
+          icon="heart"
+          disabled
+          hint="Coming soon"
+        />
+      </SettingsSection>
+
+      <SettingsSection title="Preferences">
         <SettingsItem
           label="Privacy Settings"
           icon="shield"
@@ -45,11 +58,23 @@ export default function SettingsScreen() {
         />
       </SettingsSection>
 
-      <SettingsSection title="Legal">
+      <SettingsSection title="Support">
         <SettingsItem
           label="Terms & Conditions"
           icon="document-text"
           onPress={() => router.push('/settings/terms')}
+        />
+        <SettingsItem
+          label="About Us"
+          icon="document-text"
+          onPress={() => router.push('/settings/about')}
+          isLast
+        />
+        <SettingsItem
+          label="Frequently Asked Questions"
+          icon="document-text"
+          onPress={() => router.push('/settings/faqs')}
+          isLast
         />
         <SettingsItem
           label="Privacy Policy"
@@ -57,11 +82,29 @@ export default function SettingsScreen() {
           onPress={() => router.push('/settings/privacy')}
           isLast
         />
+        <SettingsItem
+          label="Get in touch"
+          icon="document-text"
+          onPress={() => router.push('/settings/contact-us')}
+          isLast
+        />
+        <SettingsItem
+          label="Review"
+          icon="document-text"
+          onPress={() => router.push('/settings/review')}
+          isLast
+        />
       </SettingsSection>
 
-      <SettingsSection>
+      <SettingsSection title="Logout">
         <SettingsItem
           label="Log out"
+          icon="log-out"
+          onPress={signOut}
+          isLast
+        />
+        <SettingsItem
+          label="Delete account"
           icon="log-out"
           onPress={signOut}
           isLast
