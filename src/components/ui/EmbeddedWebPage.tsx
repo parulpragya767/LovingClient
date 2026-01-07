@@ -1,5 +1,6 @@
+import LoadingState from '@/src/components/states/LoadingState';
 import React from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { Platform, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 type Props = {
@@ -9,30 +10,25 @@ type Props = {
 export function EmbeddedWebPage({ url }: Props) {
   if (Platform.OS === 'web') {
     return (
-      <View style={styles.container}>
+      <View className="flex-1">
         <iframe
           src={url}
-          style={iframeStyle}
+          className="w-full h-full border-0"
           title="Embedded Web Page"
         />
       </View>
     );
   }
 
-  return <WebView source={{ uri: url }} style={styles.webview} />;
+  return (
+    <WebView
+      source={{ uri: url }}
+      startInLoadingState
+      renderLoading={() => (
+        <View className="flex-1">
+          <LoadingState text="Loading..." />
+        </View>
+      )}
+    />
+  );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  webview: {
-    flex: 1,
-  },
-});
-
-const iframeStyle: React.CSSProperties = {
-  width: '100%',
-  height: '100%',
-  border: 0,
-};
