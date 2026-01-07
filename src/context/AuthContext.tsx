@@ -97,7 +97,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Signup flow
   const signUp = async ({ email, password }: { email: string; password: string }) => {
     const { data, error } = await supabase.auth.signUp({ email, password, options: { 
-      emailRedirectTo: getAuthRedirect('auth/email-verify') 
+      emailRedirectTo: getAuthRedirect('auth/callback/signup') 
     }});
     if (error) return { error: error.message };
 
@@ -114,7 +114,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Forgot password flow
   const resetPasswordForEmail = async ({ email }: { email: string }) => {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: getAuthRedirect('auth/reset-password'),
+      redirectTo: getAuthRedirect('auth/callback/recovery'),
     });
     if (error) return { error: error.message };
     return {};

@@ -6,9 +6,16 @@ export default function AuthLayout() {
   const pathname = usePathname();
   const { sessionUser: user, loading } = useAuth();
 
-  if (loading) return <LoadingState text="Loading your profile..." />;
+  const isCallbackRoute = pathname.startsWith('/auth/callback');
+  const isResetPasswordRoute = pathname === '/auth/reset-password';
 
-  if (user && pathname !== '/auth/reset-password' && pathname !== '/auth/email-verify') {
+  const isTransitional = isCallbackRoute || isResetPasswordRoute;
+
+  if (loading && !isTransitional) {
+    return <LoadingState text="Loading your profile..." />;
+  }
+
+  if (user && !isTransitional) {
     return <Redirect href="/" />;
   }
 
@@ -20,7 +27,7 @@ export default function AuthLayout() {
       <Stack.Screen name="forgot-password" />
       <Stack.Screen name="reset-password" />
       <Stack.Screen name="check-your-email" />
-      <Stack.Screen name="email-verify" />
+      <Stack.Screen name="callback/[flow]" />
     </Stack>
   );
 }
