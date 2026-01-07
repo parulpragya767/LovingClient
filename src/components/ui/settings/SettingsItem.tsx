@@ -21,11 +21,14 @@ export default function SettingsItem({
   icon,
   isLast,
 }: SettingItemProps) {
+  if (disabled) {
+    return null;
+  }
+  
   return (
     <Pressable
-      disabled={disabled}
       onPress={onPress}
-      className={`px-4 py-4 ${!isLast ? 'border-b border-border' : ''} ${disabled ? 'opacity-50' : ''}`}
+      className={`px-4 py-4 ${!isLast ? 'border-b border-border' : ''}`}
     >
       <View className="flex-row justify-between items-center">
         <View className="flex-row items-center flex-1">
