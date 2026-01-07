@@ -27,9 +27,9 @@ export default function RootLayout() {
           <SafeAreaProvider>
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="(modals)" options={{ presentation: "modal", headerShown: false }} />
               <Stack.Screen name="auth" options={{ headerShown: false }} />
               <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+              <Stack.Screen name="settings" options={{ headerShown: false }} />
               <Stack.Screen name="ai-chat/(modals)" options={{ headerShown: false }} />
               <Stack.Screen 
                 name="love-lens/[loveType]" 

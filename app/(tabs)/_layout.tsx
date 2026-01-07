@@ -30,7 +30,7 @@ export default function TabLayout() {
             <HeaderIconButton
               name="person-circle-outline"
               color={tintColor}
-              onPress={() => router.push('/(modals)/user')}
+              onPress={() => router.push('/settings')}
             />
           ),
           ...DefaultHeaderOptions,
