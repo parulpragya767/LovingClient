@@ -11,11 +11,13 @@ export function useRitualSearch(filter: RitualFilter) {
 
     queryFn: async ({ pageParam = 0 }) => {
       const res = await ritualService.search({ page: pageParam, size: 10 }, filter);
+      const pageNumber = res.page?.number ?? 0;
+      const totalPages = res.page?.totalPages ?? 0;
       
       return {
         rituals: res.rituals,
-        page: res.number ?? 0,
-        hasMore: !res.last,
+        page: pageNumber,
+        hasMore: pageNumber < totalPages - 1,
       };
     },
 

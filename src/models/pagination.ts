@@ -1,11 +1,11 @@
-import { PageRitualDTO, RitualDTO } from "../api";
+import { PagedModelRitualDTO, RitualDTO } from "../api";
 import { Ritual, toRitual } from "./rituals";
 
-export interface PageRitual extends Omit<PageRitualDTO, 'content'> {
+export interface PageRitual extends Omit<PagedModelRitualDTO, 'content'> {
     rituals: Ritual[];
 }
 
-export function toPageRitual(dto: PageRitualDTO): PageRitual {
+export function toPageRitual(dto: PagedModelRitualDTO): PageRitual {
   const ritualDtos = (dto.content || []) as RitualDTO[];
   return {
     ...dto,
@@ -13,7 +13,6 @@ export function toPageRitual(dto: PageRitualDTO): PageRitual {
   };
 }
 
+export type { PageMetadata } from '../api/models/page-metadata';
 export type { Pageable } from '../api/models/pageable';
-export type { PageableObject } from '../api/models/pageable-object';
-export type { SortObject } from '../api/models/sort-object';
 
