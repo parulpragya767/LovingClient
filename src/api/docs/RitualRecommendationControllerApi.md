@@ -25,11 +25,9 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualRecommendationControllerApi(configuration);
 
-let userId: string; // (default to undefined)
 let ritualRecommendationCreateRequest: RitualRecommendationCreateRequest; //
 
 const { status, data } = await apiInstance.create(
-    userId,
     ritualRecommendationCreateRequest
 );
 ```
@@ -39,7 +37,6 @@ const { status, data } = await apiInstance.create(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **ritualRecommendationCreateRequest** | **RitualRecommendationCreateRequest**|  | |
-| **userId** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
@@ -78,18 +75,11 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualRecommendationControllerApi(configuration);
 
-let userId: string; // (default to undefined)
-
-const { status, data } = await apiInstance.listAll(
-    userId
-);
+const { status, data } = await apiInstance.listAll();
 ```
 
 ### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **userId** | [**string**] |  | defaults to undefined|
+This endpoint does not have any parameters.
 
 
 ### Return type
@@ -128,11 +118,9 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualRecommendationControllerApi(configuration);
 
-let userId: string; // (default to undefined)
 let id: string; // (default to undefined)
 
 const { status, data } = await apiInstance.listById(
-    userId,
     id
 );
 ```
@@ -141,7 +129,6 @@ const { status, data } = await apiInstance.listById(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **userId** | [**string**] |  | defaults to undefined|
 | **id** | [**string**] |  | defaults to undefined|
 
 
@@ -182,12 +169,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualRecommendationControllerApi(configuration);
 
-let userId: string; // (default to undefined)
 let id: string; // (default to undefined)
 let ritualRecommendationUpdateRequest: RitualRecommendationUpdateRequest; //
 
 const { status, data } = await apiInstance.updateRecommendationAndRitualHistoryStatus(
-    userId,
     id,
     ritualRecommendationUpdateRequest
 );
@@ -198,7 +183,6 @@ const { status, data } = await apiInstance.updateRecommendationAndRitualHistoryS
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **ritualRecommendationUpdateRequest** | **RitualRecommendationUpdateRequest**|  | |
-| **userId** | [**string**] |  | defaults to undefined|
 | **id** | [**string**] |  | defaults to undefined|
 
 

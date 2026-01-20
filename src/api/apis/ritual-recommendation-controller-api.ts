@@ -35,14 +35,11 @@ export const RitualRecommendationControllerApiAxiosParamCreator = function (conf
     return {
         /**
          * 
-         * @param {string} userId 
          * @param {RitualRecommendationCreateRequest} ritualRecommendationCreateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        create: async (userId: string, ritualRecommendationCreateRequest: RitualRecommendationCreateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userId' is not null or undefined
-            assertParamExists('create', 'userId', userId)
+        create: async (ritualRecommendationCreateRequest: RitualRecommendationCreateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'ritualRecommendationCreateRequest' is not null or undefined
             assertParamExists('create', 'ritualRecommendationCreateRequest', ritualRecommendationCreateRequest)
             const localVarPath = `/api/ritual-recommendation`;
@@ -56,10 +53,6 @@ export const RitualRecommendationControllerApiAxiosParamCreator = function (conf
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            if (userId !== undefined) {
-                localVarQueryParameter['userId'] = userId;
-            }
 
 
     
@@ -77,13 +70,10 @@ export const RitualRecommendationControllerApiAxiosParamCreator = function (conf
         },
         /**
          * 
-         * @param {string} userId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listAll: async (userId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userId' is not null or undefined
-            assertParamExists('listAll', 'userId', userId)
+        listAll: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/ritual-recommendation`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -95,10 +85,6 @@ export const RitualRecommendationControllerApiAxiosParamCreator = function (conf
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            if (userId !== undefined) {
-                localVarQueryParameter['userId'] = userId;
-            }
 
 
     
@@ -113,14 +99,11 @@ export const RitualRecommendationControllerApiAxiosParamCreator = function (conf
         },
         /**
          * 
-         * @param {string} userId 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listById: async (userId: string, id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userId' is not null or undefined
-            assertParamExists('listById', 'userId', userId)
+        listById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('listById', 'id', id)
             const localVarPath = `/api/ritual-recommendation/{id}`
@@ -136,10 +119,6 @@ export const RitualRecommendationControllerApiAxiosParamCreator = function (conf
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (userId !== undefined) {
-                localVarQueryParameter['userId'] = userId;
-            }
-
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -153,15 +132,12 @@ export const RitualRecommendationControllerApiAxiosParamCreator = function (conf
         },
         /**
          * 
-         * @param {string} userId 
          * @param {string} id 
          * @param {RitualRecommendationUpdateRequest} ritualRecommendationUpdateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateRecommendationAndRitualHistoryStatus: async (userId: string, id: string, ritualRecommendationUpdateRequest: RitualRecommendationUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userId' is not null or undefined
-            assertParamExists('updateRecommendationAndRitualHistoryStatus', 'userId', userId)
+        updateRecommendationAndRitualHistoryStatus: async (id: string, ritualRecommendationUpdateRequest: RitualRecommendationUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateRecommendationAndRitualHistoryStatus', 'id', id)
             // verify required parameter 'ritualRecommendationUpdateRequest' is not null or undefined
@@ -178,10 +154,6 @@ export const RitualRecommendationControllerApiAxiosParamCreator = function (conf
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            if (userId !== undefined) {
-                localVarQueryParameter['userId'] = userId;
-            }
 
 
     
@@ -209,52 +181,48 @@ export const RitualRecommendationControllerApiFp = function(configuration?: Conf
     return {
         /**
          * 
-         * @param {string} userId 
          * @param {RitualRecommendationCreateRequest} ritualRecommendationCreateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async create(userId: string, ritualRecommendationCreateRequest: RitualRecommendationCreateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualRecommendationDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.create(userId, ritualRecommendationCreateRequest, options);
+        async create(ritualRecommendationCreateRequest: RitualRecommendationCreateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualRecommendationDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.create(ritualRecommendationCreateRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RitualRecommendationControllerApi.create']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
-         * @param {string} userId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listAll(userId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<RitualRecommendationDTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listAll(userId, options);
+        async listAll(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<RitualRecommendationDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listAll(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RitualRecommendationControllerApi.listAll']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
-         * @param {string} userId 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listById(userId: string, id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualRecommendationDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listById(userId, id, options);
+        async listById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RitualRecommendationDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listById(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RitualRecommendationControllerApi.listById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
-         * @param {string} userId 
          * @param {string} id 
          * @param {RitualRecommendationUpdateRequest} ritualRecommendationUpdateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateRecommendationAndRitualHistoryStatus(userId: string, id: string, ritualRecommendationUpdateRequest: RitualRecommendationUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateRecommendationAndRitualHistoryStatus(userId, id, ritualRecommendationUpdateRequest, options);
+        async updateRecommendationAndRitualHistoryStatus(id: string, ritualRecommendationUpdateRequest: RitualRecommendationUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateRecommendationAndRitualHistoryStatus(id, ritualRecommendationUpdateRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RitualRecommendationControllerApi.updateRecommendationAndRitualHistoryStatus']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -276,16 +244,15 @@ export const RitualRecommendationControllerApiFactory = function (configuration?
          * @throws {RequiredError}
          */
         create(requestParameters: RitualRecommendationControllerApiCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<RitualRecommendationDTO> {
-            return localVarFp.create(requestParameters.userId, requestParameters.ritualRecommendationCreateRequest, options).then((request) => request(axios, basePath));
+            return localVarFp.create(requestParameters.ritualRecommendationCreateRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {RitualRecommendationControllerApiListAllRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listAll(requestParameters: RitualRecommendationControllerApiListAllRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<RitualRecommendationDTO>> {
-            return localVarFp.listAll(requestParameters.userId, options).then((request) => request(axios, basePath));
+        listAll(options?: RawAxiosRequestConfig): AxiosPromise<Array<RitualRecommendationDTO>> {
+            return localVarFp.listAll(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -294,7 +261,7 @@ export const RitualRecommendationControllerApiFactory = function (configuration?
          * @throws {RequiredError}
          */
         listById(requestParameters: RitualRecommendationControllerApiListByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<RitualRecommendationDTO> {
-            return localVarFp.listById(requestParameters.userId, requestParameters.id, options).then((request) => request(axios, basePath));
+            return localVarFp.listById(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -303,7 +270,7 @@ export const RitualRecommendationControllerApiFactory = function (configuration?
          * @throws {RequiredError}
          */
         updateRecommendationAndRitualHistoryStatus(requestParameters: RitualRecommendationControllerApiUpdateRecommendationAndRitualHistoryStatusRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateRecommendationAndRitualHistoryStatus(requestParameters.userId, requestParameters.id, requestParameters.ritualRecommendationUpdateRequest, options).then((request) => request(axios, basePath));
+            return localVarFp.updateRecommendationAndRitualHistoryStatus(requestParameters.id, requestParameters.ritualRecommendationUpdateRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -325,12 +292,11 @@ export interface RitualRecommendationControllerApiInterface {
 
     /**
      * 
-     * @param {RitualRecommendationControllerApiListAllRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RitualRecommendationControllerApiInterface
      */
-    listAll(requestParameters: RitualRecommendationControllerApiListAllRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<RitualRecommendationDTO>>;
+    listAll(options?: RawAxiosRequestConfig): AxiosPromise<Array<RitualRecommendationDTO>>;
 
     /**
      * 
@@ -360,31 +326,10 @@ export interface RitualRecommendationControllerApiInterface {
 export interface RitualRecommendationControllerApiCreateRequest {
     /**
      * 
-     * @type {string}
-     * @memberof RitualRecommendationControllerApiCreate
-     */
-    readonly userId: string
-
-    /**
-     * 
      * @type {RitualRecommendationCreateRequest}
      * @memberof RitualRecommendationControllerApiCreate
      */
     readonly ritualRecommendationCreateRequest: RitualRecommendationCreateRequest
-}
-
-/**
- * Request parameters for listAll operation in RitualRecommendationControllerApi.
- * @export
- * @interface RitualRecommendationControllerApiListAllRequest
- */
-export interface RitualRecommendationControllerApiListAllRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof RitualRecommendationControllerApiListAll
-     */
-    readonly userId: string
 }
 
 /**
@@ -393,13 +338,6 @@ export interface RitualRecommendationControllerApiListAllRequest {
  * @interface RitualRecommendationControllerApiListByIdRequest
  */
 export interface RitualRecommendationControllerApiListByIdRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof RitualRecommendationControllerApiListById
-     */
-    readonly userId: string
-
     /**
      * 
      * @type {string}
@@ -414,13 +352,6 @@ export interface RitualRecommendationControllerApiListByIdRequest {
  * @interface RitualRecommendationControllerApiUpdateRecommendationAndRitualHistoryStatusRequest
  */
 export interface RitualRecommendationControllerApiUpdateRecommendationAndRitualHistoryStatusRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof RitualRecommendationControllerApiUpdateRecommendationAndRitualHistoryStatus
-     */
-    readonly userId: string
-
     /**
      * 
      * @type {string}
@@ -451,18 +382,17 @@ export class RitualRecommendationControllerApi extends BaseAPI implements Ritual
      * @memberof RitualRecommendationControllerApi
      */
     public create(requestParameters: RitualRecommendationControllerApiCreateRequest, options?: RawAxiosRequestConfig) {
-        return RitualRecommendationControllerApiFp(this.configuration).create(requestParameters.userId, requestParameters.ritualRecommendationCreateRequest, options).then((request) => request(this.axios, this.basePath));
+        return RitualRecommendationControllerApiFp(this.configuration).create(requestParameters.ritualRecommendationCreateRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {RitualRecommendationControllerApiListAllRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RitualRecommendationControllerApi
      */
-    public listAll(requestParameters: RitualRecommendationControllerApiListAllRequest, options?: RawAxiosRequestConfig) {
-        return RitualRecommendationControllerApiFp(this.configuration).listAll(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
+    public listAll(options?: RawAxiosRequestConfig) {
+        return RitualRecommendationControllerApiFp(this.configuration).listAll(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -473,7 +403,7 @@ export class RitualRecommendationControllerApi extends BaseAPI implements Ritual
      * @memberof RitualRecommendationControllerApi
      */
     public listById(requestParameters: RitualRecommendationControllerApiListByIdRequest, options?: RawAxiosRequestConfig) {
-        return RitualRecommendationControllerApiFp(this.configuration).listById(requestParameters.userId, requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+        return RitualRecommendationControllerApiFp(this.configuration).listById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -484,7 +414,7 @@ export class RitualRecommendationControllerApi extends BaseAPI implements Ritual
      * @memberof RitualRecommendationControllerApi
      */
     public updateRecommendationAndRitualHistoryStatus(requestParameters: RitualRecommendationControllerApiUpdateRecommendationAndRitualHistoryStatusRequest, options?: RawAxiosRequestConfig) {
-        return RitualRecommendationControllerApiFp(this.configuration).updateRecommendationAndRitualHistoryStatus(requestParameters.userId, requestParameters.id, requestParameters.ritualRecommendationUpdateRequest, options).then((request) => request(this.axios, this.basePath));
+        return RitualRecommendationControllerApiFp(this.configuration).updateRecommendationAndRitualHistoryStatus(requestParameters.id, requestParameters.ritualRecommendationUpdateRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

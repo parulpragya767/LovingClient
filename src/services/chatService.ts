@@ -18,7 +18,7 @@ export const chatService = {
   },
 
   async getHistory(sessionId: string): Promise<ChatSession> {
-    const res = await api.getChatHistory({ sessionId });
+    const res = await api.getChatSessionWithHistory({ sessionId });
     return toChatSession(res.data);
   },
 

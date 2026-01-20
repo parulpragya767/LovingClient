@@ -66,11 +66,9 @@ import {
 const configuration = new Configuration();
 const apiInstance = new UserControllerApi(configuration);
 
-let userId: string; // (default to undefined)
 let userUpdateRequest: UserUpdateRequest; //
 
 const { status, data } = await apiInstance.updateUser(
-    userId,
     userUpdateRequest
 );
 ```
@@ -80,7 +78,6 @@ const { status, data } = await apiInstance.updateUser(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **userUpdateRequest** | **UserUpdateRequest**|  | |
-| **userId** | [**string**] |  | defaults to undefined|
 
 
 ### Return type

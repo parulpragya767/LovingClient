@@ -33,14 +33,11 @@ export const DevToolsControllerApiAxiosParamCreator = function (configuration?: 
     return {
         /**
          * 
-         * @param {string} userId 
          * @param {UserContextCreateRequest} userContextCreateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUserContext: async (userId: string, userContextCreateRequest: UserContextCreateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userId' is not null or undefined
-            assertParamExists('createUserContext', 'userId', userId)
+        createUserContext: async (userContextCreateRequest: UserContextCreateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'userContextCreateRequest' is not null or undefined
             assertParamExists('createUserContext', 'userContextCreateRequest', userContextCreateRequest)
             const localVarPath = `/internal/dev-tools/user-contexts`;
@@ -54,10 +51,6 @@ export const DevToolsControllerApiAxiosParamCreator = function (configuration?: 
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            if (userId !== undefined) {
-                localVarQueryParameter['userId'] = userId;
-            }
 
 
     
@@ -75,13 +68,10 @@ export const DevToolsControllerApiAxiosParamCreator = function (configuration?: 
         },
         /**
          * 
-         * @param {string} userId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserContexts: async (userId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userId' is not null or undefined
-            assertParamExists('getUserContexts', 'userId', userId)
+        getUserContexts: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/internal/dev-tools/user-contexts`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -93,10 +83,6 @@ export const DevToolsControllerApiAxiosParamCreator = function (configuration?: 
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            if (userId !== undefined) {
-                localVarQueryParameter['userId'] = userId;
-            }
 
 
     
@@ -111,14 +97,11 @@ export const DevToolsControllerApiAxiosParamCreator = function (configuration?: 
         },
         /**
          * 
-         * @param {string} userId 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserContextsForConversation: async (userId: string, id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userId' is not null or undefined
-            assertParamExists('getUserContextsForConversation', 'userId', userId)
+        getUserContextsForConversation: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getUserContextsForConversation', 'id', id)
             const localVarPath = `/internal/dev-tools/user-contexts/session/{id}`
@@ -133,10 +116,6 @@ export const DevToolsControllerApiAxiosParamCreator = function (configuration?: 
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            if (userId !== undefined) {
-                localVarQueryParameter['userId'] = userId;
-            }
 
 
     
@@ -161,38 +140,35 @@ export const DevToolsControllerApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {string} userId 
          * @param {UserContextCreateRequest} userContextCreateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createUserContext(userId: string, userContextCreateRequest: UserContextCreateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserContextDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createUserContext(userId, userContextCreateRequest, options);
+        async createUserContext(userContextCreateRequest: UserContextCreateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserContextDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createUserContext(userContextCreateRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevToolsControllerApi.createUserContext']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
-         * @param {string} userId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getUserContexts(userId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<UserContextDTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserContexts(userId, options);
+        async getUserContexts(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<UserContextDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserContexts(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevToolsControllerApi.getUserContexts']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
-         * @param {string} userId 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getUserContextsForConversation(userId: string, id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<UserContextDTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserContextsForConversation(userId, id, options);
+        async getUserContextsForConversation(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<UserContextDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserContextsForConversation(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevToolsControllerApi.getUserContextsForConversation']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -214,16 +190,15 @@ export const DevToolsControllerApiFactory = function (configuration?: Configurat
          * @throws {RequiredError}
          */
         createUserContext(requestParameters: DevToolsControllerApiCreateUserContextRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserContextDTO> {
-            return localVarFp.createUserContext(requestParameters.userId, requestParameters.userContextCreateRequest, options).then((request) => request(axios, basePath));
+            return localVarFp.createUserContext(requestParameters.userContextCreateRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {DevToolsControllerApiGetUserContextsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserContexts(requestParameters: DevToolsControllerApiGetUserContextsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<UserContextDTO>> {
-            return localVarFp.getUserContexts(requestParameters.userId, options).then((request) => request(axios, basePath));
+        getUserContexts(options?: RawAxiosRequestConfig): AxiosPromise<Array<UserContextDTO>> {
+            return localVarFp.getUserContexts(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -232,7 +207,7 @@ export const DevToolsControllerApiFactory = function (configuration?: Configurat
          * @throws {RequiredError}
          */
         getUserContextsForConversation(requestParameters: DevToolsControllerApiGetUserContextsForConversationRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<UserContextDTO>> {
-            return localVarFp.getUserContextsForConversation(requestParameters.userId, requestParameters.id, options).then((request) => request(axios, basePath));
+            return localVarFp.getUserContextsForConversation(requestParameters.id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -254,12 +229,11 @@ export interface DevToolsControllerApiInterface {
 
     /**
      * 
-     * @param {DevToolsControllerApiGetUserContextsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DevToolsControllerApiInterface
      */
-    getUserContexts(requestParameters: DevToolsControllerApiGetUserContextsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<UserContextDTO>>;
+    getUserContexts(options?: RawAxiosRequestConfig): AxiosPromise<Array<UserContextDTO>>;
 
     /**
      * 
@@ -280,31 +254,10 @@ export interface DevToolsControllerApiInterface {
 export interface DevToolsControllerApiCreateUserContextRequest {
     /**
      * 
-     * @type {string}
-     * @memberof DevToolsControllerApiCreateUserContext
-     */
-    readonly userId: string
-
-    /**
-     * 
      * @type {UserContextCreateRequest}
      * @memberof DevToolsControllerApiCreateUserContext
      */
     readonly userContextCreateRequest: UserContextCreateRequest
-}
-
-/**
- * Request parameters for getUserContexts operation in DevToolsControllerApi.
- * @export
- * @interface DevToolsControllerApiGetUserContextsRequest
- */
-export interface DevToolsControllerApiGetUserContextsRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof DevToolsControllerApiGetUserContexts
-     */
-    readonly userId: string
 }
 
 /**
@@ -313,13 +266,6 @@ export interface DevToolsControllerApiGetUserContextsRequest {
  * @interface DevToolsControllerApiGetUserContextsForConversationRequest
  */
 export interface DevToolsControllerApiGetUserContextsForConversationRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof DevToolsControllerApiGetUserContextsForConversation
-     */
-    readonly userId: string
-
     /**
      * 
      * @type {string}
@@ -343,18 +289,17 @@ export class DevToolsControllerApi extends BaseAPI implements DevToolsController
      * @memberof DevToolsControllerApi
      */
     public createUserContext(requestParameters: DevToolsControllerApiCreateUserContextRequest, options?: RawAxiosRequestConfig) {
-        return DevToolsControllerApiFp(this.configuration).createUserContext(requestParameters.userId, requestParameters.userContextCreateRequest, options).then((request) => request(this.axios, this.basePath));
+        return DevToolsControllerApiFp(this.configuration).createUserContext(requestParameters.userContextCreateRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {DevToolsControllerApiGetUserContextsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DevToolsControllerApi
      */
-    public getUserContexts(requestParameters: DevToolsControllerApiGetUserContextsRequest, options?: RawAxiosRequestConfig) {
-        return DevToolsControllerApiFp(this.configuration).getUserContexts(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
+    public getUserContexts(options?: RawAxiosRequestConfig) {
+        return DevToolsControllerApiFp(this.configuration).getUserContexts(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -365,7 +310,7 @@ export class DevToolsControllerApi extends BaseAPI implements DevToolsController
      * @memberof DevToolsControllerApi
      */
     public getUserContextsForConversation(requestParameters: DevToolsControllerApiGetUserContextsForConversationRequest, options?: RawAxiosRequestConfig) {
-        return DevToolsControllerApiFp(this.configuration).getUserContextsForConversation(requestParameters.userId, requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+        return DevToolsControllerApiFp(this.configuration).getUserContextsForConversation(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

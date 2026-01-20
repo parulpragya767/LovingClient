@@ -24,11 +24,9 @@ import {
 const configuration = new Configuration();
 const apiInstance = new DevToolsControllerApi(configuration);
 
-let userId: string; // (default to undefined)
 let userContextCreateRequest: UserContextCreateRequest; //
 
 const { status, data } = await apiInstance.createUserContext(
-    userId,
     userContextCreateRequest
 );
 ```
@@ -38,7 +36,6 @@ const { status, data } = await apiInstance.createUserContext(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **userContextCreateRequest** | **UserContextCreateRequest**|  | |
-| **userId** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
@@ -77,18 +74,11 @@ import {
 const configuration = new Configuration();
 const apiInstance = new DevToolsControllerApi(configuration);
 
-let userId: string; // (default to undefined)
-
-const { status, data } = await apiInstance.getUserContexts(
-    userId
-);
+const { status, data } = await apiInstance.getUserContexts();
 ```
 
 ### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **userId** | [**string**] |  | defaults to undefined|
+This endpoint does not have any parameters.
 
 
 ### Return type
@@ -127,11 +117,9 @@ import {
 const configuration = new Configuration();
 const apiInstance = new DevToolsControllerApi(configuration);
 
-let userId: string; // (default to undefined)
 let id: string; // (default to undefined)
 
 const { status, data } = await apiInstance.getUserContextsForConversation(
-    userId,
     id
 );
 ```
@@ -140,7 +128,6 @@ const { status, data } = await apiInstance.getUserContextsForConversation(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **userId** | [**string**] |  | defaults to undefined|
 | **id** | [**string**] |  | defaults to undefined|
 
 

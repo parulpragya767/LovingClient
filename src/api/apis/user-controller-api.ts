@@ -62,14 +62,11 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {string} userId 
          * @param {UserUpdateRequest} userUpdateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser: async (userId: string, userUpdateRequest: UserUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userId' is not null or undefined
-            assertParamExists('updateUser', 'userId', userId)
+        updateUser: async (userUpdateRequest: UserUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'userUpdateRequest' is not null or undefined
             assertParamExists('updateUser', 'userUpdateRequest', userUpdateRequest)
             const localVarPath = `/api/users`;
@@ -83,10 +80,6 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            if (userId !== undefined) {
-                localVarQueryParameter['userId'] = userId;
-            }
 
 
     
@@ -125,13 +118,12 @@ export const UserControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {string} userId 
          * @param {UserUpdateRequest} userUpdateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateUser(userId: string, userUpdateRequest: UserUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUser(userId, userUpdateRequest, options);
+        async updateUser(userUpdateRequest: UserUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUser(userUpdateRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserControllerApi.updateUser']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -161,7 +153,7 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
          * @throws {RequiredError}
          */
         updateUser(requestParameters: UserControllerApiUpdateUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateUser(requestParameters.userId, requestParameters.userUpdateRequest, options).then((request) => request(axios, basePath));
+            return localVarFp.updateUser(requestParameters.userUpdateRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -199,13 +191,6 @@ export interface UserControllerApiInterface {
 export interface UserControllerApiUpdateUserRequest {
     /**
      * 
-     * @type {string}
-     * @memberof UserControllerApiUpdateUser
-     */
-    readonly userId: string
-
-    /**
-     * 
      * @type {UserUpdateRequest}
      * @memberof UserControllerApiUpdateUser
      */
@@ -237,7 +222,7 @@ export class UserControllerApi extends BaseAPI implements UserControllerApiInter
      * @memberof UserControllerApi
      */
     public updateUser(requestParameters: UserControllerApiUpdateUserRequest, options?: RawAxiosRequestConfig) {
-        return UserControllerApiFp(this.configuration).updateUser(requestParameters.userId, requestParameters.userUpdateRequest, options).then((request) => request(this.axios, this.basePath));
+        return UserControllerApiFp(this.configuration).updateUser(requestParameters.userUpdateRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

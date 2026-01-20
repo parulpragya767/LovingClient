@@ -28,11 +28,9 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualHistoryControllerApi(configuration);
 
-let userId: string; // (default to undefined)
 let id: string; // (default to undefined)
 
 const { status, data } = await apiInstance._delete(
-    userId,
     id
 );
 ```
@@ -41,7 +39,6 @@ const { status, data } = await apiInstance._delete(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **userId** | [**string**] |  | defaults to undefined|
 | **id** | [**string**] |  | defaults to undefined|
 
 
@@ -81,11 +78,9 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualHistoryControllerApi(configuration);
 
-let userId: string; // (default to undefined)
 let ritualHistoryCreateRequest: Array<RitualHistoryCreateRequest>; //
 
 const { status, data } = await apiInstance.bulkCreate(
-    userId,
     ritualHistoryCreateRequest
 );
 ```
@@ -95,7 +90,6 @@ const { status, data } = await apiInstance.bulkCreate(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **ritualHistoryCreateRequest** | **Array<RitualHistoryCreateRequest>**|  | |
-| **userId** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
@@ -135,11 +129,9 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualHistoryControllerApi(configuration);
 
-let userId: string; // (default to undefined)
 let bulkRitualHistoryStatusUpdateRequest: BulkRitualHistoryStatusUpdateRequest; //
 
 const { status, data } = await apiInstance.bulkUpdateStatus(
-    userId,
     bulkRitualHistoryStatusUpdateRequest
 );
 ```
@@ -149,7 +141,6 @@ const { status, data } = await apiInstance.bulkUpdateStatus(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **bulkRitualHistoryStatusUpdateRequest** | **BulkRitualHistoryStatusUpdateRequest**|  | |
-| **userId** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
@@ -189,12 +180,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualHistoryControllerApi(configuration);
 
-let userId: string; // (default to undefined)
 let id: string; // (default to undefined)
 let ritualHistoryUpdateRequest: RitualHistoryUpdateRequest; //
 
 const { status, data } = await apiInstance.complete(
-    userId,
     id,
     ritualHistoryUpdateRequest
 );
@@ -205,7 +194,6 @@ const { status, data } = await apiInstance.complete(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **ritualHistoryUpdateRequest** | **RitualHistoryUpdateRequest**|  | |
-| **userId** | [**string**] |  | defaults to undefined|
 | **id** | [**string**] |  | defaults to undefined|
 
 
@@ -246,11 +234,9 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualHistoryControllerApi(configuration);
 
-let userId: string; // (default to undefined)
 let ritualHistoryCreateRequest: RitualHistoryCreateRequest; //
 
 const { status, data } = await apiInstance.create1(
-    userId,
     ritualHistoryCreateRequest
 );
 ```
@@ -260,7 +246,6 @@ const { status, data } = await apiInstance.create1(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **ritualHistoryCreateRequest** | **RitualHistoryCreateRequest**|  | |
-| **userId** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
@@ -299,18 +284,11 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualHistoryControllerApi(configuration);
 
-let userId: string; // (default to undefined)
-
-const { status, data } = await apiInstance.list(
-    userId
-);
+const { status, data } = await apiInstance.list();
 ```
 
 ### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **userId** | [**string**] |  | defaults to undefined|
+This endpoint does not have any parameters.
 
 
 ### Return type
@@ -349,18 +327,11 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualHistoryControllerApi(configuration);
 
-let userId: string; // (default to undefined)
-
-const { status, data } = await apiInstance.listCurrent(
-    userId
-);
+const { status, data } = await apiInstance.listCurrent();
 ```
 
 ### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **userId** | [**string**] |  | defaults to undefined|
+This endpoint does not have any parameters.
 
 
 ### Return type
@@ -400,12 +371,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualHistoryControllerApi(configuration);
 
-let userId: string; // (default to undefined)
 let id: string; // (default to undefined)
 let ritualHistoryUpdateRequest: RitualHistoryUpdateRequest; //
 
 const { status, data } = await apiInstance.updateStatus(
-    userId,
     id,
     ritualHistoryUpdateRequest
 );
@@ -416,7 +385,6 @@ const { status, data } = await apiInstance.updateStatus(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **ritualHistoryUpdateRequest** | **RitualHistoryUpdateRequest**|  | |
-| **userId** | [**string**] |  | defaults to undefined|
 | **id** | [**string**] |  | defaults to undefined|
 
 

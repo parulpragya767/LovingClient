@@ -27,18 +27,11 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AiChatControllerApi(configuration);
 
-let userId: string; // (default to undefined)
-
-const { status, data } = await apiInstance.createSession(
-    userId
-);
+const { status, data } = await apiInstance.createSession();
 ```
 
 ### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **userId** | [**string**] |  | defaults to undefined|
+This endpoint does not have any parameters.
 
 
 ### Return type
@@ -77,11 +70,9 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AiChatControllerApi(configuration);
 
-let userId: string; // (default to undefined)
 let sessionId: string; // (default to undefined)
 
 const { status, data } = await apiInstance.deleteSession(
-    userId,
     sessionId
 );
 ```
@@ -90,7 +81,6 @@ const { status, data } = await apiInstance.deleteSession(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **userId** | [**string**] |  | defaults to undefined|
 | **sessionId** | [**string**] |  | defaults to undefined|
 
 
@@ -130,11 +120,9 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AiChatControllerApi(configuration);
 
-let userId: string; // (default to undefined)
 let sessionId: string; // (default to undefined)
 
 const { status, data } = await apiInstance.getChatSessionWithHistory(
-    userId,
     sessionId
 );
 ```
@@ -143,7 +131,6 @@ const { status, data } = await apiInstance.getChatSessionWithHistory(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **userId** | [**string**] |  | defaults to undefined|
 | **sessionId** | [**string**] |  | defaults to undefined|
 
 
@@ -226,18 +213,11 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AiChatControllerApi(configuration);
 
-let userId: string; // (default to undefined)
-
-const { status, data } = await apiInstance.listSessions(
-    userId
-);
+const { status, data } = await apiInstance.listSessions();
 ```
 
 ### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **userId** | [**string**] |  | defaults to undefined|
+This endpoint does not have any parameters.
 
 
 ### Return type
@@ -276,11 +256,9 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AiChatControllerApi(configuration);
 
-let userId: string; // (default to undefined)
 let sessionId: string; // (default to undefined)
 
 const { status, data } = await apiInstance.recommendRitualPack(
-    userId,
     sessionId
 );
 ```
@@ -289,7 +267,6 @@ const { status, data } = await apiInstance.recommendRitualPack(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **userId** | [**string**] |  | defaults to undefined|
 | **sessionId** | [**string**] |  | defaults to undefined|
 
 
@@ -330,12 +307,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AiChatControllerApi(configuration);
 
-let userId: string; // (default to undefined)
 let sessionId: string; // (default to undefined)
 let sendMessageRequest: SendMessageRequest; //
 
 const { status, data } = await apiInstance.sendMessage(
-    userId,
     sessionId,
     sendMessageRequest
 );
@@ -346,7 +321,6 @@ const { status, data } = await apiInstance.sendMessage(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **sendMessageRequest** | **SendMessageRequest**|  | |
-| **userId** | [**string**] |  | defaults to undefined|
 | **sessionId** | [**string**] |  | defaults to undefined|
 
 

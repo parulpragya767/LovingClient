@@ -1,5 +1,5 @@
 import { RitualHistoryControllerApi } from '@/src/api/apis/ritual-history-controller-api';
-import type { BulkRitualHistoryStatusUpdate, CurrentRituals, RitualHistory, RitualHistoryCreateRequest, RitualHistoryUpdate } from '@/src/models/ritualHistory';
+import type { CurrentRituals, RitualHistory, RitualHistoryCreateRequest, RitualHistoryUpdate } from '@/src/models/ritualHistory';
 import { toCurrentRituals } from '@/src/models/ritualHistory';
 import apiClient from './apiClient';
 
@@ -22,27 +22,15 @@ export const ritualHistoryService = {
     return res.data as RitualHistory;
   },
 
-  async updateStatus(id: string, payload: RitualHistoryUpdate): Promise<RitualHistory> {
-    const res = await api.updateStatus({ id, ritualHistoryUpdateRequest: payload });
-    return res.data as RitualHistory;
+  async updateStatus(id: string, payload: RitualHistoryUpdate): Promise<void> {
+    await api.updateStatus({ id, ritualHistoryUpdateRequest: payload });
   },
 
-  async complete(id: string, payload: RitualHistoryUpdate): Promise<RitualHistory> {
-    const res = await api.complete({ id, ritualHistoryUpdateRequest: payload });
-    return res.data as RitualHistory;
+  async complete(id: string, payload: RitualHistoryUpdate): Promise<void> {
+    await api.complete({ id, ritualHistoryUpdateRequest: payload });
   },
 
   async delete(id: string): Promise<void> {
     await api._delete({ id });
-  },
-
-  async bulkCreate(items: RitualHistoryCreateRequest[]): Promise<RitualHistory[]> {
-    const res = await api.bulkCreate({ ritualHistoryCreateRequest: items });
-    return res.data as RitualHistory[];
-  },
-
-  async bulkUpdateStatus(payload: BulkRitualHistoryStatusUpdate): Promise<RitualHistory[]> {
-    const res = await api.bulkUpdateStatus({ bulkRitualHistoryStatusUpdateRequest: payload });
-    return res.data as RitualHistory[];
   },
 };
