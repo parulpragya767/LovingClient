@@ -28,9 +28,11 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualHistoryControllerApi(configuration);
 
+let userId: string; // (default to undefined)
 let id: string; // (default to undefined)
 
 const { status, data } = await apiInstance._delete(
+    userId,
     id
 );
 ```
@@ -39,6 +41,7 @@ const { status, data } = await apiInstance._delete(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
+| **userId** | [**string**] |  | defaults to undefined|
 | **id** | [**string**] |  | defaults to undefined|
 
 
@@ -78,9 +81,11 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualHistoryControllerApi(configuration);
 
+let userId: string; // (default to undefined)
 let ritualHistoryCreateRequest: Array<RitualHistoryCreateRequest>; //
 
 const { status, data } = await apiInstance.bulkCreate(
+    userId,
     ritualHistoryCreateRequest
 );
 ```
@@ -90,6 +95,7 @@ const { status, data } = await apiInstance.bulkCreate(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **ritualHistoryCreateRequest** | **Array<RitualHistoryCreateRequest>**|  | |
+| **userId** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
@@ -114,7 +120,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **bulkUpdateStatus**
-> Array<RitualHistoryDTO> bulkUpdateStatus(bulkRitualHistoryStatusUpdateRequest)
+> bulkUpdateStatus(bulkRitualHistoryStatusUpdateRequest)
 
 
 ### Example
@@ -129,9 +135,11 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualHistoryControllerApi(configuration);
 
+let userId: string; // (default to undefined)
 let bulkRitualHistoryStatusUpdateRequest: BulkRitualHistoryStatusUpdateRequest; //
 
 const { status, data } = await apiInstance.bulkUpdateStatus(
+    userId,
     bulkRitualHistoryStatusUpdateRequest
 );
 ```
@@ -141,11 +149,12 @@ const { status, data } = await apiInstance.bulkUpdateStatus(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **bulkRitualHistoryStatusUpdateRequest** | **BulkRitualHistoryStatusUpdateRequest**|  | |
+| **userId** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
 
-**Array<RitualHistoryDTO>**
+void (empty response body)
 
 ### Authorization
 
@@ -154,7 +163,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: */*
+ - **Accept**: Not defined
 
 
 ### HTTP response details
@@ -165,7 +174,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **complete**
-> RitualHistoryDTO complete(ritualHistoryUpdateRequest)
+> complete(ritualHistoryUpdateRequest)
 
 
 ### Example
@@ -180,10 +189,12 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualHistoryControllerApi(configuration);
 
+let userId: string; // (default to undefined)
 let id: string; // (default to undefined)
 let ritualHistoryUpdateRequest: RitualHistoryUpdateRequest; //
 
 const { status, data } = await apiInstance.complete(
+    userId,
     id,
     ritualHistoryUpdateRequest
 );
@@ -194,12 +205,13 @@ const { status, data } = await apiInstance.complete(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **ritualHistoryUpdateRequest** | **RitualHistoryUpdateRequest**|  | |
+| **userId** | [**string**] |  | defaults to undefined|
 | **id** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
 
-**RitualHistoryDTO**
+void (empty response body)
 
 ### Authorization
 
@@ -208,7 +220,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: */*
+ - **Accept**: Not defined
 
 
 ### HTTP response details
@@ -234,9 +246,11 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualHistoryControllerApi(configuration);
 
+let userId: string; // (default to undefined)
 let ritualHistoryCreateRequest: RitualHistoryCreateRequest; //
 
 const { status, data } = await apiInstance.create1(
+    userId,
     ritualHistoryCreateRequest
 );
 ```
@@ -246,6 +260,7 @@ const { status, data } = await apiInstance.create1(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **ritualHistoryCreateRequest** | **RitualHistoryCreateRequest**|  | |
+| **userId** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
@@ -284,11 +299,18 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualHistoryControllerApi(configuration);
 
-const { status, data } = await apiInstance.list();
+let userId: string; // (default to undefined)
+
+const { status, data } = await apiInstance.list(
+    userId
+);
 ```
 
 ### Parameters
-This endpoint does not have any parameters.
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **userId** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
@@ -327,11 +349,18 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualHistoryControllerApi(configuration);
 
-const { status, data } = await apiInstance.listCurrent();
+let userId: string; // (default to undefined)
+
+const { status, data } = await apiInstance.listCurrent(
+    userId
+);
 ```
 
 ### Parameters
-This endpoint does not have any parameters.
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **userId** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
@@ -356,7 +385,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updateStatus**
-> RitualHistoryDTO updateStatus(ritualHistoryUpdateRequest)
+> updateStatus(ritualHistoryUpdateRequest)
 
 
 ### Example
@@ -371,10 +400,12 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualHistoryControllerApi(configuration);
 
+let userId: string; // (default to undefined)
 let id: string; // (default to undefined)
 let ritualHistoryUpdateRequest: RitualHistoryUpdateRequest; //
 
 const { status, data } = await apiInstance.updateStatus(
+    userId,
     id,
     ritualHistoryUpdateRequest
 );
@@ -385,12 +416,13 @@ const { status, data } = await apiInstance.updateStatus(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **ritualHistoryUpdateRequest** | **RitualHistoryUpdateRequest**|  | |
+| **userId** | [**string**] |  | defaults to undefined|
 | **id** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
 
-**RitualHistoryDTO**
+void (empty response body)
 
 ### Authorization
 
@@ -399,7 +431,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: */*
+ - **Accept**: Not defined
 
 
 ### HTTP response details

@@ -17,32 +17,32 @@
 /**
  * 
  * @export
- * @interface LoginResponse
+ * @interface PageMetadata
  */
-export interface LoginResponse {
-    /**
-     * 
-     * @type {string}
-     * @memberof LoginResponse
-     */
-    'access_token'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof LoginResponse
-     */
-    'refresh_token'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof LoginResponse
-     */
-    'token_type'?: string;
+export interface PageMetadata {
     /**
      * 
      * @type {number}
-     * @memberof LoginResponse
+     * @memberof PageMetadata
      */
-    'expires_in'?: number;
+    'size'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageMetadata
+     */
+    'number'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageMetadata
+     */
+    'totalElements'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageMetadata
+     */
+    'totalPages'?: number;
 }
 

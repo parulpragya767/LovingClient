@@ -31,7 +31,7 @@ export interface RitualRecommendationUpdateRequest {
      * @type {RecommendationStatus}
      * @memberof RitualRecommendationUpdateRequest
      */
-    'status'?: RecommendationStatus;
+    'status': RecommendationStatus;
     /**
      * 
      * @type {Array<RitualStatusUpdate>}

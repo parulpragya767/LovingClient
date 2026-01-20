@@ -1,21 +1,21 @@
-# LoginRequest
+# UserUpdateRequest
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**email** | **string** |  | [default to undefined]
-**password** | **string** |  | [default to undefined]
+**displayName** | **string** |  | [optional] [default to undefined]
+**onboardingCompleted** | **boolean** |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { LoginRequest } from './api';
+import { UserUpdateRequest } from './api';
 
-const instance: LoginRequest = {
-    email,
-    password,
+const instance: UserUpdateRequest = {
+    displayName,
+    onboardingCompleted,
 };
 ```
 

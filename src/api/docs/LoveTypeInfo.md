@@ -12,6 +12,8 @@ Name | Type | Description | Notes
 **description** | **string** |  | [optional] [default to undefined]
 **sections** | [**Array&lt;InfoSection&gt;**](InfoSection.md) |  | [optional] [default to undefined]
 **contentHash** | **string** |  | [optional] [default to undefined]
+**createdAt** | **string** |  | [optional] [default to undefined]
+**updatedAt** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -26,6 +28,8 @@ const instance: LoveTypeInfo = {
     description,
     sections,
     contentHash,
+    createdAt,
+    updatedAt,
 };
 ```
 

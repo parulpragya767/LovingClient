@@ -68,6 +68,18 @@ export interface LoveTypeInfo {
      * @memberof LoveTypeInfo
      */
     'contentHash'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof LoveTypeInfo
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof LoveTypeInfo
+     */
+    'updatedAt'?: string;
 }
 
 

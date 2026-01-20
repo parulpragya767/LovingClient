@@ -18,9 +18,6 @@
 import type { LoveType } from './love-type';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { PublicationStatus } from './publication-status';
-// May contain unused imports in some cases
-// @ts-ignore
 import type { RelationalNeed } from './relational-need';
 // May contain unused imports in some cases
 // @ts-ignore
@@ -68,13 +65,5 @@ export interface RitualFilterDTO {
      * @memberof RitualFilterDTO
      */
     'ritualTones'?: Array<RitualTone>;
-    /**
-     * 
-     * @type {PublicationStatus}
-     * @memberof RitualFilterDTO
-     */
-    'status'?: PublicationStatus;
 }
-
-
 

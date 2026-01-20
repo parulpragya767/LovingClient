@@ -10,7 +10,7 @@ All URIs are relative to *http://localhost:8080*
 |[**updateRecommendationAndRitualHistoryStatus**](#updaterecommendationandritualhistorystatus) | **PUT** /api/ritual-recommendation/{id} | |
 
 # **create**
-> RitualRecommendationDTO create(ritualRecommendationDTO)
+> RitualRecommendationDTO create(ritualRecommendationCreateRequest)
 
 
 ### Example
@@ -19,16 +19,18 @@ All URIs are relative to *http://localhost:8080*
 import {
     RitualRecommendationControllerApi,
     Configuration,
-    RitualRecommendationDTO
+    RitualRecommendationCreateRequest
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new RitualRecommendationControllerApi(configuration);
 
-let ritualRecommendationDTO: RitualRecommendationDTO; //
+let userId: string; // (default to undefined)
+let ritualRecommendationCreateRequest: RitualRecommendationCreateRequest; //
 
 const { status, data } = await apiInstance.create(
-    ritualRecommendationDTO
+    userId,
+    ritualRecommendationCreateRequest
 );
 ```
 
@@ -36,7 +38,8 @@ const { status, data } = await apiInstance.create(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **ritualRecommendationDTO** | **RitualRecommendationDTO**|  | |
+| **ritualRecommendationCreateRequest** | **RitualRecommendationCreateRequest**|  | |
+| **userId** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
@@ -75,11 +78,18 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualRecommendationControllerApi(configuration);
 
-const { status, data } = await apiInstance.listAll();
+let userId: string; // (default to undefined)
+
+const { status, data } = await apiInstance.listAll(
+    userId
+);
 ```
 
 ### Parameters
-This endpoint does not have any parameters.
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **userId** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
@@ -118,9 +128,11 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualRecommendationControllerApi(configuration);
 
+let userId: string; // (default to undefined)
 let id: string; // (default to undefined)
 
 const { status, data } = await apiInstance.listById(
+    userId,
     id
 );
 ```
@@ -129,6 +141,7 @@ const { status, data } = await apiInstance.listById(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
+| **userId** | [**string**] |  | defaults to undefined|
 | **id** | [**string**] |  | defaults to undefined|
 
 
@@ -169,10 +182,12 @@ import {
 const configuration = new Configuration();
 const apiInstance = new RitualRecommendationControllerApi(configuration);
 
+let userId: string; // (default to undefined)
 let id: string; // (default to undefined)
 let ritualRecommendationUpdateRequest: RitualRecommendationUpdateRequest; //
 
 const { status, data } = await apiInstance.updateRecommendationAndRitualHistoryStatus(
+    userId,
     id,
     ritualRecommendationUpdateRequest
 );
@@ -183,6 +198,7 @@ const { status, data } = await apiInstance.updateRecommendationAndRitualHistoryS
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **ritualRecommendationUpdateRequest** | **RitualRecommendationUpdateRequest**|  | |
+| **userId** | [**string**] |  | defaults to undefined|
 | **id** | [**string**] |  | defaults to undefined|
 
 

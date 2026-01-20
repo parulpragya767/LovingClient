@@ -51,7 +51,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updateUser**
-> UserDTO updateUser(userDTO)
+> updateUser(userUpdateRequest)
 
 
 ### Example
@@ -60,16 +60,18 @@ No authorization required
 import {
     UserControllerApi,
     Configuration,
-    UserDTO
+    UserUpdateRequest
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new UserControllerApi(configuration);
 
-let userDTO: UserDTO; //
+let userId: string; // (default to undefined)
+let userUpdateRequest: UserUpdateRequest; //
 
 const { status, data } = await apiInstance.updateUser(
-    userDTO
+    userId,
+    userUpdateRequest
 );
 ```
 
@@ -77,12 +79,13 @@ const { status, data } = await apiInstance.updateUser(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **userDTO** | **UserDTO**|  | |
+| **userUpdateRequest** | **UserUpdateRequest**|  | |
+| **userId** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
 
-**UserDTO**
+void (empty response body)
 
 ### Authorization
 
@@ -91,7 +94,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: */*
+ - **Accept**: Not defined
 
 
 ### HTTP response details

@@ -1,21 +1,25 @@
-# RitualRecommendationUpdateRequest
+# RitualRecommendationCreateRequest
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**source** | [**RecommendationSource**](RecommendationSource.md) |  | [default to undefined]
+**sourceId** | **string** |  | [default to undefined]
+**ritualPackId** | **string** |  | [default to undefined]
 **status** | [**RecommendationStatus**](RecommendationStatus.md) |  | [default to undefined]
-**ritualStatusUpdates** | [**Array&lt;RitualStatusUpdate&gt;**](RitualStatusUpdate.md) |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { RitualRecommendationUpdateRequest } from './api';
+import { RitualRecommendationCreateRequest } from './api';
 
-const instance: RitualRecommendationUpdateRequest = {
+const instance: RitualRecommendationCreateRequest = {
+    source,
+    sourceId,
+    ritualPackId,
     status,
-    ritualStatusUpdates,
 };
 ```
 

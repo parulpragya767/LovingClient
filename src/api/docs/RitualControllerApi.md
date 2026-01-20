@@ -146,7 +146,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **search**
-> PageRitualDTO search()
+> PagedModelRitualDTO search()
 
 
 ### Example
@@ -181,7 +181,7 @@ const { status, data } = await apiInstance.search(
 
 ### Return type
 
-**PageRitualDTO**
+**PagedModelRitualDTO**
 
 ### Authorization
 

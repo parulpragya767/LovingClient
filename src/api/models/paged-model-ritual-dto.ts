@@ -15,30 +15,28 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { RitualFeedback } from './ritual-feedback';
+import type { PageMetadata } from './page-metadata';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { RitualHistoryStatus } from './ritual-history-status';
+import type { RitualDTO } from './ritual-dto';
 
 /**
  * 
  * @export
- * @interface RitualHistoryUpdateRequest
+ * @interface PagedModelRitualDTO
  */
-export interface RitualHistoryUpdateRequest {
+export interface PagedModelRitualDTO {
     /**
      * 
-     * @type {RitualHistoryStatus}
-     * @memberof RitualHistoryUpdateRequest
+     * @type {Array<RitualDTO>}
+     * @memberof PagedModelRitualDTO
      */
-    'status': RitualHistoryStatus;
+    'content'?: Array<RitualDTO>;
     /**
      * 
-     * @type {RitualFeedback}
-     * @memberof RitualHistoryUpdateRequest
+     * @type {PageMetadata}
+     * @memberof PagedModelRitualDTO
      */
-    'feedback'?: RitualFeedback;
+    'page'?: PageMetadata;
 }
-
-
 

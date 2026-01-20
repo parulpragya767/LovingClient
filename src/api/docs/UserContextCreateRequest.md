@@ -1,35 +1,29 @@
-# UserContextDTO
+# UserContextCreateRequest
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **string** |  | [default to undefined]
 **conversationId** | **string** |  | [optional] [default to undefined]
 **journey** | [**Journey**](Journey.md) |  | [optional] [default to undefined]
 **loveTypes** | [**Array&lt;LoveType&gt;**](LoveType.md) |  | [optional] [default to undefined]
 **relationalNeeds** | [**Array&lt;RelationalNeed&gt;**](RelationalNeed.md) |  | [optional] [default to undefined]
 **relationshipStatus** | [**RelationshipStatus**](RelationshipStatus.md) |  | [optional] [default to undefined]
 **semanticSummary** | **string** |  | [optional] [default to undefined]
-**createdAt** | **string** |  | [optional] [default to undefined]
-**updatedAt** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { UserContextDTO } from './api';
+import { UserContextCreateRequest } from './api';
 
-const instance: UserContextDTO = {
-    id,
+const instance: UserContextCreateRequest = {
     conversationId,
     journey,
     loveTypes,
     relationalNeeds,
     relationshipStatus,
     semanticSummary,
-    createdAt,
-    updatedAt,
 };
 ```
 

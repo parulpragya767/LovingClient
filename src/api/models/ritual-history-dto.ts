@@ -37,12 +37,6 @@ export interface RitualHistoryDTO {
      * @type {string}
      * @memberof RitualHistoryDTO
      */
-    'userId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RitualHistoryDTO
-     */
     'ritualId': string;
     /**
      * 

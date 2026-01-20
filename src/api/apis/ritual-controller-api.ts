@@ -22,9 +22,9 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import type { PageRitualDTO } from '../models';
-// @ts-ignore
 import type { Pageable } from '../models';
+// @ts-ignore
+import type { PagedModelRitualDTO } from '../models';
 // @ts-ignore
 import type { RitualDTO } from '../models';
 // @ts-ignore
@@ -221,7 +221,7 @@ export const RitualControllerApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async search(pageable: Pageable, ritualFilterDTO?: RitualFilterDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageRitualDTO>> {
+        async search(pageable: Pageable, ritualFilterDTO?: RitualFilterDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelRitualDTO>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.search(pageable, ritualFilterDTO, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RitualControllerApi.search']?.[localVarOperationServerIndex]?.url;
@@ -268,7 +268,7 @@ export const RitualControllerApiFactory = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        search(requestParameters: RitualControllerApiSearchRequest, options?: RawAxiosRequestConfig): AxiosPromise<PageRitualDTO> {
+        search(requestParameters: RitualControllerApiSearchRequest, options?: RawAxiosRequestConfig): AxiosPromise<PagedModelRitualDTO> {
             return localVarFp.search(requestParameters.pageable, requestParameters.ritualFilterDTO, options).then((request) => request(axios, basePath));
         },
     };
@@ -312,7 +312,7 @@ export interface RitualControllerApiInterface {
      * @throws {RequiredError}
      * @memberof RitualControllerApiInterface
      */
-    search(requestParameters: RitualControllerApiSearchRequest, options?: RawAxiosRequestConfig): AxiosPromise<PageRitualDTO>;
+    search(requestParameters: RitualControllerApiSearchRequest, options?: RawAxiosRequestConfig): AxiosPromise<PagedModelRitualDTO>;
 
 }
 

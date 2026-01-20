@@ -23,6 +23,8 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
 import type { UserDTO } from '../models';
+// @ts-ignore
+import type { UserUpdateRequest } from '../models';
 /**
  * UserControllerApi - axios parameter creator
  * @export
@@ -60,13 +62,16 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {UserDTO} userDTO 
+         * @param {string} userId 
+         * @param {UserUpdateRequest} userUpdateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser: async (userDTO: UserDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userDTO' is not null or undefined
-            assertParamExists('updateUser', 'userDTO', userDTO)
+        updateUser: async (userId: string, userUpdateRequest: UserUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userId' is not null or undefined
+            assertParamExists('updateUser', 'userId', userId)
+            // verify required parameter 'userUpdateRequest' is not null or undefined
+            assertParamExists('updateUser', 'userUpdateRequest', userUpdateRequest)
             const localVarPath = `/api/users`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -79,6 +84,10 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            if (userId !== undefined) {
+                localVarQueryParameter['userId'] = userId;
+            }
+
 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -86,7 +95,7 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(userDTO, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(userUpdateRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -116,12 +125,13 @@ export const UserControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {UserDTO} userDTO 
+         * @param {string} userId 
+         * @param {UserUpdateRequest} userUpdateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateUser(userDTO: UserDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUser(userDTO, options);
+        async updateUser(userId: string, userUpdateRequest: UserUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUser(userId, userUpdateRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserControllerApi.updateUser']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -150,8 +160,8 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser(requestParameters: UserControllerApiUpdateUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserDTO> {
-            return localVarFp.updateUser(requestParameters.userDTO, options).then((request) => request(axios, basePath));
+        updateUser(requestParameters: UserControllerApiUpdateUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateUser(requestParameters.userId, requestParameters.userUpdateRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -177,7 +187,7 @@ export interface UserControllerApiInterface {
      * @throws {RequiredError}
      * @memberof UserControllerApiInterface
      */
-    updateUser(requestParameters: UserControllerApiUpdateUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserDTO>;
+    updateUser(requestParameters: UserControllerApiUpdateUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
 }
 
@@ -189,10 +199,17 @@ export interface UserControllerApiInterface {
 export interface UserControllerApiUpdateUserRequest {
     /**
      * 
-     * @type {UserDTO}
+     * @type {string}
      * @memberof UserControllerApiUpdateUser
      */
-    readonly userDTO: UserDTO
+    readonly userId: string
+
+    /**
+     * 
+     * @type {UserUpdateRequest}
+     * @memberof UserControllerApiUpdateUser
+     */
+    readonly userUpdateRequest: UserUpdateRequest
 }
 
 /**
@@ -220,7 +237,7 @@ export class UserControllerApi extends BaseAPI implements UserControllerApiInter
      * @memberof UserControllerApi
      */
     public updateUser(requestParameters: UserControllerApiUpdateUserRequest, options?: RawAxiosRequestConfig) {
-        return UserControllerApiFp(this.configuration).updateUser(requestParameters.userDTO, options).then((request) => request(this.axios, this.basePath));
+        return UserControllerApiFp(this.configuration).updateUser(requestParameters.userId, requestParameters.userUpdateRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

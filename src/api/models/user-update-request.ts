@@ -17,20 +17,20 @@
 /**
  * 
  * @export
- * @interface LoginRequest
+ * @interface UserUpdateRequest
  */
-export interface LoginRequest {
+export interface UserUpdateRequest {
     /**
      * 
      * @type {string}
-     * @memberof LoginRequest
+     * @memberof UserUpdateRequest
      */
-    'email': string;
+    'displayName'?: string;
     /**
      * 
-     * @type {string}
-     * @memberof LoginRequest
+     * @type {boolean}
+     * @memberof UserUpdateRequest
      */
-    'password': string;
+    'onboardingCompleted'?: boolean;
 }
 

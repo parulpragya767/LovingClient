@@ -43,13 +43,13 @@ export interface RitualPackDTO {
      * @type {string}
      * @memberof RitualPackDTO
      */
-    'id'?: string;
+    'id': string;
     /**
      * 
      * @type {string}
      * @memberof RitualPackDTO
      */
-    'title'?: string;
+    'title': string;
     /**
      * 
      * @type {string}

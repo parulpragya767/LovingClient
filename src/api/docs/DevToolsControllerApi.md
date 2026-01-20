@@ -1,33 +1,35 @@
-# AuthControllerApi
+# DevToolsControllerApi
 
 All URIs are relative to *http://localhost:8080*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**login**](#login) | **POST** /api/auth/login | |
-|[**me**](#me) | **GET** /api/auth/me | |
-|[**me1**](#me1) | **GET** /api/auth/me1 | |
+|[**createUserContext**](#createusercontext) | **POST** /internal/dev-tools/user-contexts | |
+|[**getUserContexts**](#getusercontexts) | **GET** /internal/dev-tools/user-contexts | |
+|[**getUserContextsForConversation**](#getusercontextsforconversation) | **GET** /internal/dev-tools/user-contexts/session/{id} | |
 
-# **login**
-> LoginResponse login(loginRequest)
+# **createUserContext**
+> UserContextDTO createUserContext(userContextCreateRequest)
 
 
 ### Example
 
 ```typescript
 import {
-    AuthControllerApi,
+    DevToolsControllerApi,
     Configuration,
-    LoginRequest
+    UserContextCreateRequest
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new AuthControllerApi(configuration);
+const apiInstance = new DevToolsControllerApi(configuration);
 
-let loginRequest: LoginRequest; //
+let userId: string; // (default to undefined)
+let userContextCreateRequest: UserContextCreateRequest; //
 
-const { status, data } = await apiInstance.login(
-    loginRequest
+const { status, data } = await apiInstance.createUserContext(
+    userId,
+    userContextCreateRequest
 );
 ```
 
@@ -35,12 +37,13 @@ const { status, data } = await apiInstance.login(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **loginRequest** | **LoginRequest**|  | |
+| **userContextCreateRequest** | **UserContextCreateRequest**|  | |
+| **userId** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
 
-**LoginResponse**
+**UserContextDTO**
 
 ### Authorization
 
@@ -59,31 +62,38 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **me**
-> { [key: string]: object; } me()
+# **getUserContexts**
+> Array<UserContextDTO> getUserContexts()
 
 
 ### Example
 
 ```typescript
 import {
-    AuthControllerApi,
+    DevToolsControllerApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new AuthControllerApi(configuration);
+const apiInstance = new DevToolsControllerApi(configuration);
 
-const { status, data } = await apiInstance.me();
+let userId: string; // (default to undefined)
+
+const { status, data } = await apiInstance.getUserContexts(
+    userId
+);
 ```
 
 ### Parameters
-This endpoint does not have any parameters.
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **userId** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
 
-**{ [key: string]: object; }**
+**Array<UserContextDTO>**
 
 ### Authorization
 
@@ -102,31 +112,41 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **me1**
-> { [key: string]: object; } me1()
+# **getUserContextsForConversation**
+> Array<UserContextDTO> getUserContextsForConversation()
 
 
 ### Example
 
 ```typescript
 import {
-    AuthControllerApi,
+    DevToolsControllerApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new AuthControllerApi(configuration);
+const apiInstance = new DevToolsControllerApi(configuration);
 
-const { status, data } = await apiInstance.me1();
+let userId: string; // (default to undefined)
+let id: string; // (default to undefined)
+
+const { status, data } = await apiInstance.getUserContextsForConversation(
+    userId,
+    id
+);
 ```
 
 ### Parameters
-This endpoint does not have any parameters.
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **userId** | [**string**] |  | defaults to undefined|
+| **id** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
 
-**{ [key: string]: object; }**
+**Array<UserContextDTO>**
 
 ### Authorization
 

@@ -29,63 +29,45 @@ import type { RelationshipStatus } from './relationship-status';
 /**
  * 
  * @export
- * @interface UserContextDTO
+ * @interface UserContextCreateRequest
  */
-export interface UserContextDTO {
+export interface UserContextCreateRequest {
     /**
      * 
      * @type {string}
-     * @memberof UserContextDTO
-     */
-    'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserContextDTO
+     * @memberof UserContextCreateRequest
      */
     'conversationId'?: string;
     /**
      * 
      * @type {Journey}
-     * @memberof UserContextDTO
+     * @memberof UserContextCreateRequest
      */
     'journey'?: Journey;
     /**
      * 
      * @type {Array<LoveType>}
-     * @memberof UserContextDTO
+     * @memberof UserContextCreateRequest
      */
     'loveTypes'?: Array<LoveType>;
     /**
      * 
      * @type {Array<RelationalNeed>}
-     * @memberof UserContextDTO
+     * @memberof UserContextCreateRequest
      */
     'relationalNeeds'?: Array<RelationalNeed>;
     /**
      * 
      * @type {RelationshipStatus}
-     * @memberof UserContextDTO
+     * @memberof UserContextCreateRequest
      */
     'relationshipStatus'?: RelationshipStatus;
     /**
      * 
      * @type {string}
-     * @memberof UserContextDTO
+     * @memberof UserContextCreateRequest
      */
     'semanticSummary'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserContextDTO
-     */
-    'createdAt'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserContextDTO
-     */
-    'updatedAt'?: string;
 }
 
 

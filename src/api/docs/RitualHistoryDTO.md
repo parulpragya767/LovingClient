@@ -6,7 +6,6 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **string** |  | [default to undefined]
-**userId** | **string** |  | [optional] [default to undefined]
 **ritualId** | **string** |  | [default to undefined]
 **ritualPackId** | **string** |  | [optional] [default to undefined]
 **recommendationId** | **string** |  | [optional] [default to undefined]
@@ -22,7 +21,6 @@ import { RitualHistoryDTO } from './api';
 
 const instance: RitualHistoryDTO = {
     id,
-    userId,
     ritualId,
     ritualPackId,
     recommendationId,
