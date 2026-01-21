@@ -3,8 +3,8 @@ import type { ChatSessionDTO } from '@/src/api/models/chat-session-dto';
 import type { RecommendRitualPackResponse as ApiRecommendRitualPackResponse } from '@/src/api/models/recommend-ritual-pack-response';
 import type { SendMessageRequest } from '@/src/api/models/send-message-request';
 import type { SendMessageResponse } from '@/src/api/models/send-message-response';
-import type { RitualPack } from './ritualPacks';
-import { toRitualPack } from './ritualPacks';
+import type { RitualPack } from '@/src/models/ritualPacks';
+import { toRitualPack } from '@/src/models/ritualPacks';
 
 export interface ChatMessage extends ChatMessageDTO {}
 

@@ -16,10 +16,10 @@ export default function CurrentRitualsScreen() {
   if (isLoading) return <LoadingState text="Loading your active rituals..." />;
   if (error) return <ErrorState message="Failed to load your active rituals." onButtonPress={() => refetch()} />;
 
-  const currentRituals: CurrentRitual[] = useMemo(() => currentData?.rituals ?? [], [currentData]);
+  const currentRituals: CurrentRitual[] = useMemo(() => currentData?.individualRituals ?? [], [currentData]);
   const currentRitualPacks: CurrentRitualPack[] = useMemo(() => currentData?.ritualPacks ?? [], [currentData]);
 
-  if (!currentData || currentData.rituals.length === 0 && currentData.ritualPacks.length === 0) {
+  if (!currentData || currentData.individualRituals.length === 0 && currentData.ritualPacks.length === 0) {
     return <EmptyState message="You do not have any active rituals. Feel free to browse and add some rituals." />;
   }
   

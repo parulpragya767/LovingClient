@@ -23,7 +23,7 @@ export default function HomeScreen() {
     const ritualMap = new Map<string, Ritual>();
     
     // Add rituals from currentData.rituals
-    currentData.rituals?.forEach(ritual => {
+    currentData.individualRituals?.forEach(ritual => {
       ritualMap.set(ritual.ritualId, ritual.ritual);
     });
     

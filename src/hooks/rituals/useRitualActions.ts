@@ -15,7 +15,7 @@ export const useRitualActions = () => {
     if (!currentRituals) return false;
     
     // Check in individual rituals
-    const isInIndividualRituals = currentRituals.rituals.some(ritual => ritual.ritualId === id);
+    const isInIndividualRituals = currentRituals.individualRituals.some(ritual => ritual.ritualId === id);
     if (isInIndividualRituals) return true;
     
     // Check in ritual packs
