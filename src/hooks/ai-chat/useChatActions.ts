@@ -1,15 +1,16 @@
 import { chatService } from '@/src/services/chatService';
 
+import { queryClient } from '@/src/lib/reactQuery/queryClient';
 import { chatKeys } from '@/src/lib/reactQuery/queryKeys';
 import { ChatMessage, ChatSession } from '@/src/models/chat';
 import { ChatMessageRole } from '@/src/models/enums';
 import type { RitualPack } from '@/src/models/ritualPacks';
 import { useChatStore } from "@/src/store/useChatStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import * as Crypto from 'expo-crypto';
 import { useChatSessions } from "./useChatSessions";
 
 export const useChatActions = () => {
-  const queryClient = useQueryClient();
   const { setCurrentSession } = useChatStore();
   const { data: sessions } = useChatSessions();
   
@@ -68,7 +69,7 @@ export const useChatActions = () => {
       if (!sessionId || !content) return false;
 
       const userMsg: ChatMessage = {
-        id: "id",
+        id: Crypto.randomUUID(),
         sessionId,
         role: ChatMessageRole.User,
         content,

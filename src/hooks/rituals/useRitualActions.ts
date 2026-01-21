@@ -1,15 +1,15 @@
+import { RitualFeedback } from '@/src/api';
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
+import { queryClient } from '@/src/lib/reactQuery/queryClient';
 import { chatKeys, ritualKeys } from '@/src/lib/reactQuery/queryKeys';
 import { RecommendationStatus, RitualHistoryStatus } from '@/src/models/enums';
 import type { RitualHistoryCreateRequest, RitualHistoryUpdate } from '@/src/models/ritualHistory';
 import type { RitualRecommendationUpdate, RitualStatusUpdate } from '@/src/models/ritualRecommendation';
 import { ritualHistoryService } from '@/src/services/ritualHistoryService';
 import { ritualRecommendationService } from '@/src/services/ritualRecommendationService';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export const useRitualActions = () => {
-  const queryClient = useQueryClient();
-
   const { data: currentRituals } = useCurrentRituals();
 
   const isCurrentRitual = (id: string): boolean => {
@@ -56,8 +56,13 @@ export const useRitualActions = () => {
   });
 
   const markRitualAsCompleted = useMutation({
-    mutationFn: ({ id, payload }: { id: string; payload: RitualHistoryUpdate }) =>
-      ritualHistoryService.complete(id, payload),
+    mutationFn: ({ id, feedback }: { id: string; feedback: RitualFeedback | undefined }) => {
+      const ritualHistoryUpdate: RitualHistoryUpdate = {
+        status: RitualHistoryStatus.Completed,
+        feedback,
+      }
+      return ritualHistoryService.complete(id, ritualHistoryUpdate);
+    },
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ritualKeys.current() });
