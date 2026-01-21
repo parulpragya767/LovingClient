@@ -1,11 +1,11 @@
+import { queryClient } from '@/src/lib/reactQuery/queryClient';
 import { ritualKeys } from '@/src/lib/reactQuery/queryKeys';
 import { RitualFilter } from '@/src/models/ritualTags';
 import { ritualService } from '@/src/services/ritualService';
-import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
 
 export function useRitualSearch(filter: RitualFilter) {
-  const queryClient = useQueryClient();
 
   const query = useInfiniteQuery({
     queryKey: ritualKeys.search(filter),
@@ -31,11 +31,7 @@ export function useRitualSearch(filter: RitualFilter) {
   const rituals = query.data?.pages.flatMap((p) => p.rituals) ?? [];
 
   const refresh = useCallback(() => {
-    queryClient.invalidateQueries(
-      {
-        queryKey: ritualKeys.search(filter),
-      }
-    );
+    queryClient.invalidateQueries({ queryKey: ritualKeys.search(filter) });
   }, [queryClient, filter]);
 
   return {
