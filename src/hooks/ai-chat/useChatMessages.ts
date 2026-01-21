@@ -4,7 +4,7 @@ import { chatService } from "@/src/services/chatService";
 import { useQuery } from "@tanstack/react-query";
 
 export const useChatMessages = (sessionId: string) => {
-  const query = useQuery<ChatMessage[], Error>({
+  return useQuery<ChatMessage[], Error>({
     queryKey: chatKeys.messages(sessionId),
     queryFn: async () => {
       const response = await chatService.getChatSessionWithHistory(sessionId);
@@ -12,8 +12,4 @@ export const useChatMessages = (sessionId: string) => {
     },
     enabled: !!sessionId,
   });
-
-  return {
-    ...query,
-  };
 };

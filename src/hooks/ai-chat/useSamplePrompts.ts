@@ -9,16 +9,16 @@ const DEFAULT_PROMPTS = [
 ];
 
 export const useSamplePrompts = () => {
-    return useQuery<string[], Error>({
-      queryKey: chatKeys.samplePrompts(),
-      queryFn: async () => {
-        try {
-          const res = await chatService.getSamplePrompts();
-          return res;
-        } catch (e) {
-          console.warn("Failed to fetch sample prompts, using defaults.");
-          return DEFAULT_PROMPTS;
-        }
-      },
-    });
+  return useQuery<string[], Error>({
+    queryKey: chatKeys.samplePrompts(),
+    queryFn: async () => {
+      try {
+        const res = await chatService.getSamplePrompts();
+        return res;
+      } catch (e) {
+        console.warn("Failed to fetch sample prompts, using defaults.");
+        return DEFAULT_PROMPTS;
+      }
+    },
+  });
 };

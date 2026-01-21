@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 export const useRitualPack = (id: string) => {
   return useQuery<RitualPack, Error>({
     queryKey: ritualKeys.packById(id),
-    queryFn: () => ritualPackService.getById(id as string),
+    queryFn: () => ritualPackService.getById(id),
     enabled: !!id,
   });
 };

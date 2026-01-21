@@ -4,13 +4,9 @@ import { ritualRecommendationService } from '@/src/services/ritualRecommendation
 import { useQuery } from '@tanstack/react-query';
 
 export const useRitualRecommendation = (id: string) => {
-  const query = useQuery<RitualRecommendation, Error>({
+  return useQuery<RitualRecommendation, Error>({
     queryKey: ritualKeys.recommendationsById(id),
-    queryFn: () => ritualRecommendationService.getById(id as string),
+    queryFn: () => ritualRecommendationService.getById(id),
     enabled: !!id,
   });
-
-  return {
-    ...query,
-  };
 };

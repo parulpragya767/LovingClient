@@ -4,12 +4,8 @@ import { chatService } from "@/src/services/chatService";
 import { useQuery } from "@tanstack/react-query";
 
 export const useChatSessions = () => {
-  const query = useQuery<ChatSession[], Error>({
+  return useQuery<ChatSession[], Error>({
     queryKey: chatKeys.sessions(),
     queryFn: chatService.listSessions,
   });
-
-  return {
-    ...query,
-  };
 };
