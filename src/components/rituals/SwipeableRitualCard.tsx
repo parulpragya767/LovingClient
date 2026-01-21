@@ -1,7 +1,7 @@
 import { AppTheme } from "@/src/components/themes/AppTheme";
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useToast } from "@/src/hooks/ui/useToast";
-import { emojiToFeedback, RitualHistoryStatus } from '@/src/models/enums';
+import { emojiToFeedback } from '@/src/models/enums';
 import { Ritual } from '@/src/models/rituals';
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useRef, useState } from 'react';
@@ -42,10 +42,7 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
       const feedback = emojiToFeedback(emoji);
       await markRitualAsCompleted.mutateAsync({
         id: ritualHistoryId,
-        payload: {
-          status: RitualHistoryStatus.Completed,
-          feedback,
-        },
+        feedback,
       });
       showSuccess('Ritual completed successfully!');
     } catch (error) {
