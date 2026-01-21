@@ -1,4 +1,5 @@
 import { supabase } from '@/src/lib/supabase';
+import { registerAccessTokenGetter } from '@/src/services/apiClient';
 import { userService } from '@/src/services/userService';
 import { useUserStore } from '@/src/store/useUserStore';
 import { Session, User } from '@supabase/supabase-js';
@@ -8,6 +9,7 @@ import { Platform } from 'react-native';
 type AuthContextType = {
   session: Session | null;
   sessionUser: User | null;
+  accessToken: string | null;
   loading: boolean;
   signIn: (params: { email: string; password: string }) => Promise<{ error?: string }>;
   signUp: (params: { email: string; password: string }) => Promise<{ error?: string }>;
@@ -37,6 +39,7 @@ export function getAuthRedirect(path: string) {
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
+  const [accessToken, setAccessTokenState] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   const setUser = useUserStore(s => s.setUser);
@@ -59,25 +62,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // INIT: Load stored session on app start
   useEffect(() => {
     const init = async () => {
-    try {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) {
-        console.warn('Error getting session', error.message);
-      }
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (error) {
+          console.warn('Error getting session', error.message);
+        }
 
-      const sbSession = data.session ?? null;
-      setSession(sbSession);
-      await syncUserToBackend(sbSession?.user ?? null);
-    } finally {
-      setLoading(false);
-    }
-  };
+        const sbSession = data.session ?? null;
+        const token = sbSession?.access_token ?? null;
+        setSession(sbSession);
+        setAccessTokenState(token);
+        registerAccessTokenGetter(() => token);
+        await syncUserToBackend(sbSession?.user ?? null);
+      } finally {
+        setLoading(false);
+      }
+    };
 
     init();
 
     // Listen for login/logout/session refresh
     const { data: sub } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      const token = newSession?.access_token ?? null;
       setSession(newSession ?? null);
+      setAccessTokenState(token);
+      registerAccessTokenGetter(() => token);
     });
     
     return () => {
@@ -130,13 +139,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const value = useMemo<AuthContextType>(() => ({
     session,
     sessionUser: session?.user ?? null,
+    accessToken,
     loading,
     signIn,
     signUp,
     signOut,
     resetPasswordForEmail,
     updateUser,
-  }), [session, loading]);
+  }), [session, accessToken, loading]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
