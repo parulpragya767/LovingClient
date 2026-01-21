@@ -1,7 +1,7 @@
 import { RitualHistoryControllerApi } from '@/src/api/apis/ritual-history-controller-api';
 import type { CurrentRituals, RitualHistory, RitualHistoryCreateRequest, RitualHistoryUpdate } from '@/src/models/ritualHistory';
 import { toCurrentRituals } from '@/src/models/ritualHistory';
-import apiClient from './apiClient';
+import apiClient from '@/src/services/apiClient';
 
 // Initialize the API with our configured axios instance
 const api = new RitualHistoryControllerApi(undefined, '', apiClient);
@@ -9,7 +9,7 @@ const api = new RitualHistoryControllerApi(undefined, '', apiClient);
 export const ritualHistoryService = {
   async list(): Promise<RitualHistory[]> {
     const res = await api.list();
-    return res.data as RitualHistory[];
+    return (res.data || []) as RitualHistory[];
   },
 
   async listCurrent(): Promise<CurrentRituals> {

@@ -6,7 +6,7 @@ export const useChatMessages = (sessionId: string) => {
   const query = useQuery<ChatMessage[], Error>({
     queryKey: ["chat", "messages", sessionId],
     queryFn: async () => {
-      const response = await chatService.getHistory(sessionId);
+      const response = await chatService.getChatSessionWithHistory(sessionId);
       return response.messages ?? [];
     },
     enabled: !!sessionId,

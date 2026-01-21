@@ -6,9 +6,9 @@ import type {
   RecommendRitualPackResponse
 } from '@/src/models/chat';
 import { toChatSendMessageResponse, toChatSession, toRecommendRitualPackResponse } from '@/src/models/chat';
-import apiClient from './apiClient';
+import apiClient from '@/src/services/apiClient';
 
-// Initialize the API with our configured axios instance (same pattern as ritualService)
+// Initialize the API with our configured axios instance
 const api = new AiChatControllerApi(undefined, '', apiClient);
 
 export const chatService = {
@@ -17,7 +17,7 @@ export const chatService = {
     return toChatSession(res.data);
   },
 
-  async getHistory(sessionId: string): Promise<ChatSession> {
+  async getChatSessionWithHistory(sessionId: string): Promise<ChatSession> {
     const res = await api.getChatSessionWithHistory({ sessionId });
     return toChatSession(res.data);
   },

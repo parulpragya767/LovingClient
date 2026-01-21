@@ -2,8 +2,8 @@ import { RitualControllerApi } from '@/src/api/apis/ritual-controller-api';
 import type { Pageable } from '@/src/api/models/pageable';
 import { Ritual, toRitual } from '@/src/models/rituals';
 import type { RitualFilter, RitualTags } from '@/src/models/ritualTags';
+import apiClient from '@/src/services/apiClient';
 import { PageRitual, toPageRitual } from '../models/pagination';
-import apiClient from './apiClient';
 
 // Initialize the API with our configured axios instance
 const api = new RitualControllerApi(undefined, '', apiClient);
@@ -11,7 +11,7 @@ const api = new RitualControllerApi(undefined, '', apiClient);
 export const ritualService = {
   async getAll(): Promise<Ritual[]> {
     const res = await api.getAll();
-    return res.data.map(toRitual);
+    return (res.data || []).map(toRitual);
   },
 
   async getById(id: string): Promise<Ritual> {
