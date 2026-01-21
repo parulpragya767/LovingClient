@@ -1,21 +1,13 @@
+import { ritualKeys } from '@/src/lib/reactQuery/queryKeys';
 import { RitualRecommendation } from '@/src/models/ritualRecommendation';
 import { ritualRecommendationService } from '@/src/services/ritualRecommendationService';
 import { useQuery } from '@tanstack/react-query';
 
-export const useRitualRecommendation = (id?: string) => {
+export const useRitualRecommendation = (id: string) => {
   const query = useQuery<RitualRecommendation, Error>({
-    queryKey: ['ritualRecommendation', id],
-    queryFn: async () => {
-      if (!id) throw new Error('Ritual recommendation ID is required');
-      const response = await ritualRecommendationService.getById(id);
-      return response;
-    },
+    queryKey: ritualKeys.recommendationsById(id),
+    queryFn: () => ritualRecommendationService.getById(id as string),
     enabled: !!id,
-    staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    refetchOnMount: false,
-    retry: 1,
   });
 
   return {

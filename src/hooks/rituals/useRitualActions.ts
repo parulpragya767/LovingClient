@@ -1,4 +1,5 @@
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
+import { chatKeys, ritualKeys } from '@/src/lib/reactQuery/queryKeys';
 import { RecommendationStatus, RitualHistoryStatus } from '@/src/models/enums';
 import type { RitualHistoryCreateRequest, RitualHistoryUpdate } from '@/src/models/ritualHistory';
 import type { RitualRecommendationUpdate, RitualStatusUpdate } from '@/src/models/ritualRecommendation';
@@ -34,7 +35,7 @@ export const useRitualActions = () => {
     },
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['current-rituals'] });
+      queryClient.invalidateQueries({ queryKey: ritualKeys.current() });
     },
 
     onError: (error) => {
@@ -46,7 +47,7 @@ export const useRitualActions = () => {
     mutationFn: (id: string) => ritualHistoryService.delete(id),
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['current-rituals'] });
+      queryClient.invalidateQueries({ queryKey: ritualKeys.current() });
     },
 
     onError: (error) => {
@@ -59,8 +60,8 @@ export const useRitualActions = () => {
       ritualHistoryService.complete(id, payload),
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['current-rituals'] });
-      queryClient.invalidateQueries({ queryKey: ['ritual-history'] });
+      queryClient.invalidateQueries({ queryKey: ritualKeys.current() });
+      queryClient.invalidateQueries({ queryKey: ritualKeys.history() });
     },
 
     onError: (error) => {
@@ -103,10 +104,10 @@ export const useRitualActions = () => {
     onSuccess: (_data, variables) => {
       const { sessionId, recommendationId } = variables;
       if (sessionId) {
-        queryClient.invalidateQueries({queryKey: ['chat', 'messages', sessionId]});
+        queryClient.invalidateQueries({ queryKey: chatKeys.messages(sessionId) });
       }
-      queryClient.invalidateQueries({ queryKey: ['ritualRecommendation', recommendationId] });
-      queryClient.invalidateQueries({ queryKey: ['current-rituals'] });
+      queryClient.invalidateQueries({ queryKey: ritualKeys.recommendationsById(recommendationId) });
+      queryClient.invalidateQueries({ queryKey: ritualKeys.current() });
     },
 
     onError: (error) => {

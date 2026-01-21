@@ -1,3 +1,4 @@
+import { ritualKeys } from '@/src/lib/reactQuery/queryKeys';
 import { Ritual } from '@/src/models/rituals';
 import { RitualTags } from '@/src/models/ritualTags';
 import { ritualService } from '@/src/services/ritualService';
@@ -6,9 +7,8 @@ import { useMemo } from 'react';
 
 export function useRitualTags() {
   const query = useQuery<RitualTags, Error>({
-    queryKey: ["ritual-tags"],
+    queryKey: ritualKeys.tags(),
     queryFn: ritualService.getAllTags,
-    staleTime: 10 * 60 * 1000,
   });
 
   // Helper function to get display names of tags for a ritual

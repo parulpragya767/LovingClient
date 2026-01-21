@@ -1,3 +1,4 @@
+import { chatKeys } from "@/src/lib/reactQuery/queryKeys";
 import { chatService } from "@/src/services/chatService";
 import { useQuery } from "@tanstack/react-query";
 
@@ -9,7 +10,7 @@ const DEFAULT_PROMPTS = [
 
 export const useSamplePrompts = () => {
     return useQuery<string[], Error>({
-      queryKey: ["chat", "sample-prompts"],
+      queryKey: chatKeys.samplePrompts(),
       queryFn: async () => {
         try {
           const res = await chatService.getSamplePrompts();
@@ -19,11 +20,5 @@ export const useSamplePrompts = () => {
           return DEFAULT_PROMPTS;
         }
       },
-      staleTime: 0,
-      gcTime: 5 * 60 * 1000,
-      refetchOnWindowFocus: true,
-      refetchOnReconnect: true,
-      refetchOnMount: true,
-      retry: 1,
     });
 };

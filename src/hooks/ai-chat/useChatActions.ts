@@ -1,5 +1,6 @@
 import { chatService } from '@/src/services/chatService';
 
+import { chatKeys } from '@/src/lib/reactQuery/queryKeys';
 import { ChatMessage, ChatSession } from '@/src/models/chat';
 import { ChatMessageRole } from '@/src/models/enums';
 import type { RitualPack } from '@/src/models/ritualPacks';
@@ -25,7 +26,7 @@ export const useChatActions = () => {
     },
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['chat', 'sessions'] })
+      queryClient.invalidateQueries({ queryKey: chatKeys.sessions() })
     },
     
     onError: (error) => {
@@ -41,7 +42,7 @@ export const useChatActions = () => {
     mutationFn: async (id: string) => await chatService.deleteSession(id),
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['chat', 'sessions'] })
+      queryClient.invalidateQueries({ queryKey: chatKeys.sessions() })
     },
 
     onError: (error) => {
@@ -51,7 +52,7 @@ export const useChatActions = () => {
 
   const appendMessageToStore = (sessionId: string, msg: ChatMessage) => {
     queryClient.setQueryData<ChatMessage[]>(
-      ["chat", "messages", sessionId],
+      chatKeys.messages(sessionId),
       (old = []) => [...old, msg]
     );
   };
@@ -87,7 +88,7 @@ export const useChatActions = () => {
 
     onError: (error, variables) => {
       const { sessionId } = variables;
-      queryClient.invalidateQueries({queryKey: ['chat', 'messages', sessionId]});
+      queryClient.invalidateQueries({ queryKey: chatKeys.messages(sessionId) });
       console.error('Failed to send message', error);
     },
   });
@@ -105,11 +106,11 @@ export const useChatActions = () => {
     },
 
     onSuccess: (_data, sessionId) => {
-      queryClient.invalidateQueries({queryKey: ['chat', 'messages', sessionId]});
+      queryClient.invalidateQueries({ queryKey: chatKeys.messages(sessionId) });
     },
 
     onError: (error, sessionId) => {
-      queryClient.invalidateQueries({queryKey: ['chat', 'messages', sessionId]});
+      queryClient.invalidateQueries({ queryKey: chatKeys.messages(sessionId) });
       console.error('Failed to recommend ritual pack', error);
     },
   });

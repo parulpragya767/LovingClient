@@ -1,3 +1,4 @@
+import { ritualKeys } from '@/src/lib/reactQuery/queryKeys';
 import { RitualFilter } from '@/src/models/ritualTags';
 import { ritualService } from '@/src/services/ritualService';
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
@@ -7,7 +8,7 @@ export function useRitualSearch(filter: RitualFilter) {
   const queryClient = useQueryClient();
 
   const query = useInfiniteQuery({
-    queryKey: ["ritual-search", filter],
+    queryKey: ritualKeys.search(filter),
 
     queryFn: async ({ pageParam = 0 }) => {
       const res = await ritualService.search({ page: pageParam, size: 10 }, filter);
@@ -25,11 +26,6 @@ export function useRitualSearch(filter: RitualFilter) {
       lastPage.hasMore ? lastPage.page + 1 : undefined,
 
     initialPageParam: 0,
-    staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    refetchOnMount: false,
-    retry: 1,
   });
 
   const rituals = query.data?.pages.flatMap((p) => p.rituals) ?? [];
@@ -37,7 +33,7 @@ export function useRitualSearch(filter: RitualFilter) {
   const refresh = useCallback(() => {
     queryClient.invalidateQueries(
       {
-        queryKey: ["ritual-search", filter],
+        queryKey: ritualKeys.search(filter),
       }
     );
   }, [queryClient, filter]);
