@@ -1,13 +1,29 @@
 import { useAuth } from '@/src/context/AuthContext';
 import { router } from 'expo-router';
+import React, { useState } from 'react';
 
+import LoadingState from '@/src/components/states/LoadingState';
 import { Screen } from '@/src/components/ui/Screen';
 import SettingsItem from '@/src/components/ui/settings/SettingsItem';
 import SettingsSection from '@/src/components/ui/settings/SettingsSection';
-import { ScrollView } from 'react-native';
+import { Alert, ScrollView } from 'react-native';
 
 export default function SettingsScreen() {
   const { signOut } = useAuth();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await signOut();
+      router.replace('/(tabs)/');
+    } catch (error) {
+      Alert.alert('Logout failed', 'Something went wrong. Please try again.');
+      setIsLoggingOut(false);
+    }
+  };
+
+  if (isLoggingOut) return <LoadingState text="Logging out..." />
 
   return (
     <Screen>
@@ -65,13 +81,7 @@ export default function SettingsScreen() {
           <SettingsItem
             label="Log out"
             icon="log-out"
-            onPress={signOut}
-          />
-          <SettingsItem
-            label="Delete account"
-            icon="trash"
-            onPress={signOut}
-            isLast
+            onPress={handleLogout}
           />
         </SettingsSection>
       </ScrollView>

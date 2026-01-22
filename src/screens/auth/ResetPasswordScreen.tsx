@@ -13,7 +13,7 @@ import { ActivityIndicator, Alert, View } from 'react-native';
 
 export default function ResetPasswordScreen() {
   const router = useRouter();
-  const { updateUser, signOut } = useAuth();
+  const { updatePassword, signOut } = useAuth();
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -44,7 +44,7 @@ export default function ResetPasswordScreen() {
     if (hasError) return;
 
     setLoading(true);
-    const { error } = await updateUser({ password });
+    const { error } = await updatePassword({ password });
 
     if (error) {
       setLoading(false);
