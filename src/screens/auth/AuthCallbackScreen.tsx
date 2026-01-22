@@ -1,5 +1,5 @@
 import LoadingState from '@/src/components/states/LoadingState';
-import { Screen } from '@/src/components/ui/Screen';
+import { HeaderlessScreen } from '@/src/components/ui/HeaderlessScreen';
 import { AuthBackButton } from '@/src/components/ui/navigation/AuthBackButton';
 import { useAuth } from '@/src/context/AuthContext';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -61,12 +61,12 @@ export default function AuthCallbackScreen() {
   }, [loading, session, flow, router]);
 
   return (
-    <Screen>
+    <HeaderlessScreen>
       <AuthBackButton />
 
       <View className="flex-1 justify-center">
         <LoadingState text={message} />
       </View>
-    </Screen>
+    </HeaderlessScreen>
   );
 }

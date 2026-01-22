@@ -1,7 +1,7 @@
  import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
+import { HeaderlessScreen } from '@/src/components/ui/HeaderlessScreen';
 import { AuthBackButton } from '@/src/components/ui/navigation/AuthBackButton';
-import { Screen } from '@/src/components/ui/Screen';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { View } from 'react-native';
@@ -10,7 +10,7 @@ export default function CheckYourEmailScreen() {
   const router = useRouter();
 
   return (
-    <Screen>
+    <HeaderlessScreen>
       <AuthBackButton />
 
       <View className="flex-1 justify-center">
@@ -25,6 +25,6 @@ export default function CheckYourEmailScreen() {
           Back to Sign In
         </Button>
       </View>
-    </Screen>
+    </HeaderlessScreen>
   );
 }

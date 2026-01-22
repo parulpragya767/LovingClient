@@ -1,6 +1,6 @@
  import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
-import { Screen } from '@/src/components/ui/Screen';
+import { HeaderlessScreen } from '@/src/components/ui/HeaderlessScreen';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { View } from 'react-native';
@@ -9,7 +9,7 @@ export default function AuthEntryScreen() {
   const router = useRouter();
 
   return (
-    <Screen className="justify-center">
+    <HeaderlessScreen className="justify-center">
       <AppText variant="title" className="text-center mb-3">
         Welcome to Loving
       </AppText>
@@ -37,6 +37,6 @@ export default function AuthEntryScreen() {
           Log in
         </Button>
       </View>
-    </Screen>
+    </HeaderlessScreen>
   );
 }
