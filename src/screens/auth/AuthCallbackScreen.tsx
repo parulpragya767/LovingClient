@@ -1,9 +1,10 @@
 import LoadingState from '@/src/components/states/LoadingState';
 import { Screen } from '@/src/components/ui/Screen';
+import { AuthBackButton } from '@/src/components/ui/navigation/AuthBackButton';
 import { useAuth } from '@/src/context/AuthContext';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Alert } from 'react-native';
+import { Alert, View } from 'react-native';
 
 export default function AuthCallbackScreen() {
   const router = useRouter();
@@ -60,8 +61,12 @@ export default function AuthCallbackScreen() {
   }, [loading, session, flow, router]);
 
   return (
-    <Screen className="justify-center">
-      <LoadingState text={message} />
+    <Screen>
+      <AuthBackButton />
+
+      <View className="flex-1 justify-center">
+        <LoadingState text={message} />
+      </View>
     </Screen>
   );
 }

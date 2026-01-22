@@ -3,6 +3,7 @@ import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
 import { FormField } from '@/src/components/ui/FormField';
 import { FormInput } from '@/src/components/ui/FormInput';
+import { AuthBackButton } from '@/src/components/ui/navigation/AuthBackButton';
 import { PasswordInput } from '@/src/components/ui/PasswordInput';
 import { Screen } from '@/src/components/ui/Screen';
 import { useAuth } from '@/src/context/AuthContext';
@@ -82,67 +83,71 @@ export default function EmailSignUpScreen() {
   };
 
   return (
-    <Screen className="justify-center">
-      <AppText variant="title" className="text-center mb-10">
-        Create account
-      </AppText>
+    <Screen>
+      <AuthBackButton />
 
-      <FormField label="Email" error={emailError}>
-        <FormInput
-          value={email}
-          onChangeText={text => {
-            setEmail(text);
-            if (emailError) setEmailError(null);
-          }}
-          placeholder="you@example.com"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          autoCorrect={false}
-          textContentType="emailAddress"
-          autoComplete="email"
-          returnKeyType="next"
-          hasError={!!emailError}
-        />
-      </FormField>
-
-      <FormField label="Password" error={passwordError} className="mt-4">
-        <PasswordInput
-          value={password}
-          onChangeText={text => {
-            setPassword(text);
-            if (passwordError) setPasswordError(null);
-            if (confirmPasswordError) setConfirmPasswordError(null);
-          }}
-          placeholder="••••••••"
-          returnKeyType="next"
-          hasError={!!passwordError}
-        />
-      </FormField>
-
-      <FormField label="Confirm password" error={confirmPasswordError} className="mt-4">
-        <PasswordInput
-          value={confirmPassword}
-          onChangeText={text => {
-            setConfirmPassword(text);
-            if (confirmPasswordError) setConfirmPasswordError(null);
-          }}
-          placeholder="••••••••"
-          returnKeyType="done"
-          hasError={!!confirmPasswordError}
-        />
-      </FormField>
-
-      <Button onPress={onSignUp} disabled={loading} className="mt-6">
-        {loading ? <ActivityIndicator color={AppTheme.colors.action.primary.text} /> : 'Create Account'}
-      </Button>
-
-      <View className="flex-row justify-center mt-4 gap-1">
-        <AppText variant="body">
-          Already have an account?
+      <View className="flex-1 justify-center">
+        <AppText variant="title" className="text-center mb-10">
+          Create account
         </AppText>
-        <Button variant="ghost" onPress={() => router.push('/auth/email-login')}>
-          Log in
+
+        <FormField label="Email" error={emailError}>
+          <FormInput
+            value={email}
+            onChangeText={text => {
+              setEmail(text);
+              if (emailError) setEmailError(null);
+            }}
+            placeholder="you@example.com"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
+            textContentType="emailAddress"
+            autoComplete="email"
+            returnKeyType="next"
+            hasError={!!emailError}
+          />
+        </FormField>
+
+        <FormField label="Password" error={passwordError} className="mt-4">
+          <PasswordInput
+            value={password}
+            onChangeText={text => {
+              setPassword(text);
+              if (passwordError) setPasswordError(null);
+              if (confirmPasswordError) setConfirmPasswordError(null);
+            }}
+            placeholder="••••••••"
+            returnKeyType="next"
+            hasError={!!passwordError}
+          />
+        </FormField>
+
+        <FormField label="Confirm password" error={confirmPasswordError} className="mt-4">
+          <PasswordInput
+            value={confirmPassword}
+            onChangeText={text => {
+              setConfirmPassword(text);
+              if (confirmPasswordError) setConfirmPasswordError(null);
+            }}
+            placeholder="••••••••"
+            returnKeyType="done"
+            hasError={!!confirmPasswordError}
+          />
+        </FormField>
+
+        <Button onPress={onSignUp} disabled={loading} className="mt-6">
+          {loading ? <ActivityIndicator color={AppTheme.colors.action.primary.text} /> : 'Create Account'}
         </Button>
+
+        <View className="flex-row justify-center mt-4 gap-1">
+          <AppText variant="body">
+            Already have an account?
+          </AppText>
+          <Button variant="ghost" onPress={() => router.push('/auth/email-login')}>
+            Log in
+          </Button>
+        </View>
       </View>
     </Screen>
   );

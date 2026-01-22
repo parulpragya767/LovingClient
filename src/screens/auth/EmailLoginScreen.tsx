@@ -1,8 +1,9 @@
- import { AppTheme } from "@/src/components/themes/AppTheme";
+import { AppTheme } from "@/src/components/themes/AppTheme";
 import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
 import { FormField } from '@/src/components/ui/FormField';
 import { FormInput } from '@/src/components/ui/FormInput';
+import { AuthBackButton } from '@/src/components/ui/navigation/AuthBackButton';
 import { PasswordInput } from '@/src/components/ui/PasswordInput';
 import { Screen } from '@/src/components/ui/Screen';
 import { useAuth } from '@/src/context/AuthContext';
@@ -57,57 +58,61 @@ export default function EmailLoginScreen() {
   };
 
   return (
-    <Screen className="justify-center">
-      <AppText variant="title" className="text-center mb-10">
-        Welcome to Loving
-      </AppText>
+    <Screen>
+      <AuthBackButton />
 
-      <FormField label="Email" error={emailError}>
-        <FormInput
-          value={email}
-          onChangeText={text => {
-            setEmail(text);
-            if (emailError) setEmailError(null);
-          }}
-          placeholder="you@example.com"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          autoCorrect={false}
-          textContentType="emailAddress"
-          autoComplete="email"
-          returnKeyType="next"
-          hasError={!!emailError}
-        />
-      </FormField>
-
-      <FormField label="Password" error={passwordError} className="mt-4">
-        <PasswordInput
-          value={password}
-          onChangeText={text => {
-            setPassword(text);
-            if (passwordError) setPasswordError(null);
-          }}
-          placeholder="••••••••"
-          returnKeyType="done"
-          hasError={!!passwordError}
-        />
-      </FormField>
-
-      <Button variant="ghost" onPress={() => router.push('/auth/forgot-password')} className="mt-3 self-end">
-        Forgot password?
-      </Button>
-
-      <Button onPress={onLogin} disabled={loading} className="mt-6">
-        {loading ? <ActivityIndicator color={AppTheme.colors.action.primary.text} /> : 'Sign In'}
-      </Button>
-
-      <View className="flex-row justify-center mt-4 gap-1">
-        <AppText variant="body">
-          New here?
+      <View className="flex-1 justify-center">
+        <AppText variant="title" className="text-center mb-10">
+          Welcome to Loving
         </AppText>
-        <Button variant="ghost" onPress={() => router.push('/auth/email-signup')}>
-          Create an account
+
+        <FormField label="Email" error={emailError}>
+          <FormInput
+            value={email}
+            onChangeText={text => {
+              setEmail(text);
+              if (emailError) setEmailError(null);
+            }}
+            placeholder="you@example.com"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
+            textContentType="emailAddress"
+            autoComplete="email"
+            returnKeyType="next"
+            hasError={!!emailError}
+          />
+        </FormField>
+
+        <FormField label="Password" error={passwordError} className="mt-4">
+          <PasswordInput
+            value={password}
+            onChangeText={text => {
+              setPassword(text);
+              if (passwordError) setPasswordError(null);
+            }}
+            placeholder="••••••••"
+            returnKeyType="done"
+            hasError={!!passwordError}
+          />
+        </FormField>
+
+        <Button variant="ghost" onPress={() => router.push('/auth/forgot-password')} className="mt-3 self-end">
+          Forgot password?
         </Button>
+
+        <Button onPress={onLogin} disabled={loading} className="mt-6">
+          {loading ? <ActivityIndicator color={AppTheme.colors.action.primary.text} /> : 'Sign In'}
+        </Button>
+
+        <View className="flex-row justify-center mt-4 gap-1">
+          <AppText variant="body">
+            New here?
+          </AppText>
+          <Button variant="ghost" onPress={() => router.push('/auth/email-signup')}>
+            Create an account
+          </Button>
+        </View>
       </View>
     </Screen>
   );
