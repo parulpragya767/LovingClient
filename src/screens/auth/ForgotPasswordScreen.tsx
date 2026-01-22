@@ -4,6 +4,7 @@ import { Button } from '@/src/components/ui/Button';
 import { FormField } from '@/src/components/ui/FormField';
 import { FormInput } from '@/src/components/ui/FormInput';
 import { HeaderlessScreen } from '@/src/components/ui/HeaderlessScreen';
+import { KeyboardSafeScreen } from '@/src/components/ui/KeyboardSafeScreen';
 import { AuthBackButton } from '@/src/components/ui/navigation/AuthBackButton';
 import { useAuth } from '@/src/context/AuthContext';
 import { useRouter } from 'expo-router';
@@ -46,40 +47,44 @@ export default function ForgotPasswordScreen() {
 
   return (
     <HeaderlessScreen>
-      <AuthBackButton />
+      <KeyboardSafeScreen>
+        <View className="flex-1">
+          <AuthBackButton />
 
-      <View className="flex-1 justify-center">
-        <AppText variant="title" className="text-center mb-3">
-          Reset password
-        </AppText>
-        <AppText variant="body" className="text-center mb-10">
-          Enter your email and we'll send you a reset link.
-        </AppText>
+          <View className="flex-1 justify-center">
+            <AppText variant="title" className="text-center mb-3">
+              Reset password
+            </AppText>
+            <AppText variant="body" className="text-center mb-10">
+              Enter your email and we'll send you a reset link.
+            </AppText>
 
-        <FormField label="Email" error={emailError}>
-          <FormInput
-            value={email}
-            onChangeText={text => {
-              setEmail(text);
-              if (emailError) setEmailError(null);
-            }}
-            placeholder="you@example.com"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoCorrect={false}
-            textContentType="emailAddress"
-            autoComplete="email"
-            returnKeyType="done"
-            onSubmitEditing={onSendResetLink}
-            editable={!loading}
-            hasError={!!emailError}
-          />
-        </FormField>
+            <FormField label="Email" error={emailError}>
+              <FormInput
+                value={email}
+                onChangeText={text => {
+                  setEmail(text);
+                  if (emailError) setEmailError(null);
+                }}
+                placeholder="you@example.com"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+                textContentType="emailAddress"
+                autoComplete="email"
+                returnKeyType="done"
+                onSubmitEditing={onSendResetLink}
+                editable={!loading}
+                hasError={!!emailError}
+              />
+            </FormField>
 
-        <Button onPress={onSendResetLink} disabled={loading} className="mt-6">
-          {loading ? <ActivityIndicator color={AppTheme.colors.action.primary.text} /> : 'Send reset link'}
-        </Button>
-      </View>
+            <Button onPress={onSendResetLink} disabled={loading} className="mt-6">
+              {loading ? <ActivityIndicator color={AppTheme.colors.action.primary.text} /> : 'Send reset link'}
+            </Button>
+          </View>
+        </View>
+      </KeyboardSafeScreen>
     </HeaderlessScreen>
   );
 }

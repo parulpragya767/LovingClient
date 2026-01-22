@@ -3,6 +3,7 @@ import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
 import { FormField } from '@/src/components/ui/FormField';
 import { HeaderlessScreen } from '@/src/components/ui/HeaderlessScreen';
+import { KeyboardSafeScreen } from '@/src/components/ui/KeyboardSafeScreen';
 import { AuthBackButton } from '@/src/components/ui/navigation/AuthBackButton';
 import { PasswordInput } from '@/src/components/ui/PasswordInput';
 import { useAuth } from '@/src/context/AuthContext';
@@ -60,50 +61,54 @@ export default function ResetPasswordScreen() {
 
   return (
     <HeaderlessScreen>
-      <AuthBackButton />
+      <KeyboardSafeScreen>
+        <View className="flex-1">
+          <AuthBackButton />
 
-      <View className="flex-1 justify-center">
-        <AppText variant="title" className="text-center mb-3">
-          Set a new password
-        </AppText>
-        <AppText variant="body" className="text-center mb-10">
-          Choose a strong password you haven’t used before.
-        </AppText>
+          <View className="flex-1 justify-center">
+            <AppText variant="title" className="text-center mb-3">
+              Set a new password
+            </AppText>
+            <AppText variant="body" className="text-center mb-10">
+              Choose a strong password you haven’t used before.
+            </AppText>
 
-        <FormField label="New password" error={passwordError}>
-          <PasswordInput
-            value={password}
-            onChangeText={text => {
-              setPassword(text);
-              if (passwordError) setPasswordError(null);
-              if (confirmPasswordError) setConfirmPasswordError(null);
-            }}
-            placeholder="••••••••"
-            returnKeyType="next"
-            editable={!loading}
-            hasError={!!passwordError}
-          />
-        </FormField>
+            <FormField label="New password" error={passwordError}>
+              <PasswordInput
+                value={password}
+                onChangeText={text => {
+                  setPassword(text);
+                  if (passwordError) setPasswordError(null);
+                  if (confirmPasswordError) setConfirmPasswordError(null);
+                }}
+                placeholder="••••••••"
+                returnKeyType="next"
+                editable={!loading}
+                hasError={!!passwordError}
+              />
+            </FormField>
 
-        <FormField label="Confirm new password" error={confirmPasswordError} className="mt-4">
-          <PasswordInput
-            value={confirmPassword}
-            onChangeText={text => {
-              setConfirmPassword(text);
-              if (confirmPasswordError) setConfirmPasswordError(null);
-            }}
-            placeholder="••••••••"
-            returnKeyType="done"
-            editable={!loading}
-            hasError={!!confirmPasswordError}
-            onSubmitEditing={onResetPassword}
-          />
-        </FormField>
+            <FormField label="Confirm new password" error={confirmPasswordError} className="mt-4">
+              <PasswordInput
+                value={confirmPassword}
+                onChangeText={text => {
+                  setConfirmPassword(text);
+                  if (confirmPasswordError) setConfirmPasswordError(null);
+                }}
+                placeholder="••••••••"
+                returnKeyType="done"
+                editable={!loading}
+                hasError={!!confirmPasswordError}
+                onSubmitEditing={onResetPassword}
+              />
+            </FormField>
 
-        <Button onPress={onResetPassword} disabled={loading} className="mt-6">
-          {loading ? <ActivityIndicator color={AppTheme.colors.action.primary.text} /> : 'Update password'}
-        </Button>
-      </View>
+            <Button onPress={onResetPassword} disabled={loading} className="mt-6">
+              {loading ? <ActivityIndicator color={AppTheme.colors.action.primary.text} /> : 'Update password'}
+            </Button>
+          </View>
+        </View>
+      </KeyboardSafeScreen>
     </HeaderlessScreen>
   );
 }
