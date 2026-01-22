@@ -1,4 +1,4 @@
-import { ThemedText } from '@/src/components/themes/themed-text';
+import { AppText } from '@/src/components/ui/AppText';
 import React from 'react';
 import { View } from 'react-native';
 
@@ -10,10 +10,10 @@ export function EmptyState({
   message = "Nothing here yet.",
 }: Props) {
   return (
-    <View className="flex-1 items-center justify-center p-8">
-      <ThemedText className="text-gray-500 text-center">
+    <View className="flex-1 items-center justify-center bg-surface-screen p-8">
+      <AppText className="text-center">
         {message}
-      </ThemedText>
+      </AppText>
     </View>
   );
 }

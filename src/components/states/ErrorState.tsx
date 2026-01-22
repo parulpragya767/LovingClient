@@ -1,9 +1,9 @@
 // src/components/states/ErrorState.tsx
 
-import { ThemedText } from '@/src/components/themes/themed-text';
-import { ThemedView } from '@/src/components/themes/themed-view';
+import { AppText } from '@/src/components/ui/AppText';
 import React from 'react';
-import { Pressable } from 'react-native';
+import { View } from 'react-native';
+import { Button } from '../ui/Button';
 
 interface ErrorStateProps {
   message?: string;
@@ -20,21 +20,16 @@ export default function ErrorState({
 }: ErrorStateProps) {
 
   return (
-      <ThemedView className={`items-center justify-center p-6 ${fullScreen ? "flex-1" : ""}`}>
-      <ThemedText className="text-red-500 text-center mb-4">
+      <View className={`items-center justify-center bg-surface-screen p-6 ${fullScreen ? "flex-1" : ""}`}>
+      <AppText color="text-red-500" className="text-center mb-4">
         {message}
-      </ThemedText>
+      </AppText>
 
       {onButtonPress && (
-        <Pressable
-          onPress={onButtonPress}
-          className="bg-blue-500 px-4 py-2 rounded-lg"
-        >
-          <ThemedText className="text-white text-base">
-            {buttonMessage}
-          </ThemedText>
-        </Pressable>
+        <Button variant="secondary" onPress={onButtonPress} activeOpacity={0.8}>
+          {buttonMessage}
+        </Button>
       )}
-    </ThemedView>
+    </View>
   );
 }

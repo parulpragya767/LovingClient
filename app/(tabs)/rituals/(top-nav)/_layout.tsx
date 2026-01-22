@@ -1,5 +1,5 @@
 import { AppTheme } from "@/src/components/themes/AppTheme";
-import { ThemedText } from '@/src/components/themes/themed-text';
+import { AppText } from '@/src/components/ui/AppText';
 import { TopNavigationTabScreenOptions } from '@/src/components/ui/navigation/TabOptions';
 import { MaterialIcons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -22,7 +22,7 @@ export default function RitualsTabsLayout() {
         onPress={() => router.push('/rituals/search')}
         >
           <MaterialIcons name="search" size={20} color={AppTheme.colors.action.ghost.text} />
-          <ThemedText className="text-text-muted ml-2">Search rituals...</ThemedText>
+          <AppText variant="muted" className="ml-2">Search rituals...</AppText>
         </Pressable>
       </View>
       

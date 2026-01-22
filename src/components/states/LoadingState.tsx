@@ -1,9 +1,8 @@
 // src/components/states/LoadingState.tsx
 
-import { ThemedText } from '@/src/components/themes/themed-text';
-import { ThemedView } from '@/src/components/themes/themed-view';
+import { AppText } from '@/src/components/ui/AppText';
 import React from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 
 interface LoadingStateProps {
   text?: string;
@@ -15,13 +14,13 @@ export default function LoadingState({
   fullScreen = true,
 }: LoadingStateProps) {
   return (
-    <ThemedView className={`items-center justify-center p-6 ${fullScreen ? "flex-1" : ""}`}>
+    <View className={`items-center justify-center bg-surface-screen p-6 ${fullScreen ? "flex-1" : ""}`}>
       <ActivityIndicator size="large" />
       {text && (
-        <ThemedText className="text-gray-600 mt-3">
+        <AppText className="mt-3">
           {text}
-        </ThemedText>
+        </AppText>
       )}
-    </ThemedView>
+    </View>
   );
 }
