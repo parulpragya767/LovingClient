@@ -1,13 +1,26 @@
+import { UserUpdateRequest } from '@/src/models/user';
 import { userService } from '@/src/services/userService';
+import { useUserStore } from '@/src/store/useUserStore';
 import { useMutation } from '@tanstack/react-query';
 
 export const useUserActions = () => {
-  const updateUser = useMutation({
-    mutationFn: (userData: { displayName?: string; onboardingCompleted?: boolean }) =>
-      userService.updateUser(userData),
+  const setOnboardingCompleted = useUserStore(s => s.setOnboardingCompleted);
+  
+  const markOnboardingCompleted = useMutation({
+    mutationFn: () => {
+      const userData: UserUpdateRequest = {
+        onboardingCompleted: true,
+      }
+      return userService.updateUser(userData);
+    },
+
+    onSuccess: () => {
+      setOnboardingCompleted(true);
+    },
 
     onError: (error) => {
-      console.error('Failed to update user', error);
+      setOnboardingCompleted(true);
+      console.error('Failed to complete onboarding', error);
     },
   });
 
@@ -20,7 +33,7 @@ export const useUserActions = () => {
   });
 
   return {
-    updateUser,
+    markOnboardingCompleted,
     syncUser,
   };
 };
