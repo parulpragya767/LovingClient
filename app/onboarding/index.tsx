@@ -1,6 +1,6 @@
-import WelcomeScreen from '@/src/screens/onboarding/WelcomeScreen';
+import OnboardingScreen from '@/src/screens/onboarding/OnboardingScreen';
 import React from 'react';
 
-export default function OnboardingWelcomeRoute() {
-  return <WelcomeScreen />;
+export default function OnboardingRoute() {
+  return <OnboardingScreen />;
 }

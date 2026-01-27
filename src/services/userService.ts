@@ -12,7 +12,7 @@ export const userService = {
     return response.data as User;
   },
 
-  async updateUser(userData: { displayName?: string }): Promise<void> {
+  async updateUser(userData: { displayName?: string; onboardingCompleted?: boolean }): Promise<void> {
     await api.updateUser({ userUpdateRequest: userData });
   },
 };
