@@ -5,16 +5,18 @@ import { View } from 'react-native';
 export type CardProps = {
   children: React.ReactNode;
   className?: string;
+  color?: string;
 };
 
-const baseClasses = 'bg-surface-elevated rounded-card p-4 shadow-card';
+const baseClasses = 'rounded-card p-4 shadow-card';
 
 export function Card({ 
   children,
-  className 
+  className,
+  color = 'bg-surface-elevated'
 }: CardProps) {
   return (
-    <View className={clsx(baseClasses, className)}>
+    <View className={clsx(baseClasses, color, className)}>
       {children}
     </View>
   );
