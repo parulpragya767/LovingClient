@@ -1,8 +1,7 @@
 import { Button } from '@/src/components/ui/Button';
 import { ProgressBars } from '@/src/components/ui/ProgressBars';
 import { useUserActions } from '@/src/hooks/user/useUserActions';
-import RitualsAndAIChatInfoScreen from '@/src/screens/onboarding/RitualsAndAIChatInfoScreen';
-import StartingPathScreen from '@/src/screens/onboarding/StartingPathScreen';
+import BeginScreen from '@/src/screens/onboarding/BeginScreen';
 import WelcomeScreen from '@/src/screens/onboarding/WelcomeScreen';
 import { useRouter } from 'expo-router';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
@@ -26,15 +25,14 @@ export default function OnboardingScreen() {
   const pages = useMemo(
     () => [
       { key: 'welcome', Component: WelcomeScreen },
-      { key: 'rituals', Component: RitualsAndAIChatInfoScreen },
-      { key: 'starting',
-        Component: (props: any) => (
-          <StartingPathScreen
-            {...props}
-            onStart={(route: string) => completeOnboardingAndNavigate(route)}
-          />
-      ),
-    },
+      { key: 'begin',
+          Component: (props: any) => (
+            <BeginScreen
+              {...props}
+              onStart={(route: string) => completeOnboardingAndNavigate(route)}
+            />
+        ),
+      },    
     ],
     [completeOnboardingAndNavigate]
   );

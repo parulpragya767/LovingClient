@@ -10,29 +10,37 @@ export default function WelcomeScreen() {
 
       {/* Visual Anchor */}
       <View className="items-center mb-6">
-        <View className="w-16 h-16 rounded-full bg-surface-sunken items-center justify-center">
-          <AppText>♡</AppText>
+        <View className="flex-row items-center justify-center">
+          <View className="h-10 w-10 rounded-full bg-brand-primary/20" />
+          <View className="h-12 w-12 rounded-full bg-brand-primary/30 -ml-3 items-center justify-center">
+            <AppText>♡</AppText>
+          </View>
+          <View className="h-10 w-10 rounded-full bg-brand-primary/20 -ml-3" />
         </View>
       </View>
 
       {/* Title */}
       <AppText variant="title" className="text-center">
-        Love is something you practice
+        Welcome to Loving
       </AppText>
 
       {/* Intro */}
       <AppText className="text-center mt-4">
-        Loving helps you understand the different ways love shows up — and gives you simple practices to grow it, over time.
+        A gentle way to understand love — and practice it.
       </AppText>
 
       {/* Concept Card */}
       <Card className="mt-10" color="bg-surface-sunken">
-        <AppText className="text-center">
-          Caring, desire, trust, growth, belonging — each matters in its own way.
+        <AppText variant="small" color="text-text-muted" className="text-center">
+          Love shows up in many forms
         </AppText>
 
-        <MarkdownText className="mt-3 text-center">
-          Loving looks at love through **love types**, so you can see what’s strong, what needs attention, and where to begin.
+        <AppText className="text-center mt-4">
+          Care, desire, trust, growth, belonging — each matters in its own way.
+        </AppText>
+
+        <MarkdownText className="mt-4 text-center">
+          Loving uses **love types** to help you see what’s strong, what needs care, and where to begin.
         </MarkdownText>
       </Card>
 
