@@ -1,5 +1,4 @@
 import { Button } from '@/src/components/ui/Button';
-import { HeaderlessScreen } from '@/src/components/ui/HeaderlessScreen';
 import { ProgressBars } from '@/src/components/ui/ProgressBars';
 import { useUserActions } from '@/src/hooks/user/useUserActions';
 import RitualsAndAIChatInfoScreen from '@/src/screens/onboarding/RitualsAndAIChatInfoScreen';
@@ -8,6 +7,7 @@ import WelcomeScreen from '@/src/screens/onboarding/WelcomeScreen';
 import { useRouter } from 'expo-router';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { FlatList, useWindowDimensions, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function OnboardingScreen() {
   const router = useRouter();
@@ -62,8 +62,8 @@ export default function OnboardingScreen() {
   const showFinish = currentIndex === totalSteps - 1;
 
   return (
-    <HeaderlessScreen>
-      <ProgressBars
+    <SafeAreaView className="flex-1 bg-surface-screen">
+      <ProgressBars className="px-2 pt-6"
         total={totalSteps}
         currentIndex={currentIndex}
         onPressStep={scrollToIndex}
@@ -74,6 +74,7 @@ export default function OnboardingScreen() {
         data={pages}
         horizontal
         pagingEnabled
+        bounces={false}
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item) => item.key}
         onMomentumScrollEnd={handleMomentumEnd}
@@ -87,9 +88,10 @@ export default function OnboardingScreen() {
             <item.Component />
           </View>
         )}
+        className="flex-1"
       />
 
-      <View className="pb-6">
+      <View className="px-4 pb-6">
         {showSkip && 
           <Button variant="ghost" onPress={completeOnboarding}>
             Skip
@@ -103,6 +105,6 @@ export default function OnboardingScreen() {
         }
       </View>
       
-    </HeaderlessScreen>
+    </SafeAreaView>
   );
 }
