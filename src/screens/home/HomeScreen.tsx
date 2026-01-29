@@ -1,84 +1,82 @@
 import AICompanionCard from '@/src/components/home/AICompanionCard';
-import LoveTypeCard from '@/src/components/love-lens/LoveTypeCard';
+import ExploreCard from '@/src/components/home/ExploreCard';
 import RitualCard from '@/src/components/rituals/RitualCard';
-import ErrorState from '@/src/components/states/ErrorState';
-import LoadingState from '@/src/components/states/LoadingState';
 import { AppText } from '@/src/components/ui/AppText';
 import { Screen } from '@/src/components/ui/Screen';
-import { useLoveTypes } from '@/src/hooks/love-lens/useLoveTypes';
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
-import { Ritual } from '@/src/models/rituals';
+import { useRouter } from 'expo-router';
+import React from 'react';
 import { FlatList, ScrollView, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
-  const { data: currentData, isLoading, error, refetch } = useCurrentRituals();
-  const { data: allLoveTypes = [] } = useLoveTypes();
-  const loveTypes = allLoveTypes.slice(0, 3);
-
-  // Merge rituals from currentData.rituals and all rituals from ritualPacks
-  const mergedRituals = (() => {
-    if (!currentData) return [];
-    
-    const ritualMap = new Map<string, Ritual>();
-    
-    // Add rituals from currentData.rituals
-    currentData.individualRituals?.forEach(ritual => {
-      ritualMap.set(ritual.ritualId, ritual.ritual);
-    });
-    
-    // Add rituals from each ritual pack
-    currentData.ritualPacks?.forEach(pack => {
-      pack.rituals?.forEach(ritual => {
-        ritualMap.set(ritual.ritualId, ritual.ritual);
-      });
-    });
-    
-    return Array.from(ritualMap.values());
-  })();
-
-  if (isLoading) return <LoadingState text="Loading love types..." />;
-  if (error) return <ErrorState message="Failed to load love types." onButtonPress={() => refetch()} />;
+  const router = useRouter();
+  const { getMergedCurrentRituals } = useCurrentRituals();
+  const currentRituals = getMergedCurrentRituals();
+  const hasRituals = currentRituals.length > 0;
 
   return (
-    <SafeAreaView className="flex-1" edges={["left", "right"]}>
-      <Screen>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {/* Current Rituals */}
-          <AppText variant="subtitle" className="mt-2">Current Rituals</AppText>
-          <AppText variant="small" className="mb-4">Your active rituals at a glance</AppText>
-          <FlatList
-            data={mergedRituals}
-            keyExtractor={(item) => item.id.toString()}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View className="mr-3 w-72">
-                <RitualCard ritual={item} isCompact />
-              </View>
-            )}
-          />
+    <Screen>
+      <ScrollView showsVerticalScrollIndicator={false}>
 
-          {/* Love Types */}
-          <AppText variant="subtitle" className="mt-6">Your Love Types</AppText>
-          <AppText variant="small" className="mb-4">Focus areas for you</AppText>
-          <FlatList
-            data={loveTypes}
-            keyExtractor={(item) => item.id.toString()}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View className="mr-3 w-64">
-                <LoveTypeCard loveTypeDetail={item} isCompact />
-              </View>
-            )}
-          />
-                  
+        {/* Orientation */}
+        <View className="mt-4 mb-2">
+          <AppText variant="title">Begin in your own way</AppText>
+          <AppText variant="small" className="mt-1">
+            Talk it through, try a small ritual, or explore.
+          </AppText>
+        </View>
+
+        {/* AI Companion Card*/}
+        <View className="mt-4">
+          <AICompanionCard />
+        </View>
+
+        {/* Current Rituals (conditional) */}
+        {hasRituals && (
           <View className="mt-6">
-            <AICompanionCard />
+            <AppText variant="subtitle">Current rituals</AppText>
+            <AppText variant="small" className="mb-4">
+              Your active rituals at a glance
+            </AppText>
+
+            <FlatList
+              data={currentRituals}
+              keyExtractor={(item) => item.id.toString()}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <View className="mr-3 w-72">
+                  <RitualCard ritual={item} isCompact />
+                </View>
+              )}
+            />
           </View>
-        </ScrollView>
-      </Screen>
-    </SafeAreaView>
+        )}
+
+        {/* Explore */}
+        <View className="mt-6">
+          <AppText variant="subtitle" className="mb-4">
+            Explore
+          </AppText>
+
+          <View className="flex-row gap-3">
+            <ExploreCard
+              title="Love types"
+              description="Different ways love shows up and evolves"
+              onPress={() => router.push('/(tabs)/love-lens')}
+            />
+            <ExploreCard
+              title="Rituals"
+              description="Small practices for connection and care"
+              onPress={() => router.push('/(tabs)/rituals/all-rituals')}
+            />
+          </View>
+        </View>
+
+        {/* Bottom breathing room */}
+        <View className="h-12" />
+        
+      </ScrollView>
+    </Screen>
   );
 }
