@@ -6,7 +6,6 @@ import { AppText } from '@/src/components/ui/AppText';
 import { Screen } from '@/src/components/ui/Screen';
 import { useLoveTypes } from '@/src/hooks/love-lens/useLoveTypes';
 import { FlatList, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function LoveLensScreen() {
   const { data: loveTypes = [], isLoading, error, refetch } = useLoveTypes();
@@ -15,25 +14,23 @@ export default function LoveLensScreen() {
   if (error) return <ErrorState message="Failed to load love types." onButtonPress={() => refetch()} />;
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={["left", "right"]}>
-      <Screen>
-        <AppText variant="body" className="mb-6 mt-2 font-medium">
-          Discover your love language and improve your relationship
-        </AppText>
+    <Screen>
+      <AppText variant="small" className="mb-6 mt-2 text-text-muted">
+        A way to see the different forms love takes — and which ones want care right now.
+      </AppText>
 
-        <FlatList
-          data={loveTypes}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View className="mb-4">
-              <LoveTypeCard loveTypeDetail={item} />
-            </View>
-          )}
-          showsVerticalScrollIndicator={false}
-          ListFooterComponent={<View className="h-20" />}
-          ListEmptyComponent={<EmptyState message="No love types found." />}
-        />
-      </Screen>
-    </SafeAreaView>
+      <FlatList
+        data={loveTypes}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <View className="mb-4">
+            <LoveTypeCard loveTypeDetail={item} />
+          </View>
+        )}
+        showsVerticalScrollIndicator={false}
+        ListFooterComponent={<View className="h-20" />}
+        ListEmptyComponent={<EmptyState message="No love types found." />}
+      />
+    </Screen>
   );
 }
