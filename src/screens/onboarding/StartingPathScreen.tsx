@@ -1,63 +1,72 @@
 import React from 'react';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
 import { AppText } from '@/src/components/ui/AppText';
+import { Button } from '@/src/components/ui/Button';
 import { Card } from '@/src/components/ui/Card';
-import { MarkdownText } from '@/src/components/ui/MarkdownText';
 
-export default function StartingPathScreen() {
+type StartingPathScreenProps = {
+  onStart: (route: string) => void;
+};
+
+export default function StartingPathScreen({ onStart }: StartingPathScreenProps) {
   return (
     <View className="flex-1 justify-start mt-6">
 
-      {/* Title */}
       <AppText variant="title" className="text-center">
-        Choose where to begin
+        Let’s begin gently
       </AppText>
 
-      {/* Framing */}
       <AppText className="text-center mt-4">
-        There’s no single right way to start.  
-        Pick what feels most natural to you right now.
+        There’s no setup to get right. You can explore slowly, or start with a conversation.
       </AppText>
 
-      {/* Path 1: Love Types */}
-      <Pressable className="mt-10">
-        <Card color="bg-surface-sunken">
-          <AppText className="text-center">
-            Start with love types
-          </AppText>
+      {/* Primary Path */}
+      <Card className="mt-10">
+        <AppText variant="subtitle">
+          Start with a conversation
+        </AppText>
 
-          <View className="h-px bg-border/40 my-6" />
+        <AppText className="mt-2">
+          Talk about what’s on your mind — a feeling, a relationship, or a question.
+          Loving will reflect with you and suggest rituals when they feel helpful.
+        </AppText>
 
-          <MarkdownText className="text-center">
-            Reflect on the **areas of love** you want to focus on — like care,
-            trust, desire, or growth — and receive a **ritual pack** designed for
-            you.
-          </MarkdownText>
-        </Card>
-      </Pressable>
+        <AppText variant="small" className="mt-2 text-text-secondary">
+          No right words needed. You can start anywhere.
+        </AppText>
 
-      {/* Path 2: AI Chat */}
-      <Pressable className="mt-6">
-        <Card color="bg-surface-sunken">
-          <AppText className="text-center">
-            Talk it through
-          </AppText>
+        <Button
+          className="mt-4"
+          onPress={() => onStart('/(tabs)/ai-chat')}
+        >
+          Start chatting
+        </Button>
+      </Card>
 
-          <View className="h-px bg-border/40 my-6" />
+      {/* Secondary Path */}
+      <Card className="mt-6" color="bg-surface-sunken">
+        <AppText variant="subtitle">
+          Explore rituals on your own
+        </AppText>
 
-          <MarkdownText className="text-center">
-            Start a conversation with the **AI companion** — share what’s on your
-            mind, and explore rituals together as things become clearer.
-          </MarkdownText>
-        </Card>
-      </Pressable>
+        <AppText className="mt-2">
+          Browse simple practices designed to strengthen different parts of love —
+          care, trust, closeness, growth, and more.
+        </AppText>
 
-      {/* Gentle reassurance */}
+        <Button
+          variant="ghost"
+          className="mt-4"
+          onPress={() => onStart('/(tabs)/rituals/all-rituals')}
+        >
+          Browse rituals
+        </Button>
+      </Card>
+
       <AppText variant="small" className="text-center mt-8">
-        You can always explore the other path later.
+        You can switch paths anytime. Loving grows with you.
       </AppText>
-
     </View>
   );
 }

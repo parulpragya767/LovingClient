@@ -17,13 +17,31 @@ export default function OnboardingScreen() {
 
   const { markOnboardingCompleted } = useUserActions();
 
+  const completeOnboardingAndNavigate = useCallback(async (route: string) => {
+    if (isCompleting) return;
+    setIsCompleting(true);
+
+    try {
+      await markOnboardingCompleted.mutateAsync();
+    } finally {
+      router.replace(route);
+    }
+  }, [router, markOnboardingCompleted, isCompleting]);
+
   const pages = useMemo(
     () => [
       { key: 'welcome', Component: WelcomeScreen },
       { key: 'rituals', Component: RitualsAndAIChatInfoScreen },
-      { key: 'starting', Component: StartingPathScreen },
+      { key: 'starting',
+        Component: (props: any) => (
+          <StartingPathScreen
+            {...props}
+            onStart={(route: string) => completeOnboardingAndNavigate(route)}
+          />
+      ),
+    },
     ],
-    []
+    [completeOnboardingAndNavigate]
   );
 
   const totalSteps = pages.length;
@@ -47,17 +65,7 @@ export default function OnboardingScreen() {
     [width]
   );
 
-  const completeOnboarding = useCallback(async () => {
-    if (isCompleting) return;
-    setIsCompleting(true);
-
-    try {
-      await markOnboardingCompleted.mutateAsync();
-    } catch {}
-
-    router.replace('/(tabs)');
-  }, [router, markOnboardingCompleted, isCompleting]);
-
+  
   const showSkip = currentIndex < totalSteps - 1;
   const showFinish = currentIndex === totalSteps - 1;
 
@@ -93,13 +101,13 @@ export default function OnboardingScreen() {
 
       <View className="px-4 pb-6">
         {showSkip && 
-          <Button variant="ghost" onPress={completeOnboarding}>
+          <Button variant="ghost" onPress={() => completeOnboardingAndNavigate('/(tabs)')}>
             Skip
           </Button>
         }
 
         {showFinish && 
-          <Button variant="primary" onPress={completeOnboarding} disabled={isCompleting}>
+          <Button variant="primary" onPress={() => completeOnboardingAndNavigate('/(tabs)')} disabled={isCompleting}>
             Finish
           </Button>
         }
