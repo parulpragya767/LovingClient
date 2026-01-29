@@ -20,7 +20,7 @@ export default function HomeScreen() {
 
         {/* Orientation */}
         <View className="mt-4 mb-2">
-          <AppText variant="title">Begin in your own way</AppText>
+          <AppText variant="heading">Begin in your own way</AppText>
           <AppText variant="small" className="mt-1">
             Talk it through, try a small ritual, or explore.
           </AppText>

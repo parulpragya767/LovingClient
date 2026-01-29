@@ -3,7 +3,7 @@ import React from 'react';
 import { Text, TextProps, TextStyle } from 'react-native';
 
 
-export type AppTextVariant = 'title' | 'subtitle' | 'body' | 'small' | 'caption' | 'extraSmall' | 'muted';
+export type AppTextVariant = 'title' | 'heading' | 'subtitle' | 'body' | 'small' | 'caption' | 'extraSmall' | 'muted';
 
 export type AppTextProps = TextProps & {
   variant?: AppTextVariant;
@@ -15,6 +15,7 @@ const baseClasses = 'font-sans';
 
 const variantClasses: Record<AppTextVariant, string> = {
   title: 'text-title font-semibold',
+  heading: 'text-heading font-semibold',
   subtitle: 'text-subtitle font-medium',
   body: 'text-body',
   small: 'text-small',

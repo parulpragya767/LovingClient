@@ -9,6 +9,7 @@ module.exports = {
       },
       fontSize: {
         title: ['24px', { lineHeight: '32px' }],
+        heading: ['20px', { lineHeight: '28px' }],
         subtitle: ['18px', { lineHeight: '26px' }],
         body: ['16px', { lineHeight: '24px' }],
         small: ['14px', { lineHeight: '20px' }],
