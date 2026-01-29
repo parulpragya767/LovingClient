@@ -13,22 +13,22 @@ import { SectionList, View } from 'react-native';
 export default function CurrentRitualsScreen() {
   const { data: currentData, isLoading, refetch, error } = useCurrentRituals();
 
-  if (isLoading) return <LoadingState text="Loading your active rituals..." />;
-  if (error) return <ErrorState message="Failed to load your active rituals." onButtonPress={() => refetch()} />;
-
   const currentRituals: CurrentRitual[] = useMemo(() => currentData?.individualRituals ?? [], [currentData]);
   const currentRitualPacks: CurrentRitualPack[] = useMemo(() => currentData?.ritualPacks ?? [], [currentData]);
 
-  if (!currentData || currentData.individualRituals.length === 0 && currentData.ritualPacks.length === 0) {
-    return <EmptyState message="You do not have any active rituals. Feel free to browse and add some rituals." />;
-  }
-  
   const sections = useMemo(() => {
     const s: Array<{ key: 'packs' | 'rituals'; data: any[] }> = [];
     if (currentRitualPacks.length > 0) s.push({ key: 'packs', data: currentRitualPacks });
     if (currentRituals.length > 0) s.push({ key: 'rituals', data: currentRituals });
     return s;
   }, [currentRitualPacks, currentRituals]);
+
+  if (isLoading) return <LoadingState text="Loading your active rituals..." />;
+  if (error) return <ErrorState message="Failed to load your active rituals." onButtonPress={() => refetch()} />;
+
+  if (!currentData || currentData.individualRituals.length === 0 && currentData.ritualPacks.length === 0) {
+    return <EmptyState message="You do not have any active rituals. Feel free to browse and add some rituals." />;
+  }
 
   return (
     <Screen>
