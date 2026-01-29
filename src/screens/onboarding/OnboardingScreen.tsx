@@ -13,20 +13,15 @@ export default function OnboardingScreen() {
   const router = useRouter();
   const { width } = useWindowDimensions();
   const listRef = useRef<FlatList>(null);
-  const [isCompleting, setIsCompleting] = useState(false);
-
   const { markOnboardingCompleted } = useUserActions();
 
   const completeOnboardingAndNavigate = useCallback(async (route: string) => {
-    if (isCompleting) return;
-    setIsCompleting(true);
-
     try {
       await markOnboardingCompleted.mutateAsync();
     } finally {
       router.replace(route);
     }
-  }, [router, markOnboardingCompleted, isCompleting]);
+  }, [router, markOnboardingCompleted]);
 
   const pages = useMemo(
     () => [
@@ -65,10 +60,6 @@ export default function OnboardingScreen() {
     [width]
   );
 
-  
-  const showSkip = currentIndex < totalSteps - 1;
-  const showFinish = currentIndex === totalSteps - 1;
-
   return (
     <SafeAreaView className="flex-1 bg-surface-screen">
       <ProgressBars className="px-2 pt-6"
@@ -99,20 +90,9 @@ export default function OnboardingScreen() {
         className="flex-1"
       />
 
-      <View className="px-4 pb-6">
-        {showSkip && 
-          <Button variant="ghost" onPress={() => completeOnboardingAndNavigate('/(tabs)')}>
-            Skip
-          </Button>
-        }
-
-        {showFinish && 
-          <Button variant="primary" onPress={() => completeOnboardingAndNavigate('/(tabs)')} disabled={isCompleting}>
-            Finish
-          </Button>
-        }
-      </View>
-      
+      <Button variant="ghost" className="pb-6" onPress={() => completeOnboardingAndNavigate('/(tabs)')}>
+        Skip for now
+      </Button>  
     </SafeAreaView>
   );
 }

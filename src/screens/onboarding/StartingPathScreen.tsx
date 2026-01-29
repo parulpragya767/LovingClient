@@ -22,12 +22,12 @@ export default function StartingPathScreen({ onStart }: StartingPathScreenProps)
       </AppText>
 
       {/* Primary Path */}
-      <Card className="mt-10">
-        <AppText variant="subtitle">
+      <Card color="bg-surface-sunken" className="mt-10">
+        <AppText variant="subtitle" className="text-center">
           Start with a conversation
         </AppText>
 
-        <AppText className="mt-2">
+        <AppText className="mt-2 text-center">
           Talk about what’s on your mind — a feeling, a relationship, or a question.
           Loving will reflect with you and suggest rituals when they feel helpful.
         </AppText>
@@ -36,37 +36,26 @@ export default function StartingPathScreen({ onStart }: StartingPathScreenProps)
           No right words needed. You can start anywhere.
         </AppText>
 
-        <Button
-          className="mt-4"
-          onPress={() => onStart('/(tabs)/ai-chat')}
-        >
+        <Button variant="primary" className="mt-4" onPress={() => onStart('/(tabs)/ai-chat')}>
           Start chatting
         </Button>
       </Card>
 
       {/* Secondary Path */}
-      <Card className="mt-6" color="bg-surface-sunken">
-        <AppText variant="subtitle">
+      <Card color="bg-surface-sunken" className="mt-6">
+        <AppText variant="subtitle" className="text-center">
           Explore rituals on your own
         </AppText>
 
-        <AppText className="mt-2">
+        <AppText className="mt-2 text-center">
           Browse simple practices designed to strengthen different parts of love —
           care, trust, closeness, growth, and more.
         </AppText>
 
-        <Button
-          variant="ghost"
-          className="mt-4"
-          onPress={() => onStart('/(tabs)/rituals/all-rituals')}
-        >
+        <Button variant="ghost" className="mt-4" onPress={() => onStart('/(tabs)/rituals/all-rituals')}>
           Browse rituals
         </Button>
       </Card>
-
-      <AppText variant="small" className="text-center mt-8">
-        You can switch paths anytime. Loving grows with you.
-      </AppText>
     </View>
   );
 }
