@@ -1,19 +1,18 @@
 import { Button } from '@/src/components/ui/Button';
+import { HeaderlessScreen } from '@/src/components/ui/HeaderlessScreen';
 import { ProgressBars } from '@/src/components/ui/ProgressBars';
 import { useUserActions } from '@/src/hooks/user/useUserActions';
-import { useRouter } from 'expo-router';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { ScrollView, useWindowDimensions, View } from 'react-native';
-
-import { HeaderlessScreen } from '@/src/components/ui/HeaderlessScreen';
 import RitualsAndAIChatInfoScreen from '@/src/screens/onboarding/RitualsAndAIChatInfoScreen';
 import StartingPathScreen from '@/src/screens/onboarding/StartingPathScreen';
 import WelcomeScreen from '@/src/screens/onboarding/WelcomeScreen';
+import { useRouter } from 'expo-router';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { FlatList, useWindowDimensions, View } from 'react-native';
 
 export default function OnboardingScreen() {
   const router = useRouter();
   const { width } = useWindowDimensions();
-  const scrollRef = useRef<ScrollView>(null);
+  const listRef = useRef<FlatList>(null);
   const [isCompleting, setIsCompleting] = useState(false);
 
   const { markOnboardingCompleted } = useUserActions();
@@ -33,19 +32,19 @@ export default function OnboardingScreen() {
   const scrollToIndex = useCallback(
     (index: number) => {
       const clamped = Math.max(0, Math.min(index, totalSteps - 1));
-      scrollRef.current?.scrollTo({ x: clamped * width, animated: true });
+      listRef.current?.scrollToIndex({index: clamped, animated: true});
       setCurrentIndex(clamped);
     },
-    [totalSteps, width]
+    [totalSteps]
   );
 
   const handleMomentumEnd = useCallback(
     (e: any) => {
       const x = e?.nativeEvent?.contentOffset?.x ?? 0;
-      const nextIndex = Math.round(x / width);
-      if (nextIndex !== currentIndex) setCurrentIndex(nextIndex);
+      const index = Math.round(x / width);
+      setCurrentIndex(index);
     },
-    [currentIndex, width]
+    [width]
   );
 
   const completeOnboarding = useCallback(async () => {
@@ -69,41 +68,41 @@ export default function OnboardingScreen() {
         currentIndex={currentIndex}
         onPressStep={scrollToIndex}
       />
+      
+      <FlatList
+        ref={listRef}
+        data={pages}
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={(item) => item.key}
+        onMomentumScrollEnd={handleMomentumEnd}
+        getItemLayout={(_, index) => ({
+          length: width,
+          offset: width * index,
+          index,
+        })}
+        renderItem={({ item }) => (
+          <View style={{ width }} className="flex-1 px-6 pt-6">
+            <item.Component />
+          </View>
+        )}
+      />
 
-      <View className="flex-1">
-        <ScrollView className="px-6 pt-6"
-          ref={scrollRef}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          onMomentumScrollEnd={handleMomentumEnd}
-          scrollEventThrottle={16}
-        >
-          {pages.map(({ key, Component }) => (
-            <View key={key} style={{ width }}>
-              <Component />
-            </View>
-          ))}
-        </ScrollView>
+      <View className="pb-6">
+        {showSkip && 
+          <Button variant="ghost" onPress={completeOnboarding}>
+            Skip
+          </Button>
+        }
+
+        {showFinish && 
+          <Button variant="primary" onPress={completeOnboarding} disabled={isCompleting}>
+            Finish
+          </Button>
+        }
       </View>
       
-      {showSkip && 
-        <Button 
-          variant="ghost" 
-          onPress={completeOnboarding} 
-          className="flex-row justify-center">
-          Skip
-        </Button>
-      }
-
-      {showFinish && 
-        <Button 
-          variant="primary" 
-          onPress={completeOnboarding} 
-          disabled={isCompleting}>
-          Finish
-        </Button>
-      }
     </HeaderlessScreen>
   );
 }
