@@ -13,7 +13,7 @@ export default function ExploreCard({
 }) {
   return (
     <Card className="flex-1 border border-border">
-      <Pressable onPress={onPress} className="flex-1">
+      <Pressable onPress={onPress}>
         <AppText className="font-semibold">{title}</AppText>
         <AppText variant="small" className="mt-1" numberOfLines={3} ellipsizeMode="tail">
             {description}

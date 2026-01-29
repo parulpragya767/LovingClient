@@ -62,12 +62,12 @@ export default function HomeScreen() {
           <View className="flex-row gap-3">
             <ExploreCard
               title="Love types"
-              description="Different ways love shows up and evolves"
+              description="Different ways love shows up and evolves."
               onPress={() => router.push('/(tabs)/love-lens')}
             />
             <ExploreCard
               title="Rituals"
-              description="Small practices for connection and care"
+              description="Small practices for connection, care and repair."
               onPress={() => router.push('/(tabs)/rituals/all-rituals')}
             />
           </View>

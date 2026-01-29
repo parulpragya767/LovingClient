@@ -16,7 +16,7 @@ export default function AICompanionCard() {
             <MaterialIcons name="chat-bubble-outline" size={24} color={AppTheme.colors.brand.primary} />
           </View>
           <View className="flex-1 mr-1">
-            <AppText variant="body" className="font-semibold mb-2">Talk it through</AppText>
+            <AppText variant="body" className="font-semibold mb-1">Talk it through</AppText>
             <AppText variant="small">Share what’s happening. Get reflection and gentle ritual suggestions.</AppText>
           </View>
           <MaterialIcons name="chevron-right" size={24} color={AppTheme.colors.brand.primary} />
