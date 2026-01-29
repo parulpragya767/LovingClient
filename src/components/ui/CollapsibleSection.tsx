@@ -45,7 +45,7 @@ export default function CollapsibleSection({
       </TouchableOpacity>
 
       {isExpanded && (
-        <View className="px-4 pt-2 pb-4">
+        <View className="p-4">
           {children}
         </View>
       )}

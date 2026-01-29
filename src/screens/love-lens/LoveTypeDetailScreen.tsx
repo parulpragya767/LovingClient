@@ -40,7 +40,7 @@ export default function LoveTypeDetailScreen() {
     <Screen>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Description */}
-        <View className="mb-6">
+        <View className="mt-2 mb-6">
           <MarkdownText>
             {loveTypeDetail.description}
           </MarkdownText>
@@ -51,7 +51,7 @@ export default function LoveTypeDetailScreen() {
         {loveTypeDetail.sections?.slice()
           .sort((a, b) => (a.order || 0) - (b.order || 0))
           .map((section: LoveTypeInfoSection, index: number) => (
-            <View key={index} className="mb-8">
+            <View key={index} className="mb-6">
               <CollapsibleSection
                 key={index}
                 title={section.title}
