@@ -1,20 +1,22 @@
 import Tag from '@/src/components/ui/Tag';
 import { Chip } from '@/src/models/ritualTags';
+import clsx from 'clsx';
 import { Pressable, View } from 'react-native';
 
 type SelectedTagsProps = {
   chips: Chip[];
   removeChip: (chip: Chip) => void;
   clearAll: () => void;
+  className?: string;
 };
 
-export function SelectedTags({ chips, removeChip, clearAll }: SelectedTagsProps) {
+export function SelectedTags({ chips, removeChip, clearAll, className }: SelectedTagsProps) {
   if (chips.length === 0) {
     return null;
   }
 
   return (
-    <View className="px-4 py-3 flex-row flex-wrap gap-2">
+    <View className={clsx("flex-row flex-wrap gap-2", className)}>
       {chips.map(chip => (
         <Tag
           key={chip.key}

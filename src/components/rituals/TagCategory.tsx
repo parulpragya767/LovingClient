@@ -21,7 +21,7 @@ export default function TagCategory({
   if (!tagValues || tagValues.length === 0) return null;
   
   return (
-    <View className="px-4 py-2">
+    <View className="py-2">
       <AppText variant="subtitle" className="mb-2">{title}</AppText>
       <View className="flex-row flex-wrap gap-2">
         {tagValues

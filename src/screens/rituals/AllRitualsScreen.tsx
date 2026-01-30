@@ -40,7 +40,7 @@ export default function AllRitualsScreen() {
 
   return (
     <Screen>
-        <SelectedTags chips={chips} removeChip={removeChip} clearAll={clearAll} />
+        <SelectedTags chips={chips} removeChip={removeChip} clearAll={clearAll} className="mb-4"/>
         <FlatList
           ref={listRef}
           data={rituals}
