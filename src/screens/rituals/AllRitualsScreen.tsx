@@ -54,7 +54,7 @@ export default function AllRitualsScreen() {
         <RitualSearchInput onSearch={handleKeywordSearch} />
 
         <Pressable
-          onPress={() => router.push('/rituals/search')}
+          onPress={() => router.push('/rituals/filter')}
           className="h-10 w-10 items-center justify-center bg-surface-sunken border border-border rounded-compactCard"
         >
           <MaterialIcons name="tune" size={20} color={AppTheme.colors.text.primary}/>

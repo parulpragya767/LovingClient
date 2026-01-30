@@ -11,7 +11,7 @@ import { Stack, useRouter } from 'expo-router';
 import React from 'react';
 import { ScrollView } from 'react-native';
 
-export default function RitualsSearchScreen() {
+export default function RitualsFilterScreen() {
   const router = useRouter();
   const { data: tagData, isLoading: isTagsLoading, refetch: refetchTags, error } = useRitualTags();
   const { selectedDraft, chipsDraft, removeChipDraft, clearAllDraft, toggleDraft, applyDraft } = useTagSelectionDraft();

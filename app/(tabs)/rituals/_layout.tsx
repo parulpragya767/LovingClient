@@ -14,7 +14,7 @@ export default function RitualsLayout() {
         }} 
       />
       <Stack.Screen 
-        name="search"
+        name="filter"
         options={{
           title: "Filter rituals",
           gestureEnabled: false,
