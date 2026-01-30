@@ -26,10 +26,6 @@ export default function CurrentRitualsScreen() {
   if (isLoading) return <LoadingState text="Loading your active rituals..." />;
   if (error) return <ErrorState message="Failed to load your active rituals." onButtonPress={() => refetch()} />;
 
-  if (!currentData || currentData.individualRituals.length === 0 && currentData.ritualPacks.length === 0) {
-    return <EmptyState message="You do not have any active rituals. Feel free to browse and add some rituals." />;
-  }
-
   return (
     <Screen>
       <SectionList
@@ -55,10 +51,15 @@ export default function CurrentRitualsScreen() {
           </View>
         )}
         ListHeaderComponent={
-          <View className="pb-6">
-            <AppText variant="title">Your Active Rituals</AppText>
-            <AppText variant="small">Keep track of your daily practices</AppText>
-          </View>
+          sections.length > 0 ? (
+            <View className="pb-6">
+              <AppText variant="heading">Your Active Rituals</AppText>
+              <AppText variant="small" color="text-text-muted">Keep track of your current practices</AppText>
+            </View>
+          ) : null
+        }
+        ListEmptyComponent={
+          <EmptyState message={`No active rituals yet.\nBrowse rituals and add one when it feels right.`} />
         }
         ListFooterComponent={<View className="h-20" />}
         showsVerticalScrollIndicator={false}

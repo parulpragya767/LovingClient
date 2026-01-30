@@ -10,8 +10,8 @@ export function EmptyState({
   message = "Nothing here yet.",
 }: Props) {
   return (
-    <View className="flex-1 items-center justify-center bg-surface-screen p-8">
-      <AppText className="text-center">
+    <View className="flex-1 items-center justify-center p-8">
+      <AppText variant="small" color="text-text-muted" className="text-center">
         {message}
       </AppText>
     </View>
