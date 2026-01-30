@@ -18,7 +18,7 @@ export function PasswordInput({
       textContentType='password'
       autoComplete='password'
       hasError={hasError}
-      right={
+      rightElement={
         <Pressable onPress={() => setVisible(v => !v)} hitSlop={10}>
           {visible ? (
             <EyeOff size={20} color={AppTheme.colors.action.secondary.text} />

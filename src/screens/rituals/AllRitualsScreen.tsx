@@ -1,16 +1,20 @@
 import RitualCard from '@/src/components/rituals/RitualCard';
+import RitualSearchInput from '@/src/components/rituals/RitualSearchInput';
 import { SelectedTags } from '@/src/components/rituals/SelectedTags';
 import { EmptyState } from '@/src/components/states/EmptyState';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
+import { AppTheme } from '@/src/components/themes/AppTheme';
 import { Screen } from '@/src/components/ui/Screen';
 import { useRitualSearch } from '@/src/hooks/rituals/useRitualSearch';
 import { useTagSelection } from '@/src/hooks/rituals/useTagSelection';
+import { MaterialIcons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import { useEffect, useRef } from 'react';
-import { FlatList, Platform, View } from 'react-native';
+import { FlatList, Keyboard, Platform, Pressable, View } from 'react-native';
 
 export default function AllRitualsScreen() {
-  const listRef = useRef(null);
+  const listRef = useRef<FlatList>(null);
   const onEndReachedCalledDuringMomentum = useRef(false);
   const isWeb = Platform.OS === "web";
 
@@ -38,10 +42,30 @@ export default function AllRitualsScreen() {
   if (isLoading) return <LoadingState text="Loading rituals..." />;
   if (error) return <ErrorState message="Failed to load rituals." onButtonPress={() => refetch()} />;
 
+  const handleKeywordSearch = (query: string) => {
+    Keyboard.dismiss();
+    listRef.current?.scrollToOffset({ offset: 0, animated: true });
+  };
+
   return (
     <Screen>
-        <SelectedTags chips={chips} removeChip={removeChip} clearAll={clearAll} className="mb-4"/>
-        <FlatList
+      {/* Search and Filter*/}
+      <View className="flex-row items-center gap-3 mb-4">
+        <RitualSearchInput onSearch={handleKeywordSearch} />
+
+        <Pressable
+          onPress={() => router.push('/rituals/search')}
+          className="h-10 w-10 items-center justify-center bg-surface-sunken border border-border rounded-compactCard"
+        >
+          <MaterialIcons name="tune" size={20} color={AppTheme.colors.text.primary}/>
+        </Pressable>
+      </View>
+
+      {/* Selected filter tags */}
+      <SelectedTags chips={chips} removeChip={removeChip} clearAll={clearAll} className="mb-4"/>
+      
+      {/* Rituals List */}
+      <FlatList
           ref={listRef}
           data={rituals}
           keyExtractor={(item) => item.id}
