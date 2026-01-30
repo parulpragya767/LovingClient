@@ -21,7 +21,7 @@ export default function ErrorState({
 
   return (
       <View className={`items-center justify-center bg-surface-screen p-6 ${fullScreen ? "flex-1" : ""}`}>
-      <AppText color="text-red-500" className="text-center mb-4">
+      <AppText color="text-state-error" className="text-center mb-4">
         {message}
       </AppText>
 

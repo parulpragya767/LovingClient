@@ -15,10 +15,6 @@ export default function LoveLensScreen() {
 
   return (
     <Screen>
-      <AppText variant="small" className="mb-6 mt-2 text-text-muted">
-        A way to see the different forms love takes — and which ones want care right now.
-      </AppText>
-
       <FlatList
         data={loveTypes}
         keyExtractor={(item) => item.id.toString()}
@@ -27,6 +23,13 @@ export default function LoveLensScreen() {
             <LoveTypeCard loveTypeDetail={item} />
           </View>
         )}
+        ListHeaderComponent={
+          loveTypes.length > 0 ? (
+            <AppText variant="small" className="mb-6 mt-2 text-text-muted">
+              A way to see the different forms love takes — and which ones want care right now.
+            </AppText>
+          ) : null
+        }
         showsVerticalScrollIndicator={false}
         ListFooterComponent={<View className="h-20" />}
         ListEmptyComponent={<EmptyState message="No love types found." />}
