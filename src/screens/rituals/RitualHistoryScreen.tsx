@@ -6,6 +6,7 @@ import { useRitualHistory } from '@/src/hooks/rituals/useRitualHistory';
 import { useRituals } from '@/src/hooks/rituals/useRituals';
 import { RitualHistoryStatus } from '@/src/models/enums';
 import { Ritual } from '@/src/models/rituals';
+import { useMemo } from 'react';
 import { FlatList, View } from 'react-native';
 
 const getTimestamp = (dateString?: string): number => 
@@ -15,28 +16,18 @@ export default function RitualHistoryScreen() {
   const { data: history = [], isLoading, error, refetch } = useRitualHistory();
   const { data: rituals = [] } = useRituals();
 
+  const ritualsById = useMemo(() => {
+    return new Map<string, Ritual>(rituals.map(r => [r.id, r]))
+  }, [rituals]);
+
+  const sortedHistory = useMemo(() => {
+    return history
+      .filter(ritual => ritual.status === RitualHistoryStatus.Completed)
+      .sort((a, b) => getTimestamp(b.updatedAt) - getTimestamp(a.updatedAt))
+  }, [history]);
+
   if (isLoading) return <LoadingState text="Loading your ritual history..." />;
   if (error) return <ErrorState message="Failed to load your ritual history." onButtonPress={() => refetch()} />;
-    
-  // const ritualsById = useMemo(() => 
-  //   new Map<string, Ritual>(rituals.map(r => [r.id, r])),
-  //   [rituals]
-  // );
-
-  // const sortedHistory = useMemo(() => 
-  //   history
-  //     .filter(ritual => ritual.status === RitualHistoryStatus.Completed)
-  //     .sort((a, b) => getTimestamp(b.updatedAt) - getTimestamp(a.updatedAt)),
-  //   [history]
-  // );
-
-  const ritualsById = new Map<string, Ritual>(rituals.map(r => [r.id, r]));
-
-  const sortedHistory = 
-    history
-      .filter(ritual => ritual.status === RitualHistoryStatus.Completed)
-      .sort((a, b) => getTimestamp(b.updatedAt) - getTimestamp(a.updatedAt));
-
 
   return (
     <View className="flex-1 bg-surface-screen">
