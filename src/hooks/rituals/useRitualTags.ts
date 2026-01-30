@@ -27,15 +27,15 @@ export function useRitualTags() {
         });
       }
 
-      // Add ritual mode
-      if (ritual.ritualMode) {
-        const found = ritualModes.values.find(rm => rm.key === ritual.ritualMode);
-        if (found) displayNames.push(found.displayName);
-      }
-
       // Add time taken
       if (ritual.timeTaken) {
         const found = timeTaken.values.find(tt => tt.key === ritual.timeTaken);
+        if (found) displayNames.push(found.displayName);
+      }
+
+      // Add ritual mode
+      if (ritual.ritualMode) {
+        const found = ritualModes.values.find(rm => rm.key === ritual.ritualMode);
         if (found) displayNames.push(found.displayName);
       }
 

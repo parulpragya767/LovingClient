@@ -1,8 +1,7 @@
-import { RitualFeedback } from '@/src/api';
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { queryClient } from '@/src/lib/reactQuery/queryClient';
 import { chatKeys, ritualKeys } from '@/src/lib/reactQuery/queryKeys';
-import { RecommendationStatus, RitualHistoryStatus } from '@/src/models/enums';
+import { RecommendationStatus, RitualFeedback, RitualHistoryStatus } from '@/src/models/enums';
 import type { RitualHistoryCreateRequest, RitualHistoryUpdate } from '@/src/models/ritualHistory';
 import type { RitualRecommendationUpdate, RitualStatusUpdate } from '@/src/models/ritualRecommendation';
 import { ritualHistoryService } from '@/src/services/ritualHistoryService';

@@ -1,7 +1,7 @@
 import { AppTheme } from "@/src/components/themes/AppTheme";
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useToast } from "@/src/hooks/ui/useToast";
-import { emojiToFeedback } from '@/src/models/enums';
+import { emojiToFeedback, RitualFeedback } from '@/src/models/enums';
 import { Ritual } from '@/src/models/rituals';
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useRef, useState } from 'react';
@@ -31,15 +31,9 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
     setEmojiVisible(true);
   };
 
-  const handleEmojiModalDismiss = () => {
-    setEmojiVisible(false);
-    close();
-  };
-
-  const handleEmojiSelect = async (emoji: string) => {
+  const completeRitual = async (feedback: RitualFeedback | undefined) => {
     if (!ritualHistoryId) return;
     try {
-      const feedback = emojiToFeedback(emoji);
       await markRitualAsCompleted.mutateAsync({
         id: ritualHistoryId,
         feedback,
@@ -51,6 +45,20 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
       setEmojiVisible(false);
       close();
     }
+  };
+
+  const handleEmojiModalDismiss = () => {
+    setEmojiVisible(false);
+    close();
+  };
+
+  const handleEmojiSelect = async (emoji: string) => {
+    const feedback = emojiToFeedback(emoji);
+    completeRitual(feedback);
+  };
+
+  const handleFeedbackSkip = async () => {
+    completeRitual(undefined);
   };
 
   const handleDeletePress = async () => {
@@ -102,6 +110,7 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
         visible={emojiVisible}
         onClose={handleEmojiModalDismiss}
         onSelectEmoji={handleEmojiSelect}
+        onSkip={handleFeedbackSkip}
       />
     </View>
   );

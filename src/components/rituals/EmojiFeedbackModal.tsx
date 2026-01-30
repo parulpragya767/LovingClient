@@ -11,20 +11,24 @@ type EmojiFeedbackModalProps = {
   visible: boolean;
   onClose: () => void;
   onSelectEmoji: (emoji: string) => void;
+  onSkip?: () => void;
 };
 
-export default function EmojiFeedbackModal({ visible, onClose, onSelectEmoji }: EmojiFeedbackModalProps) {
+export default function EmojiFeedbackModal({ visible, onClose, onSelectEmoji, onSkip }: EmojiFeedbackModalProps) {
   const [selectedEmoji, setSelectedEmoji] = useState<string | null>(null);
 
   const handleEmojiPress = (emoji: string) => {
     setSelectedEmoji(emoji);
 
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        onSelectEmoji(emoji);
-        onClose();
-      }, 250);
-    });
+    setTimeout(() => {
+      onSelectEmoji(emoji);
+      onClose();
+    }, 250);
+  };
+
+  const handleSkip = () => {
+    onSkip?.();
+    onClose();
   };
 
   return (
@@ -63,8 +67,8 @@ export default function EmojiFeedbackModal({ visible, onClose, onSelectEmoji }: 
               </Pressable>
             ))}
           </View>
-          <Button onPress={onClose} variant="ghost">
-            Cancel
+          <Button onPress={handleSkip} variant="ghost">
+            Skip for now
           </Button>
         </View>
       </Pressable>
