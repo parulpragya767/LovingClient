@@ -65,5 +65,11 @@ export interface RitualFilterDTO {
      * @memberof RitualFilterDTO
      */
     'ritualTones'?: Array<RitualTone>;
+    /**
+     * 
+     * @type {string}
+     * @memberof RitualFilterDTO
+     */
+    'keyword'?: string;
 }
 
