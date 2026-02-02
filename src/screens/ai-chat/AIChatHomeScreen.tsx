@@ -4,18 +4,16 @@ import { AppText } from '@/src/components/ui/AppText';
 import { KeyboardSafeScreen } from '@/src/components/ui/KeyboardSafeScreen';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useSamplePrompts } from '@/src/hooks/ai-chat/useSamplePrompts';
-import { useKeyboardOffset } from '@/src/hooks/ui/useKeyboardOffset';
 import { useToast } from '@/src/hooks/ui/useToast';
 import { useRouter } from 'expo-router';
 import { useCallback, useRef } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, Keyboard, View } from 'react-native';
 
 export const AIChatHomeScreen = () => {
   const router = useRouter();
   const chatInputRef = useRef<ChatInputHandle>(null);
   const { startNewConversation, sendMessageToSession } = useChatActions();
   const { data: samplePrompts } = useSamplePrompts();
-  const keyboardOffset = useKeyboardOffset();
   const { showError } = useToast();
 
   const handleStarterPromptPress = useCallback((prompt: string) => {
@@ -28,6 +26,7 @@ export const AIChatHomeScreen = () => {
       await sendMessageToSession.mutateAsync({ sessionId, content: message });
       router.push(`/ai-chat/chat?sessionId=${sessionId}`);
     } catch (error) {
+      Keyboard.dismiss()
       showError("Failed to send message");
     }
   }, [startNewConversation, sendMessageToSession]);
