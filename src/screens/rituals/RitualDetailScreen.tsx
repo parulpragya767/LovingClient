@@ -108,12 +108,12 @@ export default function RitualDetailScreen() {
           <View className="flex-column items-left gap-4">
             {ritual.steps?.map((step, index) => (
               <View key={index} className="flex-row items-start gap-3">
-                <View className="bg-brand-subtle w-6 h-6 rounded-full items-center justify-center">
+                <View className="bg-brand-subtle w-6 h-6 rounded-full items-center justify-center mt-0.5">
                   <AppText variant="caption" color="text-text-inverseSubtle">
                     {index + 1}
                   </AppText>
                 </View>
-                <View className="flex-1">
+                <View className="flex-1 -mt-0.5">
                   <MarkdownText>
                     {step}
                   </MarkdownText>
