@@ -1,7 +1,7 @@
+import { StickyRitualCTA } from '@/src/components/rituals/StickyRitualCTA';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
 import { AppText } from '@/src/components/ui/AppText';
-import { Button } from '@/src/components/ui/Button';
 import CollapsibleSection from '@/src/components/ui/CollapsibleSection';
 import { MarkdownText } from '@/src/components/ui/MarkdownText';
 import { Screen } from '@/src/components/ui/Screen';
@@ -59,54 +59,31 @@ export default function RitualDetailScreen() {
 
   return (
     <Screen>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Title */}
-        <View className="flex-row justify-between items-start mb-4 mt-2">
-          <AppText variant="subtitle">
-            {ritual.tagLine}
-          </AppText>
-          
-          {/* Add to current rituals */}
-          {isCurrent ? (
-            <View className="items-end">
-              <View className="flex-row items-center mb-1">
-                <AppText variant="small" color="text-brand-primary" className="mr-2 font-semibold">✓</AppText>
-                <AppText variant="small">Added to Your Rituals</AppText>
-              </View>
-              <Button variant="secondary" onPress={handleGoToCurrentRituals} activeOpacity={0.8}>
-                Go to My Rituals
-              </Button>
-            </View>
-          ) : (
-            <Button variant="primary" onPress={handleAddToCurrent} activeOpacity={0.8}>
-              Add to My Rituals
-            </Button>
-          )}
-        </View>
-
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 120 }}>
+        {/* Tagline */}
+        <AppText variant="body" className="mb-4 mt-2">
+          {ritual.tagLine}
+        </AppText>
+        
         {/* Quick Info */}
-        <View className="flex-row justify-between mb-6">
+        <View className="flex-row mb-6">
           {[
             { label: 'Love Types', value: loveTypesDisplayName },
             { label: 'Mode', value: ritualModeDisplayName },
             { label: 'Duration', value: timeTakenDisplayName },
           ]
             .filter(item => item.value)
-            .map((item, index, array) => (
-              <View 
-                key={item.label}
-                className="items-center"
-                style={{ width: `${100 / array.length}%` }}
-              >
-                <AppText variant="caption">{item.label}</AppText>
-                <AppText variant="small" className="font-semibold">{item.value}</AppText>
+            .map(item => (
+              <View key={item.label} className="flex-1 items-center gap-1">
+                <AppText variant="caption" color="text-text-muted">{item.label}</AppText>
+                <AppText variant="small" className="font-medium text-center">{item.value}</AppText>
               </View>
             ))}
         </View>
 
         {/* Description */}
         <CollapsibleSection
-          title="Description"
+          title="What This Ritual Is"
           initiallyExpanded
           containerClassName="mb-8"
         >
@@ -115,8 +92,8 @@ export default function RitualDetailScreen() {
 
         {/* How it helps */}
         <CollapsibleSection
-          title="How It Helps"
-          initiallyExpanded
+          title="How This Helps"
+          initiallyExpanded = {false}
           containerClassName="mb-8"
         >
           <AppText>{ritual.howItHelps}</AppText>
@@ -124,14 +101,14 @@ export default function RitualDetailScreen() {
 
         {/* Steps */}
         <CollapsibleSection
-          title="How to Do It"
+          title="How to Practice"
           initiallyExpanded
           containerClassName="mb-8"
         >
-          <View className="flex-column items-left justify-center gap-4 my-2">
+          <View className="flex-column items-left gap-4">
             {ritual.steps?.map((step, index) => (
-              <View key={index} className="flex-row items-start justify-start">
-                <View className="bg-brand-subtle w-6 h-6 rounded-full items-center justify-center mr-3">
+              <View key={index} className="flex-row items-start gap-3">
+                <View className="bg-brand-subtle w-6 h-6 rounded-full items-center justify-center">
                   <AppText variant="caption" color="text-text-inverseSubtle">
                     {index + 1}
                   </AppText>
@@ -146,6 +123,13 @@ export default function RitualDetailScreen() {
           </View>
         </CollapsibleSection>
       </ScrollView>
+
+      {/* Sticky CTA for adding to / viewing current rituals */}
+      <StickyRitualCTA
+        isAdded={isCurrent}
+        onAdd={handleAddToCurrent}
+        onView={handleGoToCurrentRituals}
+      />
     </Screen>
   );
 }
