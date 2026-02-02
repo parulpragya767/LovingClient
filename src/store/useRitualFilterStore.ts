@@ -3,8 +3,11 @@ import { create } from "zustand";
 
 interface RitualFilterStore {
   selectedTags: SelectedTagState;
+  keyword: string;
   setSelectedTags: (f: SelectedTagState) => void;
   clearSelectedTags: () => void;
+  setKeyword: (keyword: string) => void;
+  clearKeyword: () => void;
 }
 
 export const useRitualFilterStore = create<RitualFilterStore>((set) => ({
@@ -16,7 +19,11 @@ export const useRitualFilterStore = create<RitualFilterStore>((set) => ({
     timeTaken: [],
   },
 
+  keyword: "",
+
   setSelectedTags: (f) => set({ selectedTags: f }),
+
+  setKeyword: (keyword) => set({ keyword }),
 
   clearSelectedTags: () =>
     set({
@@ -28,4 +35,6 @@ export const useRitualFilterStore = create<RitualFilterStore>((set) => ({
         timeTaken: [],
       },
     }),
+
+  clearKeyword: () => set({ keyword: "" }),
 }));

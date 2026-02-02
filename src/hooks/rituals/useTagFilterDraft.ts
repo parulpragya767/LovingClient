@@ -2,7 +2,7 @@ import { Chip, SelectedTagState, TagValue } from '@/src/models/ritualTags';
 import { useRitualFilterStore } from '@/src/store/useRitualFilterStore';
 import { useCallback, useMemo, useState } from 'react';
 
-export const useTagSelectionDraft = () => {
+export const useTagFilterDraft = () => {
   const { selectedTags, setSelectedTags } = useRitualFilterStore();
   const [selectedDraft, setSelectedDraft] = useState(selectedTags);
   

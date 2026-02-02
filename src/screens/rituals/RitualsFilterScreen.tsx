@@ -6,7 +6,7 @@ import { Button } from '@/src/components/ui/Button';
 import { HeaderIconButton } from '@/src/components/ui/navigation/HeaderIconButton';
 import { Screen } from '@/src/components/ui/Screen';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
-import { useTagSelectionDraft } from '@/src/hooks/rituals/useTagSelectionDraft';
+import { useTagFilterDraft } from '@/src/hooks/rituals/useTagFilterDraft';
 import { Stack, useRouter } from 'expo-router';
 import React from 'react';
 import { ScrollView } from 'react-native';
@@ -14,7 +14,7 @@ import { ScrollView } from 'react-native';
 export default function RitualsFilterScreen() {
   const router = useRouter();
   const { data: tagData, isLoading: isTagsLoading, refetch: refetchTags, error } = useRitualTags();
-  const { selectedDraft, chipsDraft, removeChipDraft, clearAllDraft, toggleDraft, applyDraft } = useTagSelectionDraft();
+  const { selectedDraft, chipsDraft, removeChipDraft, clearAllDraft, toggleDraft, applyDraft } = useTagFilterDraft();
   
   const navigateToResults = async () => {
     applyDraft();

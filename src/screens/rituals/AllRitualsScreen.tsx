@@ -6,29 +6,37 @@ import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
 import { AppTheme } from '@/src/components/themes/AppTheme';
 import { Screen } from '@/src/components/ui/Screen';
+import { useKeywordFilter } from '@/src/hooks/rituals/useKeywordFilter';
 import { useRitualSearch } from '@/src/hooks/rituals/useRitualSearch';
-import { useTagSelection } from '@/src/hooks/rituals/useTagSelection';
+import { useTagFilter } from '@/src/hooks/rituals/useTagFilter';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { useEffect, useRef } from 'react';
-import { FlatList, Keyboard, Platform, Pressable, View } from 'react-native';
+import { useEffect, useMemo, useRef } from 'react';
+import { FlatList, Platform, Pressable, View } from 'react-native';
 
 export default function AllRitualsScreen() {
   const listRef = useRef<FlatList>(null);
   const onEndReachedCalledDuringMomentum = useRef(false);
   const isWeb = Platform.OS === "web";
 
-  const { filter, chips, removeChip, clearAll } = useTagSelection();
+  const { filter: tagFilter, chips, removeChip, clearAll } = useTagFilter();
+  const { keyword } = useKeywordFilter();
+
+  const searchFilter = useMemo(() => ({
+    ...tagFilter,
+    ...(keyword.trim() ? { keyword: keyword.trim() } : {}),
+  }), [tagFilter, keyword]);
+
   const {
     rituals,
     loading: { isLoading, isFetchingNextPage },
     meta: { hasNextPage, error },
     actions: { loadMore, refetch, refresh },
-  } = useRitualSearch(filter);
+  } = useRitualSearch(searchFilter);
 
   useEffect(() => {
     onEndReachedCalledDuringMomentum.current = false;
-  }, [filter]);
+  }, [searchFilter]);
 
   const handleEndReached = () => {
     if (!hasNextPage || isFetchingNextPage) return;
@@ -43,7 +51,6 @@ export default function AllRitualsScreen() {
   if (error) return <ErrorState message="Failed to load rituals." onButtonPress={() => refetch()} />;
 
   const handleKeywordSearch = (query: string) => {
-    Keyboard.dismiss();
     listRef.current?.scrollToOffset({ offset: 0, animated: true });
   };
 

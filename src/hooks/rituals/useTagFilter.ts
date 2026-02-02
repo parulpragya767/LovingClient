@@ -3,7 +3,7 @@ import { Chip, RitualFilter, SelectedTagState, TagValue } from '@/src/models/rit
 import { useRitualFilterStore } from '@/src/store/useRitualFilterStore';
 import { useCallback, useMemo } from 'react';
 
-export const useTagSelection = () => {
+export const useTagFilter = () => {
   const { selectedTags: selected, setSelectedTags, clearSelectedTags } = useRitualFilterStore();
 
   // Toggle selection

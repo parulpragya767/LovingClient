@@ -1,8 +1,9 @@
 import { AppTheme } from '@/src/components/themes/AppTheme';
 import { FormInput } from '@/src/components/ui/FormInput';
+import { useKeywordFilter } from '@/src/hooks/rituals/useKeywordFilter';
 import { MaterialIcons } from '@expo/vector-icons';
 import clsx from 'clsx';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Keyboard, Pressable, TextInput } from 'react-native';
 
 interface RitualSearchInputProps {
@@ -12,12 +13,18 @@ interface RitualSearchInputProps {
 export default function RitualSearchInput({
   onSearch,
 }: RitualSearchInputProps) {
+  const { keyword, setKeyword, clearKeyword, hasKeyword } = useKeywordFilter();
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<TextInput | null>(null);
 
+  useEffect(() => {
+    setQuery(keyword);
+  }, [keyword]);
+
   const handleSearch = () => {
     Keyboard.dismiss();
+    setKeyword(query);
     onSearch(query);
   };
 
@@ -39,6 +46,7 @@ export default function RitualSearchInput({
           <Pressable
             onPress={() => {
               setQuery('');
+              clearKeyword();
               inputRef.current?.focus();
             }}
             hitSlop={8}
