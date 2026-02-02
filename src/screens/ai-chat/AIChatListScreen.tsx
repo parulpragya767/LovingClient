@@ -2,14 +2,12 @@ import { ChatSession } from '@/src/components/ai-chat/ChatSession';
 import { EmptyState } from '@/src/components/states/EmptyState';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
-import { AppTheme } from '@/src/components/themes/AppTheme';
 import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
 import { SideDrawer } from '@/src/components/ui/SideDrawer';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useChatSessions } from '@/src/hooks/ai-chat/useChatSessions';
 import { useToast } from '@/src/hooks/ui/useToast';
-import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { FlatList, View } from 'react-native';
@@ -31,34 +29,30 @@ export default function AIChatListScreen() {
     }
   };
 
-  if (isLoading) return <LoadingState text="Loading conversations..." />;
-  if (error) return <ErrorState message="Failed to load conversations." onButtonPress={() => refetch()} />;
-
   return (
     <SideDrawer onClose={() => router.back()}>
       {/* Header */}
-      <View className="flex-row items-center justify-between px-4 py-3 border-b border-border">
-        <AppText variant="subtitle">Conversations</AppText>
-
-        <Button
-          variant="secondary"
-          icon={<MaterialIcons name="add" size={24} color={AppTheme.colors.action.secondary.text} />}
-          onPress={handleNewChat}
-        >
-          New Chat
-        </Button>
+      <View className="flex-row items-center justify-between pl-4 pr-6 py-3 border-b border-border">
+        <AppText variant="heading">Conversations</AppText>
+        <Button variant="ghost" onPress={handleNewChat}>+ New Chat</Button>
       </View>
 
-      <FlatList
-        data={sessions}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item: session }) => (
-          <ChatSession session={session}/>
-        )}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={<EmptyState message="No conversations yet." />}
-        contentContainerStyle={{ paddingBottom: insets.bottom + 16 }}
-      />
+      {isLoading ? (
+        <LoadingState text="Loading conversations..." />
+      ) : error ? (
+        <ErrorState message="Failed to load conversations." onButtonPress={() => refetch()} />
+      ) : (
+        <FlatList
+          data={sessions}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item: session }) => (
+            <ChatSession session={session}/>
+          )}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={<EmptyState message={`No conversations yet.\nStart one to begin.`} />}
+          contentContainerStyle={{ paddingBottom: insets.bottom + 16 }}
+        />
+      )}
     </SideDrawer>
   );
 }

@@ -37,21 +37,18 @@ export function ChatSession({ session }: ChatSessionProps) {
   return (
     <TouchableOpacity 
       onPress={handleSelect}
-      className={`p-4 border-b border-border-strong flex-row items-center ${isActiveSession ? 'bg-surface-sunken' : 'bg-surface-elevated'}`}
+      className={`px-4 py-3 border-b border-border-strong flex-row items-center ${isActiveSession ? 'bg-surface-sunken' : 'bg-surface-elevated'}`}
     >
       <View className="flex-1">
         <AppText variant="subtitle" numberOfLines={1}>
           {session.title}
         </AppText>
-        <AppText variant="small" className="mt-1" numberOfLines={1} ellipsizeMode="tail">
-          {session.messages[0]?.content || 'No messages yet'}
+        <AppText variant="small" className="mt-1 opacity-70" numberOfLines={1} ellipsizeMode="tail">
+          {session.messages.at(-1)?.content || 'No messages yet'}
         </AppText>
       </View>
-      <TouchableOpacity 
-        onPress={handleDelete}
-        className="p-1 ml-2"
-      >
-        <MaterialIcons name="delete-outline" size={20} color={AppTheme.colors.state.error} />
+      <TouchableOpacity onPress={handleDelete} className="p-1 ml-2">
+        <MaterialIcons name="delete-outline" size={18} color={AppTheme.colors.text.muted} />
       </TouchableOpacity>
     </TouchableOpacity>
   );
