@@ -57,7 +57,7 @@ export const ChatInput = forwardRef<ChatInputHandle, ChatInputProps>(({
           placeholder={placeholder}
           placeholderTextColor={AppTheme.colors.action.secondary.text}
           multiline
-          returnKeyType="send"
+          returnKeyType="go"
           scrollEnabled
           style={{ maxHeight: MAX_INPUT_HEIGHT }}
           textAlignVertical="top"
@@ -71,14 +71,14 @@ export const ChatInput = forwardRef<ChatInputHandle, ChatInputProps>(({
           )}
         />
         <TouchableOpacity
-          className={`w-10 h-10 rounded-full bg-action-primary-bg justify-center items-center ${!inputText.trim() || isSending ? 'opacity-50' : ''}`}
+          className={`w-9 h-9 rounded-full bg-action-primary-bg justify-center items-center ${!inputText.trim() || isSending ? 'opacity-50' : ''}`}
           onPress={handleSendMessage}
           disabled={!inputText.trim() || isSending}
         >
           {isSending ? (
             <ActivityIndicator size="small" color={AppTheme.colors.action.primary.text} />
           ) : (
-            <MaterialIcons name="send" size={18} color={AppTheme.colors.action.primary.text} />
+            <MaterialIcons name="send" size={16} color={AppTheme.colors.action.primary.text} />
           )}
         </TouchableOpacity>
       </View>

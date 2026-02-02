@@ -1,5 +1,5 @@
 import { AppText } from '@/src/components/ui/AppText';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
 type StarterPromptProps = {
   prompt: string;
@@ -8,15 +8,11 @@ type StarterPromptProps = {
 
 export function StarterPrompt({ prompt, onPress }: StarterPromptProps) {
   return (
-    <TouchableOpacity 
-      onPress={() => onPress(prompt)} 
-      className="w-full mb-3 p-4 rounded-card bg-surface-sunken"
+    <TouchableOpacity
+      onPress={() => onPress(prompt)}
+      className="w-full px-4 py-3 rounded-card bg-surface-sunken border border-border"
     >
-      <View className="flex-row items-center p-4 border border-border-strong rounded-card">
-        <AppText variant="body">
-          {prompt}
-        </AppText>
-      </View>
+      <AppText>{prompt}</AppText>
     </TouchableOpacity>
   );
 }

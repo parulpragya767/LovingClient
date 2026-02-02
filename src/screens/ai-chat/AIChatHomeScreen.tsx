@@ -1,13 +1,14 @@
 import { ChatInput, ChatInputHandle } from '@/src/components/ai-chat/ChatInput';
 import { StarterPrompt } from '@/src/components/ai-chat/StarterPrompt';
 import { AppText } from '@/src/components/ui/AppText';
+import { KeyboardSafeScreen } from '@/src/components/ui/KeyboardSafeScreen';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useSamplePrompts } from '@/src/hooks/ai-chat/useSamplePrompts';
 import { useKeyboardOffset } from '@/src/hooks/ui/useKeyboardOffset';
 import { useToast } from '@/src/hooks/ui/useToast';
 import { useRouter } from 'expo-router';
 import { useCallback, useRef } from 'react';
-import { FlatList, Keyboard, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 
 export const AIChatHomeScreen = () => {
   const router = useRouter();
@@ -33,52 +34,40 @@ export const AIChatHomeScreen = () => {
 
   return (
     <View className="flex-1 bg-surface-screen">
-      <KeyboardAvoidingView
-        className="flex-1"
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={keyboardOffset}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-          <View className="flex-1 px-8">
-            {/* Sample prompts with FlatList */}
-            <FlatList
-              data={samplePrompts}
-              keyExtractor={(item, index) => `prompt-${index}`}
-              renderItem={({ item: prompt }) => (
+      <KeyboardSafeScreen>
+        <View className="flex-1">
+          {/* Sample prompts with FlatList */}
+          <FlatList
+            data={samplePrompts}
+            keyExtractor={(item, index) => `prompt-${index}`}
+            renderItem={({ item: prompt }) => (
+              <View className="mb-5">
                 <StarterPrompt 
                   prompt={prompt}
                   onPress={handleStarterPromptPress}
                 />
-              )}
-              ListHeaderComponent={
-                <View className="py-4">
-                  <View className="items-center mb-4">
-                    <AppText variant="title" className="mb-2">
-                      Your AI Companion
-                    </AppText>
-                    <AppText variant="body">
-                      How can I help you today?
-                    </AppText>
-                  </View>
-                  <AppText variant="body" className="font-semibold ml-2">
-                    Try asking me...
-                  </AppText>
-                </View>
-              }
-              ListFooterComponent={<View className="h-24" />}
-              showsVerticalScrollIndicator={false}
-              keyboardShouldPersistTaps="handled"
-            />
-          </View>
-        </TouchableWithoutFeedback>
-
-        {/* Input area */}
-            <ChatInput
-              ref={chatInputRef}
-              placeholder="Message your AI companion..."
-              onSend={handleSendMessage}
-            />
-      </KeyboardAvoidingView>
+              </View>
+            )}
+            className="px-8"
+            ListHeaderComponent={
+              <View className="items-center mt-10 mb-8">
+                <AppText variant="heading" className="mb-1">What’s on your mind?</AppText>
+                <AppText>Start with one of these, or ask anything.</AppText>
+              </View>
+            }
+            ListFooterComponent={<View className="h-24" />}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+          />
+    
+          {/* Input area */}
+          <ChatInput
+            ref={chatInputRef}
+            placeholder="Tell me what’s on your mind…"
+            onSend={handleSendMessage}
+          />
+        </View>
+      </KeyboardSafeScreen>
     </View>
   );
 };
