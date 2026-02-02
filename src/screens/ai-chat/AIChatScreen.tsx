@@ -5,13 +5,13 @@ import RitualRecommendationModalHandler from '@/src/components/rituals/RitualRec
 import { EmptyState } from '@/src/components/states/EmptyState';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
+import { KeyboardSafeScreen } from '@/src/components/ui/KeyboardSafeScreen';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useChatMessages } from '@/src/hooks/ai-chat/useChatMessages';
-import { useKeyboardOffset } from '@/src/hooks/ui/useKeyboardOffset';
 import { useToast } from '@/src/hooks/ui/useToast';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { FlatList, KeyboardAvoidingView, Platform, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 
 export default function AIChatScreen() {
   const navigation = useNavigation();
@@ -19,7 +19,6 @@ export default function AIChatScreen() {
   const { getSessionDetails, sendMessageToSession, recommendRitualPack } = useChatActions();
   const { data: messages, isLoading, error, refetch } = useChatMessages(sessionId);
   const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(false);
-  const keyboardOffset = useKeyboardOffset();
   const { showInfo, showError } = useToast();
 
   const handleSendMessage = useCallback(async (message: string) => {
@@ -64,11 +63,7 @@ export default function AIChatScreen() {
 
   return (
     <View className="flex-1 bg-surface-screen">
-      <KeyboardAvoidingView
-        className="flex-1"
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={keyboardOffset}
-      >
+      <KeyboardSafeScreen>
         {/* Messages and ritual recommendation cards */}
         <FlatList
           data={messages}
@@ -88,6 +83,7 @@ export default function AIChatScreen() {
           ListEmptyComponent={<EmptyState message="No messages yet." />}
           contentContainerStyle={{ paddingHorizontal: 12, paddingVertical: 16 }}
           showsVerticalScrollIndicator={false}
+          keyboardDismissMode="on-drag"
           keyboardShouldPersistTaps="handled"
         />
         
@@ -99,7 +95,7 @@ export default function AIChatScreen() {
 
         {/* Ritual Recommendation Flow */}
         <RitualRecommendationModalHandler />
-      </KeyboardAvoidingView> 
+      </KeyboardSafeScreen>
     </View>
   );
 }

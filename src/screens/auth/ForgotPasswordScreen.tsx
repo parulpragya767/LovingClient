@@ -1,6 +1,7 @@
  import { AppTheme } from '@/src/components/themes/AppTheme';
 import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
+import { DismissKeyboardScreen } from '@/src/components/ui/DismissKeyboardScreen';
 import { FormField } from '@/src/components/ui/FormField';
 import { FormInput } from '@/src/components/ui/FormInput';
 import { HeaderlessScreen } from '@/src/components/ui/HeaderlessScreen';
@@ -48,7 +49,7 @@ export default function ForgotPasswordScreen() {
   return (
     <HeaderlessScreen>
       <KeyboardSafeScreen>
-        <View className="flex-1">
+        <DismissKeyboardScreen>
           <AuthBackButton />
 
           <View className="flex-1 justify-center">
@@ -83,7 +84,7 @@ export default function ForgotPasswordScreen() {
               {loading ? <ActivityIndicator color={AppTheme.colors.action.primary.text} /> : 'Send reset link'}
             </Button>
           </View>
-        </View>
+        </DismissKeyboardScreen>
       </KeyboardSafeScreen>
     </HeaderlessScreen>
   );

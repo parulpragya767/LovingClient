@@ -1,5 +1,5 @@
 import { useKeyboardOffset } from '@/src/hooks/ui/useKeyboardOffset';
-import { Keyboard, KeyboardAvoidingView, Platform, TouchableWithoutFeedback } from 'react-native';
+import { KeyboardAvoidingView, Platform, View } from 'react-native';
 
 type KeyboardSafeScreenProps = {
   children: React.ReactNode;
@@ -17,13 +17,9 @@ export function KeyboardSafeScreen({
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       keyboardVerticalOffset={keyboardOffset}
     >
-      <TouchableWithoutFeedback
-        className="flex-1"
-        onPress={Keyboard.dismiss}
-        accessible={false}
-      >
+      <View className="flex-1">
         {children}
-      </TouchableWithoutFeedback>
+      </View>
     </KeyboardAvoidingView>
   );
 }

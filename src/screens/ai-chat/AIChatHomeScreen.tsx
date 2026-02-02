@@ -34,38 +34,37 @@ export const AIChatHomeScreen = () => {
   return (
     <View className="flex-1 bg-surface-screen">
       <KeyboardSafeScreen>
-        <View className="flex-1">
-          {/* Sample prompts with FlatList */}
-          <FlatList
-            data={samplePrompts}
-            keyExtractor={(item, index) => `prompt-${index}`}
-            renderItem={({ item: prompt }) => (
-              <View className="mb-5">
-                <StarterPrompt 
-                  prompt={prompt}
-                  onPress={handleStarterPromptPress}
-                />
-              </View>
-            )}
-            className="px-8"
-            ListHeaderComponent={
-              <View className="items-center mt-10 mb-8">
-                <AppText variant="heading" className="mb-1">What’s on your mind?</AppText>
-                <AppText>Start with one of these, or ask anything.</AppText>
-              </View>
-            }
-            ListFooterComponent={<View className="h-24" />}
-            showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="handled"
-          />
-    
-          {/* Input area */}
-          <ChatInput
-            ref={chatInputRef}
-            placeholder="Tell me what’s on your mind…"
-            onSend={handleSendMessage}
-          />
-        </View>
+        {/* Sample prompts with FlatList */}
+        <FlatList
+          data={samplePrompts}
+          keyExtractor={(item, index) => `prompt-${index}`}
+          renderItem={({ item: prompt }) => (
+            <View className="mb-5">
+              <StarterPrompt 
+                prompt={prompt}
+                onPress={handleStarterPromptPress}
+              />
+            </View>
+          )}
+          className="px-8"
+          ListHeaderComponent={
+            <View className="items-center mt-10 mb-8">
+              <AppText variant="heading" className="mb-1">What’s on your mind?</AppText>
+              <AppText>Start with one of these, or ask anything.</AppText>
+            </View>
+          }
+          ListFooterComponent={<View className="h-24" />}
+          showsVerticalScrollIndicator={false}
+          keyboardDismissMode="on-drag"
+          keyboardShouldPersistTaps="handled"
+        />
+  
+        {/* Input area */}
+        <ChatInput
+          ref={chatInputRef}
+          placeholder="Tell me what’s on your mind…"
+          onSend={handleSendMessage}
+        />
       </KeyboardSafeScreen>
     </View>
   );

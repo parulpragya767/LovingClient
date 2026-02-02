@@ -1,6 +1,7 @@
 import { AppTheme } from '@/src/components/themes/AppTheme';
 import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
+import { DismissKeyboardScreen } from '@/src/components/ui/DismissKeyboardScreen';
 import { FormField } from '@/src/components/ui/FormField';
 import { HeaderlessScreen } from '@/src/components/ui/HeaderlessScreen';
 import { KeyboardSafeScreen } from '@/src/components/ui/KeyboardSafeScreen';
@@ -62,7 +63,7 @@ export default function ResetPasswordScreen() {
   return (
     <HeaderlessScreen>
       <KeyboardSafeScreen>
-        <View className="flex-1">
+        <DismissKeyboardScreen>
           <AuthBackButton />
 
           <View className="flex-1 justify-center">
@@ -107,7 +108,7 @@ export default function ResetPasswordScreen() {
               {loading ? <ActivityIndicator color={AppTheme.colors.action.primary.text} /> : 'Update password'}
             </Button>
           </View>
-        </View>
+        </DismissKeyboardScreen>
       </KeyboardSafeScreen>
     </HeaderlessScreen>
   );
