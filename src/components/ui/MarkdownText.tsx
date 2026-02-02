@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import React from 'react';
 import Markdown, { MarkdownProps } from 'react-native-markdown-display';
 import { AppText, AppTextVariant } from './AppText';
 
@@ -22,17 +23,23 @@ export function MarkdownText({
         body: {}, // keep empty → let className drive styles
       }}
       rules={{
-        paragraph: (_, nodeChildren) => (
-          <AppText variant={variant} className={className}>
-            {nodeChildren}
-          </AppText>
-        ),
+        paragraph: (_, nodeChildren) => {
+          const keyedChildren = React.Children.toArray(nodeChildren);
+          return (
+            <AppText variant={variant} className={className}>
+              {keyedChildren}
+            </AppText>
+          );
+        },
 
-        strong: (_, nodeChildren) => (
-          <AppText variant={variant} className={clsx('font-semibold', className)}>
-            {nodeChildren}
-          </AppText>
-        ),
+        strong: (_, nodeChildren) => {
+          const keyedChildren = React.Children.toArray(nodeChildren);
+          return (
+            <AppText variant={variant} className={clsx('font-semibold', className)}>
+              {keyedChildren}
+            </AppText>
+          );
+        },
         ...rules,
       }}
     >
