@@ -67,7 +67,7 @@ export default function AIChatScreen() {
         {/* Messages and ritual recommendation cards */}
         <FlatList
           data={messages}
-          keyExtractor={(item, index) => item.id || `${index}-${item.createdAt}`}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View className="mb-4">
               <ChatMessage message={item}/>
@@ -81,7 +81,7 @@ export default function AIChatScreen() {
             </View>
           }
           ListEmptyComponent={<EmptyState message="No messages yet." />}
-          contentContainerStyle={{ paddingHorizontal: 12, paddingVertical: 16 }}
+          contentContainerStyle={{ paddingHorizontal: 12, paddingTop: 16, paddingBottom: 80 }}
           showsVerticalScrollIndicator={false}
           keyboardDismissMode="on-drag"
           keyboardShouldPersistTaps="handled"

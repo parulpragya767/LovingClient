@@ -7,13 +7,13 @@ import { useChatStore } from '@/src/store/useChatStore';
 import { useRouter } from 'expo-router';
 import { View } from 'react-native';
 
-type RitualRecommendationHandlerProps = {
+type ChatRecommendationMessageProps = {
   recommendationId: string;
 };
 
-export function RitualRecommendationHandler({ 
+export function ChatRecommendationMessage({ 
   recommendationId, 
-}: RitualRecommendationHandlerProps) {
+}: ChatRecommendationMessageProps) {
   const router = useRouter();
   const { data: recommendation } = useRitualRecommendation(recommendationId);
   
