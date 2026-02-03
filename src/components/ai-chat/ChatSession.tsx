@@ -49,7 +49,7 @@ export function ChatSession({ session }: ChatSessionProps) {
         className={`px-4 py-3 border-b border-border-strong flex-row items-center ${isActiveSession ? 'bg-surface-sunken' : 'bg-surface-elevated'}`}
       >
         <View className="flex-1">
-          <AppText variant="subtitle" numberOfLines={1}>
+          <AppText variant="body" numberOfLines={1}>
             {session.title}
           </AppText>
           <AppText variant="small" className="mt-1 opacity-70" numberOfLines={1} ellipsizeMode="tail">
