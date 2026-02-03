@@ -139,7 +139,7 @@ export default function RitualRecommendationModal({
           ListHeaderComponent={
             <View className="flex px-4 pt-4 pb-3 gap-2">
               <AppText variant="body">
-                {ritualPack.description}
+                {ritualPack.tagLine}
               </AppText>
               <AppText variant="small" className="font-semibold">
                 Select rituals you'd like to practice next.
