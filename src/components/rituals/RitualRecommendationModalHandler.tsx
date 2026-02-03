@@ -1,27 +1,26 @@
 import RitualRecommendationModal from '@/src/components/rituals/RitualRecommendationModal';
-import ErrorState from '@/src/components/states/ErrorState';
-import LoadingState from '@/src/components/states/LoadingState';
 import { useRitualPack } from '@/src/hooks/rituals/useRitualPack';
 import { useRitualRecommendation } from '@/src/hooks/rituals/useRitualRecommendation';
+import { useToast } from '@/src/hooks/ui/useToast';
 import { useChatStore } from '@/src/store/useChatStore';
+import { useEffect } from 'react';
 
 export default function RitualRecommendationModalHandler() {
-  const ritualRecommendationId = useChatStore((s) => s.ritualRecommendationId);
-  const isRitualRecommendationModalVisible = useChatStore((s) => s.isRitualRecommendationModalVisible);
-  const recommendationChatSessionId = useChatStore((s) => s.recommendationChatSessionId);
-  const { setIsRitualRecommendationModalVisible, setRitualRecommendationId, setRecommendationChatSessionId } = useChatStore();
+  const {
+    ritualRecommendationId,
+    isRitualRecommendationModalVisible,
+    recommendationChatSessionId,
+    setIsRitualRecommendationModalVisible,
+    setRitualRecommendationId,
+    setRecommendationChatSessionId,
+  } = useChatStore();
 
-  const { data: recommendation, isLoading: isLoadingRecommendation, error: recommendationError } = useRitualRecommendation(
-    isRitualRecommendationModalVisible ? (ritualRecommendationId ?? undefined) : undefined
-  );
-  const { data: ritualPack, isLoading: isLoadingRitualPack, error: ritualPackError } = useRitualPack(
-    isRitualRecommendationModalVisible ? recommendation?.ritualPackId : undefined
-  );
+  const isActive = isRitualRecommendationModalVisible && !!ritualRecommendationId;
 
-  const isRecommendationFlowLoading = isRitualRecommendationModalVisible && (isLoadingRecommendation || isLoadingRitualPack);
-  const isRecommendationFlowError = isRitualRecommendationModalVisible && (
-    !!recommendationError || !!ritualPackError || !ritualRecommendationId
-  );
+  const {data: recommendation, isLoading: isLoadingRecommendation, error: recommendationError} = useRitualRecommendation(isActive ? ritualRecommendationId : '');
+  const {data: ritualPack, isLoading: isLoadingRitualPack, error: ritualPackError} = useRitualPack(recommendation?.ritualPackId ?? '');
+
+  const {showError} = useToast();
 
   const closeRecommendationFlow = () => {
     setIsRitualRecommendationModalVisible(false);
@@ -29,15 +28,21 @@ export default function RitualRecommendationModalHandler() {
     setRecommendationChatSessionId(null);
   };
 
+  const isLoading = isLoadingRecommendation || isLoadingRitualPack;
+  const hasError = recommendationError || ritualPackError || !ritualRecommendationId;
+
+  useEffect(() => {
+    if (!isRitualRecommendationModalVisible) return;
+
+    if (hasError) {
+      showError("Couldn’t open the recommendation", "Please try again");
+      closeRecommendationFlow();
+    }
+  }, [hasError, isRitualRecommendationModalVisible]);
+
   if (!isRitualRecommendationModalVisible) return null;
-
-  if (isRecommendationFlowLoading) {
-    return <LoadingState text="Loading recommendation..." />;
-  }
-
-  if (isRecommendationFlowError || !recommendation || !ritualPack) {
-    return <ErrorState message="Recommendation not found." onButtonPress={closeRecommendationFlow} />;
-  }
+  if (isLoading) return null;
+  if (!recommendation || !ritualPack) return null;
 
   return (
     <RitualRecommendationModal
