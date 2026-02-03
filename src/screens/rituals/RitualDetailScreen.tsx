@@ -17,7 +17,7 @@ export default function RitualDetailScreen() {
   const router = useRouter();
   const navigation = useNavigation();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { data: ritual, isLoading, error, refetch } = useRitual(id);
+  const { data: ritual, isLoading, error } = useRitual(id);
   const { getTagDisplayName } = useRitualTags();
   const { isCurrentRitual, addRitualToCurrent } = useRitualActions();
   const { showSuccess, showError } = useToast();
@@ -49,7 +49,7 @@ export default function RitualDetailScreen() {
   }, [ritual]);
 
   if (isLoading) return <LoadingState text="Loading ritual..." />;
-  if (error || !ritual) return <ErrorState message="Failed to load ritual." onButtonPress={() => refetch()} />;
+  if (error || !ritual) return <ErrorState message="Failed to load ritual." buttonMessage="Go Back" onButtonPress={() => router.back()} />;
     
   const timeTakenDisplayName = ritual.timeTaken ? getTagDisplayName(ritual.timeTaken.toString(), 'timeTaken') : null;
   const ritualModeDisplayName = ritual.ritualMode ? getTagDisplayName(ritual.ritualMode, 'ritualModes') : null;

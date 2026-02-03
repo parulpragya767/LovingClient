@@ -8,14 +8,15 @@ import { Screen } from '@/src/components/ui/Screen';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useRitualPack } from '@/src/hooks/rituals/useRitualPack';
 import { Ritual } from '@/src/models/rituals';
-import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import { useEffect, useMemo } from 'react';
 import { FlatList, View } from 'react-native';
 
 export default function RitualPackScreen() {
   const navigation = useNavigation();
+  const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { data: pack, isLoading, error, refetch } = useRitualPack(id);
+  const { data: pack, isLoading, error } = useRitualPack(id);
   const { getCurrentRitualPackById } = useRitualActions();
   const currentPack = useMemo(() => id ? getCurrentRitualPackById(id) : null, [id, getCurrentRitualPackById]);
   const rituals: Ritual[] = useMemo(
@@ -34,7 +35,7 @@ export default function RitualPackScreen() {
   }, [pack]);
 
   if (isLoading) return <LoadingState text="Loading ritual pack..." />;
-  if (error || !pack) return <ErrorState message="Failed to load ritual pack." onButtonPress={() => refetch()} />;
+  if (error || !pack) return <ErrorState message="Failed to load ritual pack." buttonMessage="Go Back" onButtonPress={() => router.back()} />;
 
   return (
     <Screen>
