@@ -74,7 +74,7 @@ export default function AIChatScreen() {
             </View>
           )}
           ListFooterComponent={
-            <View className="mt-2 mb-4">
+            <View className="mb-4">
               {isRecommendationConsentCardVisible && (
                 <RitualRecommendationConsentCard onPress={handleRitualRecommendation} />
               )}

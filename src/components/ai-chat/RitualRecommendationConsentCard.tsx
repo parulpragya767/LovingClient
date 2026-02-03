@@ -1,7 +1,8 @@
 import { AppTheme } from "@/src/components/themes/AppTheme";
 import { AppText } from "@/src/components/ui/AppText";
+import { Button } from "@/src/components/ui/Button";
 import { MaterialIcons } from '@expo/vector-icons';
-import { TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
 
 type RitualRecommendationConsentCardProps = {
   onPress: () => void;
@@ -9,20 +10,19 @@ type RitualRecommendationConsentCardProps = {
 
 export function RitualRecommendationConsentCard({ onPress }: RitualRecommendationConsentCardProps) {
   return (
-    <TouchableOpacity className="w-full" onPress={onPress}>
-      <View className="flex-row items-center gap-4 rounded-card p-4 bg-accent-subtle border border-border">
-        <View className="bg-surface-sunken rounded-full w-6 h-6 items-center justify-center">
-          <MaterialIcons name="check" size={16} color={AppTheme.colors.brand.primary} />
-        </View>
-        <View className="flex-1">
-          <AppText variant="small">
-            Would you like me to recommend a personalized ritual pack based on our conversation?
-          </AppText>
-          <AppText variant="small" color="text-brand-primary" className="mt-1 font-medium">
-            Show me recommendations
-          </AppText>
-        </View>
+    <View className="w-full flex-row gap-4 rounded-card px-4 py-3 bg-accent-subtle border border-border">
+      <View className="mt-0.5">
+        <MaterialIcons name="auto-awesome" size={20} color={AppTheme.colors.brand.primary} />
       </View>
-    </TouchableOpacity>
+      
+      <View className="flex-1 items-start gap-1">
+        <AppText variant="small">
+          I can suggest a ritual pack tailored to what you’ve shared.
+        </AppText>
+        <Button variant="ghost" size="small" onPress={onPress}>
+          Recommend a ritual pack →
+        </Button>
+      </View>
+    </View>
   );
 }

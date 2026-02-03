@@ -1,14 +1,17 @@
 import clsx from 'clsx';
 import React from 'react';
 import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
-import { AppText } from './AppText';
+import { AppText, AppTextVariant } from './AppText';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
+
+export type ButtonSize = 'normal' | 'small';
 
 export type ButtonProps = TouchableOpacityProps & {
   children: React.ReactNode;
   icon?: React.ReactNode;
   variant?: ButtonVariant;
+  size?: ButtonSize;
   className?: string;
 };
 
@@ -32,6 +35,11 @@ const textClasses: Record<ButtonVariant, string> = {
   ghost: 'text-action-ghost-text',
 };
 
+const textVariantClasses: Record<ButtonSize, AppTextVariant> = {
+  normal: 'body',
+  small: 'small',
+};
+
 const disabledClasses =
   'opacity-50';
 
@@ -39,6 +47,7 @@ export function Button({
   children,
   icon,
   variant = 'primary',
+  size = 'normal',
   disabled,
   className,
   onPress,
@@ -59,7 +68,7 @@ export function Button({
     >
       {icon}
       <AppText
-        variant="body"
+        variant={textVariantClasses[size]}
         color={textClasses[variant]}
         className="font-medium"
       >
