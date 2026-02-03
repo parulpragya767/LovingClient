@@ -4,6 +4,7 @@ import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
 import { AppText } from '@/src/components/ui/AppText';
 import CollapsibleSection from '@/src/components/ui/CollapsibleSection';
+import { ExpandableText } from '@/src/components/ui/ExpandableText';
 import { Screen } from '@/src/components/ui/Screen';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useRitualPack } from '@/src/hooks/rituals/useRitualPack';
@@ -18,6 +19,7 @@ export default function RitualPackScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { data: pack, isLoading, error } = useRitualPack(id);
   const { getCurrentRitualPackById } = useRitualActions();
+
   const currentPack = useMemo(() => id ? getCurrentRitualPackById(id) : null, [id, getCurrentRitualPackById]);
   const rituals: Ritual[] = useMemo(
     () => currentPack?.rituals?.map(r => r.ritual) ?? pack?.rituals ?? [], 
@@ -39,19 +41,6 @@ export default function RitualPackScreen() {
 
   return (
     <Screen>
-      <AppText className="mb-6 mt-2">
-        {pack.description}
-      </AppText>
-
-      {/* How it helps */}
-      <CollapsibleSection
-        title="How It Helps"
-        initiallyExpanded={false}
-        containerClassName="mb-4"
-      >
-        {pack.howItHelps}
-      </CollapsibleSection>
-      
       <FlatList
         data={rituals}
         keyExtractor={(item) => item.id}
@@ -61,15 +50,32 @@ export default function RitualPackScreen() {
           </View>
         )}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 120 }}
+
         ListHeaderComponent={
-          <View className="px-1 py-2 mb-1">
-            <AppText variant="title">
-              Rituals in this pack ({rituals.length})
-            </AppText>
-          </View>
+          <>
+            <View className="items-start mb-6 mt-2">
+              <ExpandableText numberOfLines={2}>
+                {pack.description}
+              </ExpandableText>
+            </View>
+
+            <CollapsibleSection
+              title="How It Helps"
+              initiallyExpanded={false}
+              containerClassName="mb-6"
+            >
+              <AppText>{pack.howItHelps}</AppText>
+            </CollapsibleSection>
+
+            <View className="mb-3">
+              <AppText variant="heading">
+                Rituals in this journey
+              </AppText>
+            </View>
+          </>
         }
-        ListFooterComponent={<View className="h-20" />}
-        ListEmptyComponent={<EmptyState message="No rituals in this pack." />}
+        ListEmptyComponent={<EmptyState message="This pack doesn’t have rituals yet." />}
       />
     </Screen>
   );
