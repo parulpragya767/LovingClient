@@ -13,7 +13,7 @@ export function ModalContainer({
     <View className="flex-1 items-center justify-center px-4">
       {/* Backdrop */}
       <Pressable
-        className="absolute inset-0 bg-black/70"
+        className="absolute inset-0 bg-black/55"
         onPress={onClose}
       />
 
