@@ -10,6 +10,7 @@ import type { RitualPack } from '@/src/models/ritualPacks';
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FlatList, Modal, Pressable, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type RitualRecommendationModalProps = {
   visible: boolean;
@@ -19,11 +20,18 @@ type RitualRecommendationModalProps = {
   closeRecommendationFlow: () => void;
 };
 
-export default function RitualRecommendationModal({ visible, ritualRecommendationId, ritualPack, chatSessionId, closeRecommendationFlow }: RitualRecommendationModalProps) {
+export default function RitualRecommendationModal({ 
+  visible, 
+  ritualRecommendationId, 
+  ritualPack, 
+  chatSessionId, 
+  closeRecommendationFlow 
+}: RitualRecommendationModalProps) {
   const [selected, setSelected] = useState<Record<string, boolean>>({});
 
   const { updateRecommendationAndHistoryStatus } = useRitualActions();
   const { showSuccess, showError } = useToast();
+  const insets = useSafeAreaInsets();
 
   const rituals = useMemo(() => {
     return ritualPack?.rituals || [];
@@ -58,10 +66,9 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
         selectedRitualIds: selectedIds,
         skippedRitualIds: skippedRitualIds,
       });
-      showSuccess("Rituals added successfully");
+      showSuccess("Added to your current rituals");
     } catch (error) {
-      console.error('Failed to update recommendation and ritual statuses:', error);
-      showError("Failed to add rituals to current");
+      showError("Couldn’t add the rituals", "Please try again");
     }
     closeRecommendationFlow();
   }, [ritualRecommendationId, selected, rituals, updateRecommendationAndHistoryStatus, chatSessionId]);
@@ -76,9 +83,7 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
           selectedRitualIds: [],
           skippedRitualIds: [],
         });
-      } catch (error) {
-        console.error('Failed to update recommendation statuses on close:', error);
-      }
+      } catch (error) {}
     }
     closeRecommendationFlow();
   }, [ritualRecommendationId, updateRecommendationAndHistoryStatus, chatSessionId]);
@@ -95,16 +100,10 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
           selectedRitualIds: [],
           skippedRitualIds: allRitualIds,
         });
-      } catch (error) {
-        console.error('Failed to update recommendation and ritual statuses on dismiss:', error);
-      }
+      } catch (error) {}
     }
     closeRecommendationFlow();
   }, [ritualRecommendationId, rituals, updateRecommendationAndHistoryStatus, chatSessionId]);
-
-  if (!visible) {
-    return null;
-  }
 
   return (
     <Modal
@@ -115,11 +114,12 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
     >
       <ModalContainer onClose={handleCloseModal}>
           {/* Modal Header */}
-        <View className="flex-row items-center p-4 gap-4 border-b border-border">
-          <Pressable onPress={handleCloseModal}>
+        <View className="flex-row items-center p-4 border-b border-border">
+          <Pressable onPress={handleCloseModal} hitSlop={12} className="mr-3">
             <MaterialIcons name="close" size={24} color={AppTheme.colors.text.primary} />
           </Pressable>
-          <AppText variant="subtitle">
+
+          <AppText variant="subtitle" numberOfLines={1} className="flex-1">
             {ritualPack.title || 'Ritual Pack'}
           </AppText>
         </View>
@@ -137,34 +137,25 @@ export default function RitualRecommendationModal({ visible, ritualRecommendatio
             </View>
           )}
           ListHeaderComponent={
-            <View className="px-4 pt-4 pb-2">
-              <AppText variant="body" className="mb-2">
+            <View className="flex px-4 pt-4 pb-3 gap-2">
+              <AppText variant="body">
                 {ritualPack.description}
               </AppText>
               <AppText variant="small" className="font-semibold">
-                Pick {ritualPack.rituals?.length > 1 ? '1–' + ritualPack.rituals.length : '1'} ritual{ritualPack.rituals?.length !== 1 ? 's' : ''} to add to your current focus.
+                Select rituals you'd like to practice next.
               </AppText>
             </View>
           }
-          contentContainerStyle={{ paddingBottom: 120 }}
+          contentContainerStyle={{ paddingBottom: 80 + insets.bottom }}
           showsVerticalScrollIndicator={false}
         />
 
         {/* Bottom bar */}
         <View className="flex-row gap-3 p-4 border-t border-border">
-          <Button
-            variant="secondary"
-            onPress={handleDismiss}
-            className="flex-1"
-          >
-            Dismiss
+          <Button variant="secondary" onPress={handleDismiss} className="flex-1">
+            Not now
           </Button>
-          <Button
-            variant="primary"
-            onPress={handleAdd}
-            disabled={!canAdd}
-            className="flex-1"
-          >
+          <Button variant="primary" onPress={handleAdd} disabled={!canAdd} className="flex-1">
             Add {selectedIds.length} ritual{selectedIds.length === 1 ? '' : 's'}
           </Button>
         </View>

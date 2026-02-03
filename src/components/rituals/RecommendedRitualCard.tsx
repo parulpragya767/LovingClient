@@ -5,26 +5,24 @@ import { Pressable, View } from 'react-native';
 interface RecommendedRitualProps {
   ritual: Ritual;
   selected?: boolean;
-  onPress?: (id: string) => void;
+  onPress: (id: string) => void;
 }
 
-export default function RecommendedRitualCard({ ritual, selected = false, onPress }: RecommendedRitualProps) {
-  const handlePress = () => {
-    if (onPress) {
-      onPress(ritual.id);
-    }
-  };
-
+export default function RecommendedRitualCard({ 
+  ritual, 
+  selected = false, 
+  onPress 
+}: RecommendedRitualProps) {
   return (
-    <View className="flex-row items-center">
-      <Pressable onPress={handlePress} className={`mr-3 w-5 h-5 rounded-full border-2 ${selected ? 'border-brand-primary' : 'border-text-disabled'}`}>
+    <Pressable onPress={() => onPress(ritual.id)} hitSlop={6} className="flex-row items-center" >
+      <View className={`mr-3 w-6 h-6 rounded-full border-2 ${selected ? 'border-brand-primary' : 'border-text-disabled'}`}>
         {selected && (
           <View className="flex-1 m-0.5 rounded-full bg-brand-primary" />
         )}
-      </Pressable>
-      <View className="flex-1">
+      </View>
+      <View className="flex-1" pointerEvents="none">
         <RitualCard ritual={ritual} isNavigable={false} />
       </View>
-    </View>
+    </Pressable>
   );
 }
