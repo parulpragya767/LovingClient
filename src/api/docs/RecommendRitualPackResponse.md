@@ -6,8 +6,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ritualPack** | [**RitualPackDTO**](RitualPackDTO.md) |  | [optional] [default to undefined]
+**recommendationId** | **string** |  | [optional] [default to undefined]
 **wrapUpResponse** | [**ChatMessageDTO**](ChatMessageDTO.md) |  | [optional] [default to undefined]
-**ritualHistoryMap** | [**{ [key: string]: RitualHistoryDTO; }**](RitualHistoryDTO.md) |  | [optional] [default to undefined]
 
 ## Example
 
@@ -16,8 +16,8 @@ import { RecommendRitualPackResponse } from './api';
 
 const instance: RecommendRitualPackResponse = {
     ritualPack,
+    recommendationId,
     wrapUpResponse,
-    ritualHistoryMap,
 };
 ```
 

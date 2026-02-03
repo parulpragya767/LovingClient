@@ -1,6 +1,6 @@
 import { AppText } from '@/src/components/ui/AppText';
 import { Card } from '@/src/components/ui/Card';
-import { CurrentRitual } from '@/src/models/ritualHistory';
+import { UserRitual } from '@/src/models/ritualHistory';
 import { RitualPack } from '@/src/models/ritualPacks';
 import { useRouter } from 'expo-router';
 import React from 'react';
@@ -9,7 +9,7 @@ import SwipeableRitualCard from './SwipeableRitualCard';
 
 type RitualPackCardProps = {
   ritualPack: RitualPack;
-  rituals: CurrentRitual[];
+  rituals: UserRitual[];
 };
 
 export default function RitualPackCard({ ritualPack, rituals }: RitualPackCardProps) {

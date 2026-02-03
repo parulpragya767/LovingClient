@@ -28,7 +28,7 @@ export interface RitualStatusUpdate {
      * @type {string}
      * @memberof RitualStatusUpdate
      */
-    'ritualId': string;
+    'ritualHistoryId': string;
     /**
      * 
      * @type {RitualHistoryStatus}

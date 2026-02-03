@@ -6,15 +6,15 @@ import LoadingState from '@/src/components/states/LoadingState';
 import { AppText } from '@/src/components/ui/AppText';
 import { Screen } from '@/src/components/ui/Screen';
 import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
-import { CurrentRitual, CurrentRitualPack } from '@/src/models/ritualHistory';
+import { UserRitual, UserRitualPack } from '@/src/models/ritualHistory';
 import { useMemo } from 'react';
 import { SectionList, View } from 'react-native';
 
 export default function CurrentRitualsScreen() {
   const { data: currentData, isLoading, refetch, error } = useCurrentRituals();
 
-  const currentRituals: CurrentRitual[] = useMemo(() => currentData?.individualRituals ?? [], [currentData]);
-  const currentRitualPacks: CurrentRitualPack[] = useMemo(() => currentData?.ritualPacks ?? [], [currentData]);
+  const currentRituals: UserRitual[] = useMemo(() => currentData?.individualRituals ?? [], [currentData]);
+  const currentRitualPacks: UserRitualPack[] = useMemo(() => currentData?.ritualPacks ?? [], [currentData]);
 
   const sections = useMemo(() => {
     const s: Array<{ key: 'packs' | 'rituals'; data: any[] }> = [];

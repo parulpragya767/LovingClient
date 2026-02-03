@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ritualPacks** | [**Array&lt;CurrentRitualPackDTO&gt;**](CurrentRitualPackDTO.md) |  | [optional] [default to undefined]
-**individualRituals** | [**Array&lt;CurrentRitualDTO&gt;**](CurrentRitualDTO.md) |  | [optional] [default to undefined]
+**ritualPacks** | [**Array&lt;UserRitualPackDTO&gt;**](UserRitualPackDTO.md) |  | [optional] [default to undefined]
+**individualRituals** | [**Array&lt;UserRitualDTO&gt;**](UserRitualDTO.md) |  | [optional] [default to undefined]
 
 ## Example
 

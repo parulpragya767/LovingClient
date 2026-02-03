@@ -19,8 +19,6 @@ docs/ChatMessageDTO.md
 docs/ChatMessageRole.md
 docs/ChatMetadata.md
 docs/ChatSessionDTO.md
-docs/CurrentRitualDTO.md
-docs/CurrentRitualPackDTO.md
 docs/CurrentRitualsDTO.md
 docs/DevToolsControllerApi.md
 docs/InfoBullet.md
@@ -68,6 +66,8 @@ docs/UserContextCreateRequest.md
 docs/UserContextDTO.md
 docs/UserControllerApi.md
 docs/UserDTO.md
+docs/UserRitualDTO.md
+docs/UserRitualPackDTO.md
 docs/UserUpdateRequest.md
 git_push.sh
 index.ts
@@ -76,8 +76,6 @@ models/chat-message-dto.ts
 models/chat-message-role.ts
 models/chat-metadata.ts
 models/chat-session-dto.ts
-models/current-ritual-dto.ts
-models/current-ritual-pack-dto.ts
 models/current-rituals-dto.ts
 models/index.ts
 models/info-bullet.ts
@@ -119,4 +117,6 @@ models/time-taken.ts
 models/user-context-create-request.ts
 models/user-context-dto.ts
 models/user-dto.ts
+models/user-ritual-dto.ts
+models/user-ritual-pack-dto.ts
 models/user-update-request.ts

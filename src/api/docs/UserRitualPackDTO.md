@@ -1,4 +1,4 @@
-# CurrentRitualPackDTO
+# UserRitualPackDTO
 
 
 ## Properties
@@ -8,14 +8,14 @@ Name | Type | Description | Notes
 **ritualPackId** | **string** |  | [default to undefined]
 **recommendationId** | **string** |  | [default to undefined]
 **ritualPack** | [**RitualPackDTO**](RitualPackDTO.md) |  | [default to undefined]
-**rituals** | [**Array&lt;CurrentRitualDTO&gt;**](CurrentRitualDTO.md) |  | [default to undefined]
+**rituals** | [**Array&lt;UserRitualDTO&gt;**](UserRitualDTO.md) |  | [default to undefined]
 
 ## Example
 
 ```typescript
-import { CurrentRitualPackDTO } from './api';
+import { UserRitualPackDTO } from './api';
 
-const instance: CurrentRitualPackDTO = {
+const instance: UserRitualPackDTO = {
     ritualPackId,
     recommendationId,
     ritualPack,

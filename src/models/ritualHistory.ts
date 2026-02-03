@@ -1,8 +1,8 @@
-import type { CurrentRitualDTO } from '@/src/api/models/current-ritual-dto';
-import type { CurrentRitualPackDTO } from '@/src/api/models/current-ritual-pack-dto';
 import type { CurrentRitualsDTO } from '@/src/api/models/current-rituals-dto';
 import type { RitualHistoryDTO } from '@/src/api/models/ritual-history-dto';
 import type { RitualHistoryUpdateRequest } from '@/src/api/models/ritual-history-update-request';
+import type { UserRitualDTO } from '@/src/api/models/user-ritual-dto';
+import type { UserRitualPackDTO } from '@/src/api/models/user-ritual-pack-dto';
 import type { RitualPack } from '@/src/models/ritualPacks';
 import { toRitualPack } from '@/src/models/ritualPacks';
 import type { Ritual } from '@/src/models/rituals';
@@ -14,38 +14,38 @@ export type { BulkRitualHistoryStatusUpdateRequest } from '@/src/api/models/bulk
 export type { RitualHistoryCreateRequest } from '@/src/api/models/ritual-history-create-request';
 export type { StatusUpdateEntry } from '@/src/api/models/status-update-entry';
 
-export interface CurrentRitual extends Omit<CurrentRitualDTO, 'ritual'> {
+export interface UserRitual extends Omit<UserRitualDTO, 'ritual'> {
   ritual: Ritual;
 }
 
-export interface CurrentRitualPack extends Omit<CurrentRitualPackDTO, 'ritualPack' | 'rituals'> {
+export interface UserRitualPack extends Omit<UserRitualPackDTO, 'ritualPack' | 'rituals'> {
   ritualPack: RitualPack;
-  rituals: CurrentRitual[];
+  rituals: UserRitual[];
 }
 
 export interface CurrentRituals extends Omit<CurrentRitualsDTO, 'ritualPacks' | 'individualRituals'> {
-  ritualPacks: CurrentRitualPack[];
-  individualRituals: CurrentRitual[];
+  ritualPacks: UserRitualPack[];
+  individualRituals: UserRitual[];
 }
 
-export function toCurrentRitual(dto: CurrentRitualDTO): CurrentRitual {
+export function toUserRitual(dto: UserRitualDTO): UserRitual {
   return {
     ...dto,
     ritual: toRitual(dto.ritual),
   };
 }
 
-export function toCurrentRitualPack(dto: CurrentRitualPackDTO): CurrentRitualPack {
+export function toUserRitualPack(dto: UserRitualPackDTO): UserRitualPack {
   return {
     ...dto,
     ritualPack: toRitualPack(dto.ritualPack),
-    rituals: (dto.rituals || []).map(toCurrentRitual),
+    rituals: (dto.rituals || []).map(toUserRitual),
   };
 }
 
 export function toCurrentRituals(dto: CurrentRitualsDTO): CurrentRituals {
   return {
-    ritualPacks: (dto.ritualPacks || []).map(toCurrentRitualPack),
-    individualRituals: (dto.individualRituals || []).map(toCurrentRitual),
+    ritualPacks: (dto.ritualPacks || []).map(toUserRitualPack),
+    individualRituals: (dto.individualRituals || []).map(toUserRitual),
   };
 }

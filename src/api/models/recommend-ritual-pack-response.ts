@@ -18,9 +18,6 @@
 import type { ChatMessageDTO } from './chat-message-dto';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { RitualHistoryDTO } from './ritual-history-dto';
-// May contain unused imports in some cases
-// @ts-ignore
 import type { RitualPackDTO } from './ritual-pack-dto';
 
 /**
@@ -37,15 +34,15 @@ export interface RecommendRitualPackResponse {
     'ritualPack'?: RitualPackDTO;
     /**
      * 
+     * @type {string}
+     * @memberof RecommendRitualPackResponse
+     */
+    'recommendationId'?: string;
+    /**
+     * 
      * @type {ChatMessageDTO}
      * @memberof RecommendRitualPackResponse
      */
     'wrapUpResponse'?: ChatMessageDTO;
-    /**
-     * 
-     * @type {{ [key: string]: RitualHistoryDTO; }}
-     * @memberof RecommendRitualPackResponse
-     */
-    'ritualHistoryMap'?: { [key: string]: RitualHistoryDTO; };
 }
 

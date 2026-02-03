@@ -1,4 +1,4 @@
-# CurrentRitualDTO
+# UserRitualDTO
 
 
 ## Properties
@@ -8,18 +8,18 @@ Name | Type | Description | Notes
 **ritualHistoryId** | **string** |  | [default to undefined]
 **ritualId** | **string** |  | [default to undefined]
 **ritual** | [**RitualDTO**](RitualDTO.md) |  | [default to undefined]
-**status** | [**RitualHistoryStatus**](RitualHistoryStatus.md) |  | [default to undefined]
+**ritualHistory** | [**RitualHistoryDTO**](RitualHistoryDTO.md) |  | [default to undefined]
 
 ## Example
 
 ```typescript
-import { CurrentRitualDTO } from './api';
+import { UserRitualDTO } from './api';
 
-const instance: CurrentRitualDTO = {
+const instance: UserRitualDTO = {
     ritualHistoryId,
     ritualId,
     ritual,
-    status,
+    ritualHistory,
 };
 ```
 

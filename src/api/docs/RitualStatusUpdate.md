@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ritualId** | **string** |  | [default to undefined]
+**ritualHistoryId** | **string** |  | [default to undefined]
 **status** | [**RitualHistoryStatus**](RitualHistoryStatus.md) |  | [default to undefined]
 
 ## Example
@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 import { RitualStatusUpdate } from './api';
 
 const instance: RitualStatusUpdate = {
-    ritualId,
+    ritualHistoryId,
     status,
 };
 ```
