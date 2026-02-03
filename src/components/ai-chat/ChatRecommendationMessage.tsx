@@ -1,7 +1,7 @@
-import { RecommendationStatus } from '@/src/api/models/recommendation-status';
 import { ActionTile } from '@/src/components/ui/ActionTile';
 import { useRitualPack } from '@/src/hooks/rituals/useRitualPack';
 import { useRitualRecommendation } from '@/src/hooks/rituals/useRitualRecommendation';
+import { RecommendationStatus } from '@/src/models/enums';
 import { RitualPack } from '@/src/models/ritualPacks';
 import { useChatStore } from '@/src/store/useChatStore';
 import { useRouter } from 'expo-router';
@@ -38,32 +38,45 @@ export function ChatRecommendationMessage({
     return null;
   }
 
-  const isSuggestedOrViewed = [
-    RecommendationStatus.Suggested,
-    RecommendationStatus.Viewed
-  ].includes(recommendation.status as any);
-  
-  const isAddedOrSkipped = [
-    RecommendationStatus.Added,
-    RecommendationStatus.Skipped
-  ].includes(recommendation.status as any);
+  const getTileConfig = () => {
+    switch (recommendation.status) {
+      case RecommendationStatus.Suggested:
+      case RecommendationStatus.Viewed:
+        return {
+          title: 'Suggested Ritual Pack',
+          subtitle: `${ritualPack.title} • ${ritualPack.rituals?.length ?? 0} rituals`,
+          ctaLabel: 'Review',
+          onPress: setRitualRecommendationModalStates,
+        };
+
+      case RecommendationStatus.Added:
+        return {
+          title: 'Added to Your Rituals',
+          subtitle: ritualPack.title,
+          ctaLabel: 'View',
+          onPress: () => navigateToRitualPackPage(ritualPack),
+        };
+
+      case RecommendationStatus.Skipped:
+        return {
+          title: 'Ritual Pack Skipped',
+          subtitle: ritualPack.title,
+          ctaLabel: 'View',
+          onPress: () => navigateToRitualPackPage(ritualPack),
+        };
+    }
+  };
+
+  const tileConfig = getTileConfig();
 
   return (
-    <View className="my-2 w-full self-start">
-      {isSuggestedOrViewed && (
-        <ActionTile
-          title={ritualPack.title || 'Suggested Ritual Pack'}
-          subtitle={`${ritualPack.rituals?.length ?? 0} rituals to strengthen your connection`}
-          onPress={setRitualRecommendationModalStates}
-        />
-      )}
-      {isAddedOrSkipped && (
-        <ActionTile
-          title='Suggested Ritual Pack'
-          subtitle={ritualPack.title}
-          onPress={() => navigateToRitualPackPage(ritualPack)}
-        />
-      )}
+    <View className="w-full self-start">
+      <ActionTile
+        title={tileConfig.title}
+        subtitle={tileConfig.subtitle}
+        ctaLabel={tileConfig.ctaLabel}
+        onPress={tileConfig.onPress}
+      />
     </View>
   );
 }
