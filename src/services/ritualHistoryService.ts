@@ -1,5 +1,5 @@
 import { RitualHistoryControllerApi } from '@/src/api/apis/ritual-history-controller-api';
-import type { CurrentRituals, RitualHistory, RitualHistoryCreateRequest, RitualHistoryUpdate } from '@/src/models/ritualHistory';
+import type { CurrentRituals, RitualHistory, RitualHistoryCreateRequest, RitualHistoryUpdate, UserRitual } from '@/src/models/ritualHistory';
 import { toCurrentRituals } from '@/src/models/ritualHistory';
 import apiClient from '@/src/services/apiClient';
 
@@ -7,9 +7,9 @@ import apiClient from '@/src/services/apiClient';
 const api = new RitualHistoryControllerApi(undefined, '', apiClient);
 
 export const ritualHistoryService = {
-  async list(): Promise<RitualHistory[]> {
+  async list(): Promise<UserRitual[]> {
     const res = await api.list();
-    return (res.data || []) as RitualHistory[];
+    return (res.data || []) as UserRitual[];
   },
 
   async listCurrent(): Promise<CurrentRituals> {

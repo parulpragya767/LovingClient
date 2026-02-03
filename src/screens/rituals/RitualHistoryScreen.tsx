@@ -3,10 +3,8 @@ import { EmptyState } from '@/src/components/states/EmptyState';
 import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
 import { useRitualHistory } from '@/src/hooks/rituals/useRitualHistory';
-import { useRituals } from '@/src/hooks/rituals/useRituals';
 import { RitualHistoryStatus } from '@/src/models/enums';
-import { Ritual } from '@/src/models/rituals';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { FlatList, View } from 'react-native';
 
 const getTimestamp = (dateString?: string): number => 
@@ -14,16 +12,11 @@ const getTimestamp = (dateString?: string): number =>
 
 export default function RitualHistoryScreen() {
   const { data: history = [], isLoading, error, refetch } = useRitualHistory();
-  const { data: rituals = [] } = useRituals();
-
-  const ritualsById = useMemo(() => {
-    return new Map<string, Ritual>(rituals.map(r => [r.id, r]))
-  }, [rituals]);
 
   const sortedHistory = useMemo(() => {
     return history
-      .filter(ritual => ritual.status === RitualHistoryStatus.Completed)
-      .sort((a, b) => getTimestamp(b.updatedAt) - getTimestamp(a.updatedAt))
+      .filter(userRitual => userRitual.ritualHistory.status === RitualHistoryStatus.Completed)
+      .sort((a, b) => getTimestamp(b.ritualHistory.updatedAt) - getTimestamp(a.ritualHistory.updatedAt))
   }, [history]);
 
   if (isLoading) return <LoadingState text="Loading your ritual history..." />;
@@ -33,14 +26,13 @@ export default function RitualHistoryScreen() {
     <View className="flex-1 bg-surface-screen">
       <FlatList
         data={sortedHistory}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.ritualHistoryId}
         renderItem={({ item }) => {
-          const ritual = item.ritualId ? ritualsById.get(item.ritualId) : undefined;
           return (
             <RitualHistoryCard
-              title={ritual?.title || 'Ritual'}
-              date={item.updatedAt}
-              feedback={item.feedback}
+              title={item.ritual.title || 'Ritual'}
+              date={item.ritualHistory.updatedAt}
+              feedback={item.ritualHistory.feedback}
             />
           );
         }}
