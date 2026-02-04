@@ -1,4 +1,5 @@
 import { CORRELATION_ID } from '@/src/constants/apiConstants';
+import { useAppErrorStore } from '@/src/store/useAppErrorStore';
 import { devLog } from '@/src/utils/devLog';
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import * as Crypto from 'expo-crypto';
@@ -47,6 +48,12 @@ apiClient.interceptors.response.use(
   (error: AxiosError) => {
     const status = error.response?.status;
     const correlationId = (error.config?.headers as any)?.[CORRELATION_ID];
+
+    if (status === 401 || status === 403) {
+      useAppErrorStore.getState().setError('AUTH_ERROR');
+    } else if (!status) {
+      useAppErrorStore.getState().setError('NETWORK_ERROR');
+    }
 
     devLog('warn', 'API request failed', {
       method: error.config?.method,
