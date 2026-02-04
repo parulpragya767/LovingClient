@@ -1,21 +1,21 @@
 import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
+import { HeaderlessScreen } from '@/src/components/ui/HeaderlessScreen';
 import { useAppErrorStore } from '@/src/store/useAppErrorStore';
 import React from 'react';
-import { View } from 'react-native';
 
 export default function FatalErrorScreen() {
   const clearError = useAppErrorStore((s) => s.clearError);
 
   return (
-    <View className="flex-1 items-center justify-center bg-surface-screen p-6">
-      <AppText className="text-center mb-4">
-        Something went wrong. Please restart the app or try again.
+    <HeaderlessScreen className="justify-center">
+      <AppText className="text-center mb-6">
+        Something unexpected went wrong. Please try again.
       </AppText>
 
-      <Button variant="secondary" onPress={clearError} activeOpacity={0.8}>
-        Dismiss
+      <Button variant="secondary" onPress={clearError}>
+        Try Again
       </Button>
-    </View>
+    </HeaderlessScreen>
   );
 }
