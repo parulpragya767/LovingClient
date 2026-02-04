@@ -52,8 +52,8 @@ export function ChatSession({ session }: ChatSessionProps) {
           <AppText variant="body" numberOfLines={1}>
             {session.title}
           </AppText>
-          <AppText variant="small" className="mt-1 opacity-70" numberOfLines={1} ellipsizeMode="tail">
-            {session.messages.at(-1)?.content || 'No messages yet'}
+          <AppText variant="small" color="text-text-muted" className="mt-1" numberOfLines={1} ellipsizeMode="tail">
+            {session.lastMessagePreview || 'No messages yet'}
           </AppText>
         </View>
         <TouchableOpacity onPress={handleDelete} className="p-1 ml-2">
