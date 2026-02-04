@@ -40,6 +40,12 @@ export interface ChatSessionDTO {
      * @type {string}
      * @memberof ChatSessionDTO
      */
+    'lastMessagePreview'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ChatSessionDTO
+     */
     'createdAt'?: string;
     /**
      * 
