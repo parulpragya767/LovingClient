@@ -8,7 +8,7 @@ export type ChatMessageActionsModalProps = {
   visible: boolean;
   onRequestClose: () => void;
   messageContent: string;
-  anchor?: { x: number; y: number; width: number; height: number } | null;
+  anchor?: { x: number; y: number } | null;
 };
 
 export function ChatMessageActionsModal({
@@ -18,9 +18,6 @@ export function ChatMessageActionsModal({
   anchor,
 }: ChatMessageActionsModalProps) {
   const { showSuccess } = useToast();
-  const left = anchor?.x ?? 0;
-  const top = anchor ? anchor.y + anchor.height + 6 : 0;
-  const width = anchor?.width ?? 140;
 
   const handleCopy = async () => {
     if (!messageContent) return;
@@ -30,6 +27,8 @@ export function ChatMessageActionsModal({
     onRequestClose();
   };
 
+  if (!anchor) return null;
+
   return (
     <Modal 
       transparent 
@@ -37,22 +36,20 @@ export function ChatMessageActionsModal({
       animationType="fade"
       onRequestClose={onRequestClose}
     >
+      {/* Backdrop */}
       <Pressable className="flex-1" onPress={onRequestClose}>
-        <Pressable onPress={() => {}}>
-          <View
-            style={{
-              position: 'absolute',
-              left,
-              top,
-              width,
-            }}
-            className="bg-surface-elevated border border-border rounded-md shadow-card overflow-hidden"
-          >
-            <Pressable onPress={handleCopy} className="px-4 py-3">
-              <AppText variant="small">Copy</AppText>
-            </Pressable>
-          </View>
-        </Pressable>
+        <View
+          style={{
+            position: "absolute",
+            left: anchor.x,
+            top: anchor.y + 8,
+          }}
+          className="bg-surface-elevated border border-border rounded-md shadow-card overflow-hidden"
+        >
+          <Pressable onPress={handleCopy} className="px-4 py-3">
+            <AppText variant="small">Copy</AppText>
+          </Pressable>
+        </View>
       </Pressable>
     </Modal>
   );

@@ -22,24 +22,19 @@ export function ChatMessage({ message }: ChatMessageProps) {
 
   const messageRef = useRef<View>(null);
   const [actionsVisible, setActionsVisible] = useState(false);
-  const [actionsAnchor, setActionsAnchor] = useState<{
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  } | null>(null);
+  const [anchor, setAnchor] = useState<{ x: number; y: number } | null>(null);
 
   const openActions = () => {
     if (!message.content) return;
-    messageRef.current?.measureInWindow((x, y, width, height) => {
-      setActionsAnchor({ x, y, width, height });
+
+    messageRef.current?.measureInWindow((x, y, _w, h) => {
+      setAnchor({ x, y: y + h });
       setActionsVisible(true);
     });
   };
 
   const closeActions = () => {
     setActionsVisible(false);
-    setActionsAnchor(null);
   };
 
   if (hasRecommendation) {
@@ -66,9 +61,9 @@ export function ChatMessage({ message }: ChatMessageProps) {
 
       <ChatMessageActionsModal
         visible={actionsVisible}
-        anchor={actionsAnchor}
+        anchor={anchor}
         onRequestClose={closeActions}
-        messageContent={message.content ?? ''}
+        messageContent={message.content ?? ""}
       />
     </>
   );
