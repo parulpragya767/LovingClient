@@ -17,13 +17,15 @@ export default function AuthEntryScreen() {
         A gentle space to build love, together.
       </AppText>
 
-      <Button variant="secondary" onPress={() => router.push('/auth/email-signup')} className="mb-3">
-        Continue with Apple
-      </Button>
+      {/* Add these social login options when ready
+        <Button variant="secondary" onPress={() => router.push('/auth/email-signup')} className="mb-3">
+          Continue with Apple
+        </Button>
 
-      <Button variant="secondary" onPress={() => router.push('/auth/email-signup')} className="mb-3">
-        Continue with Google
-      </Button>
+        <Button variant="secondary" onPress={() => router.push('/auth/email-signup')} className="mb-3">
+          Continue with Google
+        </Button> 
+      */}
 
       <Button variant="secondary" onPress={() => router.push('/auth/email-signup')} className="mb-8">
         Continue with Email
