@@ -3,6 +3,12 @@ import { MarkdownText } from "@/src/components/ui/MarkdownText";
 import { createMarkdownRules } from '@/src/lib/markdown/markdownRules';
 import type { ChatMessage as ChatMessageType } from '@/src/models/chat';
 import { ChatMessageRole } from '@/src/models/enums';
+import { useRef, useState } from 'react';
+import {
+  Pressable,
+  View,
+} from 'react-native';
+import { ChatMessageActionsModal } from './ChatMessageActionsModal';
 import { ChatRecommendationMessage } from './ChatRecommendationMessage';
 
 type ChatMessageProps = {
@@ -14,21 +20,56 @@ export function ChatMessage({ message }: ChatMessageProps) {
   const isSystem = message.role === ChatMessageRole.System;
   const hasRecommendation = isSystem && message.metadata?.recommendationId;
 
+  const messageRef = useRef<View>(null);
+  const [actionsVisible, setActionsVisible] = useState(false);
+  const [actionsAnchor, setActionsAnchor] = useState<{
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  } | null>(null);
+
+  const openActions = () => {
+    if (!message.content) return;
+    messageRef.current?.measureInWindow((x, y, width, height) => {
+      setActionsAnchor({ x, y, width, height });
+      setActionsVisible(true);
+    });
+  };
+
+  const closeActions = () => {
+    setActionsVisible(false);
+    setActionsAnchor(null);
+  };
+
   if (hasRecommendation) {
     const recommendationId = message.metadata!.recommendationId!;
     return <ChatRecommendationMessage recommendationId={recommendationId}/>
   }
 
   return (
-    <Card className={`max-w-[80%]
-      ${isUser 
-        ? 'self-end bg-surface-sunken rounded-br-sm' 
-        : 'self-start bg-surface-base rounded-bl-sm'}`}
-      >
-        <MarkdownText 
-          rules={createMarkdownRules({})}>
-          {message.content ?? ''}
-        </MarkdownText>
-    </Card>
+    <>
+      <Pressable onLongPress={openActions} delayLongPress={250}>
+        <Card className={`max-w-[80%]
+          ${isUser 
+            ? 'self-end bg-surface-sunken rounded-br-sm' 
+            : 'self-start bg-surface-base rounded-bl-sm'}`}
+          >
+            <View ref={messageRef}>
+              <MarkdownText 
+                rules={createMarkdownRules({})}>
+                {message.content ?? ''}
+              </MarkdownText>
+            </View>
+        </Card>
+      </Pressable>
+
+      <ChatMessageActionsModal
+        visible={actionsVisible}
+        anchor={actionsAnchor}
+        onRequestClose={closeActions}
+        messageContent={message.content ?? ''}
+      />
+    </>
   );
 }
