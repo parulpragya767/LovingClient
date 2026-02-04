@@ -16,17 +16,10 @@ export default function LoveTypeDetailScreen() {
   const { loveType: loveTypeParam } = useLocalSearchParams<{ loveType: string }>();
   const { data: loveTypes, isLoading, error, refetch } = useLoveTypes();
 
-  if (isLoading) return <LoadingState text="Loading love type details..." />;
-  if (error) return <ErrorState message="Failed to load love type details." onButtonPress={() => refetch()} />;
-
   const loveTypeDetail = loveTypes?.find(type => type.loveType === loveTypeParam?.toUpperCase());
-  if (!loveTypeDetail) return <ErrorState
-    message="Love type details not available. Please open from the list."
-    onButtonPress={() => router.back()}
-    buttonMessage="Go Back"
-  />;
 
   useEffect(() => {
+    if (!loveTypeDetail) return;
     let mounted = true;
     (async () => {
       if (!mounted) return;
@@ -34,7 +27,11 @@ export default function LoveTypeDetailScreen() {
       navigation.setOptions({ title: loveTypeDetail.title || "Love Type Details" });
     })();
     return () => { mounted = false };
-  }, [loveTypeDetail]);
+  }, [loveTypeDetail, navigation]);
+
+  if (isLoading) return <LoadingState text="Loading love type details..." />;
+  if (error) return <ErrorState message="Failed to load love type details." onButtonPress={() => refetch()} />;
+  if (!loveTypeDetail) return <ErrorState message="Love type details not available. Please open from the list." onButtonPress={() => router.back()} buttonMessage="Go Back" />;
 
   return (
     <Screen>
