@@ -78,22 +78,22 @@ export const useRitualActions = () => {
       recommendationId,
       sessionId,
       status,
-      selectedRitualIds,
-      skippedRitualIds,
+      selectedRitualHistoryIds,
+      skippedRitualHistoryIds,
     }: {
       recommendationId: string;
       sessionId: string | null;
       status: RecommendationStatus;
-      selectedRitualIds: string[];
-      skippedRitualIds: string[];
+      selectedRitualHistoryIds: string[];
+      skippedRitualHistoryIds: string[];
     }) => {
-      const selectedUpdates: RitualStatusUpdate[] = selectedRitualIds.map(ritualId => ({
-        ritualId,
+      const selectedUpdates: RitualStatusUpdate[] = selectedRitualHistoryIds.map(ritualHistoryId => ({
+        ritualHistoryId,
         status: RitualHistoryStatus.Active,
       }));
 
-      const skippedUpdates: RitualStatusUpdate[] = skippedRitualIds.map(ritualId => ({
-        ritualId,
+      const skippedUpdates: RitualStatusUpdate[] = skippedRitualHistoryIds.map(ritualHistoryId => ({
+        ritualHistoryId,
         status: RitualHistoryStatus.Skipped,
       }));
 

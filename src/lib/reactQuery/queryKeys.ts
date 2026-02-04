@@ -20,6 +20,9 @@ export const ritualKeys = {
 
   history: () => [...ritualKeys.all, 'history'] as const,
 
+  userRitualPackByRecommendationId: (recommendationId: string) => 
+    [...ritualKeys.all, 'history', 'recommendation', recommendationId] as const,
+
   current: () => [...ritualKeys.all, 'current'] as const,
 
   packs: () => [...ritualKeys.all, 'packs'] as const,

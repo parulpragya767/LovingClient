@@ -1,5 +1,5 @@
 import RitualRecommendationModal from '@/src/components/rituals/RitualRecommendationModal';
-import { useRitualPack } from '@/src/hooks/rituals/useRitualPack';
+import { useUserRitualPackByRecommendationId } from '@/src/hooks/rituals/useRitualHistory';
 import { useRitualRecommendation } from '@/src/hooks/rituals/useRitualRecommendation';
 import { useToast } from '@/src/hooks/ui/useToast';
 import { useChatStore } from '@/src/store/useChatStore';
@@ -18,7 +18,7 @@ export default function RitualRecommendationModalHandler() {
   const isActive = isRitualRecommendationModalVisible && !!ritualRecommendationId;
 
   const {data: recommendation, isLoading: isLoadingRecommendation, error: recommendationError} = useRitualRecommendation(isActive ? ritualRecommendationId : '');
-  const {data: ritualPack, isLoading: isLoadingRitualPack, error: ritualPackError} = useRitualPack(recommendation?.ritualPackId ?? '');
+  const {data: userRitualPack, isLoading: isLoadingUserRitualPack, error: userRitualPackError} = useUserRitualPackByRecommendationId(isActive ? ritualRecommendationId : '');
 
   const {showError} = useToast();
 
@@ -28,8 +28,8 @@ export default function RitualRecommendationModalHandler() {
     setRecommendationChatSessionId(null);
   };
 
-  const isLoading = isLoadingRecommendation || isLoadingRitualPack;
-  const hasError = recommendationError || ritualPackError || !ritualRecommendationId;
+  const isLoading = isLoadingRecommendation || isLoadingUserRitualPack;
+  const hasError = recommendationError || userRitualPackError || !ritualRecommendationId;
 
   useEffect(() => {
     if (!isRitualRecommendationModalVisible) return;
@@ -42,14 +42,14 @@ export default function RitualRecommendationModalHandler() {
 
   if (!isRitualRecommendationModalVisible) return null;
   if (isLoading) return null;
-  if (!recommendation || !ritualPack) return null;
+  if (!recommendation || !userRitualPack) return null;
 
   return (
     <RitualRecommendationModal
       visible={true}
       ritualRecommendationId={ritualRecommendationId!}
       chatSessionId={recommendationChatSessionId}
-      ritualPack={ritualPack}
+      userRitualPack={userRitualPack}
       closeRecommendationFlow={closeRecommendationFlow} 
     />
   );

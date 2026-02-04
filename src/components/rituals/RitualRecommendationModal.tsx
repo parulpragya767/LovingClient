@@ -6,7 +6,7 @@ import { ModalContainer } from '@/src/components/ui/ModalContainer';
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useToast } from '@/src/hooks/ui/useToast';
 import { RecommendationStatus } from '@/src/models/enums';
-import type { RitualPack } from '@/src/models/ritualPacks';
+import type { UserRitualPack } from '@/src/models/ritualHistory';
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FlatList, Modal, Pressable, View } from 'react-native';
@@ -15,7 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 type RitualRecommendationModalProps = {
   visible: boolean;
   ritualRecommendationId: string;
-  ritualPack: RitualPack;
+  userRitualPack: UserRitualPack;
   chatSessionId: string | null;
   closeRecommendationFlow: () => void;
 };
@@ -23,7 +23,7 @@ type RitualRecommendationModalProps = {
 export default function RitualRecommendationModal({ 
   visible, 
   ritualRecommendationId, 
-  ritualPack, 
+  userRitualPack, 
   chatSessionId, 
   closeRecommendationFlow 
 }: RitualRecommendationModalProps) {
@@ -34,8 +34,8 @@ export default function RitualRecommendationModal({
   const insets = useSafeAreaInsets();
 
   const rituals = useMemo(() => {
-    return ritualPack?.rituals || [];
-  }, [ritualPack]);
+    return userRitualPack?.rituals || [];
+  }, [userRitualPack]);
 
   const toggle = (id: string) => {
     setSelected(prev => ({
@@ -54,17 +54,17 @@ export default function RitualRecommendationModal({
   const handleAdd = useCallback(async () => {
     if (!canAdd || !ritualRecommendationId) return;
     
-    const skippedRitualIds = rituals
-      .filter(ritual => !selected[ritual.id])
-      .map(ritual => ritual.id);
+    const skippedRitualHistoryIds = rituals
+      .filter(userRitual => !selected[userRitual.ritualHistoryId])
+      .map(userRitual => userRitual.ritualHistoryId);
     
     try {
       await updateRecommendationAndHistoryStatus.mutateAsync({
         recommendationId: ritualRecommendationId,
         sessionId: chatSessionId,
         status: RecommendationStatus.Added,
-        selectedRitualIds: selectedIds,
-        skippedRitualIds: skippedRitualIds,
+        selectedRitualHistoryIds: selectedIds,
+        skippedRitualHistoryIds: skippedRitualHistoryIds,
       });
       showSuccess("Added to your current rituals");
     } catch (error) {
@@ -80,8 +80,8 @@ export default function RitualRecommendationModal({
           recommendationId: ritualRecommendationId,
           sessionId: chatSessionId,
           status: RecommendationStatus.Viewed,
-          selectedRitualIds: [],
-          skippedRitualIds: [],
+          selectedRitualHistoryIds: [],
+          skippedRitualHistoryIds: [],
         });
       } catch (error) {}
     }
@@ -92,13 +92,13 @@ export default function RitualRecommendationModal({
     if (ritualRecommendationId) {
       try {
         // Mark all rituals as skipped when modal is dismissed
-        const allRitualIds = rituals.map(ritual => ritual.id);
+        const allRitualHistoryIds = rituals.map(userRitual => userRitual.ritualHistoryId);
         await updateRecommendationAndHistoryStatus.mutateAsync({
           recommendationId: ritualRecommendationId,
           sessionId: chatSessionId,
           status: RecommendationStatus.Skipped,
-          selectedRitualIds: [],
-          skippedRitualIds: allRitualIds,
+          selectedRitualHistoryIds: [],
+          skippedRitualHistoryIds: allRitualHistoryIds,
         });
       } catch (error) {}
     }
@@ -120,26 +120,26 @@ export default function RitualRecommendationModal({
           </Pressable>
 
           <AppText variant="subtitle" numberOfLines={1} className="flex-1">
-            {ritualPack.title || 'Ritual Pack'}
+            {userRitualPack.ritualPack.title || 'Ritual Pack'}
           </AppText>
         </View>
 
         <FlatList
           data={rituals}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.ritualHistoryId}
           renderItem={({ item }) => (
             <View className="px-4 py-2">
               <RecommendedRitualCard 
-                ritual={item} 
-                selected={!!selected[item.id]}
-                onPress={() => toggle(item.id)}
+                ritual={item.ritual} 
+                selected={!!selected[item.ritualHistoryId]}
+                onPress={() => toggle(item.ritualHistoryId)}
               />
             </View>
           )}
           ListHeaderComponent={
             <View className="flex px-4 pt-4 pb-3 gap-2">
               <AppText variant="body">
-                {ritualPack.tagLine}
+                {userRitualPack.ritualPack.tagLine}
               </AppText>
               <AppText variant="small" className="font-semibold">
                 Select rituals you'd like to practice next.
