@@ -1,6 +1,7 @@
 import { supabase } from '@/src/lib/supabase';
 import { registerAccessTokenGetter } from '@/src/services/apiClient';
 import { userService } from '@/src/services/userService';
+import { useAppErrorStore } from '@/src/store/useAppErrorStore';
 import { useUserStore } from '@/src/store/useUserStore';
 import { Session, User } from '@supabase/supabase-js';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
@@ -44,6 +45,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const setUser = useUserStore(s => s.setUser);
   const clearUser = useUserStore(s => s.clearUser);
+  const setAppError = useAppErrorStore((s) => s.setError);
+  const clearAppError = useAppErrorStore((s) => s.clearError);
 
   // SYNC FUNCTION: sync Supabase → backend
   const syncUserToBackend = useCallback(async (sbUser: User | null) => {
@@ -82,11 +85,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     init();
 
     // Listen for login/logout/session refresh
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, newSession) => {
+    const { data: sub } = supabase.auth.onAuthStateChange((event, newSession) => {
       const token = newSession?.access_token ?? null;
       setSession(newSession ?? null);
       setAccessTokenState(token);
       registerAccessTokenGetter(() => token);
+
+      if (event === 'SIGNED_OUT') {
+        setAppError('AUTH_ERROR');
+        return;
+      }
+      if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+        clearAppError();
+      }
     });
     
     return () => {
