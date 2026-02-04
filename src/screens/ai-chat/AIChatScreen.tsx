@@ -66,14 +66,15 @@ export default function AIChatScreen() {
       <KeyboardSafeScreen>
         {/* Messages and ritual recommendation cards */}
         <FlatList
-          data={messages}
+          data={messages ? [...messages].reverse() : []}
           keyExtractor={(item) => item.id}
+          inverted
           renderItem={({ item }) => (
             <View className="mb-4">
               <ChatMessage message={item}/>
             </View>
           )}
-          ListFooterComponent={
+          ListHeaderComponent={
             <View className="mb-4">
               {isRecommendationConsentCardVisible && (
                 <RitualRecommendationConsentCard onPress={handleRitualRecommendation} />
@@ -81,7 +82,7 @@ export default function AIChatScreen() {
             </View>
           }
           ListEmptyComponent={<EmptyState message="No messages yet." />}
-          contentContainerStyle={{ paddingHorizontal: 12, paddingTop: 16, paddingBottom: 80 }}
+          contentContainerStyle={{ paddingHorizontal: 12, paddingTop: 80, paddingBottom: 16 }}
           showsVerticalScrollIndicator={false}
           keyboardDismissMode="on-drag"
           keyboardShouldPersistTaps="handled"
