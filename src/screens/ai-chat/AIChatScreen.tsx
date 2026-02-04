@@ -19,6 +19,7 @@ export default function AIChatScreen() {
   const { getSessionDetails, sendMessageToSession, recommendRitualPack } = useChatActions();
   const { data: messages, isLoading, error, refetch } = useChatMessages(sessionId);
   const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(false);
+  const [isRecommendingRitualPack, setIsRecommendingRitualPack] = useState(false);
   const { showInfo, showError } = useToast();
 
   const handleSendMessage = useCallback(async (message: string) => {
@@ -34,7 +35,10 @@ export default function AIChatScreen() {
   }, [sessionId, sendMessageToSession]);
 
   const handleRitualRecommendation = async () => {
+    if (isRecommendingRitualPack) return;
+
     try {
+      setIsRecommendingRitualPack(true);
       const ritualPack = await recommendRitualPack.mutateAsync(sessionId);
       if (!ritualPack) {
         showInfo("No recommendation available at this time.");
@@ -43,6 +47,7 @@ export default function AIChatScreen() {
       showError("Failed to get your recommendation");
     }
     finally {
+      setIsRecommendingRitualPack(false);
       setIsRecommendationConsentCardVisible(false);
     }
   };
@@ -78,6 +83,9 @@ export default function AIChatScreen() {
             <View className="mb-4">
               {isRecommendationConsentCardVisible && (
                 <RitualRecommendationConsentCard onPress={handleRitualRecommendation} />
+              )}
+              {isRecommendingRitualPack && (
+                <LoadingState text="Preparing your recommendation…" fullScreen={false} />
               )}
             </View>
           }
