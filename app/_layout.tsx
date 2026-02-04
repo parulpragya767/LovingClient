@@ -8,6 +8,8 @@ import { GlobalErrorRenderer } from '@/src/components/errors/GlobalErrorRenderer
 import { HeaderIconButton } from '@/src/components/ui/navigation/HeaderIconButton';
 import { DefaultHeaderOptions } from '@/src/components/ui/navigation/HeaderOptions';
 import { toastConfig } from '@/src/components/ui/ToastConfig';
+import { DevToolsOverlay } from '@/src/devtools/DevToolsOverlay';
+import { DevToolsTrigger } from '@/src/devtools/DevToolsTrigger';
 import { queryClient } from '@/src/lib/reactQuery/queryClient';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -90,6 +92,9 @@ export default function RootLayout() {
           </AuthProvider>
 
           {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+          <DevToolsOverlay />
+          <DevToolsTrigger visible={true}/>
+
         </QueryClientProvider>
       </GlobalErrorRenderer>
     </AppErrorBoundary>
