@@ -9,7 +9,7 @@ export const DefaultHeaderOptions = {
 
   headerTitleStyle: {
     fontFamily: AppTheme.typography.fontFamily.sans,
-    fontSize: parseFloat(AppTheme.typography.fontSize.body[0]),
+    fontSize: parseFloat(AppTheme.typography.fontSize.subtitle[0]),
     fontWeight: '600' as const,
   },
 
