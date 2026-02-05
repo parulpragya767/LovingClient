@@ -93,7 +93,7 @@ export default function AIChatScreen() {
           ListEmptyComponent={<EmptyState message="No messages yet." />}
           contentContainerStyle={
             hasMessages
-              ? { paddingHorizontal: 12, paddingTop: 80, paddingBottom: 16 }
+              ? { paddingHorizontal: 12, paddingTop: (messages?.length ?? 0) < 3 ? 150 : 80, paddingBottom: 16 }
               : { paddingHorizontal: 12, paddingVertical: 16 }
           }
           showsVerticalScrollIndicator={false}
