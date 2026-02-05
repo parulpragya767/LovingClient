@@ -18,6 +18,7 @@ export default function AIChatScreen() {
   const { sessionId } = useLocalSearchParams<{ sessionId: string }>();
   const { getSessionDetails, sendMessageToSession, recommendRitualPack } = useChatActions();
   const { data: messages, isLoading, error, refetch } = useChatMessages(sessionId);
+  const hasMessages = (messages?.length ?? 0) > 0;
   const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(false);
   const [isRecommendingRitualPack, setIsRecommendingRitualPack] = useState(false);
   const { showInfo, showError } = useToast();
@@ -71,9 +72,9 @@ export default function AIChatScreen() {
       <KeyboardSafeScreen>
         {/* Messages and ritual recommendation cards */}
         <FlatList
-          data={messages ? [...messages].reverse() : []}
+          data={hasMessages ? [...messages!].reverse() : []}
           keyExtractor={(item) => item.id}
-          inverted
+          inverted={hasMessages}
           renderItem={({ item }) => (
             <View className="mb-4">
               <ChatMessage message={item}/>
@@ -90,7 +91,11 @@ export default function AIChatScreen() {
             </View>
           }
           ListEmptyComponent={<EmptyState message="No messages yet." />}
-          contentContainerStyle={{ paddingHorizontal: 12, paddingTop: 80, paddingBottom: 16 }}
+          contentContainerStyle={
+            hasMessages
+              ? { paddingHorizontal: 12, paddingTop: 80, paddingBottom: 16 }
+              : { paddingHorizontal: 12, paddingVertical: 16 }
+          }
           showsVerticalScrollIndicator={false}
           keyboardDismissMode="on-drag"
           keyboardShouldPersistTaps="handled"
