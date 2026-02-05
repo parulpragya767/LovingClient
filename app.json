@@ -12,7 +12,7 @@
     },
     "web": {
       "bundler": "metro",
-      "favicon": "./assets/favicon.png"
+      "favicon": "/assets/images/favicon.png"
     },
     "userInterfaceStyle": "light",
     "platforms": [
@@ -20,8 +20,7 @@
       "android",
       "web"
     ],
-    "sdkVersion": "54.0.0",
-    "entryPoint": ".vscode/exponentIndex.js"
+    "sdkVersion": "54.0.0"
   },
   "name": "lovingclient"
 }
