@@ -19,7 +19,7 @@ export default function LoveLensScreen() {
         data={loveTypes}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View className="mb-4">
+          <View className="mb-6">
             <LoveTypeCard loveTypeDetail={item} />
           </View>
         )}

@@ -1,6 +1,5 @@
 import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
-import { Card } from '@/src/components/ui/Card';
 import { LoveTypeDetail } from '@/src/models/loveLens';
 import { useRouter } from 'expo-router';
 import { Pressable, View } from 'react-native';
@@ -20,9 +19,10 @@ export default function LoveTypeCard({
 
   return (
     <Pressable onPress={handleLoveTypePress}>
-      <Card className="border border-border">
-        {/* Title row */}
-        <View className="flex-row items-center justify-between mb-1">
+      <View className="rounded-card shadow-card bg-surface-elevated border border-border overflow-hidden">
+
+        {/* Header */}
+        <View className="flex-row items-center justify-between bg-brand-subtle rounded-t-card px-4 py-2">
           <AppText variant="subtitle">
             {loveTypeDetail.title || 'Love Type'}
           </AppText>
@@ -30,11 +30,14 @@ export default function LoveTypeCard({
           <Button variant="ghost" onPress={handleLoveTypePress}>→</Button>
         </View>
 
-        {/* Description */}
-        <AppText variant="small" numberOfLines={2} ellipsizeMode="tail">
-          {loveTypeDetail.description}
-        </AppText>
-      </Card>
+        {/* Body */}
+        <View className="px-4 py-3">
+          <AppText variant="small" numberOfLines={2} ellipsizeMode="tail">
+            {loveTypeDetail.subtitle}
+          </AppText>
+        </View>
+
+      </View>
     </Pressable>
   );
 }
