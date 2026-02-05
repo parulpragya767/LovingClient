@@ -13,7 +13,7 @@ type AuthContextType = {
   loading: boolean;
   signIn: (params: { email: string; password: string }) => Promise<{ error?: string }>;
   signUp: (params: { email: string; password: string }) => Promise<{ error?: string }>;
-  signOut: () => Promise<void>;
+  signOut: () => Promise<{ error?: string }>;
   resetPasswordForEmail: (params: { email: string }) => Promise<{ error?: string }>;
   updatePassword: (params: { password: string }) => Promise<{ error?: string }>;
 };
@@ -116,9 +116,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Signout flow
   const signOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) return { error: error.message };
+
     clearUser();
-    await supabase.auth.signOut();
     setSession(null);
+    return {};
   };
 
   // Forgot password flow

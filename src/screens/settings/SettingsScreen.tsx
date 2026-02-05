@@ -13,14 +13,19 @@ export default function SettingsScreen() {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogout = async () => {
+    if (isLoggingOut) return;
+
     setIsLoggingOut(true);
-    try {
-      await signOut();
-      router.replace('/(tabs)/');
-    } catch (error) {
+    const { error } = await signOut();
+
+    if(error) {
       Alert.alert('Logout failed', 'Something went wrong. Please try again.');
       setIsLoggingOut(false);
+      return;
     }
+    
+    setIsLoggingOut(false);
+    router.replace('/');
   };
 
   if (isLoggingOut) return <LoadingState text="Logging out..." />
