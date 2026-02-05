@@ -3,6 +3,7 @@ import { router } from 'expo-router';
 import React, { useState } from 'react';
 
 import LoadingState from '@/src/components/states/LoadingState';
+import { ConfirmationModal } from '@/src/components/ui/ConfirmationModal';
 import { Screen } from '@/src/components/ui/Screen';
 import SettingsItem from '@/src/components/ui/settings/SettingsItem';
 import SettingsSection from '@/src/components/ui/settings/SettingsSection';
@@ -11,6 +12,7 @@ import { Alert, ScrollView } from 'react-native';
 export default function SettingsScreen() {
   const { signOut } = useAuth();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const handleLogout = async () => {
     if (isLoggingOut) return;
@@ -86,10 +88,19 @@ export default function SettingsScreen() {
           <SettingsItem
             label="Log out"
             icon="log-out"
-            onPress={handleLogout}
+            onPress={() => setShowLogoutModal(true)}
           />
         </SettingsSection>
       </ScrollView>
+
+      <ConfirmationModal
+        visible={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        onConfirm={handleLogout}
+        title="Log out"
+        message="Are you sure you want to log out?"
+        confirmText="Log out"
+      />
     </Screen>
   );
 }

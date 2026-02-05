@@ -1,6 +1,6 @@
-import { DeleteConfirmationModal } from '@/src/components/ai-chat/DeleteConfirmationModal';
 import { AppTheme } from "@/src/components/themes/AppTheme";
 import { AppText } from '@/src/components/ui/AppText';
+import { ConfirmationModal } from '@/src/components/ui/ConfirmationModal';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useToast } from '@/src/hooks/ui/useToast';
 import { ChatSession as ChatSessionModel } from '@/src/models/chat';
@@ -61,11 +61,14 @@ export function ChatSession({ session }: ChatSessionProps) {
         </TouchableOpacity>
       </TouchableOpacity>
       
-      <DeleteConfirmationModal
+      <ConfirmationModal
         visible={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
         onConfirm={handleConfirmDelete}
-        sessionTitle={session.title}
+        title="Delete Conversation"
+        message={`Are you sure you want to delete "${session.title}"?`}
+        description="This action cannot be undone."
+        confirmText="Delete"
       />
     </>
   );
