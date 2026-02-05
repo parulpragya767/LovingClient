@@ -5,6 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 
 export const useUserActions = () => {
   const setOnboardingCompleted = useUserStore(s => s.setOnboardingCompleted);
+  const setDisplayName = useUserStore(s => s.setDisplayName);
   
   const markOnboardingCompleted = useMutation({
     mutationFn: () => {
@@ -32,8 +33,26 @@ export const useUserActions = () => {
     },
   });
 
+  const updateDisplayName = useMutation({
+    mutationFn: (displayName: string) => {
+      const userData: UserUpdateRequest = {
+        displayName,
+      };
+      return userService.updateUser(userData);
+    },
+
+    onSuccess: (_data, displayName) => {
+      setDisplayName(displayName);
+    },
+
+    onError: (error) => {
+      console.error('Failed to update display name', error);
+    },
+  });
+
   return {
     markOnboardingCompleted,
     syncUser,
+    updateDisplayName,
   };
 };

@@ -16,7 +16,7 @@ export const useUserStore = create<UserStore>((set) => ({
   onboardingCompleted: true,
 
   setUser: (user) => set({ 
-    displayName: user.displayName, 
+    displayName: user.displayName ?? '', 
     onboardingCompleted: user.onboardingCompleted ?? true 
   }),
 
