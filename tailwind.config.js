@@ -2,6 +2,7 @@
 module.exports = {
   content: ["./App.{js,jsx,ts,tsx}", "./app/**/*.{js,jsx,ts,tsx}", "./src/**/*.{js,jsx,ts,tsx}"],
   presets: [require("nativewind/preset")],
+  darkMode: "media",
   theme: {
     extend: {
       fontFamily: {
@@ -123,5 +124,4 @@ module.exports = {
     },
   },
   plugins: [],
-  // darkMode: "class", // or "media" or "class"
 }

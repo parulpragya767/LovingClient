@@ -14,7 +14,7 @@
       "bundler": "metro",
       "favicon": "./assets/favicon.png"
     },
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "light",
     "platforms": [
       "ios",
       "android",
