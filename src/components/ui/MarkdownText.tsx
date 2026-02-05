@@ -23,20 +23,18 @@ export function MarkdownText({
         body: {}, // keep empty → let className drive styles
       }}
       rules={{
-        paragraph: (_, nodeChildren) => {
-          const keyedChildren = React.Children.toArray(nodeChildren);
+        paragraph: (node, nodeChildren) => {
           return (
-            <AppText variant={variant} className={className}>
-              {keyedChildren}
+            <AppText key={node.key} variant={variant} className={className}>
+              {nodeChildren}
             </AppText>
           );
         },
 
-        strong: (_, nodeChildren) => {
-          const keyedChildren = React.Children.toArray(nodeChildren);
+        strong: (node, nodeChildren) => {
           return (
-            <AppText variant={variant} className={clsx('font-semibold', className)}>
-              {keyedChildren}
+            <AppText key={node.key} variant={variant} className={clsx('font-semibold', className)}>
+              {nodeChildren}
             </AppText>
           );
         },

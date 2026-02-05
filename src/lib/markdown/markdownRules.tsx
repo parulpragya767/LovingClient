@@ -22,7 +22,7 @@ export function createMarkdownRules({
       const parts = content.split(LOVE_TYPE_REGEX);
 
       return (
-        <>
+        <React.Fragment key={node.key}>
           {parts.map((part: string, i: number) => {
             const isLoveType = i % 2 === 1;
 
@@ -40,14 +40,14 @@ export function createMarkdownRules({
                 key={`l-${i}`}
                 href={`/love-lens/${part}`}
               >
-                <AppText variant={variant} color="text-action-ghost-text" className={clsx('font-semibold', className)}
+                <AppText key={`l-${i}`} variant={variant} color="text-action-ghost-text" className={clsx('font-semibold', className)}
                 >
                   {label}
                 </AppText>
               </Link>
             );
           })}
-        </>
+        </React.Fragment>
       );
     }
   };
