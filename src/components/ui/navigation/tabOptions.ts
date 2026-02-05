@@ -5,11 +5,11 @@ export const TabScreenOptions = {
   tabBarShowLabel: true,
   tabBarHideOnKeyboard: true,
 
-  tabBarActiveTintColor: AppTheme.colors.text.primary,
-  tabBarInactiveTintColor: AppTheme.colors.text.inverseSubtle,
+  tabBarActiveTintColor: AppTheme.colors.brand.primary,
+  tabBarInactiveTintColor: AppTheme.colors.text.muted,
 
   tabBarStyle: {
-    backgroundColor: AppTheme.colors.brand.primary,
+    backgroundColor: AppTheme.colors.surface.elevated,
     borderTopWidth: 0,
   },
 
