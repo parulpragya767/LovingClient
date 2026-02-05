@@ -1,4 +1,5 @@
 import LoadingState from '@/src/components/states/LoadingState';
+import { Screen } from '@/src/components/ui/Screen';
 import React from 'react';
 import { Platform, View } from 'react-native';
 import { WebView } from 'react-native-webview';
@@ -10,13 +11,13 @@ type Props = {
 export function EmbeddedWebPage({ url }: Props) {
   if (Platform.OS === 'web') {
     return (
-      <View className="flex-1">
+      <Screen>
         <iframe
           src={url}
           className="w-full h-full border-0"
           title="Embedded Web Page"
         />
-      </View>
+      </Screen>
     );
   }
 
