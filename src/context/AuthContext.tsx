@@ -1,7 +1,6 @@
 import { supabase } from '@/src/lib/supabase';
 import { registerAccessTokenGetter } from '@/src/services/apiClient';
 import { userService } from '@/src/services/userService';
-import { useAppErrorStore } from '@/src/store/useAppErrorStore';
 import { useUserStore } from '@/src/store/useUserStore';
 import { Session, User } from '@supabase/supabase-js';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
@@ -45,8 +44,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const setUser = useUserStore(s => s.setUser);
   const clearUser = useUserStore(s => s.clearUser);
-  const setAppError = useAppErrorStore((s) => s.setError);
-  const clearAppError = useAppErrorStore((s) => s.clearError);
 
   // SYNC FUNCTION: sync Supabase → backend
   const syncUserToBackend = useCallback(async (sbUser: User | null) => {
@@ -76,7 +73,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setSession(sbSession);
         setAccessTokenState(token);
         registerAccessTokenGetter(() => token);
-        await syncUserToBackend(sbSession?.user ?? null);
+        syncUserToBackend(sbSession?.user ?? null).catch(() => {});
       } finally {
         setLoading(false);
       }
@@ -90,14 +87,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setSession(newSession ?? null);
       setAccessTokenState(token);
       registerAccessTokenGetter(() => token);
-
-      if (event === 'SIGNED_OUT') {
-        setAppError('AUTH_ERROR');
-        return;
-      }
-      if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
-        clearAppError();
-      }
     });
     
     return () => {
@@ -110,7 +99,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) return { error: error.message };
 
-    await syncUserToBackend(data.user);
+    await syncUserToBackend(data.user).catch(() => {});
     return {};
   };
 
@@ -121,7 +110,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }});
     if (error) return { error: error.message };
 
-    await syncUserToBackend(data.user);
+    await syncUserToBackend(data.user).catch(() => {});
     return {};
   };
 
@@ -129,6 +118,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signOut = async () => {
     clearUser();
     await supabase.auth.signOut();
+    setSession(null);
   };
 
   // Forgot password flow

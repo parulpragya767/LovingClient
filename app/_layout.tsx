@@ -24,9 +24,9 @@ export default function RootLayout() {
 
   return (
     <AppErrorBoundary>
-      <GlobalErrorRenderer>
-        <QueryClientProvider client={queryClient}>
-          <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <GlobalErrorRenderer>
             <GestureHandlerRootView style={{ flex: 1 }}>
               <SafeAreaProvider>
                 <Stack>
@@ -89,14 +89,13 @@ export default function RootLayout() {
                 />
               </SafeAreaProvider>
             </GestureHandlerRootView>
-          </AuthProvider>
 
-          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-          <DevToolsOverlay />
-          <DevToolsTrigger visible={true}/>
-
-        </QueryClientProvider>
-      </GlobalErrorRenderer>
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+            <DevToolsOverlay />
+            <DevToolsTrigger visible={true}/>
+          </GlobalErrorRenderer>
+        </AuthProvider>
+      </QueryClientProvider>
     </AppErrorBoundary>
   );
  }

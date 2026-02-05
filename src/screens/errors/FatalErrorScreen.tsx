@@ -17,7 +17,7 @@ export default function FatalErrorScreen() {
   return (
     <HeaderlessScreen className="justify-center">
       <AppText className="text-center mb-6">
-        Something unexpected went wrong. Please try again.
+        {`Something unexpected went wrong.\nPlease try again.`}
       </AppText>
 
       <Button variant="secondary" onPress={handleRetry}>

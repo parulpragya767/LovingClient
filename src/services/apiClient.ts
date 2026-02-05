@@ -20,6 +20,7 @@ if (!baseURL) {
 
 const apiClient = axios.create({
   baseURL,
+  timeout: 10000, // 10 seconds
   headers: {
     'Content-Type': 'application/json',
   },
@@ -51,7 +52,8 @@ apiClient.interceptors.response.use(
 
     if (status === 401 || status === 403) {
       useAppErrorStore.getState().setError('AUTH_ERROR');
-    } else if (!status) {
+    } else if (!status || !error.response) {
+      // No response = connectivity / backend unreachable
       useAppErrorStore.getState().setError('NETWORK_ERROR');
     }
 
