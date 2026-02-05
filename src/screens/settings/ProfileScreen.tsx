@@ -44,7 +44,7 @@ export default function ProfileScreen() {
 
         <ChangeDisplayNameModal
           visible={isNameModalVisible}
-          initialDisplayName={displayName ?? ''}
+          initialDisplayName={displayName ?? '-'}
           isSaving={updateDisplayName.isPending}
           onClose={() => setIsNameModalVisible(false)}
           onSave={handleSaveDisplayName}
@@ -96,8 +96,7 @@ export default function ProfileScreen() {
 
         <View>
           <AppText variant="small" color="text-text-muted">
-            Your profile is intentionally simple for now.  
-            More personal options will appear as you continue using Loving.
+            {`Loving keeps your profile intentionally simple.\nAs your journey grows, more ways to personalize your experience may gently unfold.`}
           </AppText>
         </View>
       </ScrollView>
