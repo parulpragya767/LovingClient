@@ -6,7 +6,7 @@ export const TabScreenOptions = {
   tabBarHideOnKeyboard: true,
 
   tabBarActiveTintColor: AppTheme.colors.text.primary,
-  tabBarInactiveTintColor: AppTheme.colors.text.inverse,
+  tabBarInactiveTintColor: AppTheme.colors.text.inverseSubtle,
 
   tabBarStyle: {
     backgroundColor: AppTheme.colors.brand.primary,
