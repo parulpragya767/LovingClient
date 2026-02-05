@@ -17,6 +17,7 @@ export class AppErrorBoundary extends React.Component<{ children: React.ReactNod
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('Fatal app error caught by AppErrorBoundary:', error);
     console.error('Fatal app error info caught by AppErrorBoundary:', errorInfo);
     useAppErrorStore.getState().setError('FATAL_ERROR');
   }
