@@ -6,36 +6,42 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
-
     "icon": "./assets/icon.png",
-
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-
     "ios": {
       "bundleIdentifier": "com.loving.app",
       "buildNumber": "1.0.0",
-      "supportsTablet": false
+      "supportsTablet": false,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
-
     "android": {
       "package": "com.loving.app",
       "versionCode": 1
     },
-
     "web": {
       "bundler": "metro",
       "favicon": "./assets/favicon.png"
     },
-
     "runtimeVersion": {
       "policy": "appVersion"
     },
-
-    "platforms": ["ios", "android", "web"],
-    "sdkVersion": "54.0.0"
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "sdkVersion": "54.0.0",
+    "extra": {
+      "eas": {
+        "projectId": "406e2b70-0bbe-4c89-bbb0-fbc95608908e"
+      }
+    },
+    "owner": "pragyaparul"
   }
 }
