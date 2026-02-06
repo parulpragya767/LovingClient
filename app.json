@@ -1,26 +1,41 @@
 {
   "expo": {
-    "name": "LovingClient",
-    "slug": "loving-client",
-    "version": "1.0.0",
+    "name": "Loving",
+    "slug": "loving-app",
     "scheme": "loving",
-    "android": {
-      "package": "com.anonymous.lovingclient"
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+
+    "icon": "./assets/icon.png",
+
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
     },
+
     "ios": {
-      "bundleIdentifier": "com.anonymous.lovingclient"
+      "bundleIdentifier": "com.loving.app",
+      "buildNumber": "1.0.0",
+      "supportsTablet": false
     },
+
+    "android": {
+      "package": "com.loving.app",
+      "versionCode": 1
+    },
+
     "web": {
       "bundler": "metro",
-      "favicon": "/assets/images/favicon.png"
+      "favicon": "./assets/favicon.png"
     },
-    "userInterfaceStyle": "light",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+
+    "platforms": ["ios", "android", "web"],
     "sdkVersion": "54.0.0"
-  },
-  "name": "lovingclient"
+  }
 }
