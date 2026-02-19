@@ -1,5 +1,6 @@
 .gitignore
 .npmignore
+.openapi-generator-ignore
 api.ts
 apis/ai-chat-controller-api.ts
 apis/love-type-controller-api.ts

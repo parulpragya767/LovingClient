@@ -6,7 +6,6 @@ export { PublicationStatus } from '@/src/api/models/publication-status';
 export { RecommendationSource } from '@/src/api/models/recommendation-source';
 export { RecommendationStatus } from '@/src/api/models/recommendation-status';
 export { RelationalNeed } from '@/src/api/models/relational-need';
-export { RelationshipStatus } from '@/src/api/models/relationship-status';
 export { RitualHistoryStatus } from '@/src/api/models/ritual-history-status';
 export { RitualMode } from '@/src/api/models/ritual-mode';
 export { RitualTone } from '@/src/api/models/ritual-tone';
