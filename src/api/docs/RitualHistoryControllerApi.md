@@ -1,18 +1,18 @@
 # RitualHistoryControllerApi
 
-All URIs are relative to *http://localhost:8080*
+All URIs are relative to *http://localhost:8080/api*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**_delete**](#_delete) | **DELETE** /api/ritual-history/{id} | |
-|[**bulkCreate**](#bulkcreate) | **POST** /api/ritual-history/bulk | |
-|[**bulkUpdateStatus**](#bulkupdatestatus) | **PUT** /api/ritual-history/bulk/status | |
-|[**complete**](#complete) | **POST** /api/ritual-history/{id}/complete | |
-|[**create1**](#create1) | **POST** /api/ritual-history | |
-|[**list**](#list) | **GET** /api/ritual-history | |
-|[**listByRecommendationId**](#listbyrecommendationid) | **GET** /api/ritual-history/recommendation/{recommendationId} | |
-|[**listCurrent**](#listcurrent) | **GET** /api/ritual-history/current | |
-|[**updateStatus**](#updatestatus) | **PUT** /api/ritual-history/{id}/status | |
+|[**_delete**](#_delete) | **DELETE** /v1/ritual-history/{id} | |
+|[**bulkCreate**](#bulkcreate) | **POST** /v1/ritual-history/bulk | |
+|[**bulkUpdateStatus**](#bulkupdatestatus) | **PUT** /v1/ritual-history/bulk/status | |
+|[**complete**](#complete) | **POST** /v1/ritual-history/{id}/complete | |
+|[**create1**](#create1) | **POST** /v1/ritual-history | |
+|[**list**](#list) | **GET** /v1/ritual-history | |
+|[**listByRecommendationId**](#listbyrecommendationid) | **GET** /v1/ritual-history/recommendation/{recommendationId} | |
+|[**listCurrent**](#listcurrent) | **GET** /v1/ritual-history/current | |
+|[**updateStatus**](#updatestatus) | **PUT** /v1/ritual-history/{id}/status | |
 
 # **_delete**
 > _delete()

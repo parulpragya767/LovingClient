@@ -52,7 +52,7 @@ export const RitualHistoryControllerApiAxiosParamCreator = function (configurati
         _delete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('_delete', 'id', id)
-            const localVarPath = `/api/ritual-history/{id}`
+            const localVarPath = `/v1/ritual-history/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -85,7 +85,7 @@ export const RitualHistoryControllerApiAxiosParamCreator = function (configurati
         bulkCreate: async (ritualHistoryCreateRequest: Array<RitualHistoryCreateRequest>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'ritualHistoryCreateRequest' is not null or undefined
             assertParamExists('bulkCreate', 'ritualHistoryCreateRequest', ritualHistoryCreateRequest)
-            const localVarPath = `/api/ritual-history/bulk`;
+            const localVarPath = `/v1/ritual-history/bulk`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -120,7 +120,7 @@ export const RitualHistoryControllerApiAxiosParamCreator = function (configurati
         bulkUpdateStatus: async (bulkRitualHistoryStatusUpdateRequest: BulkRitualHistoryStatusUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'bulkRitualHistoryStatusUpdateRequest' is not null or undefined
             assertParamExists('bulkUpdateStatus', 'bulkRitualHistoryStatusUpdateRequest', bulkRitualHistoryStatusUpdateRequest)
-            const localVarPath = `/api/ritual-history/bulk/status`;
+            const localVarPath = `/v1/ritual-history/bulk/status`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -158,7 +158,7 @@ export const RitualHistoryControllerApiAxiosParamCreator = function (configurati
             assertParamExists('complete', 'id', id)
             // verify required parameter 'ritualHistoryUpdateRequest' is not null or undefined
             assertParamExists('complete', 'ritualHistoryUpdateRequest', ritualHistoryUpdateRequest)
-            const localVarPath = `/api/ritual-history/{id}/complete`
+            const localVarPath = `/v1/ritual-history/{id}/complete`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -194,7 +194,7 @@ export const RitualHistoryControllerApiAxiosParamCreator = function (configurati
         create1: async (ritualHistoryCreateRequest: RitualHistoryCreateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'ritualHistoryCreateRequest' is not null or undefined
             assertParamExists('create1', 'ritualHistoryCreateRequest', ritualHistoryCreateRequest)
-            const localVarPath = `/api/ritual-history`;
+            const localVarPath = `/v1/ritual-history`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -227,7 +227,7 @@ export const RitualHistoryControllerApiAxiosParamCreator = function (configurati
          * @throws {RequiredError}
          */
         list: async (status?: RitualHistoryStatus, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/ritual-history`;
+            const localVarPath = `/v1/ritual-history`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -263,7 +263,7 @@ export const RitualHistoryControllerApiAxiosParamCreator = function (configurati
         listByRecommendationId: async (recommendationId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'recommendationId' is not null or undefined
             assertParamExists('listByRecommendationId', 'recommendationId', recommendationId)
-            const localVarPath = `/api/ritual-history/recommendation/{recommendationId}`
+            const localVarPath = `/v1/ritual-history/recommendation/{recommendationId}`
                 .replace(`{${"recommendationId"}}`, encodeURIComponent(String(recommendationId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -293,7 +293,7 @@ export const RitualHistoryControllerApiAxiosParamCreator = function (configurati
          * @throws {RequiredError}
          */
         listCurrent: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/ritual-history/current`;
+            const localVarPath = `/v1/ritual-history/current`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -328,7 +328,7 @@ export const RitualHistoryControllerApiAxiosParamCreator = function (configurati
             assertParamExists('updateStatus', 'id', id)
             // verify required parameter 'ritualHistoryUpdateRequest' is not null or undefined
             assertParamExists('updateStatus', 'ritualHistoryUpdateRequest', ritualHistoryUpdateRequest)
-            const localVarPath = `/api/ritual-history/{id}/status`
+            const localVarPath = `/v1/ritual-history/{id}/status`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);

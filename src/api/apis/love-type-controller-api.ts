@@ -35,7 +35,7 @@ export const LoveTypeControllerApiAxiosParamCreator = function (configuration?: 
          * @throws {RequiredError}
          */
         getAllLoveTypes: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/love-types`;
+            const localVarPath = `/v1/love-types`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -67,7 +67,7 @@ export const LoveTypeControllerApiAxiosParamCreator = function (configuration?: 
         getLoveTypeById: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getLoveTypeById', 'id', id)
-            const localVarPath = `/api/love-types/{id}`
+            const localVarPath = `/v1/love-types/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);

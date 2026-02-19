@@ -1,9 +1,7 @@
 .gitignore
 .npmignore
-.openapi-generator-ignore
 api.ts
 apis/ai-chat-controller-api.ts
-apis/dev-tools-controller-api.ts
 apis/love-type-controller-api.ts
 apis/ritual-controller-api.ts
 apis/ritual-history-controller-api.ts
@@ -20,7 +18,6 @@ docs/ChatMessageRole.md
 docs/ChatMetadata.md
 docs/ChatSessionDTO.md
 docs/CurrentRitualsDTO.md
-docs/DevToolsControllerApi.md
 docs/InfoBullet.md
 docs/InfoSection.md
 docs/Journey.md
@@ -36,7 +33,6 @@ docs/RecommendRitualPackResponse.md
 docs/RecommendationSource.md
 docs/RecommendationStatus.md
 docs/RelationalNeed.md
-docs/RelationshipStatus.md
 docs/RitualControllerApi.md
 docs/RitualDTO.md
 docs/RitualFeedback.md
@@ -62,8 +58,6 @@ docs/SendMessageResponse.md
 docs/StatusUpdateEntry.md
 docs/TagValue.md
 docs/TimeTaken.md
-docs/UserContextCreateRequest.md
-docs/UserContextDTO.md
 docs/UserControllerApi.md
 docs/UserDTO.md
 docs/UserRitualDTO.md
@@ -92,7 +86,6 @@ models/recommend-ritual-pack-response.ts
 models/recommendation-source.ts
 models/recommendation-status.ts
 models/relational-need.ts
-models/relationship-status.ts
 models/ritual-dto.ts
 models/ritual-feedback.ts
 models/ritual-filter-dto.ts
@@ -114,8 +107,6 @@ models/send-message-response.ts
 models/status-update-entry.ts
 models/tag-value.ts
 models/time-taken.ts
-models/user-context-create-request.ts
-models/user-context-dto.ts
 models/user-dto.ts
 models/user-ritual-dto.ts
 models/user-ritual-pack-dto.ts

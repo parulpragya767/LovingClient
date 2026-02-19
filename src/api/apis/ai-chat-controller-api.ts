@@ -41,7 +41,7 @@ export const AiChatControllerApiAxiosParamCreator = function (configuration?: Co
          * @throws {RequiredError}
          */
         createSession: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/chat/sessions`;
+            const localVarPath = `/v1/chat/sessions`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -73,7 +73,7 @@ export const AiChatControllerApiAxiosParamCreator = function (configuration?: Co
         deleteSession: async (sessionId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'sessionId' is not null or undefined
             assertParamExists('deleteSession', 'sessionId', sessionId)
-            const localVarPath = `/api/chat/sessions/{sessionId}`
+            const localVarPath = `/v1/chat/sessions/{sessionId}`
                 .replace(`{${"sessionId"}}`, encodeURIComponent(String(sessionId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -106,7 +106,7 @@ export const AiChatControllerApiAxiosParamCreator = function (configuration?: Co
         getChatSessionWithHistory: async (sessionId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'sessionId' is not null or undefined
             assertParamExists('getChatSessionWithHistory', 'sessionId', sessionId)
-            const localVarPath = `/api/chat/sessions/{sessionId}/messages`
+            const localVarPath = `/v1/chat/sessions/{sessionId}/messages`
                 .replace(`{${"sessionId"}}`, encodeURIComponent(String(sessionId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -136,7 +136,7 @@ export const AiChatControllerApiAxiosParamCreator = function (configuration?: Co
          * @throws {RequiredError}
          */
         getSamplePrompts: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/chat/sample-prompts`;
+            const localVarPath = `/v1/chat/sample-prompts`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -165,7 +165,7 @@ export const AiChatControllerApiAxiosParamCreator = function (configuration?: Co
          * @throws {RequiredError}
          */
         listSessions: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/chat/sessions`;
+            const localVarPath = `/v1/chat/sessions`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -197,7 +197,7 @@ export const AiChatControllerApiAxiosParamCreator = function (configuration?: Co
         recommendRitualPack: async (sessionId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'sessionId' is not null or undefined
             assertParamExists('recommendRitualPack', 'sessionId', sessionId)
-            const localVarPath = `/api/chat/sessions/{sessionId}/recommend`
+            const localVarPath = `/v1/chat/sessions/{sessionId}/recommend`
                 .replace(`{${"sessionId"}}`, encodeURIComponent(String(sessionId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -233,7 +233,7 @@ export const AiChatControllerApiAxiosParamCreator = function (configuration?: Co
             assertParamExists('sendMessage', 'sessionId', sessionId)
             // verify required parameter 'sendMessageRequest' is not null or undefined
             assertParamExists('sendMessage', 'sendMessageRequest', sendMessageRequest)
-            const localVarPath = `/api/chat/sessions/{sessionId}/messages`
+            const localVarPath = `/v1/chat/sessions/{sessionId}/messages`
                 .replace(`{${"sessionId"}}`, encodeURIComponent(String(sessionId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);

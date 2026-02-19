@@ -1,11 +1,11 @@
 # RitualPackControllerApi
 
-All URIs are relative to *http://localhost:8080*
+All URIs are relative to *http://localhost:8080/api*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**getAll1**](#getall1) | **GET** /api/ritual-packs | |
-|[**getById1**](#getbyid1) | **GET** /api/ritual-packs/{id} | |
+|[**getAll1**](#getall1) | **GET** /v1/ritual-packs | |
+|[**getById1**](#getbyid1) | **GET** /v1/ritual-packs/{id} | |
 
 # **getAll1**
 > Array<RitualPackDTO> getAll1()

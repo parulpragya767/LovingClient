@@ -43,7 +43,7 @@ export const RitualControllerApiAxiosParamCreator = function (configuration?: Co
          * @throws {RequiredError}
          */
         getAll: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/rituals`;
+            const localVarPath = `/v1/rituals`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -72,7 +72,7 @@ export const RitualControllerApiAxiosParamCreator = function (configuration?: Co
          * @throws {RequiredError}
          */
         getAllTags: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/rituals/tags`;
+            const localVarPath = `/v1/rituals/tags`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -104,7 +104,7 @@ export const RitualControllerApiAxiosParamCreator = function (configuration?: Co
         getById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getById', 'id', id)
-            const localVarPath = `/api/rituals/{id}`
+            const localVarPath = `/v1/rituals/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -138,7 +138,7 @@ export const RitualControllerApiAxiosParamCreator = function (configuration?: Co
         search: async (pageable: Pageable, ritualFilterDTO?: RitualFilterDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'pageable' is not null or undefined
             assertParamExists('search', 'pageable', pageable)
-            const localVarPath = `/api/rituals/search`;
+            const localVarPath = `/v1/rituals/search`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;

@@ -42,7 +42,7 @@ export const RitualRecommendationControllerApiAxiosParamCreator = function (conf
         create: async (ritualRecommendationCreateRequest: RitualRecommendationCreateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'ritualRecommendationCreateRequest' is not null or undefined
             assertParamExists('create', 'ritualRecommendationCreateRequest', ritualRecommendationCreateRequest)
-            const localVarPath = `/api/ritual-recommendation`;
+            const localVarPath = `/v1/ritual-recommendation`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -74,7 +74,7 @@ export const RitualRecommendationControllerApiAxiosParamCreator = function (conf
          * @throws {RequiredError}
          */
         listAll: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/ritual-recommendation`;
+            const localVarPath = `/v1/ritual-recommendation`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -106,7 +106,7 @@ export const RitualRecommendationControllerApiAxiosParamCreator = function (conf
         listById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('listById', 'id', id)
-            const localVarPath = `/api/ritual-recommendation/{id}`
+            const localVarPath = `/v1/ritual-recommendation/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -142,7 +142,7 @@ export const RitualRecommendationControllerApiAxiosParamCreator = function (conf
             assertParamExists('updateRecommendationAndRitualHistoryStatus', 'id', id)
             // verify required parameter 'ritualRecommendationUpdateRequest' is not null or undefined
             assertParamExists('updateRecommendationAndRitualHistoryStatus', 'ritualRecommendationUpdateRequest', ritualRecommendationUpdateRequest)
-            const localVarPath = `/api/ritual-recommendation/{id}`
+            const localVarPath = `/v1/ritual-recommendation/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);

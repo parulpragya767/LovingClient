@@ -15,7 +15,6 @@
 
 
 export * from './apis/ai-chat-controller-api';
-export * from './apis/dev-tools-controller-api';
 export * from './apis/love-type-controller-api';
 export * from './apis/ritual-controller-api';
 export * from './apis/ritual-history-controller-api';

@@ -35,7 +35,7 @@ export const RitualPackControllerApiAxiosParamCreator = function (configuration?
          * @throws {RequiredError}
          */
         getAll1: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/ritual-packs`;
+            const localVarPath = `/v1/ritual-packs`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -67,7 +67,7 @@ export const RitualPackControllerApiAxiosParamCreator = function (configuration?
         getById1: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getById1', 'id', id)
-            const localVarPath = `/api/ritual-packs/{id}`
+            const localVarPath = `/v1/ritual-packs/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);

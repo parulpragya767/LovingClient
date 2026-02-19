@@ -1,11 +1,11 @@
 # UserControllerApi
 
-All URIs are relative to *http://localhost:8080*
+All URIs are relative to *http://localhost:8080/api*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**syncUser**](#syncuser) | **POST** /api/users/sync | |
-|[**updateUser**](#updateuser) | **PUT** /api/users | |
+|[**syncUser**](#syncuser) | **POST** /v1/users/sync | |
+|[**updateUser**](#updateuser) | **PUT** /v1/users | |
 
 # **syncUser**
 > UserDTO syncUser()

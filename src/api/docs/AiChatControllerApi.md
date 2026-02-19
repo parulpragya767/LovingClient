@@ -1,16 +1,16 @@
 # AiChatControllerApi
 
-All URIs are relative to *http://localhost:8080*
+All URIs are relative to *http://localhost:8080/api*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**createSession**](#createsession) | **POST** /api/chat/sessions | |
-|[**deleteSession**](#deletesession) | **DELETE** /api/chat/sessions/{sessionId} | |
-|[**getChatSessionWithHistory**](#getchatsessionwithhistory) | **GET** /api/chat/sessions/{sessionId}/messages | |
-|[**getSamplePrompts**](#getsampleprompts) | **GET** /api/chat/sample-prompts | |
-|[**listSessions**](#listsessions) | **GET** /api/chat/sessions | |
-|[**recommendRitualPack**](#recommendritualpack) | **POST** /api/chat/sessions/{sessionId}/recommend | |
-|[**sendMessage**](#sendmessage) | **POST** /api/chat/sessions/{sessionId}/messages | |
+|[**createSession**](#createsession) | **POST** /v1/chat/sessions | |
+|[**deleteSession**](#deletesession) | **DELETE** /v1/chat/sessions/{sessionId} | |
+|[**getChatSessionWithHistory**](#getchatsessionwithhistory) | **GET** /v1/chat/sessions/{sessionId}/messages | |
+|[**getSamplePrompts**](#getsampleprompts) | **GET** /v1/chat/sample-prompts | |
+|[**listSessions**](#listsessions) | **GET** /v1/chat/sessions | |
+|[**recommendRitualPack**](#recommendritualpack) | **POST** /v1/chat/sessions/{sessionId}/recommend | |
+|[**sendMessage**](#sendmessage) | **POST** /v1/chat/sessions/{sessionId}/messages | |
 
 # **createSession**
 > ChatSessionDTO createSession()

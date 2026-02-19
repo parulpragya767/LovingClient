@@ -1,11 +1,11 @@
 # LoveTypeControllerApi
 
-All URIs are relative to *http://localhost:8080*
+All URIs are relative to *http://localhost:8080/api*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**getAllLoveTypes**](#getalllovetypes) | **GET** /api/love-types | |
-|[**getLoveTypeById**](#getlovetypebyid) | **GET** /api/love-types/{id} | |
+|[**getAllLoveTypes**](#getalllovetypes) | **GET** /v1/love-types | |
+|[**getLoveTypeById**](#getlovetypebyid) | **GET** /v1/love-types/{id} | |
 
 # **getAllLoveTypes**
 > Array<LoveTypeInfo> getAllLoveTypes()

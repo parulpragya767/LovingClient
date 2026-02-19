@@ -1,13 +1,13 @@
 # RitualRecommendationControllerApi
 
-All URIs are relative to *http://localhost:8080*
+All URIs are relative to *http://localhost:8080/api*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**create**](#create) | **POST** /api/ritual-recommendation | |
-|[**listAll**](#listall) | **GET** /api/ritual-recommendation | |
-|[**listById**](#listbyid) | **GET** /api/ritual-recommendation/{id} | |
-|[**updateRecommendationAndRitualHistoryStatus**](#updaterecommendationandritualhistorystatus) | **PUT** /api/ritual-recommendation/{id} | |
+|[**create**](#create) | **POST** /v1/ritual-recommendation | |
+|[**listAll**](#listall) | **GET** /v1/ritual-recommendation | |
+|[**listById**](#listbyid) | **GET** /v1/ritual-recommendation/{id} | |
+|[**updateRecommendationAndRitualHistoryStatus**](#updaterecommendationandritualhistorystatus) | **PUT** /v1/ritual-recommendation/{id} | |
 
 # **create**
 > RitualRecommendationDTO create(ritualRecommendationCreateRequest)

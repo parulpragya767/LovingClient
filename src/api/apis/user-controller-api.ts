@@ -37,7 +37,7 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
          * @throws {RequiredError}
          */
         syncUser: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/users/sync`;
+            const localVarPath = `/v1/users/sync`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -69,7 +69,7 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
         updateUser: async (userUpdateRequest: UserUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'userUpdateRequest' is not null or undefined
             assertParamExists('updateUser', 'userUpdateRequest', userUpdateRequest)
-            const localVarPath = `/api/users`;
+            const localVarPath = `/v1/users`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;

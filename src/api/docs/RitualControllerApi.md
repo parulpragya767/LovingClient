@@ -1,13 +1,13 @@
 # RitualControllerApi
 
-All URIs are relative to *http://localhost:8080*
+All URIs are relative to *http://localhost:8080/api*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**getAll**](#getall) | **GET** /api/rituals | |
-|[**getAllTags**](#getalltags) | **GET** /api/rituals/tags | |
-|[**getById**](#getbyid) | **GET** /api/rituals/{id} | |
-|[**search**](#search) | **POST** /api/rituals/search | |
+|[**getAll**](#getall) | **GET** /v1/rituals | |
+|[**getAllTags**](#getalltags) | **GET** /v1/rituals/tags | |
+|[**getById**](#getbyid) | **GET** /v1/rituals/{id} | |
+|[**search**](#search) | **POST** /v1/rituals/search | |
 
 # **getAll**
 > Array<RitualDTO> getAll()
