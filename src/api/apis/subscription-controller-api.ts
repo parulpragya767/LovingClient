@@ -22,24 +22,20 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import type { UsageQuotaDTO } from '../models';
-// @ts-ignore
-import type { UserDTO } from '../models';
-// @ts-ignore
-import type { UserUpdateRequest } from '../models';
+import type { SubscriptionDTO } from '../models';
 /**
- * UserControllerApi - axios parameter creator
+ * SubscriptionControllerApi - axios parameter creator
  * @export
  */
-export const UserControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+export const SubscriptionControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUsage: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/v1/users/usage`;
+        getSubscription: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/subscription`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -67,8 +63,8 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        syncUser: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/v1/users/sync`;
+        hasAccessToPremiumFeatures: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/subscription/premium`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -76,7 +72,7 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -93,14 +89,11 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {UserUpdateRequest} userUpdateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser: async (userUpdateRequest: UserUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userUpdateRequest' is not null or undefined
-            assertParamExists('updateUser', 'userUpdateRequest', userUpdateRequest)
-            const localVarPath = `/v1/users`;
+        hasActiveSubscription: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/subscription/active`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -108,18 +101,15 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(userUpdateRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -130,21 +120,21 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
 };
 
 /**
- * UserControllerApi - functional programming interface
+ * SubscriptionControllerApi - functional programming interface
  * @export
  */
-export const UserControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = UserControllerApiAxiosParamCreator(configuration)
+export const SubscriptionControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = SubscriptionControllerApiAxiosParamCreator(configuration)
     return {
         /**
          * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getUsage(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UsageQuotaDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getUsage(options);
+        async getSubscription(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SubscriptionDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSubscription(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserControllerApi.getUsage']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['SubscriptionControllerApi.getSubscription']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -152,145 +142,127 @@ export const UserControllerApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async syncUser(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.syncUser(options);
+        async hasAccessToPremiumFeatures(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.hasAccessToPremiumFeatures(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserControllerApi.syncUser']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['SubscriptionControllerApi.hasAccessToPremiumFeatures']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
-         * @param {UserUpdateRequest} userUpdateRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateUser(userUpdateRequest: UserUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUser(userUpdateRequest, options);
+        async hasActiveSubscription(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.hasActiveSubscription(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserControllerApi.updateUser']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['SubscriptionControllerApi.hasActiveSubscription']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
 
 /**
- * UserControllerApi - factory interface
+ * SubscriptionControllerApi - factory interface
  * @export
  */
-export const UserControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = UserControllerApiFp(configuration)
+export const SubscriptionControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = SubscriptionControllerApiFp(configuration)
     return {
         /**
          * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUsage(options?: RawAxiosRequestConfig): AxiosPromise<UsageQuotaDTO> {
-            return localVarFp.getUsage(options).then((request) => request(axios, basePath));
+        getSubscription(options?: RawAxiosRequestConfig): AxiosPromise<SubscriptionDTO> {
+            return localVarFp.getSubscription(options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        syncUser(options?: RawAxiosRequestConfig): AxiosPromise<UserDTO> {
-            return localVarFp.syncUser(options).then((request) => request(axios, basePath));
+        hasAccessToPremiumFeatures(options?: RawAxiosRequestConfig): AxiosPromise<boolean> {
+            return localVarFp.hasAccessToPremiumFeatures(options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {UserControllerApiUpdateUserRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser(requestParameters: UserControllerApiUpdateUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateUser(requestParameters.userUpdateRequest, options).then((request) => request(axios, basePath));
+        hasActiveSubscription(options?: RawAxiosRequestConfig): AxiosPromise<boolean> {
+            return localVarFp.hasActiveSubscription(options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * UserControllerApi - interface
+ * SubscriptionControllerApi - interface
  * @export
- * @interface UserControllerApi
+ * @interface SubscriptionControllerApi
  */
-export interface UserControllerApiInterface {
+export interface SubscriptionControllerApiInterface {
     /**
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserControllerApiInterface
+     * @memberof SubscriptionControllerApiInterface
      */
-    getUsage(options?: RawAxiosRequestConfig): AxiosPromise<UsageQuotaDTO>;
+    getSubscription(options?: RawAxiosRequestConfig): AxiosPromise<SubscriptionDTO>;
 
     /**
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserControllerApiInterface
+     * @memberof SubscriptionControllerApiInterface
      */
-    syncUser(options?: RawAxiosRequestConfig): AxiosPromise<UserDTO>;
+    hasAccessToPremiumFeatures(options?: RawAxiosRequestConfig): AxiosPromise<boolean>;
 
     /**
      * 
-     * @param {UserControllerApiUpdateUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserControllerApiInterface
+     * @memberof SubscriptionControllerApiInterface
      */
-    updateUser(requestParameters: UserControllerApiUpdateUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    hasActiveSubscription(options?: RawAxiosRequestConfig): AxiosPromise<boolean>;
 
 }
 
 /**
- * Request parameters for updateUser operation in UserControllerApi.
+ * SubscriptionControllerApi - object-oriented interface
  * @export
- * @interface UserControllerApiUpdateUserRequest
- */
-export interface UserControllerApiUpdateUserRequest {
-    /**
-     * 
-     * @type {UserUpdateRequest}
-     * @memberof UserControllerApiUpdateUser
-     */
-    readonly userUpdateRequest: UserUpdateRequest
-}
-
-/**
- * UserControllerApi - object-oriented interface
- * @export
- * @class UserControllerApi
+ * @class SubscriptionControllerApi
  * @extends {BaseAPI}
  */
-export class UserControllerApi extends BaseAPI implements UserControllerApiInterface {
+export class SubscriptionControllerApi extends BaseAPI implements SubscriptionControllerApiInterface {
     /**
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserControllerApi
+     * @memberof SubscriptionControllerApi
      */
-    public getUsage(options?: RawAxiosRequestConfig) {
-        return UserControllerApiFp(this.configuration).getUsage(options).then((request) => request(this.axios, this.basePath));
+    public getSubscription(options?: RawAxiosRequestConfig) {
+        return SubscriptionControllerApiFp(this.configuration).getSubscription(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserControllerApi
+     * @memberof SubscriptionControllerApi
      */
-    public syncUser(options?: RawAxiosRequestConfig) {
-        return UserControllerApiFp(this.configuration).syncUser(options).then((request) => request(this.axios, this.basePath));
+    public hasAccessToPremiumFeatures(options?: RawAxiosRequestConfig) {
+        return SubscriptionControllerApiFp(this.configuration).hasAccessToPremiumFeatures(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {UserControllerApiUpdateUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserControllerApi
+     * @memberof SubscriptionControllerApi
      */
-    public updateUser(requestParameters: UserControllerApiUpdateUserRequest, options?: RawAxiosRequestConfig) {
-        return UserControllerApiFp(this.configuration).updateUser(requestParameters.userUpdateRequest, options).then((request) => request(this.axios, this.basePath));
+    public hasActiveSubscription(options?: RawAxiosRequestConfig) {
+        return SubscriptionControllerApiFp(this.configuration).hasActiveSubscription(options).then((request) => request(this.axios, this.basePath));
     }
 }
 

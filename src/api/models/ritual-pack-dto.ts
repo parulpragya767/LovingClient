@@ -61,6 +61,12 @@ export interface RitualPackDTO {
      * @type {string}
      * @memberof RitualPackDTO
      */
+    'shortDescription'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RitualPackDTO
+     */
     'description'?: string;
     /**
      * 

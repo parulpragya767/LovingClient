@@ -64,6 +64,12 @@ export interface RitualDTO {
      * @type {string}
      * @memberof RitualDTO
      */
+    'shortDescription'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RitualDTO
+     */
     'description'?: string;
     /**
      * 

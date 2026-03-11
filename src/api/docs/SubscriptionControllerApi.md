@@ -1,29 +1,29 @@
-# UserControllerApi
+# SubscriptionControllerApi
 
 All URIs are relative to *http://localhost:8080/api*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**getUsage**](#getusage) | **GET** /v1/users/usage | |
-|[**syncUser**](#syncuser) | **POST** /v1/users/sync | |
-|[**updateUser**](#updateuser) | **PUT** /v1/users | |
+|[**getSubscription**](#getsubscription) | **GET** /v1/subscription | |
+|[**hasAccessToPremiumFeatures**](#hasaccesstopremiumfeatures) | **GET** /v1/subscription/premium | |
+|[**hasActiveSubscription**](#hasactivesubscription) | **GET** /v1/subscription/active | |
 
-# **getUsage**
-> UsageQuotaDTO getUsage()
+# **getSubscription**
+> SubscriptionDTO getSubscription()
 
 
 ### Example
 
 ```typescript
 import {
-    UserControllerApi,
+    SubscriptionControllerApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new UserControllerApi(configuration);
+const apiInstance = new SubscriptionControllerApi(configuration);
 
-const { status, data } = await apiInstance.getUsage();
+const { status, data } = await apiInstance.getSubscription();
 ```
 
 ### Parameters
@@ -32,7 +32,7 @@ This endpoint does not have any parameters.
 
 ### Return type
 
-**UsageQuotaDTO**
+**SubscriptionDTO**
 
 ### Authorization
 
@@ -51,22 +51,22 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **syncUser**
-> UserDTO syncUser()
+# **hasAccessToPremiumFeatures**
+> boolean hasAccessToPremiumFeatures()
 
 
 ### Example
 
 ```typescript
 import {
-    UserControllerApi,
+    SubscriptionControllerApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new UserControllerApi(configuration);
+const apiInstance = new SubscriptionControllerApi(configuration);
 
-const { status, data } = await apiInstance.syncUser();
+const { status, data } = await apiInstance.hasAccessToPremiumFeatures();
 ```
 
 ### Parameters
@@ -75,7 +75,7 @@ This endpoint does not have any parameters.
 
 ### Return type
 
-**UserDTO**
+**boolean**
 
 ### Authorization
 
@@ -94,39 +94,31 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateUser**
-> updateUser(userUpdateRequest)
+# **hasActiveSubscription**
+> boolean hasActiveSubscription()
 
 
 ### Example
 
 ```typescript
 import {
-    UserControllerApi,
-    Configuration,
-    UserUpdateRequest
+    SubscriptionControllerApi,
+    Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new UserControllerApi(configuration);
+const apiInstance = new SubscriptionControllerApi(configuration);
 
-let userUpdateRequest: UserUpdateRequest; //
-
-const { status, data } = await apiInstance.updateUser(
-    userUpdateRequest
-);
+const { status, data } = await apiInstance.hasActiveSubscription();
 ```
 
 ### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **userUpdateRequest** | **UserUpdateRequest**|  | |
+This endpoint does not have any parameters.
 
 
 ### Return type
 
-void (empty response body)
+**boolean**
 
 ### Authorization
 
@@ -134,8 +126,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+ - **Content-Type**: Not defined
+ - **Accept**: */*
 
 
 ### HTTP response details

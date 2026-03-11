@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **id** | **string** |  | [default to undefined]
 **title** | **string** |  | [default to undefined]
 **tagLine** | **string** |  | [optional] [default to undefined]
+**shortDescription** | **string** |  | [optional] [default to undefined]
 **description** | **string** |  | [optional] [default to undefined]
 **howItHelps** | **string** |  | [optional] [default to undefined]
 **steps** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
@@ -32,6 +33,7 @@ const instance: RitualDTO = {
     id,
     title,
     tagLine,
+    shortDescription,
     description,
     howItHelps,
     steps,
