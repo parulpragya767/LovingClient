@@ -70,7 +70,10 @@ apiClient.interceptors.response.use(
       error.message ||
       'Request failed';
 
-    return Promise.reject(new Error(message));
+    const customError = new Error(message) as any;
+    customError.status = status;
+    customError.response = error.response;
+    return Promise.reject(customError);
   }
 );
 

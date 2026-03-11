@@ -6,6 +6,7 @@ import { ChatMessage, ChatSession } from '@/src/models/chat';
 import { ChatMessageRole } from '@/src/models/enums';
 import type { RitualPack } from '@/src/models/ritualPacks';
 import { useChatStore } from "@/src/store/useChatStore";
+import { errorUtils } from '@/src/utils/errorUtils';
 import { useMutation } from "@tanstack/react-query";
 import * as Crypto from 'expo-crypto';
 import { useChatSessions } from "./useChatSessions";
@@ -93,6 +94,15 @@ export const useChatActions = () => {
 
     onError: (error, variables) => {
       const { sessionId } = variables;
+
+      if (errorUtils.isQuotaError(error)) {
+        queryClient.setQueryData(userKeys.usage(), (old: any) => ({
+          ...old,
+          aiMessagesRemainingToday: 0
+        }));
+        queryClient.invalidateQueries({ queryKey: userKeys.usage() });
+      }
+
       queryClient.invalidateQueries({ queryKey: chatKeys.messages(sessionId) });
       console.error('Failed to send message', error);
     },
@@ -116,6 +126,14 @@ export const useChatActions = () => {
     },
 
     onError: (error, sessionId) => {
+      if (errorUtils.isQuotaError(error)) {
+        queryClient.setQueryData(userKeys.usage(), (old: any) => ({
+          ...old,
+          recommendationsRemainingThisWeek: 0
+        }));
+        queryClient.invalidateQueries({ queryKey: userKeys.usage() });
+      }
+      
       queryClient.invalidateQueries({ queryKey: chatKeys.messages(sessionId) });
       console.error('Failed to recommend ritual pack', error);
     },

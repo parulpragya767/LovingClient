@@ -11,6 +11,7 @@ import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useChatMessages } from '@/src/hooks/ai-chat/useChatMessages';
 import { useToast } from '@/src/hooks/ui/useToast';
 import { useUserUsage } from '@/src/hooks/user/useUserUsage';
+import { errorUtils } from '@/src/utils/errorUtils';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
@@ -22,11 +23,12 @@ export default function AIChatScreen() {
   const { getSessionDetails, sendMessageToSession, recommendRitualPack } = useChatActions();
   const { data: messages, isLoading, error, refetch } = useChatMessages(sessionId);
   const hasMessages = (messages?.length ?? 0) > 0;
-  const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(true);
+  const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(false);
   const [isRecommendingRitualPack, setIsRecommendingRitualPack] = useState(false);
   const { showInfo, showError } = useToast();
   const { data: usage } = useUserUsage();
-  const hasReachedLimit = usage?.aiMessagesRemainingToday === 0;
+  const hasReachedAIMessageLimit = usage?.aiMessagesRemainingToday === 0;
+  const hasReachedRecommendationLimit = usage?.recommendationsRemainingThisWeek === 0;
 
   const handleSendMessage = useCallback(async (message: string) => {
     try{
@@ -40,16 +42,13 @@ export default function AIChatScreen() {
     }
   }, [sessionId, sendMessageToSession]);
 
+  const handleRedirectToRituals = async () => {
+    setIsRecommendationConsentCardVisible(false);
+    router.push('/(tabs)/rituals/all-rituals');
+  }
+
   const handleRitualRecommendation = async () => {
     if (isRecommendingRitualPack) return;
-
-    const hasReachedRecommendationLimit = usage?.recommendationsRemainingThisWeek === 0;
-    
-    if (hasReachedRecommendationLimit) {
-      setIsRecommendationConsentCardVisible(false);
-      router.push('/(tabs)/rituals');
-      return;
-    }
 
     try {
       setIsRecommendingRitualPack(true);
@@ -57,12 +56,14 @@ export default function AIChatScreen() {
       if (!ritualPack) {
         showInfo("No recommendation available at this time.");
       } 
+      setIsRecommendationConsentCardVisible(false);
     } catch (error) {
-      showError("Failed to get your recommendation");
+      if (!errorUtils.isQuotaError(error)) {
+        showError("Failed to get your recommendation");
+      }
     }
     finally {
       setIsRecommendingRitualPack(false);
-      setIsRecommendationConsentCardVisible(false);
     }
   };
 
@@ -97,7 +98,7 @@ export default function AIChatScreen() {
             <View className="mb-4">
               {isRecommendationConsentCardVisible && (
                 <RitualRecommendationConsentCard 
-                  onPress={handleRitualRecommendation}
+                  onPress={hasReachedRecommendationLimit ? handleRedirectToRituals : handleRitualRecommendation}
                   recommendationsRemaining={usage?.recommendationsRemainingThisWeek ?? 0}
                 />
               )}
@@ -118,7 +119,7 @@ export default function AIChatScreen() {
         />
         
         {/* Chat input area */}
-        {hasReachedLimit ? 
+        {hasReachedAIMessageLimit ? 
           <ChatLimitCard />
          : 
           <ChatInput 
