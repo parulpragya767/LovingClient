@@ -9,7 +9,10 @@ export { RelationalNeed } from '@/src/api/models/relational-need';
 export { RitualHistoryStatus } from '@/src/api/models/ritual-history-status';
 export { RitualMode } from '@/src/api/models/ritual-mode';
 export { RitualTone } from '@/src/api/models/ritual-tone';
+export { SubscriptionStatus } from '@/src/api/models/subscription-status';
+export { SubscriptionTier } from '@/src/api/models/subscription-tier';
 export { TimeTaken } from '@/src/api/models/time-taken';
+export { UsagePeriodType } from '@/src/api/models/usage-period-type';
 
 export const FEEDBACK_CONFIG = {
   WARM: '❤️',
