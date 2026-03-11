@@ -1,7 +1,7 @@
 import { chatService } from '@/src/services/chatService';
 
 import { queryClient } from '@/src/lib/reactQuery/queryClient';
-import { chatKeys } from '@/src/lib/reactQuery/queryKeys';
+import { chatKeys, userKeys } from '@/src/lib/reactQuery/queryKeys';
 import { ChatMessage, ChatSession } from '@/src/models/chat';
 import { ChatMessageRole } from '@/src/models/enums';
 import type { RitualPack } from '@/src/models/ritualPacks';
@@ -87,6 +87,10 @@ export const useChatActions = () => {
       return resp.readyForRitualPackRecommendation ?? false;
     },
 
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: userKeys.usage() });
+    },
+
     onError: (error, variables) => {
       const { sessionId } = variables;
       queryClient.invalidateQueries({ queryKey: chatKeys.messages(sessionId) });
@@ -108,6 +112,7 @@ export const useChatActions = () => {
 
     onSuccess: (_data, sessionId) => {
       queryClient.invalidateQueries({ queryKey: chatKeys.messages(sessionId) });
+      queryClient.invalidateQueries({ queryKey: userKeys.usage() });
     },
 
     onError: (error, sessionId) => {

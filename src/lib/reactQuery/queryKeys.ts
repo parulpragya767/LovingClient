@@ -41,3 +41,9 @@ export const chatKeys = {
   messages: (sessionId: string) => [...chatKeys.all, 'messages', sessionId] as const,
   samplePrompts: () => [...chatKeys.all, 'sample-prompts'] as const,
 };
+
+export const userKeys = {
+  all: ['user'] as const,
+  usage: () => [...userKeys.all, 'usage'] as const,
+  subscription: () => [...userKeys.all, 'subscription'] as const,
+};
