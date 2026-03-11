@@ -1,10 +1,12 @@
 import { ChatInput, ChatInputHandle } from '@/src/components/ai-chat/ChatInput';
+import { ChatLimitCard } from '@/src/components/ai-chat/ChatLimitCard';
 import { StarterPrompt } from '@/src/components/ai-chat/StarterPrompt';
 import { AppText } from '@/src/components/ui/AppText';
 import { KeyboardSafeScreen } from '@/src/components/ui/KeyboardSafeScreen';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useSamplePrompts } from '@/src/hooks/ai-chat/useSamplePrompts';
 import { useToast } from '@/src/hooks/ui/useToast';
+import { useUserUsage } from '@/src/hooks/user/useUserUsage';
 import { useRouter } from 'expo-router';
 import { useCallback, useRef } from 'react';
 import { FlatList, Keyboard, View } from 'react-native';
@@ -15,6 +17,8 @@ export const AIChatHomeScreen = () => {
   const { startNewConversation, sendMessageToSession } = useChatActions();
   const { data: samplePrompts } = useSamplePrompts();
   const { showError } = useToast();
+  const { data: usage } = useUserUsage();
+  const hasReachedLimit = usage?.aiMessagesRemainingToday === 0;
 
   const handleStarterPromptPress = useCallback((prompt: string) => {
     chatInputRef.current?.setText(prompt);
@@ -60,13 +64,16 @@ export const AIChatHomeScreen = () => {
         />
   
         {/* Input area */}
-        <ChatInput
-          ref={chatInputRef}
-          placeholder="Tell me what’s on your mind…"
-          onSend={handleSendMessage}
-        />
+        {hasReachedLimit ? 
+          <ChatLimitCard />
+         : 
+          <ChatInput
+            ref={chatInputRef}
+            placeholder="Tell me what's on your mind…"
+            onSend={handleSendMessage}
+          />
+        }
       </KeyboardSafeScreen>
     </View>
   );
 };
-

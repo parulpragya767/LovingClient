@@ -1,4 +1,5 @@
 import { ChatInput } from '@/src/components/ai-chat/ChatInput';
+import { ChatLimitCard } from '@/src/components/ai-chat/ChatLimitCard';
 import { ChatMessage } from '@/src/components/ai-chat/ChatMessage';
 import { RitualRecommendationConsentCard } from '@/src/components/ai-chat/RitualRecommendationConsentCard';
 import RitualRecommendationModalHandler from '@/src/components/rituals/RitualRecommendationModalHandler';
@@ -9,6 +10,7 @@ import { KeyboardSafeScreen } from '@/src/components/ui/KeyboardSafeScreen';
 import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useChatMessages } from '@/src/hooks/ai-chat/useChatMessages';
 import { useToast } from '@/src/hooks/ui/useToast';
+import { useUserUsage } from '@/src/hooks/user/useUserUsage';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
@@ -22,6 +24,8 @@ export default function AIChatScreen() {
   const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(false);
   const [isRecommendingRitualPack, setIsRecommendingRitualPack] = useState(false);
   const { showInfo, showError } = useToast();
+  const { data: usage } = useUserUsage();
+  const hasReachedLimit = usage?.aiMessagesRemainingToday === 0;
 
   const handleSendMessage = useCallback(async (message: string) => {
     try{
@@ -102,10 +106,14 @@ export default function AIChatScreen() {
         />
         
         {/* Chat input area */}
-        <ChatInput 
-          placeholder="Type your message..." 
-          onSend={handleSendMessage}
-        />
+        {hasReachedLimit ? 
+          <ChatLimitCard />
+         : 
+          <ChatInput 
+            placeholder="Type your message..." 
+            onSend={handleSendMessage}
+          />
+        }
 
         {/* Ritual Recommendation Flow */}
         <RitualRecommendationModalHandler />
