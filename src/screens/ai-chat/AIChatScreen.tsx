@@ -11,17 +11,18 @@ import { useChatActions } from '@/src/hooks/ai-chat/useChatActions';
 import { useChatMessages } from '@/src/hooks/ai-chat/useChatMessages';
 import { useToast } from '@/src/hooks/ui/useToast';
 import { useUserUsage } from '@/src/hooks/user/useUserUsage';
-import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
 
 export default function AIChatScreen() {
   const navigation = useNavigation();
+  const router = useRouter();
   const { sessionId } = useLocalSearchParams<{ sessionId: string }>();
   const { getSessionDetails, sendMessageToSession, recommendRitualPack } = useChatActions();
   const { data: messages, isLoading, error, refetch } = useChatMessages(sessionId);
   const hasMessages = (messages?.length ?? 0) > 0;
-  const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(false);
+  const [isRecommendationConsentCardVisible, setIsRecommendationConsentCardVisible] = useState(true);
   const [isRecommendingRitualPack, setIsRecommendingRitualPack] = useState(false);
   const { showInfo, showError } = useToast();
   const { data: usage } = useUserUsage();
@@ -41,6 +42,14 @@ export default function AIChatScreen() {
 
   const handleRitualRecommendation = async () => {
     if (isRecommendingRitualPack) return;
+
+    const hasReachedRecommendationLimit = usage?.recommendationsRemainingThisWeek === 0;
+    
+    if (hasReachedRecommendationLimit) {
+      setIsRecommendationConsentCardVisible(false);
+      router.push('/(tabs)/rituals');
+      return;
+    }
 
     try {
       setIsRecommendingRitualPack(true);
@@ -87,7 +96,10 @@ export default function AIChatScreen() {
           ListHeaderComponent={
             <View className="mb-4">
               {isRecommendationConsentCardVisible && (
-                <RitualRecommendationConsentCard onPress={handleRitualRecommendation} />
+                <RitualRecommendationConsentCard 
+                  onPress={handleRitualRecommendation}
+                  recommendationsRemaining={usage?.recommendationsRemainingThisWeek ?? 0}
+                />
               )}
               {isRecommendingRitualPack && (
                 <LoadingState text="Preparing your recommendation…" fullScreen={false} />
