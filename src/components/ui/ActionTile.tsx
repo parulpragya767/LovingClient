@@ -1,5 +1,6 @@
-import { TouchableOpacity, View } from "react-native";
-import { AppText } from "./AppText";
+import { AnimatedPressable } from "@/src/components/ui/AnimatedPressable";
+import { AppText } from "@/src/components/ui/AppText";
+import { View } from "react-native";
 
 type ActionTileProps = {
   title: string;
@@ -15,7 +16,7 @@ export function ActionTile({
   onPress,
 }: ActionTileProps) {
   return (
-    <TouchableOpacity onPress={onPress} className="w-full">
+    <AnimatedPressable onPress={onPress} className="w-full">
       <View className="flex-row gap-3 items-center bg-accent-subtle border border-border rounded-card px-4 py-3">
         <View className="flex-1">
           <AppText variant="body" className="font-semibold">{title}</AppText>
@@ -27,6 +28,6 @@ export function ActionTile({
           <AppText variant="small" color="text-brand-primary" className="font-medium">{ctaLabel}</AppText>
         </View>
       </View>
-    </TouchableOpacity>
+    </AnimatedPressable>
   );
 }

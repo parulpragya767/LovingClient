@@ -1,11 +1,12 @@
 import { AppTheme } from "@/src/components/themes/AppTheme";
+import { AnimatedPressable } from "@/src/components/ui/AnimatedPressable";
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useToast } from "@/src/hooks/ui/useToast";
 import { emojiToFeedback, RitualFeedback } from '@/src/models/enums';
 import { Ritual } from '@/src/models/rituals';
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useRef, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 import ReanimatedSwipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
 import Animated, { FadeInRight } from 'react-native-reanimated';
 import EmojiFeedbackModal from './EmojiFeedbackModal';
@@ -77,19 +78,21 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
       entering={FadeInRight.duration(200)}
       className="flex-row items-center gap-2 m-2"
     >
-      <Pressable 
+      <AnimatedPressable 
+        scaleTo={0.92}
         onPress={handleCompletePress}
         className="w-14 h-14 p-2 items-center justify-center bg-surface-sunken border border-border rounded-compactCard"
       >
         <MaterialIcons name="check" size={24} color={AppTheme.colors.state.success} />
-      </Pressable>
+      </AnimatedPressable>
 
-      <Pressable 
+      <AnimatedPressable 
+        scaleTo={0.92}
         onPress={handleDeletePress}
         className="w-14 h-14 p-2 items-center justify-center bg-surface-sunken border border-border rounded-compactCard"
       >
         <MaterialIcons name="delete-outline" size={24} color={AppTheme.colors.state.error} />
-      </Pressable>
+      </AnimatedPressable>
     </Animated.View>
   );
   
