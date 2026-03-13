@@ -2,30 +2,30 @@ import { LoveType } from '@/src/models/enums';
 
 export const loveTypeTheme: Record<LoveType, { gradient: [string, string] }> = {
   [LoveType.Spark]: {
-    gradient: ['#FFD6E0', '#FFEDE5'],
+    gradient: ['#D78F9A', '#F6E1E5'], // romantic rose
   },
   [LoveType.Care]: {
-    gradient: ['#FFE0D6', '#FFF1EA'],
+    gradient: ['#E2A184', '#F8E8E0'], // warm nurturing peach
   },
   [LoveType.Fire]: {
-    gradient: ['#C75C74', '#F1A1B2'],
+    gradient: ['#7A3029', '#D1847C'], // deep maroon → warm rose
   },
   [LoveType.Belong]: {
-    gradient: ['#D9C1A4', '#F3E6D8'],
+    gradient: ['#B89372', '#F2E3D6'], // earthy sand
   },
   [LoveType.Grow]: {
-    gradient: ['#7D8F69', '#C7D3B4'],
+    gradient: ['#687F65', '#D2DECF'], // sage growth
   },
   [LoveType.Build]: {
-    gradient: ['#8C5A3C', '#C79A7A'],
+    gradient: ['#875740', '#E2C3B1'], // terracotta structure
   },
   [LoveType.Self]: {
-    gradient: ['#A08CB5', '#DDD2EA'],
+    gradient: ['#887C96', '#E5E0EB'], // reflective lavender
   },
   [LoveType.Beyond]: {
-    gradient: ['#3E4A89', '#7A86C7'],
+    gradient: ['#3F4868', '#B0B7D6'], // quiet indigo
   },
   [LoveType.Grace]: {
-    gradient: ['#D9C27A', '#F5E7B8'],
+    gradient: ['#B49655', '#F3E8C9'], // warm gold
   },
 };
