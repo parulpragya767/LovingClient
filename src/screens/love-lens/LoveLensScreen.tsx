@@ -18,8 +18,9 @@ export default function LoveLensScreen() {
       <FlatList
         data={loveTypes}
         keyExtractor={(item) => item.id.toString()}
+        numColumns={3}
         renderItem={({ item }) => (
-          <View className="mb-6">
+          <View className="flex-1 p-2">
             <LoveTypeCard loveTypeDetail={item} />
           </View>
         )}
@@ -30,8 +31,9 @@ export default function LoveLensScreen() {
             </AppText>
           ) : null
         }
+        columnWrapperStyle={{ alignItems: 'stretch' }}
+        contentContainerStyle={{ paddingBottom: 80 }}
         showsVerticalScrollIndicator={false}
-        ListFooterComponent={<View className="h-20" />}
         ListEmptyComponent={<EmptyState message="No love types found." />}
       />
     </Screen>
