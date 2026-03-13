@@ -42,7 +42,7 @@ export default function RitualCard({
           {ritual.title}
         </AppText>
         <AppText variant="small" className="mb-3" numberOfLines={2} ellipsizeMode="tail">
-          {ritual.description}
+          {ritual.tagLine}
         </AppText>
         <View className="flex-row flex-wrap gap-2 mb-3">
           {getRitualTagDisplayNames(ritual).slice(0, 3).map((label: string, idx: number) => (

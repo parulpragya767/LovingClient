@@ -23,8 +23,8 @@ export default function RitualPackCard({ ritualPack, rituals }: RitualPackCardPr
     <Card className="border border-border overflow-hidden">
       <Pressable onPress={handleRitualPackPress} className="pb-2">
         <AppText variant="subtitle">{ritualPack.title}</AppText>
-        {ritualPack.description ? (
-          <AppText variant="small" className="mt-1">{ritualPack.description}</AppText>
+        {ritualPack.tagLine ? (
+          <AppText variant="small" className="mt-1">{ritualPack.tagLine}</AppText>
         ) : null}
       </Pressable>
 

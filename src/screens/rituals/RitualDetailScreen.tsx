@@ -3,6 +3,7 @@ import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
 import { AppText } from '@/src/components/ui/AppText';
 import CollapsibleSection from '@/src/components/ui/CollapsibleSection';
+import { HighlightSection } from '@/src/components/ui/HighlightSection';
 import { MarkdownText } from '@/src/components/ui/MarkdownText';
 import { Screen } from '@/src/components/ui/Screen';
 import { useRitual } from '@/src/hooks/rituals/useRitual';
@@ -60,10 +61,9 @@ export default function RitualDetailScreen() {
   return (
     <Screen>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 120 }}>
-        {/* Tagline */}
-        <AppText variant="body" className="mb-4 mt-2">
-          {ritual.tagLine}
-        </AppText>
+        {ritual.tagLine && (
+          <HighlightSection text={ritual.tagLine} className="mb-6 mt-2" />
+        )}
         
         {/* Quick Info */}
         <View className="flex-row mb-6">

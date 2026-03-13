@@ -2,6 +2,7 @@ import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
 import { AppText } from '@/src/components/ui/AppText';
 import CollapsibleSection from '@/src/components/ui/CollapsibleSection';
+import { HighlightSection } from '@/src/components/ui/HighlightSection';
 import { MarkdownText } from '@/src/components/ui/MarkdownText';
 import { Screen } from '@/src/components/ui/Screen';
 import { useLoveTypes } from '@/src/hooks/love-lens/useLoveTypes';
@@ -36,6 +37,10 @@ export default function LoveTypeDetailScreen() {
   return (
     <Screen>
       <ScrollView showsVerticalScrollIndicator={false}>
+        {loveTypeDetail.subtitle && (
+          <HighlightSection text={loveTypeDetail.subtitle} className="mt-2 mb-6" />
+        )}
+
         {/* Description */}
         <View className="mt-2 mb-6">
           <MarkdownText>
