@@ -42,11 +42,15 @@ export default function LoveTypeDetailScreen() {
         )}
 
         {/* Description */}
-        <View className="mt-2 mb-6">
+        <CollapsibleSection
+          title={`What ${loveTypeDetail.title} is?`}
+          initiallyExpanded
+          containerClassName="mb-6"
+        >
           <MarkdownText>
             {loveTypeDetail.description}
           </MarkdownText>
-        </View>
+        </CollapsibleSection>
 
         {/* Main Content */}
         {/* Sections */}
