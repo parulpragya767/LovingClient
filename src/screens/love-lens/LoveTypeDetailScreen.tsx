@@ -2,6 +2,7 @@ import ErrorState from '@/src/components/states/ErrorState';
 import LoadingState from '@/src/components/states/LoadingState';
 import { AppText } from '@/src/components/ui/AppText';
 import CollapsibleSection from '@/src/components/ui/CollapsibleSection';
+import { ExpandableText } from '@/src/components/ui/ExpandableText';
 import { HighlightSection } from '@/src/components/ui/HighlightSection';
 import { MarkdownText } from '@/src/components/ui/MarkdownText';
 import { Screen } from '@/src/components/ui/Screen';
@@ -47,9 +48,9 @@ export default function LoveTypeDetailScreen() {
           initiallyExpanded
           containerClassName="mb-6"
         >
-          <MarkdownText>
+          <ExpandableText numberOfLines={3} mode="markdown">
             {loveTypeDetail.description}
-          </MarkdownText>
+          </ExpandableText>
         </CollapsibleSection>
 
         {/* Main Content */}

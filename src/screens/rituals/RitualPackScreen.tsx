@@ -55,7 +55,7 @@ export default function RitualPackScreen() {
         ListHeaderComponent={
           <>
             <View className="items-start mb-6 mt-2">
-              <ExpandableText numberOfLines={2}>
+              <ExpandableText numberOfLines={2} mode="text">
                 {pack.description}
               </ExpandableText>
             </View>

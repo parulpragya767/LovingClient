@@ -8,6 +8,8 @@ export type MarkdownTextProps = MarkdownProps & {
   className?: string;
   children?: React.ReactNode; 
   rules?: MarkdownProps['rules'];
+  numberOfLines?: React.ComponentProps<typeof AppText>['numberOfLines'];
+  onTextLayout?: React.ComponentProps<typeof AppText>['onTextLayout'];
 };
 
 export function MarkdownText({   
@@ -15,6 +17,8 @@ export function MarkdownText({
   className, 
   children,
   rules,
+  numberOfLines,
+  onTextLayout,
   ...rest }: MarkdownTextProps) {
   return (
     <Markdown
@@ -25,7 +29,13 @@ export function MarkdownText({
       rules={{
         paragraph: (node, nodeChildren) => {
           return (
-            <AppText key={node.key} variant={variant} className={className}>
+            <AppText
+              key={node.key}
+              variant={variant}
+              className={className}
+              numberOfLines={numberOfLines}
+              onTextLayout={onTextLayout}
+            >
               {nodeChildren}
             </AppText>
           );
@@ -33,7 +43,13 @@ export function MarkdownText({
 
         strong: (node, nodeChildren) => {
           return (
-            <AppText key={node.key} variant={variant} className={clsx('font-semibold', className)}>
+            <AppText
+              key={node.key}
+              variant={variant}
+              className={clsx('font-semibold', className)}
+              numberOfLines={numberOfLines}
+              onTextLayout={onTextLayout}
+            >
               {nodeChildren}
             </AppText>
           );
