@@ -31,6 +31,7 @@ export default function TabLayout() {
               name="person-circle-outline"
               color={tintColor}
               onPress={() => router.push('/settings')}
+              size={28}
             />
           ),
           ...DefaultHeaderOptions,
