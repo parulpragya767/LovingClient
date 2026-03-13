@@ -5,6 +5,7 @@ import LoadingState from '@/src/components/states/LoadingState';
 import { AppText } from '@/src/components/ui/AppText';
 import { Screen } from '@/src/components/ui/Screen';
 import { useLoveTypes } from '@/src/hooks/love-lens/useLoveTypes';
+import { LOVE_TYPE_ORDER } from '@/src/models/loveLens';
 import { FlatList, View } from 'react-native';
 
 export default function LoveLensScreen() {
@@ -13,6 +14,11 @@ export default function LoveLensScreen() {
   if (isLoading) return <LoadingState text="Loading love types..." />;
   if (error) return <ErrorState message="Failed to load love types." onButtonPress={() => refetch()} />;
 
+  loveTypes.sort(
+    (a, b) =>
+      LOVE_TYPE_ORDER.indexOf(a.loveType) -
+      LOVE_TYPE_ORDER.indexOf(b.loveType)
+  );
   return (
     <Screen>
       <FlatList
