@@ -1,9 +1,10 @@
 import { loveTypeTheme } from '@/src/components/themes/loveTypeTheme';
+import { AnimatedPressable } from '@/src/components/ui/AnimatedPressable';
 import { AppText } from '@/src/components/ui/AppText';
 import { LoveTypeDetail } from '@/src/models/loveLens';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
 interface LoveTypeCardProps {
   loveTypeDetail: LoveTypeDetail;
@@ -20,7 +21,7 @@ export default function LoveTypeCard({
   };
 
   return (
-    <Pressable
+    <AnimatedPressable
       onPress={handleLoveTypePress}
       className="aspect-square rounded-3xl overflow-hidden shadow-sm"
       style={{ aspectRatio: 1 }}
@@ -37,6 +38,6 @@ export default function LoveTypeCard({
           </AppText>
         </View>
       </LinearGradient>
-    </Pressable>
+    </AnimatedPressable>
   );
 }
