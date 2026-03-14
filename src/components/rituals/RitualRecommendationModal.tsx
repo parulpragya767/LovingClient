@@ -1,5 +1,6 @@
 import RecommendedRitualCard from '@/src/components/rituals/RecommendedRitualCard';
 import { AppTheme } from "@/src/components/themes/AppTheme";
+import { AnimatedPressable } from '@/src/components/ui/AnimatedPressable';
 import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
 import { ModalContainer } from '@/src/components/ui/ModalContainer';
@@ -9,7 +10,7 @@ import { RecommendationStatus } from '@/src/models/enums';
 import type { UserRitualPack } from '@/src/models/ritualHistory';
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useCallback, useMemo, useState } from 'react';
-import { FlatList, Modal, Pressable, View } from 'react-native';
+import { FlatList, Modal, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type RitualRecommendationModalProps = {
@@ -74,6 +75,8 @@ export default function RitualRecommendationModal({
   }, [ritualRecommendationId, selected, rituals, updateRecommendationAndHistoryStatus, chatSessionId]);
 
   const handleCloseModal = useCallback(async () => {
+    closeRecommendationFlow();
+
     if (ritualRecommendationId) {
       try {
         await updateRecommendationAndHistoryStatus.mutateAsync({
@@ -84,8 +87,7 @@ export default function RitualRecommendationModal({
           skippedRitualHistoryIds: [],
         });
       } catch (error) {}
-    }
-    closeRecommendationFlow();
+    } 
   }, [ritualRecommendationId, updateRecommendationAndHistoryStatus, chatSessionId]);
 
   const handleDismiss = useCallback(async () => {
@@ -115,13 +117,13 @@ export default function RitualRecommendationModal({
       <ModalContainer onClose={handleCloseModal}>
           {/* Modal Header */}
         <View className="flex-row items-center p-4 border-b border-border">
-          <Pressable onPress={handleCloseModal} hitSlop={12} className="mr-3">
-            <MaterialIcons name="close" size={24} color={AppTheme.colors.text.primary} />
-          </Pressable>
-
           <AppText variant="subtitle" numberOfLines={1} className="flex-1">
             {userRitualPack.ritualPack.title || 'Ritual Pack'}
           </AppText>
+
+          <AnimatedPressable scaleTo={0.90} onPress={handleCloseModal} hitSlop={12} className="mr-3">
+            <MaterialIcons name="close" size={24} color={AppTheme.colors.text.primary} />
+          </AnimatedPressable>
         </View>
 
         <FlatList
