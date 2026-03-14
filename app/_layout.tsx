@@ -11,6 +11,7 @@ import { toastConfig } from '@/src/components/ui/ToastConfig';
 import { DevToolsOverlay } from '@/src/devtools/DevToolsOverlay';
 import { DevToolsTrigger } from '@/src/devtools/DevToolsTrigger';
 import { queryClient } from '@/src/lib/reactQuery/queryClient';
+import { useFonts } from 'expo-font';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
@@ -21,6 +22,32 @@ import Toast from "react-native-toast-message";
 
 export default function RootLayout() {
   const router = useRouter();
+
+  const [fontsLoaded] = useFonts({
+    Manrope: require('@/assets/fonts/manrope/Manrope-Regular.ttf'),
+    'Manrope-Medium': require('@/assets/fonts/manrope/Manrope-Medium.ttf'),
+    'Manrope-SemiBold': require('@/assets/fonts/manrope/Manrope-SemiBold.ttf'),
+
+    Nunito: require('@/assets/fonts/nunito/Nunito-Regular.ttf'),
+    'Nunito-Medium': require('@/assets/fonts/nunito/Nunito-Medium.ttf'),
+    'Nunito-SemiBold': require('@/assets/fonts/nunito/Nunito-SemiBold.ttf'),
+
+    GeneralSans: require('@/assets/fonts/general-sans/GeneralSans-Regular.ttf'),
+    'GeneralSans-Medium': require('@/assets/fonts/general-sans/GeneralSans-Medium.ttf'),
+    'GeneralSans-SemiBold': require('@/assets/fonts/general-sans/GeneralSans-Semibold.ttf'),
+
+    OpenSans: require('@/assets/fonts/open-sans/OpenSans-Regular.ttf'),
+    'OpenSans-Medium': require('@/assets/fonts/open-sans/OpenSans-Medium.ttf'),
+    'OpenSans-SemiBold': require('@/assets/fonts/open-sans/OpenSans-SemiBold.ttf'),
+
+    Quicksand: require('@/assets/fonts/quicksand/Quicksand-Regular.ttf'),
+    'Quicksand-Medium': require('@/assets/fonts/quicksand/Quicksand-Medium.ttf'),
+    'Quicksand-SemiBold': require('@/assets/fonts/quicksand/Quicksand-SemiBold.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <AppErrorBoundary>
