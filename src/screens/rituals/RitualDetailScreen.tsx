@@ -14,6 +14,30 @@ import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
 import { ScrollView, View } from 'react-native';
 
+type ParsedRitualStep = {
+  sequence: number;
+  content: string;
+};
+
+const parseRitualStep = (step: string, fallbackSequence: number): ParsedRitualStep => {
+  const trimmedStep = step.trim();
+  const match = trimmedStep.match(/^(\d+)[.)\-:]?\s*(.*)$/);
+
+  if (!match) {
+    return {
+      sequence: fallbackSequence,
+      content: trimmedStep,
+    };
+  }
+
+  const [, sequenceText, content] = match;
+
+  return {
+    sequence: Number(sequenceText),
+    content: content.trim() || trimmedStep,
+  };
+};
+
 export default function RitualDetailScreen() {
   const router = useRouter();
   const navigation = useNavigation();
@@ -51,12 +75,13 @@ export default function RitualDetailScreen() {
 
   if (isLoading) return <LoadingState text="Loading ritual..." />;
   if (error || !ritual) return <ErrorState message="Failed to load ritual." buttonMessage="Go Back" onButtonPress={() => router.back()} />;
-    
+
   const timeTakenDisplayName = ritual.timeTaken ? getTagDisplayName(ritual.timeTaken.toString(), 'timeTaken') : null;
   const ritualModeDisplayName = ritual.ritualMode ? getTagDisplayName(ritual.ritualMode, 'ritualModes') : null;
-  const loveTypesDisplayName = ritual.loveTypes?.length 
+  const loveTypesDisplayName = ritual.loveTypes?.length
     ? ritual.loveTypes.map(type => getTagDisplayName(type.toString(), 'loveTypes')).join(', ')
     : null;
+  const parsedSteps = ritual.steps?.map((step, index) => parseRitualStep(step, index + 1)) ?? [];
 
   return (
     <Screen>
@@ -93,7 +118,7 @@ export default function RitualDetailScreen() {
         {/* How it helps */}
         <CollapsibleSection
           title="How This Helps"
-          initiallyExpanded = {false}
+          initiallyExpanded={false}
           containerClassName="mb-8"
         >
           <AppText>{ritual.howItHelps}</AppText>
@@ -106,16 +131,16 @@ export default function RitualDetailScreen() {
           containerClassName="mb-8"
         >
           <View className="flex-column items-left gap-4">
-            {ritual.steps?.map((step, index) => (
+            {parsedSteps.map((step, index) => (
               <View key={index} className="flex-row items-start gap-3">
                 <View className="bg-brand-subtle w-6 h-6 rounded-full items-center justify-center mt-0.5">
                   <AppText variant="caption" color="text-text-inverseSubtle">
-                    {index + 1}
+                    {step.sequence}
                   </AppText>
                 </View>
                 <View className="flex-1 -mt-0.5">
                   <MarkdownText>
-                    {step}
+                    {step.content}
                   </MarkdownText>
                 </View>
               </View>
