@@ -15,7 +15,7 @@ export const TabScreenOptions = {
 
   tabBarLabelStyle: {
     fontSize: parseFloat(AppTheme.typography.fontSize.small[0]),
-    fontFamily: AppTheme.typography.fontFamily.sans,
+    fontFamily: AppTheme.typography.fontFamily.openSansMedium,
   },
 };
 
@@ -27,7 +27,7 @@ export const TopNavigationTabScreenOptions = {
 
   tabBarLabelStyle: {
     fontSize: parseFloat(AppTheme.typography.fontSize.small[0]),
-    fontFamily: AppTheme.typography.fontFamily.sans,
+    fontFamily: AppTheme.typography.fontFamily.openSansMedium,
     fontWeight: '500' as const,
     textTransform: 'none' as const,
   },

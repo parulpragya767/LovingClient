@@ -90,6 +90,10 @@ export const AppTheme = {
   typography: {
     fontFamily: {
       sans: Array.isArray(fontFamily.sans) ? fontFamily.sans[0] : fontFamily.sans,
+      openSans: Array.isArray(fontFamily.openSans) ? fontFamily.openSans[0] : fontFamily.openSans,
+      openSansMedium: Array.isArray(fontFamily.openSansMedium) ? fontFamily.openSansMedium[0] : fontFamily.openSansMedium,
+      openSansSemiBold: Array.isArray(fontFamily.openSansSemiBold) ? fontFamily.openSansSemiBold[0] : fontFamily.openSansSemiBold,
+      manropeSemiBold: Array.isArray(fontFamily.manropeSemiBold) ? fontFamily.manropeSemiBold[0] : fontFamily.manropeSemiBold,
     },
     fontSize: {
       title: fontSize.title as FontSizeValue,

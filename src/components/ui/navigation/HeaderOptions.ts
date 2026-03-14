@@ -8,7 +8,7 @@ export const DefaultHeaderOptions = {
   headerTintColor: AppTheme.colors.text.inverseSubtle,
 
   headerTitleStyle: {
-    fontFamily: AppTheme.typography.fontFamily.sans,
+    fontFamily: AppTheme.typography.fontFamily.openSansSemiBold,
     fontSize: parseFloat(AppTheme.typography.fontSize.subtitle[0]),
     fontWeight: '600' as const,
   },
