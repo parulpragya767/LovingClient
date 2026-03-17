@@ -29,6 +29,9 @@ export default function ContactUsScreen() {
         >
           Send Email
         </Button>
+        <AppText variant="caption" color="text-text-muted" className="mt-4">
+          We usually respond within a few days.
+        </AppText>
       </ScrollView>
     </Screen>
   );
