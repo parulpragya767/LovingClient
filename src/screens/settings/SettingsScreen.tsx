@@ -42,20 +42,10 @@ export default function SettingsScreen() {
             onPress={() => router.push('/settings/profile')}
             isLast
           />
-        </SettingsSection>
-
-        <SettingsSection title="Subscription">
           <SettingsItem
-            label="Try Loving Premium"
-            icon="star"
-            onPress={() => router.push('/settings/subscription')}
-            isLast
-          />
-
-          <SettingsItem
-            label="Manage subscription"
+            label="Subscription"
             icon="card"
-            disabled
+            onPress={() => router.push('/settings/subscription')}
             isLast
           />
         </SettingsSection>
