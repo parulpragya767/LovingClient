@@ -1,6 +1,5 @@
-import { EmbeddedWebPage } from '@/src/components/ui/EmbeddedWebPage';
-import { LEGAL_URLS } from '@/src/constants/legalUrls';
+import ContactUsScreen from '@/src/screens/settings/ContactUsScreen';
 
-export default function ContactUsScreen() {
-  return <EmbeddedWebPage url={LEGAL_URLS.CONTACT} />;
+export default function ContactUsRoute() {
+  return <ContactUsScreen />;
 }
