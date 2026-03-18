@@ -11,10 +11,11 @@ import { toastConfig } from '@/src/components/ui/ToastConfig';
 import { DevToolsOverlay } from '@/src/devtools/DevToolsOverlay';
 import { DevToolsTrigger } from '@/src/devtools/DevToolsTrigger';
 import { queryClient } from '@/src/lib/reactQuery/queryClient';
+import { Analytics } from '@/src/services/analytics';
 import { useFonts } from 'expo-font';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -22,6 +23,10 @@ import Toast from "react-native-toast-message";
 
 export default function RootLayout() {
   const router = useRouter();
+
+  useEffect(() => {
+    Analytics.initialize();
+  }, []);
 
   const [fontsLoaded] = useFonts({
     Manrope: require('@/assets/fonts/manrope/Manrope-Regular.ttf'),

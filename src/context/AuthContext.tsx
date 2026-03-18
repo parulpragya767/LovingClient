@@ -1,4 +1,5 @@
 import { supabase } from '@/src/lib/supabase';
+import { Analytics } from '@/src/services/analytics';
 import { registerAccessTokenGetter } from '@/src/services/apiClient';
 import { userService } from '@/src/services/userService';
 import { useUserStore } from '@/src/store/useUserStore';
@@ -54,6 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const user = await userService.syncUser();
       setUser(user);
+      Analytics.setUser(user.id);
     } catch (err) {
       console.warn("User sync failed.", err);
     }
