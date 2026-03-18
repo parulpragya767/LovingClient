@@ -8,6 +8,7 @@ import { MarkdownText } from '@/src/components/ui/MarkdownText';
 import { Screen } from '@/src/components/ui/Screen';
 import { useLoveTypes } from '@/src/hooks/love-lens/useLoveTypes';
 import type { LoveTypeInfoSection } from '@/src/models/loveLens';
+import { Analytics } from '@/src/services/analytics';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
 import { ScrollView, View } from 'react-native';
@@ -27,6 +28,10 @@ export default function LoveTypeDetailScreen() {
       if (!mounted) return;
 
       navigation.setOptions({ title: loveTypeDetail.title || "Love Type Details" });
+      
+      Analytics.loveTypeViewed({
+        love_type: loveTypeDetail.loveType,
+      });
     })();
     return () => { mounted = false };
   }, [loveTypeDetail, navigation]);

@@ -35,33 +35,71 @@ class AnalyticsService {
     setUserId(userId);
   }
 
-  ritualStarted(ritual: { id: string; loveTypes?: number[]; ritualMode?: string }) {
+  appOpened() {
     if (!this.initialized) return;
-    
-    track('ritual_started', {
-      ritual_id: ritual.id,
-      love_types: ritual.loveTypes,
-      mode: ritual.ritualMode,
-    });
+    track('app_opened');
   }
 
-  ritualCompleted(ritual: { id: string }) {
+  ritualPackRecommended(params: {
+    ritual_pack_id: string;
+    recommendation_id: string;
+    recommendation_source: 'CHAT' | 'WEEKLY';
+  }) {
     if (!this.initialized) return;
-    
-    track('ritual_completed', {
-      ritual_id: ritual.id,
-    });
+    track('ritual_pack_recommended', params);
   }
 
-  ritualAddedToCurrent(ritual: { id: string; title?: string; loveTypes?: string[]; ritualMode?: string }) {
+  ritualPackSelected(params: {
+    ritual_pack_id: string;
+    recommendation_id: string;
+    recommendation_source: 'CHAT' | 'WEEKLY';
+    ritual_count_total: number;
+    ritual_count_selected: number;
+  }) {
     if (!this.initialized) return;
-    
-    track('ritual_added_to_current', {
-      ritual_id: ritual.id,
-      ritual_title: ritual.title,
-      love_types: ritual.loveTypes,
-      mode: ritual.ritualMode,
-    });
+    track('ritual_pack_selected', params);
+  }
+
+  ritualAdded(params: {
+    ritual_id: string;
+    ritual_pack_id: string;
+    recommendation_source: 'CHAT' | 'WEEKLY';
+  }) {
+    if (!this.initialized) return;
+    track('ritual_added', params);
+  }
+
+  ritualCompleted(params: {
+    ritual_id: string;
+    ritual_pack_id: string;
+    recommendation_source: 'CHAT' | 'WEEKLY';
+  }) {
+    if (!this.initialized) return;
+    track('ritual_completed', params);
+  }
+
+  ritualRemoved(params: {
+    ritual_id: string;
+    ritual_pack_id: string;
+    recommendation_source: 'CHAT' | 'WEEKLY';
+  }) {
+    if (!this.initialized) return;
+    track('ritual_removed', params);
+  }
+
+  chatReadyForRecommendation(params: {
+    chat_id: string;
+    message_count: number;
+  }) {
+    if (!this.initialized) return;
+    track('chat_ready_for_recommendation', params);
+  }
+
+  loveTypeViewed(params: {
+    love_type: string;
+  }) {
+    if (!this.initialized) return;
+    track('love_type_viewed', params);
   }
 
   trackEvent(eventName: string, properties?: Record<string, any>) {

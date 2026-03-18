@@ -5,6 +5,7 @@ import { chatKeys, userKeys } from '@/src/lib/reactQuery/queryKeys';
 import { ChatMessage, ChatSession } from '@/src/models/chat';
 import { ChatMessageRole } from '@/src/models/enums';
 import type { RitualPack } from '@/src/models/ritualPacks';
+import { Analytics } from '@/src/services/analytics';
 import { useChatStore } from "@/src/store/useChatStore";
 import { errorUtils } from '@/src/utils/errorUtils';
 import { useMutation } from "@tanstack/react-query";
@@ -85,6 +86,21 @@ export const useChatActions = () => {
         appendMessageToStore(sessionId, resp.assistantResponse);
       }
 
+      if (resp.readyForRitualPackRecommendation) {
+        const messages = queryClient.getQueryData<ChatMessage[]>(chatKeys.messages(sessionId)) || [];
+        const lastRecommendationIndex = messages.findLastIndex(
+          msg => msg.role === ChatMessageRole.System && msg.metadata && msg.metadata.recommendationId
+        );
+        const messageCountAfterLastRecommendation = lastRecommendationIndex >= 0 
+          ? messages.length - lastRecommendationIndex - 1
+          : messages.length;
+        
+        Analytics.chatReadyForRecommendation({
+          chat_id: sessionId,
+          message_count: messageCountAfterLastRecommendation,
+        });
+      }
+
       return resp.readyForRitualPackRecommendation ?? false;
     },
 
@@ -115,6 +131,14 @@ export const useChatActions = () => {
       const response = await chatService.recommendRitualPack(sessionId);
       if (response.wrapUpResponse) {
         appendMessageToStore(sessionId, response.wrapUpResponse);
+      }
+
+      if (response.ritualPack && response.recommendationId) {
+        Analytics.ritualPackRecommended({
+          ritual_pack_id: response.ritualPack.id,
+          recommendation_id: response.recommendationId,
+          recommendation_source: 'CHAT',
+        });
       }
 
       return response.ritualPack || null;

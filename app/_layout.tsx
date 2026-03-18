@@ -26,6 +26,7 @@ export default function RootLayout() {
 
   useEffect(() => {
     Analytics.initialize();
+    Analytics.appOpened();
   }, []);
 
   const [fontsLoaded] = useFonts({

@@ -8,6 +8,7 @@ import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useToast } from '@/src/hooks/ui/useToast';
 import { RecommendationStatus } from '@/src/models/enums';
 import type { UserRitualPack } from '@/src/models/ritualHistory';
+import { Analytics } from '@/src/services/analytics';
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FlatList, Modal, View } from 'react-native';
@@ -59,6 +60,25 @@ export default function RitualRecommendationModal({
       .filter(userRitual => !selected[userRitual.ritualHistoryId])
       .map(userRitual => userRitual.ritualHistoryId);
     
+    Analytics.ritualPackSelected({
+      ritual_pack_id: userRitualPack.ritualPackId,
+      recommendation_id: ritualRecommendationId,
+      recommendation_source: chatSessionId ? 'CHAT' : 'WEEKLY',
+      ritual_count_total: rituals.length,
+      ritual_count_selected: selectedIds.length,
+    });
+
+    selectedIds.forEach((ritualHistoryId) => {
+      const userRitual = rituals.find(r => r.ritualHistoryId === ritualHistoryId);
+      if (userRitual) {
+        Analytics.ritualAdded({
+          ritual_id: userRitual.ritualId,
+          ritual_pack_id: userRitualPack.ritualPackId,
+          recommendation_source: chatSessionId ? 'CHAT' : 'WEEKLY',
+        });
+      }
+    });
+    
     try {
       await updateRecommendationAndHistoryStatus.mutateAsync({
         recommendationId: ritualRecommendationId,
@@ -72,7 +92,7 @@ export default function RitualRecommendationModal({
       showError("Couldn’t add the rituals", "Please try again");
     }
     closeRecommendationFlow();
-  }, [ritualRecommendationId, selected, rituals, updateRecommendationAndHistoryStatus, chatSessionId]);
+  }, [ritualRecommendationId, selected, rituals, updateRecommendationAndHistoryStatus, chatSessionId, selectedIds, userRitualPack]);
 
   const handleCloseModal = useCallback(async () => {
     closeRecommendationFlow();
