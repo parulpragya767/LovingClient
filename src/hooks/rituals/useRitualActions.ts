@@ -20,7 +20,7 @@ export const useRitualActions = () => {
     
     // Check in ritual packs
     return currentRituals.ritualPacks.some(pack => 
-      pack.rituals.some(ritual => ritual.ritualId === id)
+      pack.rituals.some(ritual => ritual.userRitual.ritualId === id)
     );
   };
 
