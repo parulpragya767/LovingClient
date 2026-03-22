@@ -62,8 +62,8 @@ class AnalyticsService {
 
   ritualAdded(params: {
     ritual_id: string;
-    ritual_pack_id: string;
-    recommendation_source: 'CHAT' | 'WEEKLY';
+    ritual_pack_id?: string | null;
+    recommendation_source?: 'CHAT' | 'WEEKLY';
   }) {
     if (!this.initialized) return;
     track('ritual_added', params);
