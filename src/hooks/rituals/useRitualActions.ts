@@ -4,6 +4,7 @@ import { chatKeys, ritualKeys } from '@/src/lib/reactQuery/queryKeys';
 import { RecommendationStatus, RitualFeedback, RitualHistoryStatus } from '@/src/models/enums';
 import type { RitualHistoryCreateRequest, RitualHistoryUpdate } from '@/src/models/ritualHistory';
 import type { RitualRecommendationUpdate, RitualStatusUpdate } from '@/src/models/ritualRecommendation';
+import { Analytics } from '@/src/services/analytics';
 import { ritualHistoryService } from '@/src/services/ritualHistoryService';
 import { ritualRecommendationService } from '@/src/services/ritualRecommendationService';
 import { useMutation } from '@tanstack/react-query';
@@ -33,7 +34,10 @@ export const useRitualActions = () => {
       return ritualHistoryService.create(ritualHistory);
     },
 
-    onSuccess: () => {
+    onSuccess: (_data, ritualId) => {
+      Analytics.ritualAdded({
+          ritual_id: ritualId
+        });
       queryClient.invalidateQueries({ queryKey: ritualKeys.current() });
     },
 
