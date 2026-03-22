@@ -22,7 +22,7 @@ export default function RitualPackScreen() {
 
   const currentPack = useMemo(() => id ? getCurrentRitualPackById(id) : null, [id, getCurrentRitualPackById]);
   const rituals: Ritual[] = useMemo(
-    () => currentPack?.rituals?.map(r => r.ritual) ?? pack?.rituals ?? [], 
+    () => currentPack?.rituals?.map(r => r.userRitual.ritual) ?? pack?.rituals?.map(r => r.ritual) ?? [], 
     [currentPack, pack]
   );
 

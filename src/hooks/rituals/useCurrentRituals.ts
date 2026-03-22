@@ -25,7 +25,7 @@ export const useCurrentRituals = () => {
       // Add rituals from each ritual pack
       query.data.ritualPacks?.forEach(pack => {
         pack.rituals?.forEach(ritual => {
-          ritualMap.set(ritual.ritualId, ritual.ritual);
+          ritualMap.set(ritual.userRitual.ritualId, ritual.userRitual.ritual);
         });
       });
       

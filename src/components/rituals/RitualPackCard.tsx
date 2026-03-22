@@ -1,6 +1,6 @@
 import { AppText } from '@/src/components/ui/AppText';
 import { Card } from '@/src/components/ui/Card';
-import { UserRitual } from '@/src/models/ritualHistory';
+import { UserRitualInPack } from '@/src/models/ritualHistory';
 import { RitualPack } from '@/src/models/ritualPacks';
 import { useRouter } from 'expo-router';
 import React from 'react';
@@ -9,7 +9,7 @@ import SwipeableRitualCard from './SwipeableRitualCard';
 
 type RitualPackCardProps = {
   ritualPack: RitualPack;
-  rituals: UserRitual[];
+  rituals: UserRitualInPack[];
 };
 
 export default function RitualPackCard({ ritualPack, rituals }: RitualPackCardProps) {
@@ -29,10 +29,10 @@ export default function RitualPackCard({ ritualPack, rituals }: RitualPackCardPr
       </Pressable>
 
       {rituals.map(ritual => (
-        <View key={ritual.ritual.id} className="mx-1 my-2">
+        <View key={ritual.userRitual.ritualId} className="mx-1 my-2">
           <SwipeableRitualCard
-            ritual={ritual.ritual}
-            ritualHistoryId={ritual.ritualHistoryId}
+            ritual={ritual.userRitual.ritual}
+            ritualHistoryId={ritual.userRitual.ritualHistoryId}
           />
         </View>
       ))}

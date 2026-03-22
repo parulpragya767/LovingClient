@@ -2,6 +2,7 @@ import type { CurrentRitualsDTO } from '@/src/api/models/current-rituals-dto';
 import type { RitualHistoryDTO } from '@/src/api/models/ritual-history-dto';
 import type { RitualHistoryUpdateRequest } from '@/src/api/models/ritual-history-update-request';
 import type { UserRitualDTO } from '@/src/api/models/user-ritual-dto';
+import type { UserRitualInPackDTO } from '@/src/api/models/user-ritual-in-pack-dto';
 import type { UserRitualPackDTO } from '@/src/api/models/user-ritual-pack-dto';
 import type { RitualPack } from '@/src/models/ritualPacks';
 import { toRitualPack } from '@/src/models/ritualPacks';
@@ -18,9 +19,13 @@ export interface UserRitual extends Omit<UserRitualDTO, 'ritual'> {
   ritual: Ritual;
 }
 
+export interface UserRitualInPack extends UserRitualInPackDTO {
+  userRitual: UserRitual;
+}
+
 export interface UserRitualPack extends Omit<UserRitualPackDTO, 'ritualPack' | 'rituals'> {
   ritualPack: RitualPack;
-  rituals: UserRitual[];
+  rituals: UserRitualInPack[];
 }
 
 export interface CurrentRituals extends Omit<CurrentRitualsDTO, 'ritualPacks' | 'individualRituals'> {
@@ -35,11 +40,20 @@ export function toUserRitual(dto: UserRitualDTO): UserRitual {
   };
 }
 
+export function toUserRitualInPack(dto: UserRitualInPackDTO): UserRitualInPack {
+  return {
+    ...dto,
+    userRitual: toUserRitual(dto.userRitual),
+  };
+}
+
 export function toUserRitualPack(dto: UserRitualPackDTO): UserRitualPack {
   return {
     ...dto,
     ritualPack: toRitualPack(dto.ritualPack),
-    rituals: (dto.rituals || []).map(toUserRitual),
+    rituals: (dto.rituals || [])
+      .map(ritualInPack => toUserRitualInPack(ritualInPack))
+      .sort((a, b) => (a.position ?? 0) - (b.position ?? 0)),
   };
 }
 
