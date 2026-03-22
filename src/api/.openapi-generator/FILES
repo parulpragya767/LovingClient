@@ -47,6 +47,7 @@ docs/RitualHistoryCreateRequest.md
 docs/RitualHistoryDTO.md
 docs/RitualHistoryStatus.md
 docs/RitualHistoryUpdateRequest.md
+docs/RitualInPackDTO.md
 docs/RitualMode.md
 docs/RitualPackControllerApi.md
 docs/RitualPackDTO.md
@@ -74,6 +75,7 @@ docs/UserContextDTO.md
 docs/UserControllerApi.md
 docs/UserDTO.md
 docs/UserRitualDTO.md
+docs/UserRitualInPackDTO.md
 docs/UserRitualPackDTO.md
 docs/UserUpdateRequest.md
 docs/UserUsageCounterDTO.md
@@ -108,6 +110,7 @@ models/ritual-history-create-request.ts
 models/ritual-history-dto.ts
 models/ritual-history-status.ts
 models/ritual-history-update-request.ts
+models/ritual-in-pack-dto.ts
 models/ritual-mode.ts
 models/ritual-pack-dto.ts
 models/ritual-recommendation-create-request.ts
@@ -131,6 +134,7 @@ models/user-context-create-request.ts
 models/user-context-dto.ts
 models/user-dto.ts
 models/user-ritual-dto.ts
+models/user-ritual-in-pack-dto.ts
 models/user-ritual-pack-dto.ts
 models/user-update-request.ts
 models/user-usage-counter-dto.ts

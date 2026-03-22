@@ -30,7 +30,7 @@ import type { PublicationStatus } from './publication-status';
 import type { RelationalNeed } from './relational-need';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { RitualDTO } from './ritual-dto';
+import type { RitualInPackDTO } from './ritual-in-pack-dto';
 
 /**
  * 
@@ -76,10 +76,10 @@ export interface RitualPackDTO {
     'howItHelps'?: string;
     /**
      * 
-     * @type {Array<RitualDTO>}
+     * @type {Array<RitualInPackDTO>}
      * @memberof RitualPackDTO
      */
-    'rituals'?: Array<RitualDTO>;
+    'rituals'?: Array<RitualInPackDTO>;
     /**
      * 
      * @type {Array<string>}

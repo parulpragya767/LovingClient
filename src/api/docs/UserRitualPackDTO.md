@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **ritualPackId** | **string** |  | [default to undefined]
 **recommendationId** | **string** |  | [default to undefined]
 **ritualPack** | [**RitualPackDTO**](RitualPackDTO.md) |  | [default to undefined]
-**rituals** | [**Array&lt;UserRitualDTO&gt;**](UserRitualDTO.md) |  | [default to undefined]
+**rituals** | [**Array&lt;UserRitualInPackDTO&gt;**](UserRitualInPackDTO.md) |  | [default to undefined]
 
 ## Example
 

@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **shortDescription** | **string** |  | [optional] [default to undefined]
 **description** | **string** |  | [optional] [default to undefined]
 **howItHelps** | **string** |  | [optional] [default to undefined]
-**rituals** | [**Array&lt;RitualDTO&gt;**](RitualDTO.md) |  | [optional] [default to undefined]
+**rituals** | [**Array&lt;RitualInPackDTO&gt;**](RitualInPackDTO.md) |  | [optional] [default to undefined]
 **ritualIds** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
 **journey** | [**Journey**](Journey.md) |  | [optional] [default to undefined]
 **loveTypes** | [**Array&lt;LoveType&gt;**](LoveType.md) |  | [optional] [default to undefined]

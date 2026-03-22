@@ -18,7 +18,7 @@
 import type { RitualPackDTO } from './ritual-pack-dto';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { UserRitualDTO } from './user-ritual-dto';
+import type { UserRitualInPackDTO } from './user-ritual-in-pack-dto';
 
 /**
  * 
@@ -46,9 +46,9 @@ export interface UserRitualPackDTO {
     'ritualPack': RitualPackDTO;
     /**
      * 
-     * @type {Array<UserRitualDTO>}
+     * @type {Array<UserRitualInPackDTO>}
      * @memberof UserRitualPackDTO
      */
-    'rituals': Array<UserRitualDTO>;
+    'rituals': Array<UserRitualInPackDTO>;
 }
 
