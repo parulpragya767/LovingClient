@@ -33,6 +33,7 @@ export default function RitualCard({
 
   return (
     <AnimatedPressable
+      scaleTo={0.98}
       onPress={handleRitualPress} 
       onLongPress={onLongPress} 
       delayLongPress={300}

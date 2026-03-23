@@ -23,7 +23,7 @@ export default function RitualPackCard({ ritualPack, rituals }: RitualPackCardPr
   };
 
   return (
-    <AnimatedPressable onPress={handleRitualPackPress} className="pb-2">
+    <AnimatedPressable scaleTo={0.98} onPress={handleRitualPackPress} className="pb-2">
       <Card className="border border-border overflow-hidden">
         <AppText variant="subtitle">{ritualPack.title}</AppText>
         {ritualPack.tagLine ? (
