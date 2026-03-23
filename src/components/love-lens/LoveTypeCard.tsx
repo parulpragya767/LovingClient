@@ -23,7 +23,7 @@ export default function LoveTypeCard({
   return (
     <AnimatedPressable
       onPress={handleLoveTypePress}
-      className="aspect-square rounded-3xl overflow-hidden shadow-sm"
+      contentClassName="aspect-square rounded-3xl overflow-hidden shadow-sm"
     >
       <LinearGradient
         colors={loveTypeUI.gradient}

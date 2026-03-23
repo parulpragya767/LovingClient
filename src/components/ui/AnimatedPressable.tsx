@@ -6,15 +6,16 @@ import Animated from 'react-native-reanimated';
 interface AnimatedPressableProps extends PressableProps {
   children: React.ReactNode;
   scaleTo?: number;
-  className?: string;
+  containerClassName?: string; // layout (flex, width, etc.)
+  contentClassName?: string; // visual (rounded, overflow, aspect, etc.)
 }
 
-export function AnimatedPressable({ children, scaleTo, className, ...props }: AnimatedPressableProps) {
+export function AnimatedPressable({ children, scaleTo, containerClassName, contentClassName, ...props }: AnimatedPressableProps) {
   const { animatedStyle, onPressIn, onPressOut } = usePressScale(scaleTo);
 
   return (
-    <Pressable {...props} onPressIn={onPressIn} onPressOut={onPressOut}>
-      <Animated.View style={animatedStyle} className={className}>
+    <Pressable {...props} onPressIn={onPressIn} onPressOut={onPressOut} className={containerClassName}>
+      <Animated.View style={animatedStyle} className={contentClassName}>
         {children}
       </Animated.View>
     </Pressable>

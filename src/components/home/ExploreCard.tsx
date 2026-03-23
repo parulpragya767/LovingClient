@@ -12,7 +12,7 @@ export default function ExploreCard({
   onPress: () => void;
 }) {
   return (
-    <AnimatedPressable onPress={onPress} className="flex-1">
+    <AnimatedPressable onPress={onPress} containerClassName="flex-1">
       <Card className="border border-border">
         <AppText className="font-semibold">{title}</AppText>
         <AppText variant="small" className="mt-1" numberOfLines={3} ellipsizeMode="tail">

@@ -10,7 +10,7 @@ export default function AICompanionCard() {
   const router = useRouter();
 
   return (
-    <AnimatedPressable onPress={() => router.push('/ai-chat')} className="w-full">
+    <AnimatedPressable onPress={() => router.push('/ai-chat')} containerClassName="w-full">
       <Card className="border border-border">
         <View className="flex-row items-center">
           <View className="bg-surface-sunken rounded-full p-3 mr-4">
