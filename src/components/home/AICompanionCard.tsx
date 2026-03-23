@@ -1,16 +1,17 @@
 import { AppTheme } from "@/src/components/themes/AppTheme";
+import { AnimatedPressable } from '@/src/components/ui/AnimatedPressable';
 import { AppText } from '@/src/components/ui/AppText';
 import { Card } from '@/src/components/ui/Card';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
 export default function AICompanionCard() {
   const router = useRouter();
 
   return (
-    <Card className="border border-border">
-      <Pressable onPress={() => router.push('/ai-chat')}>
+    <AnimatedPressable onPress={() => router.push('/ai-chat')} className="w-full">
+      <Card className="border border-border">
         <View className="flex-row items-center">
           <View className="bg-surface-sunken rounded-full p-3 mr-4">
             <MaterialIcons name="chat-bubble-outline" size={24} color={AppTheme.colors.brand.primary} />
@@ -21,7 +22,7 @@ export default function AICompanionCard() {
           </View>
           <MaterialIcons name="chevron-right" size={24} color={AppTheme.colors.brand.primary} />
         </View>
-      </Pressable>
-    </Card>
+      </Card>
+    </AnimatedPressable>
   );
 }
