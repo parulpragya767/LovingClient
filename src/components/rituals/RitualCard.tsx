@@ -4,7 +4,8 @@ import Tag from '@/src/components/ui/Tag';
 import { useRitualTags } from '@/src/hooks/rituals/useRitualTags';
 import { Ritual } from '@/src/models/rituals';
 import { useRouter } from 'expo-router';
-import { TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
+import { AnimatedPressable } from '../ui/AnimatedPressable';
 import { Button } from '../ui/Button';
 
 interface RitualCardProps {
@@ -31,11 +32,10 @@ export default function RitualCard({
   };
 
   return (
-    <TouchableOpacity
+    <AnimatedPressable
       onPress={handleRitualPress} 
       onLongPress={onLongPress} 
-      delayLongPress={300} 
-      activeOpacity={0.8}
+      delayLongPress={300}
     >
       <Card className="border border-border">
         <AppText variant="subtitle" className="mb-1">
@@ -58,6 +58,6 @@ export default function RitualCard({
           </View>
         }
       </Card>
-    </TouchableOpacity>
+    </AnimatedPressable>
   );
 }
