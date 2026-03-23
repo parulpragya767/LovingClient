@@ -1,12 +1,12 @@
 import { queryClient } from '@/src/lib/reactQuery/queryClient';
 import { ritualKeys } from '@/src/lib/reactQuery/queryKeys';
 import { RitualFilter } from '@/src/models/ritualTags';
+import { Analytics } from '@/src/services/analytics';
 import { ritualService } from '@/src/services/ritualService';
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
 
 export function useRitualSearch(filter: RitualFilter) {
-
   const query = useInfiniteQuery({
     queryKey: ritualKeys.search(filter),
 
@@ -14,6 +14,19 @@ export function useRitualSearch(filter: RitualFilter) {
       const res = await ritualService.search({ page: pageParam, size: 10 }, filter);
       const pageNumber = res.page?.number ?? 0;
       const totalPages = res.page?.totalPages ?? 0;
+      const totalElements = res.page?.totalElements ?? 0;
+      
+      if (pageNumber === 0) {
+        Analytics.ritualFilterApplied({
+          love_types: filter.loveTypes,
+          ritual_modes: filter.ritualModes,
+          time_taken: filter.timeTaken,
+          relational_needs: filter.relationalNeeds,
+          ritual_tones: filter.ritualTones,
+          keyword: filter.keyword,
+          result_count: totalElements,
+        });
+      }
       
       return {
         rituals: res.rituals,
