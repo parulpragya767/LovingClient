@@ -70,7 +70,8 @@ export function Button({
     <AnimatedPressable
       onPress={handlePress}
       disabled={isDisabled}
-      containerClassName={clsx(
+      containerClassName="flex-1"
+      contentClassName={clsx(
         baseClasses,
         extraBaseClasses[variant],
         variantClasses[variant],

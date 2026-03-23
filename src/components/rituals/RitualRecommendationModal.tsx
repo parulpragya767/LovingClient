@@ -157,10 +157,10 @@ export default function RitualRecommendationModal({
 
         {/* Bottom bar */}
         <View className="flex-row gap-3 p-4 border-t border-border">
-          <Button variant="secondary" onPress={handleDismiss} className="flex-1">
+          <Button variant="secondary" onPress={handleDismiss}>
             Not now
           </Button>
-          <Button variant="primary" onPress={handleAdd} disabled={!canAdd} className="flex-1">
+          <Button variant="primary" onPress={handleAdd} disabled={!canAdd}>
             Add {selectedIds.length} ritual{selectedIds.length === 1 ? '' : 's'}
           </Button>
         </View>

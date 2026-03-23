@@ -66,10 +66,10 @@ export function ChangeDisplayNameModal({
           />
 
           <View className="flex-row gap-3 mt-8">
-            <Button onPress={onClose} variant="ghost" className="flex-1" disabled={isSaving}>
+            <Button onPress={onClose} variant="secondary" disabled={isSaving}>
               Cancel
             </Button>
-            <Button onPress={handleSave} variant="primary" className="flex-1" disabled={!canSave}>
+            <Button onPress={handleSave} variant="primary" disabled={!canSave}>
               {isSaving ? 'Saving…' : 'Save'}
             </Button>
           </View>

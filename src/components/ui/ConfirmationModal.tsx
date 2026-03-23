@@ -59,10 +59,10 @@ export function ConfirmationModal({
           ) : null}
 
           <View className="flex-row gap-3 mt-8">
-            <Button onPress={onClose} variant="ghost" className="flex-1">
+            <Button onPress={onClose} variant="secondary">
               {cancelText}
             </Button>
-            <Button onPress={handleConfirm} variant="primary" className="flex-1">
+            <Button onPress={handleConfirm} variant="primary">
               {confirmText}
             </Button>
           </View>
