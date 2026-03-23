@@ -8,7 +8,6 @@ import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useToast } from '@/src/hooks/ui/useToast';
 import { RecommendationStatus } from '@/src/models/enums';
 import type { UserRitualPack } from '@/src/models/ritualHistory';
-import { Analytics } from '@/src/services/analytics';
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FlatList, Modal, View } from 'react-native';
@@ -57,27 +56,8 @@ export default function RitualRecommendationModal({
     if (!canAdd || !ritualRecommendationId) return;
     
     const skippedRitualHistoryIds = rituals
-      .filter(userRitual => !selected[userRitual.ritualHistoryId])
-      .map(userRitual => userRitual.ritualHistoryId);
-    
-    Analytics.ritualPackSelected({
-      ritual_pack_id: userRitualPack.ritualPackId,
-      recommendation_id: ritualRecommendationId,
-      recommendation_source: chatSessionId ? 'CHAT' : 'WEEKLY',
-      ritual_count_total: rituals.length,
-      ritual_count_selected: selectedIds.length,
-    });
-
-    selectedIds.forEach((ritualHistoryId) => {
-      const userRitual = rituals.find(r => r.ritualHistoryId === ritualHistoryId);
-      if (userRitual) {
-        Analytics.ritualAdded({
-          ritual_id: userRitual.ritualId,
-          ritual_pack_id: userRitualPack.ritualPackId,
-          recommendation_source: chatSessionId ? 'CHAT' : 'WEEKLY',
-        });
-      }
-    });
+      .filter(ritual => !selected[ritual.userRitual.ritualHistoryId])
+      .map(ritual => ritual.userRitual.ritualHistoryId);
     
     try {
       await updateRecommendationAndHistoryStatus.mutateAsync({
@@ -86,10 +66,11 @@ export default function RitualRecommendationModal({
         status: RecommendationStatus.Added,
         selectedRitualHistoryIds: selectedIds,
         skippedRitualHistoryIds: skippedRitualHistoryIds,
+        userRitualPack: userRitualPack,
       });
       showSuccess("Added to your current rituals");
     } catch (error) {
-      showError("Couldn’t add the rituals", "Please try again");
+      showError("Couldn't add the rituals", "Please try again");
     }
     closeRecommendationFlow();
   }, [ritualRecommendationId, selected, rituals, updateRecommendationAndHistoryStatus, chatSessionId, selectedIds, userRitualPack]);
@@ -105,27 +86,29 @@ export default function RitualRecommendationModal({
           status: RecommendationStatus.Viewed,
           selectedRitualHistoryIds: [],
           skippedRitualHistoryIds: [],
+          userRitualPack: userRitualPack,
         });
       } catch (error) {}
     } 
-  }, [ritualRecommendationId, updateRecommendationAndHistoryStatus, chatSessionId]);
+  }, [ritualRecommendationId, updateRecommendationAndHistoryStatus, chatSessionId, userRitualPack]);
 
   const handleDismiss = useCallback(async () => {
     if (ritualRecommendationId) {
       try {
         // Mark all rituals as skipped when modal is dismissed
-        const allRitualHistoryIds = rituals.map(userRitual => userRitual.ritualHistoryId);
+        const allRitualHistoryIds = rituals.map(ritual => ritual.userRitual.ritualHistoryId);
         await updateRecommendationAndHistoryStatus.mutateAsync({
           recommendationId: ritualRecommendationId,
           sessionId: chatSessionId,
           status: RecommendationStatus.Skipped,
           selectedRitualHistoryIds: [],
           skippedRitualHistoryIds: allRitualHistoryIds,
+          userRitualPack: userRitualPack,
         });
       } catch (error) {}
     }
     closeRecommendationFlow();
-  }, [ritualRecommendationId, rituals, updateRecommendationAndHistoryStatus, chatSessionId]);
+  }, [ritualRecommendationId, rituals, updateRecommendationAndHistoryStatus, chatSessionId, userRitualPack]);
 
   return (
     <Modal
@@ -148,13 +131,13 @@ export default function RitualRecommendationModal({
 
         <FlatList
           data={rituals}
-          keyExtractor={(item) => item.ritualHistoryId}
+          keyExtractor={(item) => item.userRitual.ritualHistoryId}
           renderItem={({ item }) => (
             <View className="px-4 py-2">
               <RecommendedRitualCard 
-                ritual={item.ritual} 
-                selected={!!selected[item.ritualHistoryId]}
-                onPress={() => toggle(item.ritualHistoryId)}
+                ritual={item.userRitual.ritual} 
+                selected={!!selected[item.userRitual.ritualHistoryId]}
+                onPress={() => toggle(item.userRitual.ritualHistoryId)}
               />
             </View>
           )}

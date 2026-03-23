@@ -2,7 +2,7 @@ import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { queryClient } from '@/src/lib/reactQuery/queryClient';
 import { chatKeys, ritualKeys } from '@/src/lib/reactQuery/queryKeys';
 import { RecommendationStatus, RitualFeedback, RitualHistoryStatus } from '@/src/models/enums';
-import type { RitualHistoryCreateRequest, RitualHistoryUpdate, UserRitual } from '@/src/models/ritualHistory';
+import type { RitualHistoryCreateRequest, RitualHistoryUpdate, UserRitual, UserRitualPack } from '@/src/models/ritualHistory';
 import type { RitualRecommendationUpdate, RitualStatusUpdate } from '@/src/models/ritualRecommendation';
 import { Analytics } from '@/src/services/analytics';
 import { ritualHistoryService } from '@/src/services/ritualHistoryService';
@@ -94,12 +94,14 @@ export const useRitualActions = () => {
       status,
       selectedRitualHistoryIds,
       skippedRitualHistoryIds,
+      userRitualPack,
     }: {
       recommendationId: string;
       sessionId: string | null;
       status: RecommendationStatus;
       selectedRitualHistoryIds: string[];
       skippedRitualHistoryIds: string[];
+      userRitualPack?: UserRitualPack;
     }) => {
       const selectedUpdates: RitualStatusUpdate[] = selectedRitualHistoryIds.map(ritualHistoryId => ({
         ritualHistoryId,
@@ -120,7 +122,39 @@ export const useRitualActions = () => {
     },
 
     onSuccess: (_data, variables) => {
-      const { sessionId, recommendationId } = variables;
+      const { sessionId, recommendationId, status, userRitualPack, selectedRitualHistoryIds } = variables;
+      
+      // Send analytics only for Added status
+      if (status === RecommendationStatus.Added && userRitualPack) {
+        const rituals = userRitualPack.rituals || [];
+        
+        // Create a map of ritualHistoryId to ritual for quick lookup
+        const ritualHistoryMap = new Map(
+          rituals.map(r => [r.userRitual.ritualHistoryId, r])
+        );
+        
+        // Send ritualPackSelected analytics
+        Analytics.ritualPackSelected({
+          ritual_pack_id: userRitualPack.ritualPackId,
+          recommendation_id: recommendationId,
+          recommendation_source: sessionId ? 'CHAT' : 'WEEKLY',
+          ritual_count_total: rituals.length,
+          ritual_count_selected: selectedRitualHistoryIds.length,
+        });
+        
+        // Send ritualAdded analytics for each selected ritual
+        selectedRitualHistoryIds.forEach((ritualHistoryId) => {
+          const ritualData = ritualHistoryMap.get(ritualHistoryId);
+          if (ritualData) {
+            Analytics.ritualAdded({
+              ritual_id: ritualData.userRitual.ritualId,
+              ritual_pack_id: userRitualPack.ritualPackId,
+              recommendation_source: sessionId ? 'CHAT' : 'WEEKLY',
+            });
+          }
+        });
+      }
+      
       if (sessionId) {
         queryClient.invalidateQueries({ queryKey: chatKeys.messages(sessionId) });
       }
