@@ -1,13 +1,14 @@
 import clsx from 'clsx';
-import React from 'react';
-import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import React, { useState } from 'react';
+import { PressableProps } from 'react-native';
+import { AnimatedPressable } from './AnimatedPressable';
 import { AppText, AppTextVariant } from './AppText';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 
 export type ButtonSize = 'normal' | 'small';
 
-export type ButtonProps = TouchableOpacityProps & {
+export type ButtonProps = PressableProps & {
   children: React.ReactNode;
   icon?: React.ReactNode;
   variant?: ButtonVariant;
@@ -40,8 +41,6 @@ const textVariantClasses: Record<ButtonSize, AppTextVariant> = {
   small: 'small',
 };
 
-const disabledClasses =
-  'opacity-50';
 
 export function Button({
   children,
@@ -53,15 +52,29 @@ export function Button({
   onPress,
   ...rest
 }: ButtonProps) {
+  const [isProcessing, setIsProcessing] = useState(false);
+  const isDisabled = disabled || isProcessing;
+
+  const handlePress = async (event: any) => {
+    if (isDisabled || !onPress) return;
+
+    setIsProcessing(true);
+    try {
+      await onPress(event);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   return (
-    <TouchableOpacity
-      onPress={disabled ? undefined : onPress}
-      disabled={disabled}
+    <AnimatedPressable
+      onPress={handlePress}
+      disabled={isDisabled}
       className={clsx(
         baseClasses,
         extraBaseClasses[variant],
         variantClasses[variant],
-        disabled && disabledClasses,
+        isDisabled && 'opacity-50',
         className
       )}
       {...rest}
@@ -74,6 +87,6 @@ export function Button({
       >
         {children}
       </AppText>
-    </TouchableOpacity>
+    </AnimatedPressable>
   );
 }
