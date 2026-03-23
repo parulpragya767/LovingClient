@@ -23,7 +23,7 @@ export function StickyRitualCTA({
           View in My Rituals →
         </Button>
       ) : (
-        <Button variant="primary" onPress={onAdd} activeOpacity={0.85}>
+        <Button variant="primary" onPress={onAdd}>
           Add to My Rituals
         </Button>
       )}
