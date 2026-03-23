@@ -12,10 +12,10 @@ export function AnimatedPressable({ children, scaleTo, ...props }: AnimatedPress
   const { animatedStyle, onPressIn, onPressOut } = usePressScale(scaleTo);
 
   return (
-    <Animated.View style={animatedStyle}>
-      <Pressable {...props} onPressIn={onPressIn} onPressOut={onPressOut}>
+    <Pressable {...props} onPressIn={onPressIn} onPressOut={onPressOut}>
+      <Animated.View style={animatedStyle}>
         {children}
-      </Pressable>
-    </Animated.View>
+      </Animated.View>
+    </Pressable>
   );
 }
