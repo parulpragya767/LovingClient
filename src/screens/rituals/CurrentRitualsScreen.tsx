@@ -44,8 +44,7 @@ export default function CurrentRitualsScreen() {
               />
             ) : (
               <SwipeableRitualCard 
-                ritual={item.ritual} 
-                ritualHistoryId={item.ritualHistoryId} 
+                userRitual={item} 
               />
             )}
           </View>

@@ -2,7 +2,7 @@ import { useCurrentRituals } from '@/src/hooks/rituals/useCurrentRituals';
 import { queryClient } from '@/src/lib/reactQuery/queryClient';
 import { chatKeys, ritualKeys } from '@/src/lib/reactQuery/queryKeys';
 import { RecommendationStatus, RitualFeedback, RitualHistoryStatus } from '@/src/models/enums';
-import type { RitualHistoryCreateRequest, RitualHistoryUpdate } from '@/src/models/ritualHistory';
+import type { RitualHistoryCreateRequest, RitualHistoryUpdate, UserRitual } from '@/src/models/ritualHistory';
 import type { RitualRecommendationUpdate, RitualStatusUpdate } from '@/src/models/ritualRecommendation';
 import { Analytics } from '@/src/services/analytics';
 import { ritualHistoryService } from '@/src/services/ritualHistoryService';
@@ -47,9 +47,14 @@ export const useRitualActions = () => {
   });
 
   const deleteRitualFromCurrent = useMutation({
-    mutationFn: (id: string) => ritualHistoryService.delete(id),
+    mutationFn: (userRitual: UserRitual) => ritualHistoryService.delete(userRitual.ritualHistoryId),
 
-    onSuccess: () => {
+    onSuccess: (_data, userRitual) => {
+      Analytics.ritualRemoved({
+          ritual_id: userRitual.ritualId,
+          ritual_pack_id: userRitual.ritualHistory.ritualPackId ?? null,
+          recommendation_source: userRitual.ritualHistory.recommendationId ? 'CHAT' : null
+        });
       queryClient.invalidateQueries({ queryKey: ritualKeys.current() });
     },
 
@@ -59,15 +64,20 @@ export const useRitualActions = () => {
   });
 
   const markRitualAsCompleted = useMutation({
-    mutationFn: ({ id, feedback }: { id: string; feedback: RitualFeedback | undefined }) => {
+    mutationFn: ({ userRitual, feedback }: { userRitual: UserRitual; feedback: RitualFeedback | undefined }) => {
       const ritualHistoryUpdate: RitualHistoryUpdate = {
         status: RitualHistoryStatus.Completed,
         feedback,
       }
-      return ritualHistoryService.complete(id, ritualHistoryUpdate);
+      return ritualHistoryService.complete(userRitual.ritualHistoryId, ritualHistoryUpdate);
     },
 
-    onSuccess: () => {
+    onSuccess: (_data, { userRitual }) => {
+      Analytics.ritualCompleted({
+          ritual_id: userRitual.ritualId,
+          ritual_pack_id: userRitual.ritualHistory.ritualPackId ?? null,
+          recommendation_source: userRitual.ritualHistory.recommendationId ? 'CHAT' : null
+        });
       queryClient.invalidateQueries({ queryKey: ritualKeys.current() });
       queryClient.invalidateQueries({ queryKey: ritualKeys.history() });
     },

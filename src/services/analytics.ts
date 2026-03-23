@@ -63,7 +63,7 @@ class AnalyticsService {
   ritualAdded(params: {
     ritual_id: string;
     ritual_pack_id?: string | null;
-    recommendation_source?: 'CHAT' | 'WEEKLY';
+    recommendation_source?: 'CHAT' | 'WEEKLY' | null;
   }) {
     if (!this.initialized) return;
     track('ritual_added', params);
@@ -71,8 +71,8 @@ class AnalyticsService {
 
   ritualCompleted(params: {
     ritual_id: string;
-    ritual_pack_id: string;
-    recommendation_source: 'CHAT' | 'WEEKLY';
+    ritual_pack_id?: string | null;
+    recommendation_source?: 'CHAT' | 'WEEKLY' | null;
   }) {
     if (!this.initialized) return;
     track('ritual_completed', params);
@@ -80,8 +80,8 @@ class AnalyticsService {
 
   ritualRemoved(params: {
     ritual_id: string;
-    ritual_pack_id: string;
-    recommendation_source: 'CHAT' | 'WEEKLY';
+    ritual_pack_id?: string | null;
+    recommendation_source?: 'CHAT' | 'WEEKLY' | null;
   }) {
     if (!this.initialized) return;
     track('ritual_removed', params);

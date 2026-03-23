@@ -3,7 +3,7 @@ import { AnimatedPressable } from "@/src/components/ui/AnimatedPressable";
 import { useRitualActions } from '@/src/hooks/rituals/useRitualActions';
 import { useToast } from "@/src/hooks/ui/useToast";
 import { emojiToFeedback, RitualFeedback } from '@/src/models/enums';
-import { Ritual } from '@/src/models/rituals';
+import { UserRitual } from '@/src/models/ritualHistory';
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useRef, useState } from 'react';
 import { View } from 'react-native';
@@ -13,13 +13,12 @@ import EmojiFeedbackModal from './EmojiFeedbackModal';
 import RitualCard from './RitualCard';
 
 type SwipeableRitualCardProps = {
-  ritual: Ritual;
-  ritualHistoryId?: string;
+  userRitual: UserRitual;
 };
 
-export default function SwipeableRitualCard({ ritual, ritualHistoryId}: SwipeableRitualCardProps) {
+export default function SwipeableRitualCard({ userRitual }: SwipeableRitualCardProps) {
   const swipeableRef = useRef<any>(null);
-  const canAct = !!ritualHistoryId;
+  const canAct = !!userRitual.ritualHistoryId;
   const [emojiVisible, setEmojiVisible] = useState(false);
   const [pressDisabled, setPressDisabled] = useState(false);
   const { markRitualAsCompleted, deleteRitualFromCurrent } = useRitualActions();
@@ -33,10 +32,10 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
   };
 
   const completeRitual = async (feedback: RitualFeedback | undefined) => {
-    if (!ritualHistoryId) return;
+    if (!userRitual.ritualHistoryId) return;
     try {
       await markRitualAsCompleted.mutateAsync({
-        id: ritualHistoryId,
+        userRitual,
         feedback,
       });
       showSuccess('Ritual completed successfully!');
@@ -63,9 +62,9 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
   };
 
   const handleDeletePress = async () => {
-    if (!ritualHistoryId) return;
+    if (!userRitual.ritualHistoryId) return;
     try {
-      await deleteRitualFromCurrent.mutateAsync(ritualHistoryId);
+      await deleteRitualFromCurrent.mutateAsync(userRitual);
       showSuccess('Ritual deleted successfully!');
       close();
     } catch (error) {
@@ -106,7 +105,7 @@ export default function SwipeableRitualCard({ ritual, ritualHistoryId}: Swipeabl
         onSwipeableWillOpen={() => setPressDisabled(true)}
         onSwipeableWillClose={() => setPressDisabled(false)}
       >
-        <RitualCard ritual={ritual} isPressable={!pressDisabled} />
+        <RitualCard ritual={userRitual.ritual} isPressable={!pressDisabled} />
       </ReanimatedSwipeable>
 
       <EmojiFeedbackModal

@@ -31,8 +31,7 @@ export default function RitualPackCard({ ritualPack, rituals }: RitualPackCardPr
       {rituals.map(ritual => (
         <View key={ritual.userRitual.ritualId} className="mx-1 my-2">
           <SwipeableRitualCard
-            ritual={ritual.userRitual.ritual}
-            ritualHistoryId={ritual.userRitual.ritualHistoryId}
+            userRitual={ritual.userRitual}
           />
         </View>
       ))}
