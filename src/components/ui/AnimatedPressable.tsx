@@ -15,7 +15,12 @@ export function AnimatedPressable({ children, scaleTo, containerClassName, conte
 
   return (
     <Pressable {...props} onPressIn={onPressIn} onPressOut={onPressOut} className={containerClassName}>
-      <Animated.View style={animatedStyle} className={contentClassName}>
+      <Animated.View 
+        style={animatedStyle} 
+        className={contentClassName}
+        shouldRasterizeIOS
+        renderToHardwareTextureAndroid
+      >
         {children}
       </Animated.View>
     </Pressable>
