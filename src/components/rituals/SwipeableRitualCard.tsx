@@ -14,13 +14,15 @@ import RitualCard from './RitualCard';
 
 type SwipeableRitualCardProps = {
   userRitual: UserRitual;
+  onSwipeStart?: () => void;
+  onSwipeEnd?: () => void;
 };
 
-export default function SwipeableRitualCard({ userRitual }: SwipeableRitualCardProps) {
+export default function SwipeableRitualCard({ userRitual, onSwipeStart, onSwipeEnd }: SwipeableRitualCardProps) {
   const swipeableRef = useRef<any>(null);
   const canAct = !!userRitual.ritualHistoryId;
   const [emojiVisible, setEmojiVisible] = useState(false);
-  const [pressDisabled, setPressDisabled] = useState(false);
+  const isSwiping = useRef(false);
   const { markRitualAsCompleted, deleteRitualFromCurrent } = useRitualActions();
   const { showSuccess, showError } = useToast();
 
@@ -102,10 +104,16 @@ export default function SwipeableRitualCard({ userRitual }: SwipeableRitualCardP
         friction={2}
         rightThreshold={72}
         renderRightActions={renderRightActions}
-        onSwipeableWillOpen={() => setPressDisabled(true)}
-        onSwipeableWillClose={() => setPressDisabled(false)}
+        onSwipeableOpenStartDrag={() => {
+          isSwiping.current = true;
+          onSwipeStart?.();
+        }}
+        onSwipeableClose={() => {
+          isSwiping.current = false;
+          onSwipeEnd?.();
+        }}
       >
-        <RitualCard ritual={userRitual.ritual} isPressable={!pressDisabled} />
+        <RitualCard ritual={userRitual.ritual} isPressable={!isSwiping.current} />
       </ReanimatedSwipeable>
 
       <EmojiFeedbackModal
