@@ -1,5 +1,7 @@
+import { AnimatedPressable } from '@/src/components/ui/AnimatedPressable';
 import { AppText } from '@/src/components/ui/AppText';
-import { TouchableOpacity } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 
 type StarterPromptProps = {
   prompt: string;
@@ -8,11 +10,10 @@ type StarterPromptProps = {
 
 export function StarterPrompt({ prompt, onPress }: StarterPromptProps) {
   return (
-    <TouchableOpacity
-      onPress={() => onPress(prompt)}
-      className="w-full px-4 py-3 rounded-card bg-surface-sunken border border-border"
-    >
-      <AppText>{prompt}</AppText>
-    </TouchableOpacity>
+    <AnimatedPressable onPress={() => onPress(prompt)} className="w-full">
+      <View className="px-4 py-3 rounded-card bg-surface-sunken border border-border">
+        <AppText>{prompt}</AppText>
+      </View>
+    </AnimatedPressable>
   );
 }
