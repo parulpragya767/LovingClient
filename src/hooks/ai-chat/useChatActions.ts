@@ -86,25 +86,27 @@ export const useChatActions = () => {
         appendMessageToStore(sessionId, resp.assistantResponse);
       }
 
-      if (resp.readyForRitualPackRecommendation) {
+      return resp.readyForRitualPackRecommendation ?? false;
+    },
+
+    onSuccess: (readyForRitualPackRecommendation, variables) => {
+      const { sessionId } = variables;
+
+      if (readyForRitualPackRecommendation) {
         const messages = queryClient.getQueryData<ChatMessage[]>(chatKeys.messages(sessionId)) || [];
         const lastRecommendationIndex = messages.findLastIndex(
           msg => msg.role === ChatMessageRole.System && msg.metadata && msg.metadata.recommendationId
         );
-        const messageCountAfterLastRecommendation = lastRecommendationIndex >= 0 
+        const messageCountAfterLastRecommendation = lastRecommendationIndex >= 0
           ? messages.length - lastRecommendationIndex - 1
           : messages.length;
-        
+
         Analytics.chatReadyForRecommendation({
           chat_id: sessionId,
-          message_count: messageCountAfterLastRecommendation,
+          message_count: Math.ceil(messageCountAfterLastRecommendation/2),
         });
       }
 
-      return resp.readyForRitualPackRecommendation ?? false;
-    },
-
-    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: userKeys.usage() });
     },
 
@@ -125,26 +127,34 @@ export const useChatActions = () => {
   });
 
   const recommendRitualPack = useMutation({
-    mutationFn: async (sessionId: string): Promise<RitualPack | null> => {
-      if (!sessionId) return null;
+    mutationFn: async (sessionId: string): Promise<{
+      ritualPack: RitualPack | null;
+      recommendationId?: string;
+    }> => {
+      if (!sessionId) {
+        return { ritualPack: null };
+      }
 
       const response = await chatService.recommendRitualPack(sessionId);
       if (response.wrapUpResponse) {
         appendMessageToStore(sessionId, response.wrapUpResponse);
       }
 
-      if (response.ritualPack && response.recommendationId) {
+      return {
+        ritualPack: response.ritualPack || null,
+        recommendationId: response.recommendationId,
+      };
+    },
+
+    onSuccess: (data, sessionId) => {
+      if (data.ritualPack && data.recommendationId) {
         Analytics.ritualPackRecommended({
-          ritual_pack_id: response.ritualPack.id,
-          recommendation_id: response.recommendationId,
+          ritual_pack_id: data.ritualPack.id,
+          recommendation_id: data.recommendationId,
           recommendation_source: 'CHAT',
         });
       }
 
-      return response.ritualPack || null;
-    },
-
-    onSuccess: (_data, sessionId) => {
       queryClient.invalidateQueries({ queryKey: chatKeys.messages(sessionId) });
       queryClient.invalidateQueries({ queryKey: userKeys.usage() });
     },
